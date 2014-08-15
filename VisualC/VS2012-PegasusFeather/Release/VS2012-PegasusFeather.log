@@ -1,0 +1,127 @@
+﻿Build started 14/08/2014 17:52:33.
+     1>Project "E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\VS2012-PegasusFeather.vcxproj" on node 2 (Rebuild target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\include" /I"..\VS2012-Build Dependencies\zlib-1.2.5\include" /I"..\VS2012-Build Dependencies\iconv-1.9.2.win32\include" /I..\..\include /I"..\VS2012-Build Dependencies\lua52\include" /I"..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include" /I"..\VS2012-Build Dependencies\SDL2_net-2.0.0\include" /I"..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include" /I"..\VS2012-Build Dependencies\SDL2\include" /I"..\VS2012-Build Dependencies\GLEW19\include" /I"..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include" /Zi /nologo /W3 /WX- /Od /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt ..\..\src\Actor.cpp ..\..\src\AnimatedTexture.cpp ..\..\src\Building.cpp ..\..\src\Camera.cpp ..\..\src\Cursor.cpp ..\..\src\DisplayManager.cpp ..\..\src\GameInfo.cpp ..\..\src\GameScene.cpp ..\..\src\HUD.cpp ..\..\src\InputManager.cpp ..\..\src\main.cpp ..\..\src\Matrix.cpp ..\..\src\Mesh.cpp ..\..\src\NetworkManager.cpp ..\..\src\Object.cpp ..\..\src\ObjectManager.cpp ..\..\src\OpenGL1DisplayManager.cpp ..\..\src\OpenGLDisplayManager.cpp ..\..\src\PackManager.cpp ..\..\src\Resource.cpp ..\..\src\Scene.cpp ..\..\src\SceneManager.cpp ..\..\src\SoundManager.cpp ..\..\src\StartScreen.cpp ..\..\src\TextLibrary.cpp ..\..\src\Texture.cpp ..\..\src\Tile.cpp ..\..\src\TileManager.cpp ..\..\src\Unit.cpp ..\..\src\UnitManager.cpp ..\..\src\Vector.cpp ..\..\src\Vertex.cpp
+         Actor.cpp
+         AnimatedTexture.cpp
+     1>..\..\src\AnimatedTexture.cpp(100): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\AnimatedTexture.cpp(114): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\AnimatedTexture.cpp(118): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\AnimatedTexture.cpp(122): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\AnimatedTexture.cpp(126): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         Building.cpp
+         Camera.cpp
+     1>..\..\src\Camera.cpp(16): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\Camera.cpp(17): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\Camera.cpp(81): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Cursor.cpp
+         DisplayManager.cpp
+         GameInfo.cpp
+     1>..\..\src\GameInfo.cpp(29): warning C4018: '<' : signed/unsigned mismatch
+         GameScene.cpp
+         HUD.cpp
+     1>..\..\src\HUD.cpp(47): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : see declaration of 'sprintf'
+     1>..\..\src\HUD.cpp(49): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : see declaration of 'sprintf'
+     1>..\..\src\HUD.cpp(54): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : see declaration of 'sprintf'
+         InputManager.cpp
+         main.cpp
+     1>e:\udk\pegasusfeather\include\NetworkManager.h(17): warning C4005: 'TCP_NODELAY' : macro redefinition
+                 C:\Program Files (x86)\Windows Kits\8.0\Include\um\winsock.h(440) : see previous definition of 'TCP_NODELAY'
+     1>..\..\src\main.cpp(62): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+         Matrix.cpp
+     1>..\..\src\Matrix.cpp(115): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         Mesh.cpp
+     1>..\..\src\Mesh.cpp(124): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\Mesh.cpp(127): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         NetworkManager.cpp
+     1>..\..\src\NetworkManager.cpp(112): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(140): warning C4244: '=' : conversion from 'unsigned int' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(148): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(149): warning C4244: '=' : conversion from 'int' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(150): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(151): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(152): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(153): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(154): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(155): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\NetworkManager.cpp(206): warning C4244: '=' : conversion from 'float' to 'unsigned int', possible loss of data
+     1>..\..\src\NetworkManager.cpp(217): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\NetworkManager.cpp(219): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>..\..\src\NetworkManager.cpp(313): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+         Object.cpp
+         ObjectManager.cpp
+         OpenGL1DisplayManager.cpp
+         OpenGLDisplayManager.cpp
+         PackManager.cpp
+         Resource.cpp
+         Compiling...
+         Scene.cpp
+         SceneManager.cpp
+         SoundManager.cpp
+         StartScreen.cpp
+         TextLibrary.cpp
+         Texture.cpp
+         Tile.cpp
+         TileManager.cpp
+         Unit.cpp
+         UnitManager.cpp
+     1>..\..\src\UnitManager.cpp(185): warning C4018: '<' : signed/unsigned mismatch
+     1>..\..\src\UnitManager.cpp(189): warning C4018: '<' : signed/unsigned mismatch
+     1>..\..\src\UnitManager.cpp(215): warning C4018: '<' : signed/unsigned mismatch
+     1>..\..\src\UnitManager.cpp(219): warning C4018: '<' : signed/unsigned mismatch
+         Vector.cpp
+     1>..\..\src\Vector.cpp(62): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\Vector.cpp(86): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>..\..\src\Vector.cpp(87): warning C4244: 'return' : conversion from 'double' to 'float', possible loss of data
+         Vertex.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\Release\VS2012-PegasusFeather.exe" /INCREMENTAL:NO /NOLOGO /LIBPATH:"E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86" /LIBPATH:"..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86" /LIBPATH:"..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86" /LIBPATH:"..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86" /LIBPATH:"..\VS2012-Build Dependencies\SDL2\lib" /LIBPATH:"..\VS2012-Build Dependencies\lua52\lib" /LIBPATH:"..\VS2012-Build Dependencies\GLEW19\lib" /LIBPATH:"..\VS2012-Build Dependencies\zlib-1.2.5\lib" /LIBPATH:"..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib" /LIBPATH:"..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib" SDL2.lib SDL2main.lib SDL2_mixer.lib SDL2_ttf.lib SDL2_net.lib SDL2_image.lib opengl32.lib glu32.lib glew32.lib libxml2.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\Release\VS2012-PegasusFeather.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\Release\VS2012-PegasusFeather.lib" /MACHINE:X86 /SAFESEH Release\Actor.obj
+         Release\AnimatedTexture.obj
+         Release\Building.obj
+         Release\Camera.obj
+         Release\Cursor.obj
+         Release\DisplayManager.obj
+         Release\GameInfo.obj
+         Release\GameScene.obj
+         Release\HUD.obj
+         Release\InputManager.obj
+         Release\main.obj
+         Release\Matrix.obj
+         Release\Mesh.obj
+         Release\NetworkManager.obj
+         Release\Object.obj
+         Release\ObjectManager.obj
+         Release\OpenGL1DisplayManager.obj
+         Release\OpenGLDisplayManager.obj
+         Release\PackManager.obj
+         Release\Resource.obj
+         Release\Scene.obj
+         Release\SceneManager.obj
+         Release\SoundManager.obj
+         Release\StartScreen.obj
+         Release\TextLibrary.obj
+         Release\Texture.obj
+         Release\Tile.obj
+         Release\TileManager.obj
+         Release\Unit.obj
+         Release\UnitManager.obj
+         Release\Vector.obj
+         Release\Vertex.obj
+     1>MSVCRT.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrtd.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+         Generating code
+     1>e:\udk\pegasusfeather\src\soundmanager.cpp(21): warning C4700: uninitialized local variable 'piSize' used
+     1>e:\udk\pegasusfeather\src\textlibrary.cpp(24): warning C4700: uninitialized local variable 'piSize' used
+     1>e:\udk\pegasusfeather\src\textlibrary.cpp(51): warning C4700: uninitialized local variable 'piSize' used
+     1>e:\udk\pegasusfeather\src\soundmanager.cpp(78): warning C4700: uninitialized local variable 'piSize' used
+     1>e:\udk\pegasusfeather\src\opengl1displaymanager.cpp(104): warning C4700: uninitialized local variable 'piSize' used
+     1>e:\udk\pegasusfeather\src\opengldisplaymanager.cpp(270): warning C4700: uninitialized local variable 'piSize' used
+         Finished generating code
+         VS2012-PegasusFeather.vcxproj -> E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\Release\VS2012-PegasusFeather.exe
+     1>Done Building Project "E:\UDK\PegasusFeather\VisualC\VS2012-PegasusFeather\VS2012-PegasusFeather.vcxproj" (Rebuild target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:13.47

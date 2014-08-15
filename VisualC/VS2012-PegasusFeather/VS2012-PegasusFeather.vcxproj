@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{61EFB54B-0388-42A3-AC61-1008FB86FA46}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>VS2012PegasusFeather</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>E:\UDK\PegasusFeather\VisualC\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Actor.cpp" />
+    <ClCompile Include="..\..\src\AnimatedTexture.cpp" />
+    <ClCompile Include="..\..\src\Building.cpp" />
+    <ClCompile Include="..\..\src\Camera.cpp" />
+    <ClCompile Include="..\..\src\Cursor.cpp" />
+    <ClCompile Include="..\..\src\DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\GameInfo.cpp" />
+    <ClCompile Include="..\..\src\GameScene.cpp" />
+    <ClCompile Include="..\..\src\HUD.cpp" />
+    <ClCompile Include="..\..\src\InputManager.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\Matrix.cpp" />
+    <ClCompile Include="..\..\src\Mesh.cpp" />
+    <ClCompile Include="..\..\src\NetworkManager.cpp" />
+    <ClCompile Include="..\..\src\Object.cpp" />
+    <ClCompile Include="..\..\src\ObjectManager.cpp" />
+    <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\OpenGLDisplayManager.cpp" />
+    <ClCompile Include="..\..\src\PackManager.cpp" />
+    <ClCompile Include="..\..\src\Resource.cpp" />
+    <ClCompile Include="..\..\src\Scene.cpp" />
+    <ClCompile Include="..\..\src\SceneManager.cpp" />
+    <ClCompile Include="..\..\src\SoundManager.cpp" />
+    <ClCompile Include="..\..\src\StartScreen.cpp" />
+    <ClCompile Include="..\..\src\TextLibrary.cpp" />
+    <ClCompile Include="..\..\src\Texture.cpp" />
+    <ClCompile Include="..\..\src\Tile.cpp" />
+    <ClCompile Include="..\..\src\TileManager.cpp" />
+    <ClCompile Include="..\..\src\Unit.cpp" />
+    <ClCompile Include="..\..\src\UnitManager.cpp" />
+    <ClCompile Include="..\..\src\Vector.cpp" />
+    <ClCompile Include="..\..\src\Vertex.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\Actor.h" />
+    <ClInclude Include="..\..\include\AnimatedTexture.h" />
+    <ClInclude Include="..\..\include\Building.h" />
+    <ClInclude Include="..\..\include\Camera.h" />
+    <ClInclude Include="..\..\include\Cursor.h" />
+    <ClInclude Include="..\..\include\DisplayManager.h" />
+    <ClInclude Include="..\..\include\GameInfo.h" />
+    <ClInclude Include="..\..\include\GameScene.h" />
+    <ClInclude Include="..\..\include\HUD.h" />
+    <ClInclude Include="..\..\include\InputManager.h" />
+    <ClInclude Include="..\..\include\Matrix.h" />
+    <ClInclude Include="..\..\include\Mesh.h" />
+    <ClInclude Include="..\..\include\NetworkManager.h" />
+    <ClInclude Include="..\..\include\Object.h" />
+    <ClInclude Include="..\..\include\ObjectManager.h" />
+    <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />
+    <ClInclude Include="..\..\include\OpenGLDisplayManager.h" />
+    <ClInclude Include="..\..\include\PackManager.h" />
+    <ClInclude Include="..\..\include\PerformanceTimer.h" />
+    <ClInclude Include="..\..\include\Resource.h" />
+    <ClInclude Include="..\..\include\Scene.h" />
+    <ClInclude Include="..\..\include\SceneManager.h" />
+    <ClInclude Include="..\..\include\SoundManager.h" />
+    <ClInclude Include="..\..\include\StartScreen.h" />
+    <ClInclude Include="..\..\include\TextLibrary.h" />
+    <ClInclude Include="..\..\include\Texture.h" />
+    <ClInclude Include="..\..\include\Tile.h" />
+    <ClInclude Include="..\..\include\TileManager.h" />
+    <ClInclude Include="..\..\include\Unit.h" />
+    <ClInclude Include="..\..\include\UnitManager.h" />
+    <ClInclude Include="..\..\include\Vector.h" />
+    <ClInclude Include="..\..\include\Vertex.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\resources\Shaders\System\texturefrag.glsl" />
+    <None Include="..\..\resources\Shaders\System\texturevert.glsl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
