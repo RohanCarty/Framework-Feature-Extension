@@ -34,6 +34,8 @@ public:
 	virtual bool LoadResources(std::string a_szFileName);
 
     virtual bool Update(float a_fDeltaTime);
+
+	virtual bool Draw(float a_fDeltaTime);
     
     bool UpdateChild(float a_fDeltaTime);
 
@@ -52,7 +54,7 @@ public:
 
     Vector* GetLocation();
     Vector* GetWorldLocation();
-    void SetLocation(Vector a_pNewLocation);
+    void SetLocation(Vector a_pNewLocation, bool a_bInstantWorldUpdate = false);
     void SetLocation(double a_x, double a_y, double a_z);
 
 	float GetRotation();

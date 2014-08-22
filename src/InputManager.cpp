@@ -133,5 +133,5 @@ Vector InputManager::GetMouseWorldPosition()
 	vTemp.x = GetMousePosition()->x - (m_pkCamera->GetViewportX() / 2) + m_pkCamera->GetWorldLocation()->x;
 	vTemp.y = GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y;
 
-	return vTemp;
+	return vTemp / m_pkCamera->GetLocation()->z;
 }

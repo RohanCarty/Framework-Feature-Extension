@@ -73,14 +73,8 @@ bool UnitManager::Update(float a_fDeltaTime)
 		else if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_LEFT))
 		{
 			//If not over unit then deselect on left click
-			m_apkUnits[iDx]->SetSelected(false);
+			//m_apkUnits[iDx]->SetSelected(false);
 		}
-	}
-
-	if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
-	{
-		eBuildingType eTemp = eHouse;
-		SpawnNewBuilding(SceneManager::GetInputManager()->GetMouseWorldPosition(), eTemp);
 	}
 
 	if(bIsMouseOverUnit)

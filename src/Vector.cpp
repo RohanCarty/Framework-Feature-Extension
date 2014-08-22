@@ -109,6 +109,32 @@ Vector Vector::operator-(Vector a_Param)
     return TempVector;
 }
 
+Vector Vector::operator*(double a_Param)
+{
+	Vector TempVector;
+
+	TempVector = *this;
+
+	TempVector.x *= a_Param;
+	TempVector.y *= a_Param;
+	TempVector.z *= a_Param;
+
+	return TempVector;
+}
+
+Vector Vector::operator/(double a_Param)
+{
+	Vector TempVector;
+
+	TempVector = *this;
+
+	TempVector.x /= a_Param;
+	TempVector.y /= a_Param;
+	TempVector.z /= a_Param;
+
+	return TempVector;
+}
+
 void Vector::operator=(Vector a_Param)
 {
     x = a_Param.x;

@@ -179,23 +179,30 @@ bool Object::Update(float a_fDeltaTime)
 
 	if(!m_bHidden)
 	{
-		//GenerateVertices();
-
-		m_pkTexture->Update(a_fDeltaTime);
-        
-		SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
-        
-		for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
-        {
-            m_apkRenderables[iDx]->Update();
-
-            TransformMesh(m_apkRenderables[iDx]);
-
-            SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx],4,m_pkTexture);
-        }
+		Draw(a_fDeltaTime);
 	}
 
     return UpdateChild(a_fDeltaTime);
+}
+
+bool Object::Draw(float a_fDeltaTime)
+{
+	//GenerateVertices();
+
+	m_pkTexture->Update(a_fDeltaTime);
+        
+	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
+        
+	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
+    {
+        m_apkRenderables[iDx]->Update();
+
+        TransformMesh(m_apkRenderables[iDx]);
+
+        SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx],4,m_pkTexture);
+    }
+
+	return true;
 }
 
 bool Object::UpdateChild(float a_fDeltaTime)
@@ -310,11 +317,26 @@ Vector* Object::GetWorldLocation()
     return m_pWorldLocation;
 }
 
-void Object::SetLocation(Vector a_pNewLocation)
+void Object::SetLocation(Vector a_pNewLocation, bool a_bInstantWorldUpdate)
 {
     m_pLocation->x = a_pNewLocation.x;
     m_pLocation->y = a_pNewLocation.y;
 	m_pLocation->z = a_pNewLocation.z;
+	if(a_bInstantWorldUpdate)
+	{
+		if(m_pkParent != NULL)
+		{
+			m_pWorldLocation->x = m_pkParent->GetLocation()->x + GetLocation()->x;
+			m_pWorldLocation->y = m_pkParent->GetLocation()->y + GetLocation()->y;
+			m_pWorldLocation->z = m_pkParent->GetLocation()->z + GetLocation()->z;
+		}
+		else
+		{
+			m_pWorldLocation->x = GetLocation()->x;
+			m_pWorldLocation->y = GetLocation()->y;
+			m_pWorldLocation->z = GetLocation()->z;
+		}
+	}
 }
 
 void Object::SetLocation(double a_x, double a_y, double a_z)

@@ -31,6 +31,8 @@ public:
 
 	virtual bool Update(float a_fDeltaTime);
 
+	virtual bool Draw(float a_fDeltaTime);
+
 	virtual bool IsOverObject();
 
 	virtual void SetCamera(Camera* a_pkCamera);

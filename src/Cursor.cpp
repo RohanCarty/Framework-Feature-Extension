@@ -13,6 +13,7 @@
 #include "GameScene.h"
 #include "HUD.h"
 #include "TextLibrary.h"
+#include "Mesh.h"
 
 Cursor::Cursor(Scene* a_pkScene) : Object(a_pkScene)
 {
@@ -30,9 +31,17 @@ bool Cursor::Update(float a_fDeltaTime)
 {
     Object::Update(a_fDeltaTime);
 
+	Cursor::Draw(a_fDeltaTime);
+
 	SetLocation(SceneManager::GetInputManager()->GetMousePosition()->x - (m_pkCamera->GetViewportX() / 2) + m_pkCamera->GetWorldLocation()->x, 
 		SceneManager::GetInputManager()->GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y, 
 		0.0);
+
+	if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
+	{
+		eBuildingType eTemp = eHouse;
+		SceneManager::GetUnitManager()->SpawnNewBuilding(SceneManager::GetInputManager()->GetMouseWorldPosition(), eTemp);
+	}
 
 	if(IsOverObject())
 	{
@@ -72,11 +81,35 @@ bool Cursor::Update(float a_fDeltaTime)
 	return true;
 }
 
+bool Cursor::Draw(float a_fDeltaTime)
+{
+	m_pkTexture->Update(a_fDeltaTime);
+        
+	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
+        
+	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
+    {
+        m_apkRenderables[iDx]->Update();
+
+		Vector vTempPos = *GetWorldLocation();
+
+		SetLocation(*SceneManager::GetInputManager()->GetMousePosition(), true);
+
+        TransformMesh(m_apkRenderables[iDx]);
+
+		SetLocation(vTempPos, true);
+
+        SceneManager::GetDisplayManager()->HUDDraw(m_apkRenderables[iDx]->GetVertexArray(),4,m_pkTexture);
+    }
+
+	return true;
+}
+
 bool Cursor::IsOverObject()
 {
 	for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetUnitList().size(); iDx++)
 	{
-		if(GetLocation()->WithinBox(*SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetWorldLocation(), SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetSize()))
+		if(SceneManager::GetInputManager()->GetMouseWorldPosition().WithinBox(*SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetWorldLocation(), SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetSize()))
 		{
 			m_pkObjectHoveredOver = SceneManager::GetUnitManager()->GetUnitList()[iDx];
 
@@ -88,7 +121,7 @@ bool Cursor::IsOverObject()
 
 	for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetBuildingList().size(); iDx++)
 	{
-		if(GetLocation()->WithinBox(*SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetWorldLocation(), SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetSize()))
+		if(SceneManager::GetInputManager()->GetMouseWorldPosition().WithinBox(*SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetWorldLocation(), SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetSize()))
 		{
 			//std::cout<<"Over Building"<<std::endl;
 

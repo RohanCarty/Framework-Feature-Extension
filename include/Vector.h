@@ -38,6 +38,8 @@ public:
 
     Vector operator+(Vector a_Param);
 	Vector operator-(Vector a_Param);
+	Vector operator*(double a_Param);
+	Vector operator/(double a_Param);
 	void operator=(Vector a_Param);
 	void operator*=(int a_iParam);
 	void operator*=(float a_fParam);
