@@ -313,6 +313,7 @@ bool OpenGL1DisplayManager::Update(float a_fDeltaTime)
 // Transforming worldspace to screenspace, really needs to get replace, I mean, software transformations are 90's as fuck.
 float OpenGL1DisplayManager::TransformToScreenSpaceX(double a_pkPosition)
 {
+	a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().x;
 	a_pkPosition += m_iXResolution /2;
 	return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;
@@ -320,6 +321,7 @@ float OpenGL1DisplayManager::TransformToScreenSpaceX(double a_pkPosition)
 
 float OpenGL1DisplayManager::TransformToScreenSpaceY(double a_pkPosition)
 {
+	a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().y;
 	a_pkPosition += m_iYResolution / 2;
 	return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));

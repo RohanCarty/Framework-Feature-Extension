@@ -16,7 +16,7 @@ Camera::Camera(Scene* a_pkScene) : Object(a_pkScene)
 	m_fViewportX = SceneManager::GetDisplayManager()->GetXScreenResolution();
 	m_fViewportY = SceneManager::GetDisplayManager()->GetYScreenResolution();
 
-	//SetLocation(-960,-540,-1);
+	SetLocation(0,0, 1);
 
 	m_bHidden = true;
 }
@@ -56,22 +56,29 @@ bool Camera::Update(float a_fDeltaTime)
 		}
 	}
 
-    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_W))
+	//Scale Camera
+	m_fViewportX = SceneManager::GetDisplayManager()->GetXScreenResolution() * GetScale();
+	m_fViewportY = SceneManager::GetDisplayManager()->GetYScreenResolution() * GetScale();
+
+	
+    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_W))
     {
-        SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
+		SetLocation(GetLocation()->x, GetLocation()->y, GetLocation()->z + 0.01f);
+       // SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
     }
     
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_A))
+    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_A))
     {
         SetLocation(GetLocation()->x - 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-    }
+    }*/
     
     if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_S))
     {
-        SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
+		SetLocation(GetLocation()->x, GetLocation()->y, GetLocation()->z - 0.01f);
+       // SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
     }
     
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_D))
+    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_D))
     {
         SetLocation(GetLocation()->x + 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
     }*/

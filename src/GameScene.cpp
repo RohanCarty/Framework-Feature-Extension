@@ -29,7 +29,7 @@ GameScene::GameScene() : Scene()
 
 	//m_pkCamera->SetLocation(960, 540, 0);
 
-	m_pkCamera->SetLocation(0,0,0);
+	//m_pkCamera->SetLocation(0,0,0);
 }
 
 GameScene::~GameScene()
