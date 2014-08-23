@@ -39,6 +39,7 @@ public:
     Camera* GetCameraObject();
 	Vector* GetMousePosition();
 	Vector GetMouseWorldPosition();
+	int GetMouseWheelDelta();
 	bool GetWindowIsInFocus();
 
 private:
@@ -46,6 +47,7 @@ private:
 	Camera* m_pkCamera;
 	std::vector<int> m_aiKeyCodes;
 	bool m_bIsWindowInFocus;
+	int m_iMouseWheelDelta;
 };
 
 #endif

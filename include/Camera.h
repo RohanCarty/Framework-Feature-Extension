@@ -37,6 +37,8 @@ protected:
 	float m_fAspect;
 
 	float m_fViewportX, m_fViewportY;
+
+	double m_dTargetZoom;
 };
 
 #endif

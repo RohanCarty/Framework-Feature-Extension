@@ -124,7 +124,7 @@ void* PackManager::LoadResource(std::string a_svFileToLoad, int *a_out_sizeOfFil
 
 				pData = new char[stFileEntry.iSize]; // create the buffer of the character length of the file.
         
-				std::cout<<"Reading "<<stFileEntry.iSize<<" Characters for: "<<a_svFileToLoad<<std::endl;
+				//std::cout<<"Reading "<<stFileEntry.iSize<<" Characters for: "<<a_svFileToLoad<<std::endl;
         
 				fsFileStream.read(pData, stFileEntry.iSize);
         

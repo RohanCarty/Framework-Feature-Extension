@@ -16,6 +16,8 @@ InputManager::InputManager()
 
 	m_bIsWindowInFocus = true;
 
+	m_iMouseWheelDelta = 0;
+
 	std::cout<<"InputManager Created."<<std::endl;
 }
 InputManager::~InputManager()
@@ -33,6 +35,7 @@ bool InputManager::Update(float a_fDeltaTime)
 
 	//Clear everything pressed
 	m_aiKeyCodes.erase(m_aiKeyCodes.begin(), m_aiKeyCodes.begin() + m_aiKeyCodes.size());
+	m_iMouseWheelDelta = 0;
 
 	while(SDL_PollEvent(&test_event)) //TODO: receive all inputs.
 	{
@@ -43,6 +46,9 @@ bool InputManager::Update(float a_fDeltaTime)
 				m_pkMousePosition->y = test_event.motion.y;
 				//printf("Current mouse position is: (%d, %d)\n", test_event.motion.x, test_event.motion.y);
 				break;
+			case SDL_MOUSEWHEEL:
+				m_iMouseWheelDelta = test_event.wheel.y;
+				//printf("Mousewheel event: %d\n",test_event.wheel.y);
             case SDL_MOUSEBUTTONDOWN:
 				m_aiKeyCodes.push_back(test_event.button.button);
                 break;
@@ -134,4 +140,9 @@ Vector InputManager::GetMouseWorldPosition()
 	vTemp.y = GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y;
 
 	return vTemp / m_pkCamera->GetLocation()->z;
+}
+
+int InputManager::GetMouseWheelDelta()
+{
+	return m_iMouseWheelDelta;
 }
