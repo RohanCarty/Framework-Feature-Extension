@@ -18,10 +18,19 @@ TextLibrary::TextLibrary(DisplayManager* a_kDisplayManager)
 
 	m_pkTexture->LoadTexture("Resources/Textures/System/Text.png", m_kDisplayManager);
 
-	TTF_Init();
+	if(TTF_Init() == -1)
+	{
+        std::cout<<"TTF_Init Error: "<<TTF_GetError()<<std::endl;
+	}
 
 	int piSize;
+	delete PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize);
 	m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize), piSize), 1, 10);
+
+    if(m_pkFont == NULL)
+    {
+        std::cout<<"TTF_OpenFontRW Error: "<<TTF_GetError()<<std::endl;
+    }
 
 	//m_pkFont = TTF_OpenFont("Resources/Fonts/System/AldotheApache.ttf", 10);
 
@@ -48,6 +57,7 @@ void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned
 	{
 		TTF_CloseFont(m_pkFont);
 		int piSize;
+		delete PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize);
 		m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize), piSize),1 , CharacterSize);
 		//m_pkFont = TTF_OpenFont("Resources/Fonts/System/AldotheApache.ttf", CharacterSize);
 		m_uiPreviousCharacterSize = CharacterSize;
@@ -59,7 +69,7 @@ void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned
 	tTempColour.a = 255;
 	m_kDisplayManager->UpdateTextureSDLSurface(
 		TTF_RenderText_Blended(m_pkFont, sString.c_str(), tTempColour), m_pkTexture->GetTextureNumber());
-		
+
 	TTF_SizeText(m_pkFont, sString.c_str(), &m_piSizeX, &m_piSizeY);
 
 	m_pakVerticies[0].GetLocation()->x = x; m_pakVerticies[0].GetLocation()->y = y;
