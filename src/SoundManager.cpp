@@ -18,8 +18,8 @@ SoundManager::SoundManager()
 	//pkMusic = Mix_LoadMUS("Resources/Music/test2.flac");
 
 	int piSize;
-	piSize = PackManager::GetSizeOfFile("Resources/Music/lunarmarch.mp3");
-	SDL_RWops* pkMusicFile = SDL_RWFromConstMem(PackManager::LoadResource("Resources/Music/lunarmarch.mp3"), piSize);
+	piSize = PackManager::GetSizeOfFile("Sounds/Music/lunarmarch.mp3");
+	SDL_RWops* pkMusicFile = SDL_RWFromConstMem(PackManager::LoadResource("Sounds/Music/lunarmarch.mp3"), piSize);
 
 	if(pkMusicFile == NULL)
 	{
