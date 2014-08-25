@@ -24,8 +24,8 @@ TextLibrary::TextLibrary(DisplayManager* a_kDisplayManager)
 	}
 
 	int piSize;
-	delete PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize);
-	m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize), piSize), 1, 10);
+	piSize = PackManager::GetSizeOfFile("Resources/Fonts/System/AldotheApache.ttf");
+	m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf"), piSize), 1, 10);
 
     if(m_pkFont == NULL)
     {
@@ -57,8 +57,8 @@ void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned
 	{
 		TTF_CloseFont(m_pkFont);
 		int piSize;
-		delete PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize);
-		m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf",&piSize), piSize),1 , CharacterSize);
+        piSize = PackManager::GetSizeOfFile("Resources/Fonts/System/AldotheApache.ttf");
+		m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf"), piSize),1 , CharacterSize);
 		//m_pkFont = TTF_OpenFont("Resources/Fonts/System/AldotheApache.ttf", CharacterSize);
 		m_uiPreviousCharacterSize = CharacterSize;
 	}
@@ -91,7 +91,10 @@ Vector TextLibrary::GetStringSize(std::string& sString, unsigned int CharacterSi
 	if(CharacterSize > m_uiPreviousCharacterSize)
 	{
 		TTF_CloseFont(m_pkFont);
-		m_pkFont = TTF_OpenFont("Resources/Fonts/System/AldotheApache.ttf", CharacterSize);
+		int piSize;
+        piSize = PackManager::GetSizeOfFile("Resources/Fonts/System/AldotheApache.ttf");
+		m_pkFont=TTF_OpenFontRW(SDL_RWFromMem(PackManager::LoadResource("Resources/Fonts/System/AldotheApache.ttf"), piSize),1 , CharacterSize);
+		//m_pkFont = TTF_OpenFont("Resources/Fonts/System/AldotheApache.ttf", CharacterSize);
 		m_uiPreviousCharacterSize = CharacterSize;
 	}
 	TTF_SizeText(m_pkFont, sString.c_str(), &m_piSizeX, &m_piSizeY);

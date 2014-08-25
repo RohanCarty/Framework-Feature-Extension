@@ -22,7 +22,7 @@ OpenGL1DisplayManager::OpenGL1DisplayManager(int argc, char **argv) : DisplayMan
 {
     //TODO
     std::cout<<"OpenGL1DisplayManager Created."<<std::endl;
-    
+
     m_pkViewMatrix = new Matrix();
 
     CreateScreen();
@@ -31,7 +31,7 @@ OpenGL1DisplayManager::OpenGL1DisplayManager(int argc, char **argv) : DisplayMan
 OpenGL1DisplayManager::~OpenGL1DisplayManager()
 {
     //TODO
-    
+
     delete m_pkViewMatrix;
 }
 
@@ -49,16 +49,16 @@ bool OpenGL1DisplayManager::CreateScreen()
 		std::cout<<"Unable to initialize SDL2"<<std::endl;
 		exit(1);
 	}
-	
+
 	m_iXResolution = 800;
 	m_iYResolution = 600;
-	
+
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	
+
 	//SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
    	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	
+
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         m_iXResolution, m_iYResolution, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
@@ -67,9 +67,9 @@ bool OpenGL1DisplayManager::CreateScreen()
 		std::cout<<"Window Creation Failed After Succesful SDL2 Initialization."<<std::endl;
 		exit(1);
 	}
-	
+
 	m_kMainContext = SDL_GL_CreateContext(m_pkMainWindow);
-	
+
 	SDL_ShowCursor(0); //Hide cursor
 
 	//SDL_GL_SetSwapInterval(1); // Enable V-Sync
@@ -79,15 +79,15 @@ bool OpenGL1DisplayManager::CreateScreen()
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );// Set Transparency settings.
 
 	m_iDefaultTexture = LoadTexture("Resources/Textures/System/Error.png");
-	
+
 	std::cout<<"Window created, OpenGL Context Vendor: "<<glGetString(GL_VENDOR)<<" Renderer: "<<glGetString(GL_RENDERER)<<" Version: "<< glGetString(GL_VERSION)<<std::endl;
 	std::cout<<"Window Creation Complete."<<std::endl;
-	
+
     return true;
 }
 
 int OpenGL1DisplayManager::LoadTexture(std::string a_sName)
-{	
+{
 	//Check to see if texture has already been used
 	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
@@ -98,11 +98,11 @@ int OpenGL1DisplayManager::LoadTexture(std::string a_sName)
 			return m_astLoadedTextures[iDx].m_iTextureNumber;
 		}
 	}
-    
+
 	SDL_Surface *pkImage;
     int piSize;
-	delete PackManager::LoadResource(a_sName.c_str(),&piSize);
-	pkImage=IMG_Load_RW(SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str(),&piSize), piSize), 1);
+	piSize = PackManager::GetSizeOfFile(a_sName.c_str());
+	pkImage=IMG_Load_RW(SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str()), piSize), 1);
 	//pkImage=SDL_LoadBMP(a_sName.c_str());
 	if(pkImage == NULL)
 	{
@@ -111,7 +111,7 @@ int OpenGL1DisplayManager::LoadTexture(std::string a_sName)
 		// handle error
 		return m_iDefaultTexture;
 	}
-    
+
 	// Check image dimensions are powers of 2
 	if ( (pkImage->w & (pkImage->w - 1)) != 0 )
 	{
@@ -121,19 +121,19 @@ int OpenGL1DisplayManager::LoadTexture(std::string a_sName)
 	{
 		std::cout<<"Warning: "<<a_sName<<"'s height is not a power of 2."<<std::endl;
 	}
-	
+
 	int iTempTextureNumber = LoadTextureSDLSurface(pkImage);
-    
+
 	stTextureInfo tempTextureInfo;
-    
+
 	tempTextureInfo.m_iTextureNumber = iTempTextureNumber;
 	tempTextureInfo.m_szFileName = a_sName;
 	tempTextureInfo.m_uiReferences = 1; // start with the first reference.
-    
+
 	m_astLoadedTextures.push_back(tempTextureInfo);
-    
+
     std::cout<<"Texture number is: "<<iTempTextureNumber<<std::endl;
-    
+
 	return iTempTextureNumber;
 }
 
@@ -162,24 +162,24 @@ int OpenGL1DisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
 	{
 		std::cout<<"Warning: "<<a_pkSurface<<" is not a truecolour image"<<std::endl;
 	}
-    
+
 	//Get a pointer.
 	GLuint* puiTemp = new GLuint[1];
-    
+
 	//Create a single texture name.
 	glGenTextures(1, puiTemp);
-    
+
 	//Bind the texture name that was created.
 	glBindTexture(GL_TEXTURE_2D, *puiTemp);
-    
+
 	//Set some parameters (I think this is mip-mapping)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	
+
 	// set the texture's stretching properties
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	
+
 	// set the texture object's image data using the information SDL_Surface gives us
 	glTexImage2D(GL_TEXTURE_2D,		//target
                  0,						//level
@@ -188,9 +188,9 @@ int OpenGL1DisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
                  0,
                  texture_format, GL_UNSIGNED_BYTE,		//format and type
                  a_pkSurface->pixels);		//data
-    
+
 	SDL_FreeSurface( a_pkSurface );
-    
+
 	//Return texture number
 	int iTemp;
 	iTemp = ((int)*puiTemp);
@@ -222,18 +222,18 @@ void OpenGL1DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, in
 	{
 		std::cout<<"Warning: "<<a_pkSurface<<" is not a truecolour image"<<std::endl;
 	}
-    
+
 	//Bind the texture name that was created.
 	glBindTexture(GL_TEXTURE_2D, a_iTextureNumber);
 
 	//Set some parameters (I think this is mip-mapping)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	
+
 	// set the texture's stretching properties
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	
+
 	// set the texture object's image data using the information SDL_Surface gives us
 	glTexImage2D(GL_TEXTURE_2D,		//target
                  0,						//level
@@ -253,20 +253,20 @@ void OpenGL1DisplayManager::UnloadTexture(int a_iTextureNumber)
 		if(m_astLoadedTextures[iDx].m_iTextureNumber == a_iTextureNumber)
 		{
 			m_astLoadedTextures[iDx].m_uiReferences--;//Reduce the references by one
-			
+
 			//std::cout<<"Reducing References of "<<m_astLoadedTextures[iDx].m_szFileName<<", now: "<<m_astLoadedTextures[iDx].m_uiReferences<<std::endl;
-            
+
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
 			{
 				//std::cout<<"Deleting Texture: "<<m_astLoadedTextures[iDx].m_szFileName<<std::endl;
 				GLuint* puiTemp = new GLuint[1];
-                
+
 				puiTemp[0] = m_astLoadedTextures[iDx].m_iTextureNumber;
-                
+
 				glDeleteTextures(1, puiTemp);
-                
+
 				delete puiTemp;
-                
+
 				m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
@@ -280,17 +280,17 @@ void OpenGL1DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 		if(m_astLoadedTextures[iDx].m_szFileName == a_szTextureFilename)
 		{
 			m_astLoadedTextures[iDx].m_uiReferences--;//Reduce the references by one
-			
+
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
 			{
 				GLuint* puiTemp = new GLuint[1];
-                
+
 				puiTemp[0] = m_astLoadedTextures[iDx].m_iTextureNumber;
-                
+
 				glDeleteTextures(1, puiTemp);
-                
+
 				delete puiTemp;
-                
+
 				m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
@@ -301,11 +301,11 @@ bool OpenGL1DisplayManager::Update(float a_fDeltaTime)
 {
     //TODO
     glFlush();// using glFlush instead of glFinish in order to not wait for the video card (v-sync-ish)
-    
+
 	SDL_GL_SwapWindow(m_pkMainWindow); //Buffer Swap
-    
+
 	glClear(GL_COLOR_BUFFER_BIT);
-    
+
     //Delay a little bit in order to give cpu a break.
     SDL_Delay(1);
     return true;
@@ -340,9 +340,9 @@ float OpenGL1DisplayManager::HUDTransformToScreenSpaceY(double a_pkPosition)
 void OpenGL1DisplayManager::SetViewMatrix(Matrix* a_pkNewMatrix)
 {
 	*m_pkViewMatrix = *a_pkNewMatrix;
-    
+
 	//gluLookAt(0,0,-0.5,0,0,0,0,1,0);
-    
+
 	//glUniformMatrix4dv(glGetUniformLocation(m_gluiProgramObject, "in_view_matrix"), 1, true, *m_pkViewMatrix->CoOrd);
 	//std::cout<<"New View Matrix Set"<<std::endl;
 }
@@ -350,7 +350,7 @@ void OpenGL1DisplayManager::SetViewMatrix(Matrix* a_pkNewMatrix)
 void OpenGL1DisplayManager::SetCameraDimensions(float a_fCameraTop, float a_fCameraRight)
 {
 	m_fCameraTop = a_fCameraTop; m_fCameraRight = a_fCameraRight;
-    
+
 }
 
 void OpenGL1DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumber)
@@ -362,9 +362,9 @@ void OpenGL1DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumbe
 bool OpenGL1DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pkTexture)
 {
     glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());
-    
+
     glBegin(GL_QUADS);
-    
+
 	//TODO: allow drawing code to handle something that's not a quad
 
 	glTexCoord2f(a_pkTexture->m_fMinU, a_pkTexture->m_fMinV);
@@ -404,9 +404,9 @@ bool OpenGL1DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_
                    (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[iDx].GetLocation()).y),
                    (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[iDx].GetLocation()).z);
     }*/
-    
+
 	glEnd();
-    
+
     return true;
 }
 
@@ -426,7 +426,7 @@ bool OpenGL1DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Te
 	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y)); // Bottom-Left
 	glTexCoord2f(a_iTexture->m_fMinU,a_iTexture->m_fMinV);// Top-Left
 	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y)); // Top-Left
-	
+
 	glEnd();
 	return true;
 }

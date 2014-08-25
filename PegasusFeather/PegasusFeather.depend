@@ -443,7 +443,7 @@
 	<iostream>
 	<vector>
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/AnimatedTexture.cpp
+1408975013 source:/home/ripper/gitrepos/pegasusfeather/src/AnimatedTexture.cpp
 	"AnimatedTexture.h"
 	"DisplayManager.h"
 	"PackManager.h"
@@ -464,9 +464,10 @@
 	<crtdbg.h>
 	<string>
 
-1408810652 /home/ripper/gitrepos/pegasusfeather/include/PackManager.h
+1408976402 /home/ripper/gitrepos/pegasusfeather/include/PackManager.h
 	<iostream>
 	<string>
+	<vector>
 
 1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Building.cpp
 	"Building.h"
@@ -499,7 +500,7 @@
 	"Resource.h"
 	"Actor.h"
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Camera.cpp
+1408979290 source:/home/ripper/gitrepos/pegasusfeather/src/Camera.cpp
 	"Camera.h"
 	"Scene.h"
 	"SceneManager.h"
@@ -663,7 +664,7 @@
 	"Matrix.h"
 	<cmath>
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Mesh.cpp
+1408975055 source:/home/ripper/gitrepos/pegasusfeather/src/Mesh.cpp
 	"Mesh.h"
 	"DisplayManager.h"
 	"Vertex.h"
@@ -828,7 +829,7 @@
 1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/ObjectManager.cpp
 	"ObjectManager.h"
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGL1DisplayManager.cpp
+1408975102 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGL1DisplayManager.cpp
 	"DisplayManager.h"
 	"Vector.h"
 	"Matrix.h"
@@ -849,7 +850,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGLDisplayManager.cpp
+1408975167 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGLDisplayManager.cpp
 	"Vector.h"
 	"Vertex.h"
 	"Mesh.h"
@@ -863,7 +864,7 @@
 	<SDL2_image/SDL_image.h>
 	"SDL_image.h"
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/PackManager.cpp
+1408980983 source:/home/ripper/gitrepos/pegasusfeather/src/PackManager.cpp
 	"PackManager.h"
 	<fstream>
 	<cstring>
@@ -890,7 +891,7 @@
 	<iostream>
 	"GameScene.h"
 
-1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/SoundManager.cpp
+1408979505 source:/home/ripper/gitrepos/pegasusfeather/src/SoundManager.cpp
 	"SoundManager.h"
 	"PackManager.h"
 	<iostream>
@@ -911,7 +912,7 @@
 	<iostream>
 	<vector>
 
-1408840520 source:/home/ripper/gitrepos/pegasusfeather/src/TextLibrary.cpp
+1408975829 source:/home/ripper/gitrepos/pegasusfeather/src/TextLibrary.cpp
 	"TextLibrary.h"
 	"Texture.h"
 	"Vector.h"

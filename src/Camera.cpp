@@ -31,7 +31,7 @@ Camera::~Camera()
 bool Camera::Update(float a_fDeltaTime)
 {
     Object::Update(a_fDeltaTime);
-    
+
     //Move Camera
 	Vector vMousePosition = *SceneManager::GetInputManager()->GetMousePosition();
 
@@ -86,7 +86,7 @@ bool Camera::Update(float a_fDeltaTime)
 			SetLocation(GetLocation()->x, GetLocation()->y, m_dTargetZoom);
 		}
 	}
-	
+
 	if(GetLocation()->z < m_dTargetZoom)
 	{
 		double dTemp = 0.0;
@@ -105,7 +105,7 @@ bool Camera::Update(float a_fDeltaTime)
 			SetLocation(GetLocation()->x, GetLocation()->y, m_dTargetZoom);
 		}
 	}
-	
+
 	if(SceneManager::GetInputManager()->GetMouseWheelDelta() != 0)
 	{
 		m_dTargetZoom += (float)SceneManager::GetInputManager()->GetMouseWheelDelta() / 10.0f;
@@ -116,28 +116,28 @@ bool Camera::Update(float a_fDeltaTime)
 	m_fViewportX = SceneManager::GetDisplayManager()->GetXScreenResolution() * GetScale();
 	m_fViewportY = SceneManager::GetDisplayManager()->GetYScreenResolution() * GetScale();
 
-	
-   /* if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_W))
+
+    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_W))
     {
-		m_dTargetZoom = GetLocation()->z + 0.1f;
-       // SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
-    }*/
-    
-    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_A))
+		//m_dTargetZoom = GetLocation()->z + 0.1f;
+        SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
+    }
+
+    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_A))
     {
         SetLocation(GetLocation()->x - 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-    }*/
-    
-    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_S))
+    }
+
+    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_S))
     {
-		m_dTargetZoom = GetLocation()->z - 0.1f;
-       // SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
-    }*/
-    
-    /*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_D))
+		//m_dTargetZoom = GetLocation()->z - 0.1f;
+       SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
+    }
+
+    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_D))
     {
         SetLocation(GetLocation()->x + 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-    }*/
+    }
 
 	//std::cout<<"Camera: X: "<<GetWorldLocation()->x<<" Y: "<<GetWorldLocation()->y<<" Z: "<<GetWorldLocation()->z<<std::endl;
 

@@ -84,14 +84,14 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 
 	int piSize;
 
-	PackManager::LoadResource(a_sAnimation.c_str(),&piSize);
-	
-	std::string szFile((char*)PackManager::LoadResource(a_sAnimation.c_str(),&piSize));
+    piSize = PackManager::GetSizeOfFile(a_sAnimation.c_str());
+
+	std::string szFile((char*)PackManager::LoadResource(a_sAnimation.c_str()));
 
 	sLine = szFile.substr(0, szFile.find_first_of("\n"));
 	szFile.erase(0, szFile.find_first_of("\n") + 1);
     sFullFile += sLine;
-	
+
 	SetTextureNumber(a_pDisplayManager->LoadTexture(sLine));
 
     sLine = szFile.substr(0, szFile.find_first_of("\n"));

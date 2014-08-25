@@ -60,11 +60,13 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 
     xmlNodePtr pCurNode;//, pParentNode;
     xmlDocPtr pDoc;
-    xmlChar* pXmlBuff;	
+    xmlChar* pXmlBuff;
 
 	int iSizeOfFile;
 
-	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName,&iSizeOfFile);
+    iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
+
+	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
 
 	pDoc = xmlReadMemory(szTempString.c_str(),iSizeOfFile,"", NULL, 0);
 
@@ -152,10 +154,12 @@ void Mesh::SetElementCounts(std::string a_szFileName)
     xmlNodePtr pCurNode;//, pParentNode;
     xmlDocPtr pDoc;
     xmlChar* pXmlBuff;
-	
+
 	int iSizeOfFile;
 
-	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName,&iSizeOfFile);
+    iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
+
+	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
 
 	pDoc = xmlReadMemory(szTempString.c_str(),iSizeOfFile,"", NULL, 0);
 	//pDoc = xmlParseMemory((char*)PackManager::LoadResource(a_szFileName,iSizeOfFile),*iSizeOfFile);

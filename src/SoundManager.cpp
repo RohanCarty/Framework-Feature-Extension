@@ -16,10 +16,11 @@ SoundManager::SoundManager()
 	Mix_Music* pkMusic;
 
 	//pkMusic = Mix_LoadMUS("Resources/Music/test2.flac");
-    
+
 	int piSize;
-	delete PackManager::LoadResource("Resources/Music/lunarmarch.mp3",&piSize);
-	SDL_RWops* pkMusicFile = SDL_RWFromConstMem(PackManager::LoadResource("Resources/Music/lunarmarch.mp3",&piSize), piSize);
+	piSize = PackManager::GetSizeOfFile("Resources/Music/lunarmarch.mp3");
+	SDL_RWops* pkMusicFile = SDL_RWFromConstMem(PackManager::LoadResource("Resources/Music/lunarmarch.mp3"), piSize);
+
 	if(pkMusicFile == NULL)
 	{
 		 std::cout<<"Failed to create SDL_RWops pointer: "<<SDL_GetError()<<std::endl;
@@ -33,7 +34,7 @@ SoundManager::SoundManager()
 	}
 //    delete piSize;
 
-	if(Mix_FadeInMusic(pkMusic, -1, 5000) == -1) 
+	if(Mix_FadeInMusic(pkMusic, -1, 5000) == -1)
 	{
 		std::cout<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
 	}
@@ -68,17 +69,19 @@ void SoundManager::PlaySound(std::string a_szFileName)
 	}
 
     //TODO: Async loading and playing of files.
-    
+
 	//if file not in list, load dat shit
 	if(iReference == -1)
 	{
 		stSoundChunkInfo stTemp;
 		stTemp.m_szFileName = a_szFileName;
-        
+
         int piSize;
-        stTemp.m_apkAudioChunk = Mix_LoadWAV_RW(SDL_RWFromMem(PackManager::LoadResource(a_szFileName.c_str(),&piSize), piSize), 1);
-        
-		if(!stTemp.m_apkAudioChunk) 
+        piSize = PackManager::GetSizeOfFile(a_szFileName.c_str());
+
+        stTemp.m_apkAudioChunk = Mix_LoadWAV_RW(SDL_RWFromMem(PackManager::LoadResource(a_szFileName.c_str()), piSize), 1);
+
+		if(!stTemp.m_apkAudioChunk)
 		{
 			std::cout<<a_szFileName<<" Mix_LoadWAV: "<< Mix_GetError()<<std::endl;
 			//Something fucked up, leave
@@ -89,7 +92,7 @@ void SoundManager::PlaySound(std::string a_szFileName)
 	}
 
 	//Play it finally
-	if(Mix_PlayChannel(-1, m_astAudioChunks[iReference].m_apkAudioChunk, 0) == -1) 
+	if(Mix_PlayChannel(-1, m_astAudioChunks[iReference].m_apkAudioChunk, 0) == -1)
 	{
 		std::cout<<"Mix_PlayChannel: "<< Mix_GetError()<<std::endl;
 	}

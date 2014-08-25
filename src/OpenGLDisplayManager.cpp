@@ -37,7 +37,7 @@ OpenGLDisplayManager::~OpenGLDisplayManager()
 	std::cout<<"Deleting Vertex Buffers"<<std::endl;
 	delete m_akVao;
 	delete m_akBuffers;
-	
+
 	delete m_pkViewMatrix;
 
 	delete m_akMeshData;
@@ -49,7 +49,7 @@ OpenGLDisplayManager::~OpenGLDisplayManager()
     SDL_DestroyWindow(m_pkMainWindow);
 	std::cout<<"Closing SDL2"<<std::endl;
     SDL_Quit();
-	
+
 	std::cout<<"OpenGL Displaymanager closed successfully."<<std::endl;
 }
 
@@ -65,43 +65,43 @@ unsigned int OpenGLDisplayManager::LoadShaderProgram(std::string a_szVertexShade
 	const GLchar* vShaderSource = szVShaderSource.c_str();
 
 	std::string szFShaderSource = LoadShader(a_szFragmentShader);
-	
+
 	const GLchar* fShaderSource = szFShaderSource.c_str();
 
 	if(szVShaderSource == "Error" || szFShaderSource == "Error")
 	{
 		return m_uiDefaultShader;
 	}
-	
+
 	int vlength = (int)strlen(vShaderSource);
 	int flength = (int)strlen(fShaderSource);
-	
+
 	//std::cout<<"'Cat'ing string length's for the shader source files: "<<vlength<<" "<<flength<<std::endl;
-	
+
 	glShaderSource(vertexShaderObject, 1, &vShaderSource, &vlength);
 	glShaderSource(fragmentShaderObject, 1, &fShaderSource, &flength);
 
-	GLint blen = 0;	
+	GLint blen = 0;
 	GLsizei slen = 0;
-	
+
 	//Compile vertex shader
 	glCompileShader(vertexShaderObject);
-	
-	glGetShaderiv(vertexShaderObject, GL_INFO_LOG_LENGTH , &blen);       
-	
+
+	glGetShaderiv(vertexShaderObject, GL_INFO_LOG_LENGTH , &blen);
+
 	if (blen > 1)
 	{
 	GLchar* compiler_log = (GLchar*)malloc(blen);
-	
+
 	glGetInfoLogARB(vertexShaderObject, blen, &slen, compiler_log);
 	std::cout <<a_szVertexShader<<" compiler_log:"<<compiler_log;
 	free (compiler_log);
-	}  
+	}
 
 	//compile fragment shader
 	glCompileShader(fragmentShaderObject);
 
-	glGetShaderiv(fragmentShaderObject, GL_INFO_LOG_LENGTH , &blen);       
+	glGetShaderiv(fragmentShaderObject, GL_INFO_LOG_LENGTH , &blen);
 
 	if (blen > 1)
 	{
@@ -110,8 +110,8 @@ unsigned int OpenGLDisplayManager::LoadShaderProgram(std::string a_szVertexShade
 	glGetInfoLogARB(fragmentShaderObject, blen, &slen, compiler_log);
 	std::cout<<a_szFragmentShader<<" compiler_log:"<<compiler_log;
 	free (compiler_log);
-	}  
-	
+	}
+
 	ProgramObject = glCreateProgram();
 
 	glAttachShader(ProgramObject, vertexShaderObject);
@@ -125,7 +125,8 @@ unsigned int OpenGLDisplayManager::LoadShaderProgram(std::string a_szVertexShade
 std::string OpenGLDisplayManager::LoadShader(std::string a_szShaderName)
 {
 	int piSize;
-	std::string cpFullFile = (char*)PackManager::LoadResource(a_szShaderName,&piSize);
+	piSize = PackManager::GetSizeOfFile(a_szShaderName);
+	std::string cpFullFile = (char*)PackManager::LoadResource(a_szShaderName);
 	cpFullFile.resize(piSize);
 
 	return cpFullFile;
@@ -138,16 +139,16 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 		std::cout<<"Unable to initialize SDL2"<<std::endl;
 		exit(1);
 	}
-	
+
 	m_iXResolution = 1600;
 	m_iYResolution = 900;
-	
+
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-	
+
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
    	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
-	
+
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         m_iXResolution, m_iYResolution, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
@@ -156,7 +157,7 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 		std::cout<<"Window Creation Failed After Succesful SDL2 Initialization."<<std::endl;
 		exit(1);
 	}
-	
+
 	m_kMainContext = SDL_GL_CreateContext(m_pkMainWindow);
 
 
@@ -164,48 +165,48 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	{
 		std::cerr<<"Unable to initialize GLEW ... exiting"<<std::endl;
 		exit(EXIT_FAILURE);
-	} 
-	
+	}
+
 	SDL_ShowCursor(0); //Hide cursor
 
 	//SDL_GL_SetSwapInterval(1); // Enable V-Sync
 	glEnable(GL_DEPTH); // Enable Depth
 	glEnable(GL_BLEND); // Enable Transparency
 	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );// Set Transparency settings.
-	
+
 	std::cout<<"Window created, OpenGL Context Vendor: "<<glGetString(GL_VENDOR)<<" Renderer: "<<glGetString(GL_RENDERER)<<" Version: "<< glGetString(GL_VERSION)<<std::endl;
-	
+
 	m_akVao = new GLuint[1];
 	m_akBuffers = new GLuint[1];
-	
+
 	//std::cout<<"Creating Vertex Buffer"<<std::endl;
 
 	glGenVertexArrays(1, m_akVao);
 	//std::cout<<"Binding Vertex Buffer"<<std::endl;
 	glBindVertexArray(m_akVao[0]);
-	
+
 	//std::cout<<"Defining Triangles"<<std::endl;
-	
+
 	GLfloat vertices[6][2] = {
 	{-0.50,-0.50 }, // Triangle 1
-	{ 0.50,-0.50 }, 
-	{ 0.50, 0.50 }, 
+	{ 0.50,-0.50 },
+	{ 0.50, 0.50 },
 	{ 0.50, 0.50 }, // Triangle 2
-	{-0.50, 0.50 }, 
+	{-0.50, 0.50 },
 	{-0.50,-0.50 }
 	};
-	
+
 	//std::cout<<"Creating Array Buffer."<<std::endl;
-	
+
 	glGenBuffers(1, m_akBuffers);
 	glBindBuffer(GL_ARRAY_BUFFER, m_akBuffers[0]);
-	
+
 	//std::cout<<"Filling Array Buffer."<<std::endl;
-	
+
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_DYNAMIC_DRAW);
-	
+
 	//std::cout<<"Loading Shader"<<std::endl;
-	
+
 	GLuint ProgramObject;
 
 	ProgramObject = LoadShaderProgram("Resources/Shaders/System/texturevert.glsl","Resources/Shaders/System/texturefrag.glsl");
@@ -216,7 +217,7 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 
 	//Set default shader
 	m_uiDefaultShader = ProgramObject;
-	
+
 	//Set default Texture
 	m_iDefaultTexture = LoadTexture("Resources/Textures/System/Error.png");
 
@@ -224,7 +225,7 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	glEnableVertexAttribArray(0);
 
 	std::cout<<"Window Creation Complete."<<std::endl;
-	
+
     return true;
 }
 
@@ -253,7 +254,7 @@ int OpenGLDisplayManager::GetEmptyTextureNumber()
 int OpenGLDisplayManager::LoadTexture(std::string a_sName)
 {
 	//TODO: Use SDL2_image again
-	
+
 	//Check to see if texture has already been used
 	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
@@ -268,8 +269,8 @@ int OpenGLDisplayManager::LoadTexture(std::string a_sName)
 	SDL_Surface *pkImage;
 	int piSize = 0;
 	//Hacky as fuck
-	delete PackManager::LoadResource(a_sName.c_str(),&piSize);
-	SDL_RWops* pkImgBufferTemp = SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str(),&piSize), piSize);
+	piSize = PackManager::GetSizeOfFile(a_sName.c_str());
+	SDL_RWops* pkImgBufferTemp = SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str()), piSize);
 	if(pkImgBufferTemp == NULL)
 	{
 		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
@@ -277,7 +278,7 @@ int OpenGLDisplayManager::LoadTexture(std::string a_sName)
 	}
 	pkImage=IMG_Load_RW(pkImgBufferTemp, 1);
 	//pkImage=SDL_LoadBMP(a_sName.c_str());
-	if(pkImage == NULL) 
+	if(pkImage == NULL)
 	{
 		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
 		std::cout<<"IMG_Load failue: "<<a_sName<<": "<<SDL_GetError()<<std::endl;
@@ -294,7 +295,7 @@ int OpenGLDisplayManager::LoadTexture(std::string a_sName)
 	{
 		std::cout<<"Warning: "<<a_sName<<"'s height is not a power of 2."<<std::endl;
 	}
-	
+
 	int iTempTextureNumber = LoadTextureSDLSurface(pkImage);
 
 	stTextureInfo tempTextureInfo;
@@ -346,11 +347,11 @@ int OpenGLDisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
 	//Set some parameters (I think this is mip-mapping)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-	
+
 	// set the texture's stretching properties
 	//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-	
+
 	// set the texture object's image data using the information SDL_Surface gives us
 	glTexImage2D(GL_TEXTURE_2D,		//target
 			0,						//level
@@ -397,7 +398,7 @@ void OpenGLDisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int
 
 	//Bind the texture name that was created.
 	glBindTexture(GL_TEXTURE_2D, a_iTextureNumber);
-	
+
 	// set the texture object's image data using the information SDL_Surface gives us
 	glTexImage2D(GL_TEXTURE_2D,		//target
 			0,						//level
@@ -417,7 +418,7 @@ void OpenGLDisplayManager::UnloadTexture(int a_iTextureNumber)
 		if(m_astLoadedTextures[iDx].m_iTextureNumber == a_iTextureNumber)
 		{
 			m_astLoadedTextures[iDx].m_uiReferences--;//Reduce the references by one
-			
+
 			//std::cout<<"Reducing References of "<<m_astLoadedTextures[iDx].m_szFileName<<", now: "<<m_astLoadedTextures[iDx].m_uiReferences<<std::endl;
 
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
@@ -444,7 +445,7 @@ void OpenGLDisplayManager::UnloadTexture(std::string a_szTextureFilename)
 		if(m_astLoadedTextures[iDx].m_szFileName == a_szTextureFilename)
 		{
 			m_astLoadedTextures[iDx].m_uiReferences--;//Reduce the references by one
-			
+
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
 			{
 				GLuint* puiTemp = new GLuint[1];
@@ -462,7 +463,7 @@ void OpenGLDisplayManager::UnloadTexture(std::string a_szTextureFilename)
 }
 
 bool OpenGLDisplayManager::Update(float a_fDeltaTime)
-{		
+{
 	glFlush();// using glFlush instead of glFinish in order to not wait for the video card (v-sync-ish)
 
 	SDL_GL_SwapWindow(m_pkMainWindow); //Buffer Swap
@@ -547,10 +548,10 @@ bool OpenGLDisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Tex
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(10 * sizeof(float)));
 	glEnableVertexAttribArray(1);
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, m_akBuffers[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(triangledata), triangledata, GL_DYNAMIC_DRAW);
-	
+
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 5);
 
     return true;
@@ -599,7 +600,7 @@ bool OpenGLDisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_p
 		m_akMeshData[iDx + 1] = a_pkMesh->GetTextureVArray()[iDy];/* * a_pkTexture->m_fMaxV;*/
 		iDy++;
 	}
-		
+
 	/*m_akMeshData[iDy] = a_pkTexture->m_fMinU;
 	m_akMeshData[iDy+1] = a_pkTexture->m_fMinV;
 	m_akMeshData[iDy+2] = a_pkTexture->m_fMaxU;
@@ -632,10 +633,10 @@ bool OpenGLDisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_p
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)(sizeof(float) * (a_pkMesh->GetNumberOfVertices() * 3)));
 	glEnableVertexAttribArray(1);
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, m_akBuffers[0]);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * a_pkMesh->GetNumberOfVertices() * 5, m_akMeshData, GL_DYNAMIC_DRAW);
-	
+
 	if(m_bWireframeMode)
 	{
 		glDrawArrays(GL_LINES, 0, a_pkMesh->GetNumberOfVertices());
