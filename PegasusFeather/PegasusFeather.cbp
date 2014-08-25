@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="PegasusFeather" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/PegasusFeather" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/PegasusFeather" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="`xml2-config --cflags` `sdl2-config --cflags`" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lGLEW -lGL `sdl2-config --libs` `xml2-config --libs` -lSDL2_mixer -lSDL2_ttf -lSDL2_net -lSDL2_image" />
+		</Linker>
+		<Unit filename="../include/Actor.h" />
+		<Unit filename="../include/AnimatedTexture.h" />
+		<Unit filename="../include/Building.h" />
+		<Unit filename="../include/Camera.h" />
+		<Unit filename="../include/Cursor.h" />
+		<Unit filename="../include/DisplayManager.h" />
+		<Unit filename="../include/GameInfo.h" />
+		<Unit filename="../include/GameScene.h" />
+		<Unit filename="../include/HUD.h" />
+		<Unit filename="../include/InputManager.h" />
+		<Unit filename="../include/Matrix.h" />
+		<Unit filename="../include/Mesh.h" />
+		<Unit filename="../include/NetworkManager.h" />
+		<Unit filename="../include/Object.h" />
+		<Unit filename="../include/ObjectManager.h" />
+		<Unit filename="../include/OpenGL1DisplayManager.h" />
+		<Unit filename="../include/OpenGLDisplayManager.h" />
+		<Unit filename="../include/PackManager.h" />
+		<Unit filename="../include/PerformanceTimer.h" />
+		<Unit filename="../include/Resource.h" />
+		<Unit filename="../include/Scene.h" />
+		<Unit filename="../include/SceneManager.h" />
+		<Unit filename="../include/SoundManager.h" />
+		<Unit filename="../include/StartScreen.h" />
+		<Unit filename="../include/TextLibrary.h" />
+		<Unit filename="../include/Texture.h" />
+		<Unit filename="../include/Tile.h" />
+		<Unit filename="../include/TileManager.h" />
+		<Unit filename="../include/Unit.h" />
+		<Unit filename="../include/UnitManager.h" />
+		<Unit filename="../include/Vector.h" />
+		<Unit filename="../include/Vertex.h" />
+		<Unit filename="../src/Actor.cpp" />
+		<Unit filename="../src/AnimatedTexture.cpp" />
+		<Unit filename="../src/Building.cpp" />
+		<Unit filename="../src/Camera.cpp" />
+		<Unit filename="../src/Cursor.cpp" />
+		<Unit filename="../src/DisplayManager.cpp" />
+		<Unit filename="../src/GameInfo.cpp" />
+		<Unit filename="../src/GameScene.cpp" />
+		<Unit filename="../src/HUD.cpp" />
+		<Unit filename="../src/InputManager.cpp" />
+		<Unit filename="../src/Matrix.cpp" />
+		<Unit filename="../src/Mesh.cpp" />
+		<Unit filename="../src/NetworkManager.cpp" />
+		<Unit filename="../src/Object.cpp" />
+		<Unit filename="../src/ObjectManager.cpp" />
+		<Unit filename="../src/OpenGL1DisplayManager.cpp" />
+		<Unit filename="../src/OpenGLDisplayManager.cpp" />
+		<Unit filename="../src/PackManager.cpp" />
+		<Unit filename="../src/Resource.cpp" />
+		<Unit filename="../src/Scene.cpp" />
+		<Unit filename="../src/SceneManager.cpp" />
+		<Unit filename="../src/SoundManager.cpp" />
+		<Unit filename="../src/StartScreen.cpp" />
+		<Unit filename="../src/TextLibrary.cpp" />
+		<Unit filename="../src/Texture.cpp" />
+		<Unit filename="../src/Tile.cpp" />
+		<Unit filename="../src/TileManager.cpp" />
+		<Unit filename="../src/Unit.cpp" />
+		<Unit filename="../src/UnitManager.cpp" />
+		<Unit filename="../src/Vector.cpp" />
+		<Unit filename="../src/Vertex.cpp" />
+		<Unit filename="../src/main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

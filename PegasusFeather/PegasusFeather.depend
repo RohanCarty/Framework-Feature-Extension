@@ -1,0 +1,977 @@
+# depslib dependency file v1.0
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Actor.cpp
+	"Actor.h"
+	"SceneManager.h"
+	"Scene.h"
+	"Vector.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Actor.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	"Object.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Object.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<vector>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/SceneManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<stack>
+	"OpenGL1DisplayManager.h"
+	"OpenGLDisplayManager.h"
+	"InputManager.h"
+	"ObjectManager.h"
+	"SoundManager.h"
+	"NetworkManager.h"
+	"UnitManager.h"
+	"TileManager.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/OpenGL1DisplayManager.h
+	"DisplayManager.h"
+	<vector>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/DisplayManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<SDL2/SDL.h>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/OpenGLDisplayManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<string>
+	<vector>
+	<GL/GLEW.h>
+	<OpenGL/OpenGL.h>
+	<GL/glew.h>
+	<GL/gl.h>
+	"DisplayManager.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/InputManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<vector>
+	<SDL2/SDL.h>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/ObjectManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<vector>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/SoundManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<SDL2_mixer/SDL_mixer.h>
+	"SDL_mixer.h"
+	<string>
+	<vector>
+
+1376421256 /usr/include/SDL2/SDL_mixer.h
+	"SDL_stdinc.h"
+	"SDL_rwops.h"
+	"SDL_audio.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_config.h
+	"SDL_platform.h"
+
+1377887018 /usr/include/SDL2/SDL_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/begin_code.h
+
+1377887018 /usr/include/SDL2/close_code.h
+
+1377887018 /usr/include/SDL2/SDL_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	<intrin.h>
+	<libkern/OSAtomic.h>
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/NetworkManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<SDL2_net/SDL_net.h>
+	"SDL_net.h"
+	<string>
+	<vector>
+	"Vector.h"
+
+1376349338 /usr/include/SDL2/SDL_net.h
+	<stdint.h>
+	"SDL.h"
+	"SDL_endian.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_pixels.h
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1377887018 /usr/include/SDL2/SDL_scancode.h
+	"SDL_stdinc.h"
+
+1377887018 /usr/include/SDL2/SDL_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1377887018 /usr/include/SDL2/SDL_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_system.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"begin_code.h"
+	"close_code.h"
+
+1377887018 /usr/include/SDL2/SDL_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Vector.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<math.h>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/UnitManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<vector>
+	"Vector.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/TileManager.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<vector>
+	"Vector.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Scene.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<vector>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/AnimatedTexture.cpp
+	"AnimatedTexture.h"
+	"DisplayManager.h"
+	"PackManager.h"
+	<fstream>
+	<cstdlib>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/AnimatedTexture.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<string>
+	<vector>
+	"Texture.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Texture.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<string>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/PackManager.h
+	<iostream>
+	<string>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Building.cpp
+	"Building.h"
+	"SceneManager.h"
+	"Scene.h"
+	"Vector.h"
+	"Unit.h"
+	"AnimatedTexture.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Building.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	"Resource.h"
+	"Object.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Resource.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	"Object.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Unit.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	"Resource.h"
+	"Actor.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Camera.cpp
+	"Camera.h"
+	"Scene.h"
+	"SceneManager.h"
+	"Vector.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Camera.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	"Object.h"
+	"Matrix.h"
+	"OpenGLDisplayManager.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Matrix.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<cmath>
+	"Vector.h"
+	"Vertex.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Vertex.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	"Vector.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Cursor.cpp
+	"Cursor.h"
+	"Camera.h"
+	"Scene.h"
+	"SceneManager.h"
+	"AnimatedTexture.h"
+	"InputManager.h"
+	"Object.h"
+	"Actor.h"
+	"Unit.h"
+	"Building.h"
+	"UnitManager.h"
+	"GameScene.h"
+	"HUD.h"
+	"TextLibrary.h"
+	"Mesh.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Cursor.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	"Object.h"
+	"Matrix.h"
+	"OpenGLDisplayManager.h"
+	<sstream>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/GameScene.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<vector>
+	"Scene.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/HUD.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/TextLibrary.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	"DisplayManager.h"
+	<SDL2_ttf/SDL_ttf.h>
+	<SDL_ttf.h>
+
+1376436143 /usr/include/SDL2/SDL_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Mesh.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<string>
+	<stdio.h>
+	<string.h>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/DisplayManager.cpp
+	"DisplayManager.h"
+	"Vector.h"
+	"Vertex.h"
+	"Texture.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/GameInfo.cpp
+	"GameInfo.h"
+	"SceneManager.h"
+	"UnitManager.h"
+	"Building.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/GameInfo.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/GameScene.cpp
+	"GameScene.h"
+	"Actor.h"
+	"Unit.h"
+	"HUD.h"
+	"Camera.h"
+	"Cursor.h"
+	"GameInfo.h"
+	"SceneManager.h"
+	"UnitManager.h"
+	<cstdlib>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/HUD.cpp
+	"HUD.h"
+	"SceneManager.h"
+	"Scene.h"
+	"GameScene.h"
+	"TextLibrary.h"
+	"Vector.h"
+	"Texture.h"
+	"GameInfo.h"
+	<cstdlib>
+	<cstdio>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/InputManager.cpp
+	"InputManager.h"
+	"Vector.h"
+	"Camera.h"
+	"SceneManager.h"
+	<cstdio>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/main.cpp
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	<cstdio>
+	<ctime>
+	<cstdlib>
+	"PerformanceTimer.h"
+	"SceneManager.h"
+	"Scene.h"
+	"GameScene.h"
+	"Vector.h"
+	"Unit.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/PerformanceTimer.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<windows.h>
+	<winnt.h>
+	<sys/time.h>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Matrix.cpp
+	"Matrix.h"
+	<cmath>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Mesh.cpp
+	"Mesh.h"
+	"DisplayManager.h"
+	"Vertex.h"
+	"Texture.h"
+	"PackManager.h"
+	<libxml/parser.h>
+	<libxml/tree.h>
+	<libxml/xinclude.h>
+	<libxml/xmlIO.h>
+
+1375672966 /usr/include/libxml2/libxml/parser.h
+	<stdarg.h>
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/dict.h>
+	<libxml/hash.h>
+	<libxml/valid.h>
+	<libxml/entities.h>
+	<libxml/xmlerror.h>
+	<libxml/xmlstring.h>
+	<libxml/encoding.h>
+	<libxml/xmlIO.h>
+	<libxml/globals.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlversion.h
+	<libxml/xmlexports.h>
+	<ansidecl.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlexports.h
+
+1375672966 /usr/include/libxml2/libxml/tree.h
+	<stdio.h>
+	<limits.h>
+	<libxml/xmlversion.h>
+	<libxml/xmlstring.h>
+	<libxml/xmlregexp.h>
+	<libxml/xmlmemory.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlstring.h
+	<stdarg.h>
+	<libxml/xmlversion.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlregexp.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/dict.h>
+
+1375672966 /usr/include/libxml2/libxml/dict.h
+	<limits.h>
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlmemory.h
+	<stdio.h>
+	<libxml/xmlversion.h>
+	<libxml/threads.h>
+	<libxml/globals.h>
+
+1375672966 /usr/include/libxml2/libxml/threads.h
+	<libxml/xmlversion.h>
+	<libxml/globals.h>
+
+1375672966 /usr/include/libxml2/libxml/globals.h
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xmlerror.h>
+	<libxml/SAX.h>
+	<libxml/SAX2.h>
+	<libxml/xmlmemory.h>
+	<libxml/threads.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlerror.h
+	<libxml/parser.h>
+
+1375672966 /usr/include/libxml2/libxml/SAX.h
+	<stdio.h>
+	<stdlib.h>
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xlink.h>
+
+1375672966 /usr/include/libxml2/libxml/xlink.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1375672966 /usr/include/libxml2/libxml/SAX2.h
+	<stdio.h>
+	<stdlib.h>
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/xlink.h>
+
+1375672966 /usr/include/libxml2/libxml/hash.h
+	<libxml/xmlversion.h>
+	<libxml/parser.h>
+	<libxml/dict.h>
+
+1375672966 /usr/include/libxml2/libxml/valid.h
+	<libxml/xmlversion.h>
+	<libxml/xmlerror.h>
+	<libxml/tree.h>
+	<libxml/list.h>
+	<libxml/xmlautomata.h>
+	<libxml/xmlregexp.h>
+
+1375672966 /usr/include/libxml2/libxml/list.h
+	<libxml/xmlversion.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlautomata.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+	<libxml/xmlregexp.h>
+
+1375672966 /usr/include/libxml2/libxml/entities.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1375672966 /usr/include/libxml2/libxml/encoding.h
+	<libxml/xmlversion.h>
+	<iconv.h>
+	<unicode/ucnv.h>
+	<libxml/tree.h>
+
+1375672966 /usr/include/libxml2/libxml/xmlIO.h
+	<stdio.h>
+	<libxml/xmlversion.h>
+	<libxml/globals.h>
+	<libxml/tree.h>
+	<libxml/parser.h>
+	<libxml/encoding.h>
+
+1375672966 /usr/include/libxml2/libxml/xinclude.h
+	<libxml/xmlversion.h>
+	<libxml/tree.h>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/NetworkManager.cpp
+	"NetworkManager.h"
+	<iostream>
+	<sstream>
+	<cstdlib>
+	"Building.h"
+	"SceneManager.h"
+	"GameScene.h"
+	"Unit.h"
+	"UnitManager.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Object.cpp
+	"Object.h"
+	"SceneManager.h"
+	"Scene.h"
+	"Vector.h"
+	"Vertex.h"
+	"Mesh.h"
+	"AnimatedTexture.h"
+	"Matrix.h"
+	<fstream>
+	<libxml/parser.h>
+	<libxml/tree.h>
+	<libxml/xinclude.h>
+	<libxml/xmlIO.h>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/ObjectManager.cpp
+	"ObjectManager.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGL1DisplayManager.cpp
+	"DisplayManager.h"
+	"Vector.h"
+	"Matrix.h"
+	"Vertex.h"
+	"Texture.h"
+	"Mesh.h"
+	"PackManager.h"
+	"OpenGL1DisplayManager.h"
+	<GL/glew.h>
+	<OpenGL/OpenGL.h>
+	<SDL2_image/SDL_image.h>
+	"SDL2/SDL_opengl.h"
+	"SDL_image.h"
+
+1378631900 /usr/include/SDL2/SDL_image.h
+	"SDL.h"
+	"SDL_version.h"
+	"begin_code.h"
+	"close_code.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/OpenGLDisplayManager.cpp
+	"Vector.h"
+	"Vertex.h"
+	"Mesh.h"
+	"Matrix.h"
+	"Texture.h"
+	"PackManager.h"
+	<fstream>
+	<string>
+	<cstring>
+	<cstdlib>
+	<SDL2_image/SDL_image.h>
+	"SDL_image.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/PackManager.cpp
+	"PackManager.h"
+	<fstream>
+	<cstring>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Resource.cpp
+	"Resource.h"
+	"SceneManager.h"
+	"Scene.h"
+	"Vector.h"
+	"Unit.h"
+	"AnimatedTexture.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Scene.cpp
+	"Scene.h"
+	"Actor.h"
+	"HUD.h"
+	"GameInfo.h"
+	"SceneManager.h"
+	<cstdlib>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/SceneManager.cpp
+	"SceneManager.h"
+	"Scene.h"
+	<iostream>
+	"GameScene.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/SoundManager.cpp
+	"SoundManager.h"
+	"PackManager.h"
+	<iostream>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/StartScreen.cpp
+	"StartScreen.h"
+	"Actor.h"
+	"HUD.h"
+	"GameInfo.h"
+	"SceneManager.h"
+	<cstdlib>
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/StartScreen.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	"Scene.h"
+	<iostream>
+	<vector>
+
+1408840520 source:/home/ripper/gitrepos/pegasusfeather/src/TextLibrary.cpp
+	"TextLibrary.h"
+	"Texture.h"
+	"Vector.h"
+	"Vertex.h"
+	"OpenGLDisplayManager.h"
+	"PackManager.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Texture.cpp
+	"Texture.h"
+	"DisplayManager.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Tile.cpp
+	"Tile.h"
+	"SceneManager.h"
+	"Scene.h"
+	"Vector.h"
+	"AnimatedTexture.h"
+
+1408810652 /home/ripper/gitrepos/pegasusfeather/include/Tile.h
+	<stdlib.h>
+	<malloc.h>
+	<crtdbg.h>
+	<iostream>
+	"Object.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/TileManager.cpp
+	"TileManager.h"
+	"Tile.h"
+	"SceneManager.h"
+	"Resource.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Unit.cpp
+	"Unit.h"
+	"Building.h"
+	"SceneManager.h"
+	"Scene.h"
+	"GameScene.h"
+	"Vector.h"
+	"AnimatedTexture.h"
+	"InputManager.h"
+	"Camera.h"
+	"TileManager.h"
+	"Resource.h"
+	<fstream>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/UnitManager.cpp
+	"UnitManager.h"
+	"InputManager.h"
+	"SceneManager.h"
+	"Scene.h"
+	"GameScene.h"
+	"Unit.h"
+	"Building.h"
+	"Vector.h"
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Vector.cpp
+	"Vector.h"
+	<cmath>
+
+1408810652 source:/home/ripper/gitrepos/pegasusfeather/src/Vertex.cpp
+	"Vertex.h"
+	<iostream>
+
