@@ -46,6 +46,49 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	SetScale(0.4f);
 	SetSize(GetSize() * GetScale());
+
+	switch (rand() % 12)
+	{
+	case 0:
+		m_svName = "Gundars Kalve";
+		break;
+	case 1:
+		m_svName = "Haralds Sirmais";
+		break;
+	case 2:
+		m_svName = "Stefans Igaunis";
+		break;
+	case 3:
+		m_svName = "Vukan Letvin";
+		break;
+	case 4:
+		m_svName = "Ivan Fontikov";
+		break;
+	case 5:
+		m_svName = "Gorzyslaw Zhukov";
+		break;
+	case 6:
+		m_svName = "Lasma Aplocins";
+		break;
+	case 7:
+		m_svName = "Tekla Kurzemnieks";
+		break;
+	case 8:
+		m_svName = "Amalija Zilite";
+		break;
+	case 9:
+		m_svName = "Veselina Zajczyk";
+		break;
+	case 10:
+		m_svName = "Mieczyslawa Dworkin";
+		break;
+	case 11:
+		m_svName = "Tanya Kaffka";
+		break;
+	default:
+		m_svName = "RNG is broken, wut";
+		break;
+	}
 }
 
 Unit::~Unit()
@@ -490,4 +533,9 @@ void Unit::DeliverResources()
     m_stCurrentResources.iWood = 0;
 
 	return;
+}
+
+std::string Unit::GetName()
+{
+	return m_svName;
 }

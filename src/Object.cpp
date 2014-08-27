@@ -31,7 +31,7 @@ Object::Object(Scene* a_pkScene)
 	TempMesh->SetTexture(m_pkTexture);
     m_apkRenderables.push_back(TempMesh);
     m_fRotation = 0.0f;
-    m_fSize = 128.0f;
+    m_vSize = Vector(128.0,128.0, 128.0);
 	m_fScale = 1.0f;
 	m_bHidden = false;
 }
@@ -356,14 +356,14 @@ void Object::SetRotation(float a_fRotation)
 	m_fRotation = a_fRotation;
 }
 
-float Object::GetSize()
+Vector Object::GetSize()
 {
-	return m_fSize;
+	return m_vSize;
 }
 
-void Object::SetSize(float a_fSize)
+void Object::SetSize(Vector a_vSize)
 {
-	m_fSize = a_fSize;
+	m_vSize = a_vSize;
 }
 
 float Object::GetScale()

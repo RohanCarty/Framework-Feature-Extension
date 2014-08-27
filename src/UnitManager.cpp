@@ -30,14 +30,6 @@ void UnitManager::StartGame()
         for(int iDx = 0; iDx < 1; iDx++)
         {
             SpawnNewUnit();
-            
-            /*//Send Destination
-             stCommandPacket stTempCommand;
-             stTempCommand.m_iOrder = eOrderSpawn; //Send the spawn command, will get sent when a client actually connects
-             stTempCommand.m_iUnit = 0;//Unit Type?
-             stTempCommand.m_iClient = 0;
-             stTempCommand.m_vFirstVector = vRandomPosition;
-             SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);*/
         }
         
 		SpawnNewBuilding(Vector(0,0,0), eGatheringHall);
@@ -47,41 +39,6 @@ void UnitManager::StartGame()
 //For now, just checks the mouse position and detects if they're are any units under the mouse, for selection and context-cursor functions
 bool UnitManager::Update(float a_fDeltaTime)
 {
-	bool bIsMouseOverUnit = false;
-
-	for(unsigned int iDx = 0; iDx < m_apkUnits.size(); iDx++)
-	{
-		Vector* pvTemp = m_apkUnits[iDx]->GetLocation();
-		float fSize = m_apkUnits[iDx]->GetSize() * m_apkUnits[iDx]->GetScale();
-
-		//If within square made of size and position of unit
-		if(SceneManager::GetInputManager()->GetMouseWorldPosition().WithinBox(*pvTemp, fSize))
-		{
-			//Do hover stuff
-			bIsMouseOverUnit = true; //latch that when true will switch cursor graphic to a hover
-			/*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_LEFT))
-			{
-				m_apkUnits[iDx]->SetSelected(true);
-				//Once one is selected go ahead and make sure the rest are deselected and return
-				for(unsigned int iDy = iDx + 1; iDy < m_apkUnits.size(); iDy++)
-				{
-					m_apkUnits[iDy]->SetSelected(false);
-				}
-				return true;
-			}*/
-		}
-		else if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_LEFT))
-		{
-			//If not over unit then deselect on left click
-			//m_apkUnits[iDx]->SetSelected(false);
-		}
-	}
-
-	if(bIsMouseOverUnit)
-	{
-		//Change Cursor the hover texture;
-	}
-
 	//Now all the buildings
 	for( unsigned int iDx = 0; iDx < m_apkBuildings.size(); iDx++ )
     {

@@ -17,6 +17,8 @@
 #include <iostream>
 #include <vector>
 
+#include "Vector.h"
+
 //Forward declare
 class Scene;
 class Vector;
@@ -60,8 +62,8 @@ public:
 	float GetRotation();
 	void SetRotation(float a_fRotation);
 
-	float GetSize();
-	void SetSize(float a_fSize);
+	Vector GetSize();
+	void SetSize(Vector a_fSize);
     
     float GetScale();
     void SetScale(float a_fScale);
@@ -77,7 +79,7 @@ protected:
 
 	float m_fScale;
     float m_fRotation; // in Radians
-    float m_fSize;
+    Vector m_vSize;
 
     AnimatedTexture* m_pkTexture;
 

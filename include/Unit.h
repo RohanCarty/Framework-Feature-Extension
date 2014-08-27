@@ -81,6 +81,8 @@ public:
 
 	void DeliverResources(); //Delivers resources into m_pkTarget (it should always be a building according to the state machine)
 
+	std::string GetName();
+
 private:
 	int m_iUnitType; //Holds the unit type
 
@@ -97,6 +99,8 @@ private:
 	int m_uiSelectedShaderNumber;
 
 	stStoredResources m_stCurrentResources;
+
+	std::string m_svName;
 };
 
 #endif

@@ -32,7 +32,7 @@ public:
 
 	float DotProduct(Vector left, Vector right);
 	
-	bool WithinBox(Vector a_vOtherVector, float a_fSize);
+	bool WithinBox(Vector a_vOtherVector, Vector a_vSize);
 
 	float Calculate2DAngle(Vector a_vOtherVector);
 

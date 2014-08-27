@@ -123,7 +123,7 @@ void Building::SetBuildingType(int a_iBuildingType)
 		m_pkTexture->LoadTexture("Resources/Textures/gatheringhall.png", SceneManager::GetDisplayManager());
 
 		SetScale(GetScale() * 2.0f);
-		SetSize(GetSize() * GetScale());
+		SetSize(Vector(GetSize().x * GetScale() / 2, GetSize().y * GetScale(), GetSize().z));
 		
 		m_iMaxPopulation = 1;
 

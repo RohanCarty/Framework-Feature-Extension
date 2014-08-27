@@ -17,7 +17,7 @@
 
 Cursor::Cursor(Scene* a_pkScene) : Object(a_pkScene)
 {
-	m_fSize = 32.0f;
+	m_vSize = Vector(32.0, 32.0, 1.0);
 	SetScale(0.5f);
 	m_pkTexture->LoadTexture("Resources/Textures/cccursor.png", SceneManager::GetDisplayManager());
 }
@@ -33,9 +33,9 @@ bool Cursor::Update(float a_fDeltaTime)
 
 	Cursor::Draw(a_fDeltaTime);
 
-	SetLocation(SceneManager::GetInputManager()->GetMousePosition()->x - (m_pkCamera->GetViewportX() / 2) + m_pkCamera->GetWorldLocation()->x, 
+	/*SetLocation(SceneManager::GetInputManager()->GetMousePosition()->x - (m_pkCamera->GetViewportX() / 2) + m_pkCamera->GetWorldLocation()->x, 
 		SceneManager::GetInputManager()->GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y, 
-		0.0);
+		0.0);*/
 
 	if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
 	{
@@ -62,18 +62,21 @@ bool Cursor::Update(float a_fDeltaTime)
 		else //Is unit
 		{
 			//Print Name
-            szTempString = ((Unit*)m_pkObjectHoveredOver)->GetUnitTypeString();
+            szTempString = ((Unit*)m_pkObjectHoveredOver)->GetName();
 			((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y, 36);
+			//Print Type
+            szTempString = ((Unit*)m_pkObjectHoveredOver)->GetUnitTypeString();
+			((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 36, 36);
 			//Print Task																																																													// make sure to add the text size to the Y
             szTempString = ((Unit*)m_pkObjectHoveredOver)->GetCurrentTaskString();
-			((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 36, 36);
+			((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 72, 36);
 			//Print Resources
 			if(((Unit*)m_pkObjectHoveredOver)->HasResources())
 			{
 				std::stringstream szTempStringStream;
 				szTempStringStream <<"Wood: "<<((Unit*)m_pkObjectHoveredOver)->GetCurrentResources().iWood;
                 szTempString = szTempStringStream.str();
-				((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 72, 36);
+				((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 108, 36);
 			}
 		}
 	}

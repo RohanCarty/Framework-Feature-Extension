@@ -62,11 +62,12 @@ float Vector::DotProduct(Vector left, Vector right)
 	return (TempOutput.x + TempOutput.y + TempOutput.z);
 }
 
-bool Vector::WithinBox(Vector a_vOtherVector, float a_fSize)
+//Only checks X and Y, for 2D use only
+bool Vector::WithinBox(Vector a_vOtherVector, Vector a_vSize)
 {
-	a_fSize /= 2;
-	if(x > a_vOtherVector.x - a_fSize && x < a_vOtherVector.x + a_fSize &&
-		y > a_vOtherVector.y - a_fSize && y < a_vOtherVector.y + a_fSize)
+	a_vSize = a_vSize / 2;
+	if(x > a_vOtherVector.x - a_vSize.x && x < a_vOtherVector.x + a_vSize.x &&
+		y > a_vOtherVector.y - a_vSize.y && y < a_vOtherVector.y + a_vSize.y)
 	{
 		return true;
 	}

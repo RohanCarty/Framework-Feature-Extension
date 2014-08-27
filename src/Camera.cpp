@@ -79,7 +79,10 @@ bool Camera::Update(float a_fDeltaTime)
 		{
 			dTemp = (GetLocation()->z - m_dTargetZoom) * (a_fDeltaTime);
 		}
-		SetLocation(GetLocation()->x, GetLocation()->y, GetLocation()->z -= dTemp );
+		//Perform the zoom
+		SetLocation(GetLocation()->x, GetLocation()->y, GetLocation()->z -= dTemp);
+		//Fix the position of the camera after the zoom //TODO: Get it to work perfectly
+		SetLocation(GetLocation()->x - GetLocation()->x * dTemp, GetLocation()->y - GetLocation()->y * dTemp, GetLocation()->z);
 		//std::cout<<"Camera is moving, currently "<<GetLocation()->z<<" target is "<<m_dTargetZoom<<std::endl;
 		if(GetLocation()->z < m_dTargetZoom)
 		{
@@ -98,7 +101,10 @@ bool Camera::Update(float a_fDeltaTime)
 		{
 			dTemp = (GetLocation()->z - m_dTargetZoom) * (a_fDeltaTime);
 		}
+		//Perform the zoom
 		SetLocation(GetLocation()->x, GetLocation()->y, GetLocation()->z -= dTemp);
+		//Fix the position of the camera after the zoom //TODO: Get it to work perfectly
+		SetLocation(GetLocation()->x - GetLocation()->x * dTemp, GetLocation()->y - GetLocation()->y * dTemp, GetLocation()->z);
 		//std::cout<<"Camera is moving, currently "<<GetLocation()->z<<" target is "<<m_dTargetZoom<<std::endl;
 		if(GetLocation()->z > m_dTargetZoom)
 		{
