@@ -45,11 +45,11 @@ bool TileManager::Update(float a_fDeltaTime)
 void TileManager::GenerateMap(int a_iSeed)
 {
     //TODO: Everything
-	for(int iDx = -8; iDx < 8; iDx++)
+	for(int iDx = -16; iDx < 16; iDx++)
 	{
-		for(int iDy = -8; iDy < 8; iDy++)
+		for(int iDy = -16; iDy < 16; iDy++)
 		{
-			SpawnTile(Vector(iDx * 256,iDy * 256,0));
+			SpawnTile(Vector(iDx * 32,iDy * 32,0));
 		}
 	}
 

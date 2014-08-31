@@ -8,8 +8,8 @@
 Tile::Tile(Scene* a_pkScene) : Object(a_pkScene)
 {
     //std::cout<<"Tile created. Pointer: "<<this<<std::endl;
-    m_pkTexture->LoadTexture("Resources/Textures/GroundTexture.png", SceneManager::GetDisplayManager());
-    SetScale(2.0f);
+    //m_pkTexture->LoadTexture("Resources/Textures/GroundTexture.png", SceneManager::GetDisplayManager());
+    SetScale(0.25f);
 }
 
 Tile::~Tile()

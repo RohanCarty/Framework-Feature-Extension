@@ -4,6 +4,8 @@
 #include <iostream>
 #include "GameScene.h"
 
+#include <unistd.h>
+
 //Declare static variables
 char** SceneManager::m_argv;
 int SceneManager::m_argc;
@@ -35,6 +37,16 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 	m_argc = argc;
 	m_argv = argv;
+    
+    //Log Arguments
+    std::cout<<"Arguments: ";
+    for(int iDx = 0; iDx < argc; iDx++)
+    {
+        std::cout<<argv[iDx]<<", ";
+    }
+    std::cout<<std::endl;
+    char result[ 1024 ];
+    std::cout<<"Current working directory: "<<getcwd( result, sizeof( result ))<<std::endl;
 	
 	m_pkDisplayManager = NULL;
 
@@ -73,14 +85,6 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	m_pkUnitManager = new UnitManager;
     
     m_pkTileManager = new TileManager;
-    
-    //Log Arguments
-    std::cout<<"Arguments: ";
-    for(int iDx = 0; iDx < argc; iDx++)
-    {
-        std::cout<<argv[iDx]<<", ";
-    }
-    std::cout<<std::endl;
 
 	for(int iDx = 0; iDx < argc; iDx++)
     {
