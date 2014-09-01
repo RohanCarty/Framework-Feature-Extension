@@ -57,10 +57,10 @@ void Resource::SetResourceType(int a_iResourceType)
 		switch(rand() % 2 + 1)
 		{
 			case 1:
-				m_pkTexture->LoadTexture("Resources/Textures/Tree1.png", SceneManager::GetDisplayManager());
+				m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/Tree1.png", SceneManager::GetDisplayManager());
 				break;
 			case 2:
-				m_pkTexture->LoadTexture("Resources/Textures/Tree2.png", SceneManager::GetDisplayManager());
+				m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/Tree2.png", SceneManager::GetDisplayManager());
 				break;
 			default:
 				break;

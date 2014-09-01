@@ -123,10 +123,10 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 				//Do UV stuff
 				//std::cout<<"UV Data: "<<sTempString<<std::endl;
 				std::size_t sFound = sTempString.find(",");
-				m_pafU[iCurrentCount] = atof(sTempString.substr(0, sFound ).c_str());
+				m_pafU[iCurrentCount] = (float)atof(sTempString.substr(0, sFound ).c_str());
 				sTempString.erase(0, sFound + 1);
 				sFound = sTempString.at(0);
-				m_pafV[iCurrentCount] = atof(sTempString.substr(0, sFound).c_str());
+				m_pafV[iCurrentCount] = (float)atof(sTempString.substr(0, sFound).c_str());
 
 				//std::cout<<"Processed UV Data: "<<m_paiU[iCurrentCount]<<", "<<m_paiV[iCurrentCount]<<std::endl;
 

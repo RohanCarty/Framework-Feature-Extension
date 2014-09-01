@@ -36,6 +36,7 @@ public:
     void SpawnTile(Vector a_vDestination);
 	void SpawnResource(Vector a_vDestination);
 
+    std::vector<Tile*> GetTileList();
 	std::vector<Resource*> GetResourceList();
 private:
     std::vector<Tile*> m_apkTiles;

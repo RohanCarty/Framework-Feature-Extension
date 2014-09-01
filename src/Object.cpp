@@ -21,15 +21,17 @@ Object::Object(Scene* a_pkScene)
     m_pkScene = a_pkScene;
     m_pkParent = NULL;
     m_pkChild = NULL;
-	//Get default textures and shaders
-    m_pkTexture = new AnimatedTexture(SceneManager::GetDisplayManager());
 	m_uiShaderNumber = SceneManager::GetDisplayManager()->GetDefaultShader();
     m_pLocation = new Vector;
     m_pWorldLocation = new Vector;
+    stRenderable stTempRenderable;
+	//Get default textures and shaders
+    stTempRenderable.m_pkTexture = new AnimatedTexture(SceneManager::GetDisplayManager());
 	Mesh* TempMesh = new Mesh();
 	TempMesh->LoadMesh("Resources/Meshes/Plane.mesh");
-	TempMesh->SetTexture(m_pkTexture);
-    m_apkRenderables.push_back(TempMesh);
+	TempMesh->SetTexture(stTempRenderable.m_pkTexture);
+    stTempRenderable.m_pkMesh = TempMesh;
+    m_apkRenderables.push_back(stTempRenderable);
     m_fRotation = 0.0f;
     m_vSize = Vector(128.0,128.0, 128.0);
 	m_fScale = 1.0f;
@@ -38,15 +40,12 @@ Object::Object(Scene* a_pkScene)
 
 Object::~Object()
 {
-    //std::cout<<"Detaching Child. Pointer: "<<this<<std::endl;
-	SceneManager::GetDisplayManager()->UnloadTexture(m_pkTexture->GetTextureNumber());
-	delete m_pkTexture;
-	
-    //TODO: put textures into a renderable class that combines them with meshes
     //Delete all of the renderables
     while(m_apkRenderables.size() > 0)
     {
-        delete m_apkRenderables.back();
+        SceneManager::GetDisplayManager()->UnloadTexture(m_apkRenderables.back().m_pkTexture->GetTextureNumber());
+        delete m_apkRenderables.back().m_pkTexture;
+        delete m_apkRenderables.back().m_pkMesh;
         m_apkRenderables.pop_back();
     }
 
@@ -68,90 +67,6 @@ Object::~Object()
 	//std::cout<<"Deleting m_pWorldLocation, Pointer: "<<this<<std::endl;
     delete m_pWorldLocation;
 	//std::cout<<"Object Destroyed. Pointer: "<<this<<std::endl;
-}
-
-bool Object::LoadResources(std::string a_szFileName)
-{
-    std::string sTempString;
-	std::string sTempNodeName;
-
-	std::string sVertexShader, sFragmentShader;
-
-    xmlNodePtr pCurNode;//, pParentNode;
-    xmlDocPtr pDoc;
-    xmlChar* pXmlBuff;
-
-    pDoc = xmlReadFile(a_szFileName.c_str(), NULL, 0);
-
-    pCurNode = xmlDocGetRootElement(pDoc);
-
-    if(pCurNode == NULL)
-    {
-		std::cout<<"Resource load error"<<a_szFileName<<std::endl;
-        return false;
-    }
-
-    pCurNode = pCurNode->children;
-    pCurNode = pCurNode->next;
-
-    bool bFinished = false;
-
-    while(bFinished == false)
-    {
-        //Money
-        #ifdef _LOGGING
-        fLoggingStream<<pCurNode->name<<std::endl;
-        #endif
-
-        if(strcmp((const char*) pCurNode->name, "text") != 0)
-        {
-            sTempString.clear();
-			sTempNodeName.clear();
-
-            pXmlBuff = xmlNodeGetContent(pCurNode);
-
-            sTempString.append((const char *) pXmlBuff);
-			sTempNodeName.append((const char*) pCurNode->name);
-
-			if(sTempNodeName == "Texture")
-			{
-				m_pkTexture->LoadTexture(sTempString, SceneManager::GetDisplayManager());
-			}
-
-			if(sTempNodeName == "Mesh")
-			{
-				Mesh* TempMesh = new Mesh();
-                TempMesh->LoadMesh(sTempString);
-                m_apkRenderables.push_back(TempMesh);
-			}
-
-			if(sTempNodeName == "VertexShader")
-			{
-				sVertexShader = sTempString;
-			}
-
-			if(sTempNodeName == "FragmentShader")
-			{
-				sFragmentShader = sTempString;
-			}
-
-            //std::cout<<"Grabbed: "<<iHealth<<" From: "<<pCurNode->name<<std::endl;
-        }
-
-		//See if complete shader program is defined.
-		if(sVertexShader != "" && sFragmentShader != "")
-		{
-			m_uiShaderNumber = SceneManager::GetDisplayManager()->LoadShaderProgram(sVertexShader, sFragmentShader);
-		}
-
-        pCurNode = pCurNode->next;
-        if(pCurNode == NULL)
-        {
-            bFinished = true;
-        }
-    }
-
-	return true;
 }
 
 bool Object::Update(float a_fDeltaTime)
@@ -188,18 +103,17 @@ bool Object::Update(float a_fDeltaTime)
 bool Object::Draw(float a_fDeltaTime)
 {
 	//GenerateVertices();
-
-	m_pkTexture->Update(a_fDeltaTime);
         
 	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
         
 	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
     {
-        m_apkRenderables[iDx]->Update();
+        m_apkRenderables[iDx].m_pkMesh->Update();
+        m_apkRenderables[iDx].m_pkTexture->Update(a_fDeltaTime);
 
-        TransformMesh(m_apkRenderables[iDx]);
+        TransformMesh(m_apkRenderables[iDx].m_pkMesh);
 
-        SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx],4,m_pkTexture);
+        SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx].m_pkMesh,4,m_apkRenderables[iDx].m_pkTexture);
     }
 
 	return true;

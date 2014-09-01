@@ -51,7 +51,7 @@ Vector Vector::Unitise()
     return TempVector;
 }
 
-float Vector::DotProduct(Vector left, Vector right)
+double Vector::DotProduct(Vector left, Vector right)
 {
 	Vector TempOutput;
 
@@ -77,15 +77,15 @@ bool Vector::WithinBox(Vector a_vOtherVector, Vector a_vSize)
 	}
 }
 
-float Vector::Calculate2DAngle(Vector a_vOtherVector)
+double Vector::Calculate2DAngle(Vector a_vOtherVector)
 {
     float fTemp;
     Vector TempVector;
 
     TempVector = *this - a_vOtherVector;
 
-	fTemp = atan2(TempVector.x, TempVector.y);
-	return -(fTemp + 3.14159);
+	fTemp = (float)atan2(TempVector.x, TempVector.y);
+	return -(fTemp + 3.14159f);
 }
 
 Vector Vector::operator+(Vector a_Param)

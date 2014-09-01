@@ -9,7 +9,7 @@ GameInfo::GameInfo(Scene* a_pkScene)
 
     m_iScore = 0;
 
-    m_fVillagerSpawnCooldown = 3.0;
+    m_fVillagerSpawnCooldown = 3.0f;
 }
 
 GameInfo::~GameInfo()
@@ -59,7 +59,7 @@ bool GameInfo::Update(float a_fDeltaTime)
 	if(m_fVillagerSpawnCooldown < 0.0f && GetCurrentPopulation() < GetMaxPopulation()) //and add a food requirement
 	{
 		SceneManager::GetUnitManager()->SpawnNewUnit(0);
-		m_fVillagerSpawnCooldown = 3.0;
+		m_fVillagerSpawnCooldown = 3.0f;
 	}
 
     return true;

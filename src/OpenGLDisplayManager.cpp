@@ -188,12 +188,12 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	//std::cout<<"Defining Triangles"<<std::endl;
 
 	GLfloat vertices[6][2] = {
-	{-0.50,-0.50 }, // Triangle 1
-	{ 0.50,-0.50 },
-	{ 0.50, 0.50 },
-	{ 0.50, 0.50 }, // Triangle 2
-	{-0.50, 0.50 },
-	{-0.50,-0.50 }
+	{-0.50f,-0.50f }, // Triangle 1
+	{ 0.50f,-0.50f },
+	{ 0.50f, 0.50f },
+	{ 0.50f, 0.50f }, // Triangle 2
+	{-0.50f, 0.50f },
+	{-0.50f,-0.50f }
 	};
 
 	//std::cout<<"Creating Array Buffer."<<std::endl;

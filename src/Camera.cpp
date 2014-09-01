@@ -147,7 +147,7 @@ bool Camera::Update(float a_fDeltaTime)
 
 	//std::cout<<"Camera: X: "<<GetWorldLocation()->x<<" Y: "<<GetWorldLocation()->y<<" Z: "<<GetWorldLocation()->z<<std::endl;
 
-	float top = m_fNear * tan((0.5f * m_fFoV) * (3.14159 / 180));
+	float top = m_fNear * (float)tan((0.5f * m_fFoV) * (3.14159 / 180));
 	float right = top * m_fAspect;
 
 	//m_pViewMatrix->SetPersepective(90, 1, -1000, 1000);

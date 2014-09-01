@@ -30,11 +30,11 @@ public:
 
 	Vector Unitise();
 
-	float DotProduct(Vector left, Vector right);
+	double DotProduct(Vector left, Vector right);
 	
 	bool WithinBox(Vector a_vOtherVector, Vector a_vSize);
 
-	float Calculate2DAngle(Vector a_vOtherVector);
+	double Calculate2DAngle(Vector a_vOtherVector);
 
     Vector operator+(Vector a_Param);
 	Vector operator-(Vector a_Param);

@@ -6,6 +6,7 @@
 #include "Unit.h"
 #include "Building.h"
 #include "Vector.h"
+#include "Tile.h"
 
 UnitManager::UnitManager()
 {
@@ -36,7 +37,8 @@ void UnitManager::StartGame()
     }
 }
 
-//For now, just checks the mouse position and detects if they're are any units under the mouse, for selection and context-cursor functions
+//Handles all input related stuff when it comes to placing buildings and selecting units.
+// Also handles the updating of all the units and buildings.
 bool UnitManager::Update(float a_fDeltaTime)
 {
 	//Now all the buildings
@@ -96,9 +98,22 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
 
 int UnitManager::SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType)
 {
+    //Need to get the location of the tile it got put on, centre it on that tile and set an occupied flag.
+    
 	m_apkBuildings.push_back(new Building(SceneManager::GetCurrentScene()));
     
-    //m_apkBuildings[m_apkBuildings.size() - 1]->SetUnitNumber((int)m_apkUnits.size() - 1);
+    //TODO: could be optimised with distance checks, but don't worry about it for now.
+    for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
+	{
+		if(a_vWorldPosition.WithinBox(*SceneManager::GetTileManager()->GetTileList()[iDx]->GetWorldLocation(), SceneManager::GetTileManager()->GetTileList()[iDx]->GetSize()))
+		{
+			a_vWorldPosition = *SceneManager::GetTileManager()->GetTileList()[iDx]->GetWorldLocation();
+            
+            SceneManager::GetTileManager()->GetTileList()[iDx]->SetIsOccupied(m_apkBuildings[m_apkBuildings.size() - 1]);
+            
+            std::cout<<"Building placed on a tile"<<std::endl;
+		}
+	}
     
     m_apkBuildings[m_apkBuildings.size() - 1]->SetLocation(a_vWorldPosition);
 
@@ -126,7 +141,8 @@ void UnitManager::SpawnNewBuildingOverNetwork(Building* a_pkBuilding)
     SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
 }
 
-//Resorts the list of buildings so that buildings that have a lower Y are drawn last. (isometric drawing thingo)
+//Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
+//TODO: get rid of this, will not scale nicely and it'll be fully topdown anyway
 void UnitManager::SortUnitByY()
 {
 	//Selection Sort

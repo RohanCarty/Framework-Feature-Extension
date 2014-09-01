@@ -34,7 +34,7 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
     if(m_fCurrentTime > m_fFrameTime)
     {
         NextFrame();
-        m_fCurrentTime = 0.0;
+        m_fCurrentTime = 0.0f;
     }
 
     return true;
@@ -99,7 +99,7 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
     sFullFile += sLine;
 
 	//one divded by framerate
-    m_fFrameTime = atof(sLine.c_str());
+    m_fFrameTime = (float)atof(sLine.c_str());
 
 	while ( szFile.find_first_of("\n") != std::string::npos )
 	{
@@ -113,19 +113,19 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 
 		    sLine = szFile.substr(0, szFile.find_first_of("\n"));
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
-            pkTempFrame->UMin = atof(sLine.c_str());
+            pkTempFrame->UMin = (float)atof(sLine.c_str());
 
 		    sLine = szFile.substr(0, szFile.find_first_of("\n"));
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
-            pkTempFrame->VMin = atof(sLine.c_str());
+            pkTempFrame->VMin = (float)atof(sLine.c_str());
 
 		    sLine = szFile.substr(0, szFile.find_first_of("\n"));
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
-            pkTempFrame->UMax = atof(sLine.c_str());
+            pkTempFrame->UMax = (float)atof(sLine.c_str());
 
 		    sLine = szFile.substr(0, szFile.find_first_of("\n"));
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
-            pkTempFrame->VMax = atof(sLine.c_str());
+            pkTempFrame->VMax = (float)atof(sLine.c_str());
 
             m_vkFrames.push_back(pkTempFrame);
 		}

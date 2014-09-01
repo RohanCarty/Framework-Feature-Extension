@@ -94,15 +94,15 @@ void Building::BuildBuilding()
             
             if(iRand == 1)
             {
-                m_pkTexture->LoadTexture("Resources/Textures/house1.png", SceneManager::GetDisplayManager());
+                m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/house1.png", SceneManager::GetDisplayManager());
             }
             else if(iRand == 2)
             {
-                m_pkTexture->LoadTexture("Resources/Textures/house2.png", SceneManager::GetDisplayManager());
+                m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/house2.png", SceneManager::GetDisplayManager());
             }
             else if(iRand == 3)
             {
-                m_pkTexture->LoadTexture("Resources/Textures/house3.png", SceneManager::GetDisplayManager());
+                m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/house3.png", SceneManager::GetDisplayManager());
             }
             m_iMaxPopulation = 3;
             break;
@@ -120,7 +120,7 @@ void Building::SetBuildingType(int a_iBuildingType)
 
 	if(m_iBuildingType == eGatheringHall)
 	{
-		m_pkTexture->LoadTexture("Resources/Textures/gatheringhall.png", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/gatheringhall.png", SceneManager::GetDisplayManager());
 
 		SetScale(GetScale() * 2.0f);
 		SetSize(Vector(GetSize().x * GetScale() / 2, GetSize().y * GetScale(), GetSize().z));
@@ -135,7 +135,7 @@ void Building::SetBuildingType(int a_iBuildingType)
 
 	if(m_iBuildingType == eHouse)
 	{
-		m_pkTexture->LoadTexture("Resources/Textures/Construction_Site.png", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/Construction_Site.png", SceneManager::GetDisplayManager());
 
         m_fBuildTime = 10.0f;
         

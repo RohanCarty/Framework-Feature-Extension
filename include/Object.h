@@ -19,6 +19,7 @@
 
 #include "Vector.h"
 
+
 //Forward declare
 class Scene;
 class Vector;
@@ -27,13 +28,18 @@ class Mesh;
 class AnimatedTexture;
 class Matrix;
 
+
+struct stRenderable
+{
+    Mesh* m_pkMesh;
+    AnimatedTexture* m_pkTexture;
+};
+
 class Object
 {
 public:
     Object(Scene* a_pkScene);
     virtual ~Object();
-
-	virtual bool LoadResources(std::string a_szFileName);
 
     virtual bool Update(float a_fDeltaTime);
 
@@ -81,11 +87,9 @@ protected:
     float m_fRotation; // in Radians
     Vector m_vSize;
 
-    AnimatedTexture* m_pkTexture;
-
 	unsigned int m_uiShaderNumber;
 
-    std::vector<Mesh*> m_apkRenderables;
+    std::vector<stRenderable> m_apkRenderables;
 
 	bool m_bHidden;
 };

@@ -147,12 +147,12 @@ bool NetworkManager::Update(float a_fDeltaTime)
             buffer[1] = 1;
             buffer[2] = m_astCommands[0].m_iOrder;
             buffer[3] = m_astCommands[0].m_iUnit;
-            buffer[4] = m_astCommands[0].m_vFirstVector.x;
-            buffer[5] = m_astCommands[0].m_vFirstVector.y;
-            buffer[6] = m_astCommands[0].m_vFirstVector.z;
-            buffer[7] = m_astCommands[0].m_vSecondVector.x;
-            buffer[8] = m_astCommands[0].m_vSecondVector.y;
-            buffer[9] = m_astCommands[0].m_vSecondVector.z;
+            buffer[4] = (float)m_astCommands[0].m_vFirstVector.x;
+            buffer[5] = (float)m_astCommands[0].m_vFirstVector.y;
+            buffer[6] = (float)m_astCommands[0].m_vFirstVector.z;
+            buffer[7] = (float)m_astCommands[0].m_vSecondVector.x;
+            buffer[8] = (float)m_astCommands[0].m_vSecondVector.y;
+            buffer[9] = (float)m_astCommands[0].m_vSecondVector.z;
         }
 
         //Do a for loop adding the commands to the packet (limit only the first 10 commands to be added to the packet due to assumption of aggressive MTU sizes)
@@ -310,7 +310,7 @@ void NetworkManager::ProcessCommand(stCommandPacket* a_pkCommandPacket)
             /*iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewUnit(a_pkCommandPacket->m_iUnit);
             SceneManager::GetUnitManager()->GetUnitList().back()->SetHardLocation(a_pkCommandPacket->m_vFirstVector, false);*/
         case eOrderSpawnBuilding:
-            iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewBuilding(a_pkCommandPacket->m_vFirstVector, a_pkCommandPacket->m_vSecondVector.x);
+            iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewBuilding(a_pkCommandPacket->m_vFirstVector, (float)a_pkCommandPacket->m_vSecondVector.x);
         case eOrderDestroy:
             break;
         case eOrderSetResources:

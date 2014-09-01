@@ -49,7 +49,7 @@ void TileManager::GenerateMap(int a_iSeed)
 	{
 		for(int iDy = -16; iDy < 16; iDy++)
 		{
-			SpawnTile(Vector(iDx * 32,iDy * 32,0));
+			SpawnTile(Vector(iDx * 256,iDy * 256,0));
 		}
 	}
 
@@ -91,6 +91,11 @@ void TileManager::SpawnResource(Vector a_vDestination)
 	m_apkResources[m_apkResources.size() - 1]->SetResourceType(eWood);
 
 	return;
+}
+
+std::vector<Tile*> TileManager::GetTileList()
+{
+    return m_apkTiles;
 }
 
 std::vector<Resource*> TileManager::GetResourceList()

@@ -9,7 +9,11 @@ Tile::Tile(Scene* a_pkScene) : Object(a_pkScene)
 {
     //std::cout<<"Tile created. Pointer: "<<this<<std::endl;
     //m_pkTexture->LoadTexture("Resources/Textures/GroundTexture.png", SceneManager::GetDisplayManager());
-    SetScale(0.25f);
+    SetScale(2.0f);
+    SetSize(Vector(256,256,256));
+    
+    m_fCost = 1.0f;
+    m_pkOccupiedBy = NULL;
 }
 
 Tile::~Tile()
@@ -26,4 +30,34 @@ bool Tile::Update(float a_fDeltaTime)
     Object::Update(a_fDeltaTime);
     
     return true;
+}
+
+void Tile::SetIsOccupied(Object* a_pkOccupiedBy)
+{
+    m_pkOccupiedBy = a_pkOccupiedBy;
+}
+
+bool Tile::GetIsOccupied()
+{
+    if(m_pkOccupiedBy == NULL)
+    {
+        return false;
+    }
+    
+    return true;
+}
+
+Object* Tile::GetIsOccupiedBy()
+{
+    return m_pkOccupiedBy;
+}
+
+void Tile::SetCost(float a_fNewCost)
+{
+    m_fCost = a_fNewCost;
+}
+
+float Tile::GetCost()
+{
+    return m_fCost;
 }

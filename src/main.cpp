@@ -59,7 +59,7 @@ int main (int argc, char *argv[])
     
     std::cout<<"Startup Time: "<<pTimer->GetDT()<<std::endl;
 
-    while(SceneManager::Update(pTimer->GetDT()))
+    while(SceneManager::Update((float)pTimer->GetDT()))
     {
 
     }

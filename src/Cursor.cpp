@@ -19,7 +19,7 @@ Cursor::Cursor(Scene* a_pkScene) : Object(a_pkScene)
 {
 	m_vSize = Vector(32.0, 32.0, 1.0);
 	SetScale(0.5f);
-	m_pkTexture->LoadTexture("Resources/Textures/cccursor.png", SceneManager::GetDisplayManager());
+	m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/cccursor.png", SceneManager::GetDisplayManager());
 }
 
 Cursor::~Cursor()
@@ -86,23 +86,24 @@ bool Cursor::Update(float a_fDeltaTime)
 
 bool Cursor::Draw(float a_fDeltaTime)
 {
-	m_pkTexture->Update(a_fDeltaTime);
         
 	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
         
 	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
     {
-        m_apkRenderables[iDx]->Update();
+        m_apkRenderables[iDx].m_pkTexture->Update(a_fDeltaTime);
+        
+        m_apkRenderables[iDx].m_pkMesh->Update();
 
 		Vector vTempPos = *GetWorldLocation();
 
 		SetLocation(*SceneManager::GetInputManager()->GetMousePosition(), true);
 
-        TransformMesh(m_apkRenderables[iDx]);
+        TransformMesh(m_apkRenderables[iDx].m_pkMesh);
 
 		SetLocation(vTempPos, true);
 
-        SceneManager::GetDisplayManager()->HUDDraw(m_apkRenderables[iDx]->GetVertexArray(),4,m_pkTexture);
+        SceneManager::GetDisplayManager()->HUDDraw(m_apkRenderables[iDx].m_pkMesh->GetVertexArray(),4,m_apkRenderables[iDx].m_pkTexture);
     }
 
 	return true;

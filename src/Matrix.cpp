@@ -112,7 +112,7 @@ void Matrix::SetFrustrum(float a_fLeft, float a_fRight, float a_fBottom, float a
 								//degrees
 void Matrix::SetPersepective(float a_fFoVY, float a_fAspect, float a_fNear, float a_fFar)
 {
-	float top = a_fNear * tan((0.5f * a_fFoVY) * (3.14159 / 180));
+	float top = a_fNear * (float)tan((0.5f * a_fFoVY) * (3.14159f / 180.0f));
 	float right = top * a_fAspect;
 	SetFrustrum(-right, right, -top, top, a_fNear, a_fFar);
 }

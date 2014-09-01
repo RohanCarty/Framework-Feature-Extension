@@ -22,11 +22,11 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	if(rand() % 2 + 1 == 1)
 	{
-		m_pkTexture->LoadTexture("Resources/Textures/elusive.animated", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/elusive.animated", SceneManager::GetDisplayManager());
 	}
 	else
 	{
-		m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
 	m_uiSelectedShaderNumber = SceneManager::GetDisplayManager()->LoadShaderProgram("Resources/Shaders/System/texturevert.glsl","Resources/Shaders/greyscale.frag");
