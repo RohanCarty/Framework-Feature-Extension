@@ -174,8 +174,10 @@ void UnitManager::SpawnNewBuildingOverNetwork(Building* a_pkBuilding)
     stTempCommand.m_vFirstVector = *a_pkBuilding->GetLocation();
     stTempCommand.m_vSecondVector = *a_pkBuilding->GetLocation(); // Fill the entire command fuckhead
     stTempCommand.m_vSecondVector.x = a_pkBuilding->GetBuildingType(); // Set the building Type
-    SceneManager::GetNetworkManager()->AddC//Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
-t. (isometric drawing thingo)
+    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
+}
+
+    //Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
 //TODO: get rid of this, will not scale nicely and it'll be fully topdown anyway
 void UnitManager::SortUnitByY()
 {
