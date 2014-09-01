@@ -39,11 +39,13 @@ public:
 
     std::vector<Tile*> GetTileList();
 	std::vector<Resource*> GetResourceList();
+    
+    Tile* GetTileAt(Vector a_vCoordinates);
 private:
     std::vector<Tile*> m_apkTiles;
 	std::vector<Resource*> m_apkResources;
     
-    int m_iTileListWidth; // When getting a tile by X and Y, this is how wide an X row is, (this * X) + Y is the iterator
+    int m_iTileListWidth; // When getting a tile by X and Y, this is how wide an X row is, (this * Y) + X is the iterator
 };
 
 #endif

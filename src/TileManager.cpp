@@ -6,6 +6,7 @@
 TileManager::TileManager()
 {
     //SpawnTile(Vector(0,0,0));
+
     m_iTileListWidth = 7;
 	GenerateMap(0);
 }
@@ -51,6 +52,7 @@ void TileManager::GenerateMap(int a_iSeed)
 		for(int iDy = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy++)
 		{
 			SpawnTile(Vector(iDx * 256,iDy * 256,0));
+
             GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, iDy, 0));
 		}
 	}
@@ -103,4 +105,11 @@ std::vector<Tile*> TileManager::GetTileList()
 std::vector<Resource*> TileManager::GetResourceList()
 {
 	return m_apkResources;
+}
+
+Tile* TileManager::GetTileAt(Vector a_vCoordinates)
+{
+    a_vCoordinates.x += m_iTileListWidth / 2;
+    a_vCoordinates.y += m_iTileListWidth / 2;
+    return GetTileList()[((int)a_vCoordinates.y * m_iTileListWidth) + (int)a_vCoordinates.x];
 }

@@ -38,6 +38,7 @@ public:
     virtual void SpawnNewUnitOverNetwork(Unit* a_pkUnit);
 
 	virtual int SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType);
+    virtual int SpawnNewBuildingAtTile(Vector a_vTileCoordinates, int a_iBuildingType);
     virtual void SpawnNewBuildingOverNetwork(Building* a_pkBuilding);
 
 	virtual void SortBuildingByY();
