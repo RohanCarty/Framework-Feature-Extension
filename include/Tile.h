@@ -40,9 +40,12 @@ public:
     void SetCost(float a_fNewCost);
     float GetCost();
     
+    void SetCoordinate(Vector a_vCoordinates);
+    Vector GetCoordinate();
 private:
     float m_fCost; //Cost for pathfinding (make them prefer roads heavily)
     Object* m_pkOccupiedBy;
+    Vector m_vCoordinates;
 };
 
 #endif

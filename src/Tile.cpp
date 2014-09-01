@@ -61,3 +61,13 @@ float Tile::GetCost()
 {
     return m_fCost;
 }
+
+void Tile::SetCoordinate(Vector a_vCoordinates)
+{
+    m_vCoordinates = a_vCoordinates;
+}
+
+Vector Tile::GetCoordinate()
+{
+    return m_vCoordinates;
+}

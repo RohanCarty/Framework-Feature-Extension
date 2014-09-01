@@ -36,11 +36,14 @@ public:
     void SpawnTile(Vector a_vDestination);
 	void SpawnResource(Vector a_vDestination);
 
+
     std::vector<Tile*> GetTileList();
 	std::vector<Resource*> GetResourceList();
 private:
     std::vector<Tile*> m_apkTiles;
 	std::vector<Resource*> m_apkResources;
+    
+    int m_iTileListWidth; // When getting a tile by X and Y, this is how wide an X row is, (this * X) + Y is the iterator
 };
 
 #endif

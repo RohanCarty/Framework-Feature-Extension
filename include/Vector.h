@@ -15,6 +15,7 @@
 #endif
 
 #include <math.h>
+#include <iostream>
 
 //Class used to store 2D vectors as well as all functions related to manipulating them.
 class Vector
@@ -44,8 +45,7 @@ public:
 	void operator*=(int a_iParam);
 	void operator*=(float a_fParam);
 	void operator*=(double a_fParam);
-
-	
+    friend std::ostream& operator<<(std::ostream& os, const Vector& a_Param);
 
 	double x;
 	double y;

@@ -163,3 +163,9 @@ void Vector::operator*=(double a_fParam)
     y *= a_fParam;
 	z *= a_fParam;
 }
+
+std::ostream& operator<<(std::ostream& os, const Vector& a_Param)
+{
+    os << "X: " << a_Param.x << " Y: " << a_Param.y << " Z: " << a_Param.z;
+    return os;
+}

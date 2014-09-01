@@ -6,6 +6,7 @@
 TileManager::TileManager()
 {
     //SpawnTile(Vector(0,0,0));
+    m_iTileListWidth = 7;
 	GenerateMap(0);
 }
 
@@ -44,12 +45,13 @@ bool TileManager::Update(float a_fDeltaTime)
 
 void TileManager::GenerateMap(int a_iSeed)
 {
-    //TODO: Everything
-	for(int iDx = -16; iDx < 16; iDx++)
+    //Modulus is in here in order to "centre" odd number map sizes.
+	for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
 	{
-		for(int iDy = -16; iDy < 16; iDy++)
+		for(int iDy = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy++)
 		{
 			SpawnTile(Vector(iDx * 256,iDy * 256,0));
+            GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, iDy, 0));
 		}
 	}
 

@@ -111,7 +111,7 @@ int UnitManager::SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType)
             
             SceneManager::GetTileManager()->GetTileList()[iDx]->SetIsOccupied(m_apkBuildings[m_apkBuildings.size() - 1]);
             
-            std::cout<<"Building placed on a tile"<<std::endl;
+            std::cout<<"Building placed on tile at: "<<(SceneManager::GetTileManager()->GetTileList()[iDx])->GetCoordinate()<<std::endl;
 		}
 	}
     
