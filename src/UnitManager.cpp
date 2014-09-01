@@ -182,28 +182,28 @@ void UnitManager::SpawnNewBuildingOverNetwork(Building* a_pkBuilding)
 void UnitManager::SortUnitByY()
 {
 	//Selection Sort
-	int iLowestUnit = 0; //assume first element is the smallest
+	unsigned int uiLowestUnit = 0; //assume first element is the smallest
 	Unit* pTempUnit = NULL;
 
-	for(int iDx = 0; iDx < m_apkUnits.size(); iDx++)
+	for(unsigned int iDx = 0; iDx < m_apkUnits.size(); iDx++)
 	{
-		iLowestUnit = iDx;
+		uiLowestUnit = iDx;
 
-		for(int iDy = iDx + 1; iDy < m_apkUnits.size(); iDy++)
+		for(unsigned int iDy = iDx + 1; iDy < m_apkUnits.size(); iDy++)
 		{
-			if(m_apkUnits[iDy]->GetWorldLocation()->y < m_apkUnits[iLowestUnit]->GetWorldLocation()->y)
+			if(m_apkUnits[iDy]->GetWorldLocation()->y < m_apkUnits[uiLowestUnit]->GetWorldLocation()->y)
 			{
 				//Set lowest
-				iLowestUnit = iDy;
+				uiLowestUnit = iDy;
 			}
 		}
 
-		if(iLowestUnit != iDx)
+		if(uiLowestUnit != iDx)
 		{
 			//Swap
 			pTempUnit = m_apkUnits[iDx];
-			m_apkUnits[iDx] = m_apkUnits[iLowestUnit];
-			m_apkUnits[iLowestUnit] = pTempUnit;
+			m_apkUnits[iDx] = m_apkUnits[uiLowestUnit];
+			m_apkUnits[uiLowestUnit] = pTempUnit;
 		}
 	}
 }
@@ -212,28 +212,28 @@ void UnitManager::SortUnitByY()
 void UnitManager::SortBuildingByY()
 {
 	//Selection Sort
-	int iLowestBuilding = 0; //assume first element is the smallest
+	unsigned int uiLowestBuilding = 0; //assume first element is the smallest
 	Building* pTempBuilding = NULL;
 
-	for(int iDx = 0; iDx < m_apkBuildings.size(); iDx++)
+	for(unsigned int iDx = 0; iDx < m_apkBuildings.size(); iDx++)
 	{
-		iLowestBuilding = iDx;
+		uiLowestBuilding = iDx;
 
-		for(int iDy = iDx + 1; iDy < m_apkBuildings.size(); iDy++)
+		for(unsigned int iDy = iDx + 1; iDy < m_apkBuildings.size(); iDy++)
 		{
-			if(m_apkBuildings[iDy]->GetWorldLocation()->y < m_apkBuildings[iLowestBuilding]->GetWorldLocation()->y)
+			if(m_apkBuildings[iDy]->GetWorldLocation()->y < m_apkBuildings[uiLowestBuilding]->GetWorldLocation()->y)
 			{
 				//Set lowest
-				iLowestBuilding = iDy;
+				uiLowestBuilding = iDy;
 			}
 		}
 
-		if(iLowestBuilding != iDx)
+		if(uiLowestBuilding != iDx)
 		{
 			//Swap
 			pTempBuilding = m_apkBuildings[iDx];
-			m_apkBuildings[iDx] = m_apkBuildings[iLowestBuilding];
-			m_apkBuildings[iLowestBuilding] = pTempBuilding;
+			m_apkBuildings[iDx] = m_apkBuildings[uiLowestBuilding];
+			m_apkBuildings[uiLowestBuilding] = pTempBuilding;
 		}
 	}
 }

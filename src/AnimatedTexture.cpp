@@ -81,11 +81,7 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 {
 	std::string sFullFile;
 	std::string sLine;
-
-	int piSize;
-
-    piSize = PackManager::GetSizeOfFile(a_sAnimation.c_str());
-
+	
 	std::string szFile((char*)PackManager::LoadResource(a_sAnimation.c_str()));
 
 	sLine = szFile.substr(0, szFile.find_first_of("\n"));

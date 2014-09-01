@@ -26,7 +26,7 @@ int GameInfo::GetMaxPopulation()
 {
 	int iTempMax = 0;
 
-    for(int iDx = 0;iDx < SceneManager::GetUnitManager()->GetBuildingList().size(); iDx++)
+    for(unsigned int iDx = 0;iDx < SceneManager::GetUnitManager()->GetBuildingList().size(); iDx++)
 	{
 		iTempMax += SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetPopulationCapacity();
 	}

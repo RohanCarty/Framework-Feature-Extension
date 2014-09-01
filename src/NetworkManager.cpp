@@ -305,12 +305,12 @@ void NetworkManager::ProcessCommand(stCommandPacket* a_pkCommandPacket)
 {
     switch(a_pkCommandPacket->m_iOrder)
     {
-        int iTempUnitIndex;
+        //int iTempUnitIndex;
         case eOrderSpawnUnit:
             /*iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewUnit(a_pkCommandPacket->m_iUnit);
             SceneManager::GetUnitManager()->GetUnitList().back()->SetHardLocation(a_pkCommandPacket->m_vFirstVector, false);*/
         case eOrderSpawnBuilding:
-            iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewBuilding(a_pkCommandPacket->m_vFirstVector, (float)a_pkCommandPacket->m_vSecondVector.x);
+            //iTempUnitIndex = SceneManager::GetUnitManager()->SpawnNewBuilding(a_pkCommandPacket->m_vFirstVector, (float)a_pkCommandPacket->m_vSecondVector.x);
         case eOrderDestroy:
             break;
         case eOrderSetResources:
