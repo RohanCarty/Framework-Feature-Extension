@@ -33,6 +33,7 @@ struct stRenderable
 {
     Mesh* m_pkMesh;
     AnimatedTexture* m_pkTexture;
+    bool m_bIsHidden;
 };
 
 class Object
@@ -44,7 +45,7 @@ public:
     virtual bool Update(float a_fDeltaTime);
 
 	virtual bool Draw(float a_fDeltaTime);
-    
+
     bool UpdateChild(float a_fDeltaTime);
 
     bool AttachChild(Object* a_pkObject);
@@ -70,7 +71,7 @@ public:
 
 	Vector GetSize();
 	void SetSize(Vector a_fSize);
-    
+
     float GetScale();
     void SetScale(float a_fScale);
 

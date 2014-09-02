@@ -31,6 +31,7 @@ Object::Object(Scene* a_pkScene)
 	TempMesh->LoadMesh("Resources/Meshes/Plane.mesh");
 	TempMesh->SetTexture(stTempRenderable.m_pkTexture);
     stTempRenderable.m_pkMesh = TempMesh;
+    stTempRenderable.m_bIsHidden = false;
     m_apkRenderables.push_back(stTempRenderable);
     m_fRotation = 0.0f;
     m_vSize = Vector(128.0,128.0, 128.0);
@@ -103,11 +104,15 @@ bool Object::Update(float a_fDeltaTime)
 bool Object::Draw(float a_fDeltaTime)
 {
 	//GenerateVertices();
-        
+
 	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
-        
+
 	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
     {
+        if(m_apkRenderables[iDx].m_bIsHidden)
+        {
+            continue;
+        }
         m_apkRenderables[iDx].m_pkMesh->Update();
         m_apkRenderables[iDx].m_pkTexture->Update(a_fDeltaTime);
 
