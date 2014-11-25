@@ -97,6 +97,41 @@ void TileManager::SpawnResource(Vector a_vDestination)
 	return;
 }
 
+void TileManager::SetHighlightsForBuildingFootprint(Vector a_vPosition, Vector a_vSize)
+{
+    std::cout<<"Tile Position: "<<a_vPosition<<std::endl;
+    
+    for(unsigned long long iDx = a_vPosition.x; iDx < a_vPosition.x + a_vSize.x;iDx++)
+    {
+        for(unsigned long long iDy = a_vPosition.y; iDy < a_vPosition.y + a_vSize.y; iDy++)
+        {
+    if(GetTileAt(Vector(a_vPosition.x, a_vPosition.y, 0))->GetIsOccupied())
+    {
+        GetTileAt(Vector(a_vPosition.x, a_vPosition.y, 0))->SetRedZone();
+    }
+    else
+    {
+        GetTileAt(Vector(a_vPosition.x, a_vPosition.y, 0))->SetGreenZone();
+    }
+        }
+    }
+}
+
+bool TileManager::GetIsOccupied(Vector a_vPosition, Vector a_vSize)
+{
+    for(unsigned long long iDx = a_vPosition.x; iDx < a_vPosition.x + a_vSize.x;iDx++)
+    {
+        for(unsigned long long iDy = a_vPosition.y; iDy < a_vPosition.y + a_vSize.y; iDy++)
+        {
+            if(GetTileAt(Vector(iDx, iDy, 0))->GetIsOccupied())
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 std::vector<Tile*> TileManager::GetTileList()
 {
     return m_apkTiles;
@@ -111,5 +146,5 @@ Tile* TileManager::GetTileAt(Vector a_vCoordinates)
 {
     a_vCoordinates.x += m_iTileListWidth / 2;
     a_vCoordinates.y += m_iTileListWidth / 2;
-    return GetTileList()[((int)a_vCoordinates.y * m_iTileListWidth) + (int)a_vCoordinates.x];
+    return GetTileList()[((int)a_vCoordinates.x * m_iTileListWidth) + (int)a_vCoordinates.y];
 }

@@ -24,7 +24,8 @@ class Building;
 
 enum eUnitType
 {
-	eCitizen = 0
+	eCitizen = 0,
+    eFarmer
 };
 
 enum eCurrentTask

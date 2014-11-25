@@ -36,6 +36,11 @@ public:
     void SpawnTile(Vector a_vDestination);
 	void SpawnResource(Vector a_vDestination);
 
+    //Sets the highlights for a building footprint of size at position and sets the correct highlights
+    void SetHighlightsForBuildingFootprint(Vector a_vPosition, Vector a_vSize);
+    
+    //checks a footprint of size at position to see if any of them are occupied, returns true if any are, otherwise false
+    bool GetIsOccupied(Vector a_vPosition, Vector a_vSize);
 
     std::vector<Tile*> GetTileList();
 	std::vector<Resource*> GetResourceList();

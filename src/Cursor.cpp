@@ -38,27 +38,28 @@ bool Cursor::Update(float a_fDeltaTime)
 		SceneManager::GetInputManager()->GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y,
 		0.0);*/
 
+    //Places a building foundation for a house //TODO: Allow multiple types to be placed, only allow placement when a building is chosen in the U.I.
 	if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
 	{
 		eBuildingType eTemp = eHouse;
 		SceneManager::GetUnitManager()->SpawnNewBuilding(SceneManager::GetInputManager()->GetMouseWorldPosition(), eTemp);
 	}
 
+    // Highlighting of locations when placing a building //TODO: Get Building type and size for it, only ighlight anything when a building is chosen to be place in the U.I.
 	for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
 	{
         SceneManager::GetTileManager()->GetTileList()[iDx]->SetNoZone();
 
+        //TODO: Remove hard coding
+        //Hard coded check for tiles to the left and right of the current one.
+        Vector* vSize = new Vector(3,1,0);
+        
 		if(SceneManager::GetInputManager()->GetMouseWorldPosition().WithinBox(*SceneManager::GetTileManager()->GetTileList()[iDx]->GetWorldLocation(), SceneManager::GetTileManager()->GetTileList()[iDx]->GetSize()))
 		{
-            if(SceneManager::GetTileManager()->GetTileList()[iDx]->GetIsOccupied())
-            {
-                SceneManager::GetTileManager()->GetTileList()[iDx]->SetRedZone();
-
-                continue;
-            }
-
-            SceneManager::GetTileManager()->GetTileList()[iDx]->SetGreenZone();
+            SceneManager::GetTileManager()->SetHighlightsForBuildingFootprint(SceneManager::GetTileManager()->GetTileList()[iDx]->GetCoordinate(), *vSize);
 		}
+        
+        delete vSize;
 	}
 
 	if(IsOverObject())
