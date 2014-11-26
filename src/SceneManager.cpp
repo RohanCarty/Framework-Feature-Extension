@@ -4,8 +4,11 @@
 #include <iostream>
 #include "GameScene.h"
 
+#ifdef _WIN32
+#include "msvcunistd.h"
+#else
 #include <unistd.h>
-
+#endif
 //Declare static variables
 char** SceneManager::m_argv;
 int SceneManager::m_argc;
