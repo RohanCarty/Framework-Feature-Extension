@@ -18,13 +18,45 @@ InputManager::InputManager()
 
 	m_iMouseWheelDelta = 0;
 
+	//Setup the joystick subsystem for SDL2
+
+	if(SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0)
+	{
+		std::cout<<"Joystick/Game Controller/Haptic init failure: "<<SDL_GetError()<<std::endl;
+	}
+
+	m_iJoystickDeadzone = 8000;
+
+	if(SDL_NumJoysticks() < 1)
+	{
+		std::cout<<"No Joysticks Connected"<<std::endl;
+	}
+	else
+	{
+		for(unsigned int iDx = 0; iDx < SDL_NumJoysticks(); iDx++)
+		{
+			AddGameController(iDx);
+		}
+	}
+
+	m_uiCurrentNumOfJoysticks = 0;
+
 	std::cout<<"InputManager Created."<<std::endl;
 }
+
 InputManager::~InputManager()
 {
 	//TODO: Actually clean up everything created.
 
 	delete m_pkMousePosition;
+
+	while(m_apkJoysticks.size() > 0)
+	{
+		delete m_apkJoysticks[m_apkJoysticks.size() - 1].pkJoystick;
+		delete m_apkJoysticks[m_apkJoysticks.size() - 1].pkGameController;
+		
+		m_apkJoysticks.pop_back();
+	}
 	
 	std::cout<<"Input Manager closed successfully."<<std::endl;
 }
@@ -145,4 +177,16 @@ Vector InputManager::GetMouseWorldPosition()
 int InputManager::GetMouseWheelDelta()
 {
 	return m_iMouseWheelDelta;
+}
+
+bool InputManager::AddGameController(int a_iId)
+{
+	stGameControllerDetails stTemp;
+
+	stTemp.pkJoystick = SDL_JoystickOpen(a_iId);
+
+	if(stTemp.pkJoystick == NULL)
+	{
+		std::cout<<"Error: Unable to open game controller! SDL Error: "<<SDL_GetError()<<std::endl;
+	}
 }

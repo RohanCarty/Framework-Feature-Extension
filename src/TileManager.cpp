@@ -99,7 +99,7 @@ void TileManager::SpawnResource(Vector a_vDestination)
 
 void TileManager::SetHighlightsForBuildingFootprint(Vector a_vPosition, Vector a_vSize)
 {
-    std::cout<<"Tile Position: "<<a_vPosition<<std::endl;
+    //std::cout<<"Tile Position: "<<a_vPosition<<std::endl;
     
     for(unsigned long long iDx = a_vPosition.x; iDx < a_vPosition.x + a_vSize.x;iDx++)
     {
