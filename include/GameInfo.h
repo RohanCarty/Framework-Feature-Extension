@@ -25,10 +25,7 @@ public:
     ~GameInfo();
 
     bool Update(float a_fDeltaTime);
-
-	int GetCurrentPopulation();
-	int GetMaxPopulation();
-
+	
     int GetScore();
     void ChangeScore(int a_iScore);
 

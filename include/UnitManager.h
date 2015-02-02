@@ -22,6 +22,7 @@
 //Forward Declare
 class Building;
 class Unit;
+class Player;
 class Scene;
 
 class UnitManager
@@ -34,6 +35,8 @@ public:
 
 	virtual bool Update(float a_fDeltaTime);
     
+	virtual int SpawnPlayer();
+
     virtual int SpawnNewUnit(int a_iType = 0);
     virtual void SpawnNewUnitOverNetwork(Unit* a_pkUnit);
 
@@ -49,6 +52,7 @@ public:
 private:
 	std::vector<Building*> m_apkBuildings;
 	std::vector<Unit*> m_apkUnits;
+	std::vector<Player*> m_apkPlayers;
 };
 
 #endif

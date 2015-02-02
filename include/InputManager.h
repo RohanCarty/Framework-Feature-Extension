@@ -31,6 +31,7 @@ struct stGameControllerDetails
 	SDL_GameController* pkGameController;
 	float fAxis1X;
 	float fAxis1Y;
+	bool bJumpPressed;
 };
 
 class InputManager
@@ -52,6 +53,15 @@ public:
 
 	bool AddGameController(int a_iId);
 	void RemoveGameController(int a_iId);
+
+	int GetNumConnectedControllers();
+
+	stGameControllerDetails GetControllerState(int a_iId);
+
+	stGameControllerDetails* GetControllerByJoystickId(int a_iId);
+	int GetControllerIdByJoystickId(int a_iId);
+
+	void ClearControllerStates();
 
 private:
 	Vector* m_pkMousePosition;

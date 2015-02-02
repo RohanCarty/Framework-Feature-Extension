@@ -5,6 +5,7 @@
 #include "GameScene.h"
 #include "Unit.h"
 #include "Building.h"
+#include "Player.h"
 #include "Vector.h"
 #include "Tile.h"
 
@@ -29,12 +30,11 @@ void UnitManager::StartGame()
     //Spawn the test units
     if(!SceneManager::GetNetworkManager()->m_bIsClient)
     {
+		SpawnPlayer();
         for(int iDx = 0; iDx < 1; iDx++)
         {
-            SpawnNewUnit();
+            //SpawnNewUnit();
         }
-        
-		SpawnNewBuildingAtTile(Vector(0,0,0), eGatheringHall);
     }
 }
 
@@ -68,7 +68,26 @@ bool UnitManager::Update(float a_fDeltaTime)
         }
 	}
 
+	//Update all the players
+	for( unsigned int iDx = 0; iDx < m_apkPlayers.size(); iDx++ )
+    {
+        if(!m_apkPlayers[iDx]->Update(a_fDeltaTime))
+        {
+            //if a unit returns false, delete it and wind the loop back one.
+            delete m_apkPlayers[iDx];
+            m_apkPlayers.erase(m_apkPlayers.begin() + iDx);
+            iDx--;
+        }
+	}
+
 	return true;
+}
+
+int UnitManager::SpawnPlayer()
+{
+	m_apkPlayers.push_back(new Player(SceneManager::GetCurrentScene()));
+
+	return 0;
 }
 
 int UnitManager::SpawnNewUnit(int a_iType)
@@ -86,6 +105,7 @@ int UnitManager::SpawnNewUnit(int a_iType)
     return 0;
 }
 
+//TODO: Network Function
 void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
 {
     stCommandPacket stTempCommand;
@@ -101,7 +121,7 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
 int UnitManager::SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType)
 {
     //Need to get the location of the tile it got put on, centre it on that tile and set an occupied flag.
-    unsigned int uiIndexOfTile = -1;
+    /*unsigned int uiIndexOfTile = -1;
     
     //TODO: could be optimised with distance checks, but don't worry about it for now.
     for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
@@ -134,13 +154,13 @@ int UnitManager::SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType)
 	SortBuildingByY();
     
     SpawnNewBuildingOverNetwork(m_apkBuildings[m_apkBuildings.size() - 1]);
-    
+    */
     return 0;
 }
 
 int UnitManager::SpawnNewBuildingAtTile(Vector a_vTileCoordinates, int a_iBuildingType)
 {
-    if(SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetIsOccupied())
+    /*if(SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetIsOccupied())
     {
         std::cout<<"Attempted build space is already occupied by"<<((Building*)SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetIsOccupiedBy())->GetBuildingTypeString()<<", cancelling building"<<std::endl;
         return 0;
@@ -160,10 +180,11 @@ int UnitManager::SpawnNewBuildingAtTile(Vector a_vTileCoordinates, int a_iBuildi
 	SortBuildingByY();
     
     SpawnNewBuildingOverNetwork(m_apkBuildings[m_apkBuildings.size() - 1]);
-    
+    */
     return 0;
 }
 
+//TODO: Network Function
 void UnitManager::SpawnNewBuildingOverNetwork(Building* a_pkBuilding)
 {
     stCommandPacket stTempCommand;

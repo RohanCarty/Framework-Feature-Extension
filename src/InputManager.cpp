@@ -39,7 +39,9 @@ InputManager::InputManager()
 		}
 	}
 
-	m_uiCurrentNumOfJoysticks = 0;
+	m_uiCurrentNumOfJoysticks = SDL_NumJoysticks();
+
+	ClearControllerStates();
 
 	std::cout<<"InputManager Created."<<std::endl;
 }
@@ -85,6 +87,39 @@ bool InputManager::Update(float a_fDeltaTime)
                 break;
 			case SDL_KEYDOWN:
 				m_aiKeyCodes.push_back(test_event.key.keysym.scancode);
+				break;
+			//GameController Stuff
+
+			//TODO: Hotswapping controllers.
+			case SDL_CONTROLLERDEVICEADDED:
+				AddGameController(m_apkJoysticks.size() - 1);
+				break;
+			case SDL_CONTROLLERDEVICEREMOVED:
+				RemoveGameController(GetControllerIdByJoystickId(test_event.cdevice.which));
+				break;
+			case SDL_JOYAXISMOTION:
+			//std::cout<<GetControllerState(0).fAxis1X<<std::endl;
+				if( test_event.jaxis.axis == 0)
+				{
+					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = -1;
+
+						//std::cout<<"Controller motion left"<<std::endl;
+					}
+					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 1;
+						
+						//std::cout<<"Controller motion right"<<std::endl;
+					}
+					else
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 0;
+						
+						//std::cout<<"No controller motion"<<std::endl;
+					}
+				}
 				break;
 			case SDL_QUIT:
 				return false;//TODO: Proper quitting (I think it's done?)
@@ -203,5 +238,51 @@ bool InputManager::AddGameController(int a_iId)
 
 void InputManager::RemoveGameController(int a_iId)
 {
+	std::cout<<"Removing Joystick: "<<SDL_JoystickName(m_apkJoysticks[a_iId].pkJoystick)<<"... ";
 	SDL_JoystickClose(m_apkJoysticks[a_iId].pkJoystick);
+
+	std::cout<<"Joystick Removed."<<std::endl;
+}
+
+int InputManager::GetNumConnectedControllers()
+{
+	return (int)m_apkJoysticks.size();
+}
+
+stGameControllerDetails InputManager::GetControllerState(int a_iId)
+{
+	return m_apkJoysticks[a_iId];
+}
+
+stGameControllerDetails* InputManager::GetControllerByJoystickId(int a_iId)
+{
+	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
+	{
+		if(SDL_JoystickInstanceID(m_apkJoysticks[iDx].pkJoystick) == a_iId)
+		{
+			//std::cout<<"Controller "<<iDx<<" Activity"<<std::endl;
+			return &m_apkJoysticks[iDx];
+		}
+	}
+}
+
+int InputManager::GetControllerIdByJoystickId(int a_iId)
+{
+	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
+	{
+		if(SDL_JoystickInstanceID(m_apkJoysticks[iDx].pkJoystick) == a_iId)
+		{
+			return iDx;
+		}
+	}
+}
+
+void InputManager::ClearControllerStates()
+{
+	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
+	{
+		m_apkJoysticks[iDx].fAxis1X = 0.0f;
+		m_apkJoysticks[iDx].fAxis1Y = 0.0f;
+		m_apkJoysticks[iDx].bJumpPressed = false;
+	}
 }

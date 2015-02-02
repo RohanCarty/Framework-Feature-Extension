@@ -44,10 +44,9 @@ bool HUD::Update(float a_fDeltaTime)
     std::string sTest;
 
     //Population
-	sprintf(m_cpTempString,"%d",((GameScene*)m_pkScene)->GetGameInfo()->GetCurrentPopulation());
-    sTest = m_cpTempString;
-	sprintf(m_cpTempString,"%d",((GameScene*)m_pkScene)->GetGameInfo()->GetMaxPopulation());
-	sTest = "Population: " + sTest + "/" + m_cpTempString;
+	sprintf(m_cpTempString,"%d",((GameScene*)m_pkScene)->GetGameInfo()->GetScore());
+	sTest = m_cpTempString;
+	sTest = "Score: " + sTest;
 
     m_pkTextLibrary->PrintHUDString(sTest, 0,0,iFontSize);
     

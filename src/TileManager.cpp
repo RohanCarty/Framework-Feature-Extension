@@ -47,7 +47,7 @@ bool TileManager::Update(float a_fDeltaTime)
 void TileManager::GenerateMap(int a_iSeed)
 {
     //Modulus is in here in order to "centre" odd number map sizes.
-	for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
+	/*for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
 	{
 		for(int iDy = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy++)
 		{
@@ -55,18 +55,13 @@ void TileManager::GenerateMap(int a_iSeed)
 
             GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, iDy, 0));
 		}
-	}
+	}*/
 
-	for(int iDx = -1; iDx <= 1; iDx++)
+	for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
 	{
-		for(int iDy = -1; iDy <= 1; iDy++)
-		{
-			if(iDx == 0 && iDy == 0)
-			{
-				continue;
-			}
-			SpawnResource(Vector(512 * iDx, 512 * iDy, 0));
-		}
+			SpawnTile(Vector(iDx * 64, 0 * 64,0));
+
+            GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, 0, 0));
 	}
 
     return;

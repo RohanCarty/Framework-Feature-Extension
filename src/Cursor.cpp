@@ -39,14 +39,14 @@ bool Cursor::Update(float a_fDeltaTime)
 		0.0);*/
 
     //Places a building foundation for a house //TODO: Allow multiple types to be placed, only allow placement when a building is chosen in the U.I.
-	if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
+	/*if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_RIGHT))
 	{
 		eBuildingType eTemp = eHouse;
 		SceneManager::GetUnitManager()->SpawnNewBuilding(SceneManager::GetInputManager()->GetMouseWorldPosition(), eTemp);
-	}
+	}*/
 
     // Highlighting of locations when placing a building //TODO: Get Building type and size for it, only ighlight anything when a building is chosen to be place in the U.I.
-	for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
+	/*for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
 	{
         SceneManager::GetTileManager()->GetTileList()[iDx]->SetNoZone();
 
@@ -60,9 +60,9 @@ bool Cursor::Update(float a_fDeltaTime)
 		}
         
         delete vSize;
-	}
+	}*/
 
-	if(IsOverObject())
+	/*if(IsOverObject())
 	{
         //Give a temp string to avoid non-const errors in LLVM compiliers
         std::string szTempString;
@@ -98,7 +98,7 @@ bool Cursor::Update(float a_fDeltaTime)
 				((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->GetTextLibrary()->PrintHUDString(szTempString, SceneManager::GetInputManager()->GetMousePosition()->x + 30, SceneManager::GetInputManager()->GetMousePosition()->y + 108, 36);
 			}
 		}
-	}
+	}*/
 
 	return true;
 }
@@ -130,7 +130,7 @@ bool Cursor::Draw(float a_fDeltaTime)
 
 bool Cursor::IsOverObject()
 {
-	for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetUnitList().size(); iDx++)
+	/*for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetUnitList().size(); iDx++)
 	{
 		if(SceneManager::GetInputManager()->GetMouseWorldPosition().WithinBox(*SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetWorldLocation(), SceneManager::GetUnitManager()->GetUnitList()[iDx]->GetSize()))
 		{
@@ -154,7 +154,7 @@ bool Cursor::IsOverObject()
 
 			return true;
 		}
-	}
+	}*/
 	return false;
 }
 

@@ -31,8 +31,8 @@ Tile::Tile(Scene* a_pkScene) : Object(a_pkScene)
     stTempRenderable.m_bIsHidden = true;
     m_apkRenderables.push_back(stTempRenderable);
 
-    SetScale(2.0f);
-    SetSize(Vector(256,256,256));
+    SetScale(0.5f);
+    SetSize(Vector(64,64,64));
 
     m_fCost = 1.0f;
     m_pkOccupiedBy = NULL;
