@@ -25,6 +25,14 @@ class Vertex;
 class Texture;
 class Camera;
 
+struct stGameControllerDetails
+{
+	SDL_Joystick* pkJoystick;
+	SDL_GameController* pkGameController;
+	float fAxis1X;
+	float fAxis1Y;
+};
+
 class InputManager
 {
 public:
@@ -42,12 +50,21 @@ public:
 	int GetMouseWheelDelta();
 	bool GetWindowIsInFocus();
 
+	bool AddGameController(int a_iId);
+	void RemoveGameController(int a_iId);
+
 private:
 	Vector* m_pkMousePosition;
 	Camera* m_pkCamera;
 	std::vector<int> m_aiKeyCodes;
 	bool m_bIsWindowInFocus;
 	int m_iMouseWheelDelta;
+
+	std::vector<stGameControllerDetails> m_apkJoysticks;
+
+	//Joystick/Gamepad variables
+	int m_iJoystickDeadzone;
+	unsigned int m_uiCurrentNumOfJoysticks;
 };
 
 #endif
