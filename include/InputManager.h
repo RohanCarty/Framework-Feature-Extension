@@ -56,6 +56,8 @@ public:
 
 	int GetNumConnectedControllers();
 
+	bool GetIsControllerConnected(int a_iId);
+
 	stGameControllerDetails GetControllerState(int a_iId);
 
 	stGameControllerDetails* GetControllerByJoystickId(int a_iId);

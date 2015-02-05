@@ -256,6 +256,16 @@ int InputManager::GetNumConnectedControllers()
 	return (int)m_apkJoysticks.size();
 }
 
+bool InputManager::GetIsControllerConnected(int a_iId)
+{
+	if(a_iId < m_apkJoysticks.size())
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
 stGameControllerDetails InputManager::GetControllerState(int a_iId)
 {
 	return m_apkJoysticks[a_iId];

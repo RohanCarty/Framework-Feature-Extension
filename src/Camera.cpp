@@ -37,7 +37,8 @@ bool Camera::Update(float a_fDeltaTime)
 
 	if(SceneManager::GetInputManager()->GetWindowIsInFocus())
 	{
-		if(vMousePosition.x < 10)
+		// Edge scrolling with mouse, shouldn't need it for shades.
+		/*if(vMousePosition.x < 10)
 		{
 			SetLocation(GetLocation()->x - 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
 		}
@@ -55,7 +56,7 @@ bool Camera::Update(float a_fDeltaTime)
 		if(vMousePosition.y > SceneManager::GetDisplayManager()->GetYScreenResolution() - 10)
 		{
 			SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
-		}
+		}*/
 	}
 
 	//Clamp zooms

@@ -47,6 +47,13 @@ bool Player::Update(float a_fDeltaTime)
 
     Object::Update(a_fDeltaTime);
 
+	//TODO: Remove this
+	//Escape for if there are no controllers connected.
+	if(!SceneManager::GetInputManager()->GetIsControllerConnected(0))
+	{
+		return true;
+	}
+
 	if(SceneManager::GetInputManager()->GetControllerState(0).fAxis1X == 0)
 	{
 		if(m_vCurrentSpeed.x < -100)
