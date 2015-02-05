@@ -62,6 +62,7 @@ public:
 	int GetControllerIdByJoystickId(int a_iId);
 
 	void ClearControllerStates();
+	void ClearJumpButtons();
 
 private:
 	Vector* m_pkMousePosition;

@@ -19,9 +19,16 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
-	m_iCurrentSpeed = 0;
-	m_iMaxSpeed = 400;
-	m_iAcceleration = 15;
+	m_vCurrentSpeed.x = 0;
+	m_vCurrentSpeed.y = 0;
+	m_vMaxSpeed.x = 400;
+	m_vMaxSpeed.y = 600;
+
+	m_iAcceleration = 45;
+
+	m_iJumpSpeed = 400;
+	m_iFallSpeed = 600;
+	m_bJumpLatch = false;
 
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
@@ -42,33 +49,70 @@ bool Player::Update(float a_fDeltaTime)
 
 	if(SceneManager::GetInputManager()->GetControllerState(0).fAxis1X == 0)
 	{
-		if(m_iCurrentSpeed < -100)
+		if(m_vCurrentSpeed.x < -100)
 		{
-			m_iCurrentSpeed += (m_iAcceleration * 2);
+			m_vCurrentSpeed.x += (m_iAcceleration * 0.5);
 		}
-		else if(m_iCurrentSpeed > 100)
+		else if(m_vCurrentSpeed.x > 100)
 		{
-			m_iCurrentSpeed -= (m_iAcceleration * 2);
+			m_vCurrentSpeed.x -= (m_iAcceleration * 0.5);
 		}
-		else
+		else //Deceleration
 		{
-			m_iCurrentSpeed = 0;
+			m_vCurrentSpeed.x = 0;
 		}
 	}
 	else
 	{
-		m_iCurrentSpeed += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(0).fAxis1X);
+		m_vCurrentSpeed.x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(0).fAxis1X);
 	}
 
 	//Speed cap
 
-	if(m_iCurrentSpeed > m_iMaxSpeed)
-		m_iCurrentSpeed = m_iMaxSpeed;
+	if(m_vCurrentSpeed.x > m_vMaxSpeed.x)
+		m_vCurrentSpeed.x = m_vMaxSpeed.x;
 
-	if(m_iCurrentSpeed < -m_iMaxSpeed)
-		m_iCurrentSpeed = -m_iMaxSpeed;
+	if(m_vCurrentSpeed.x < -m_vMaxSpeed.x)
+		m_vCurrentSpeed.x = -m_vMaxSpeed.x;
 
-	SetLocation(GetLocation()->x + (m_iCurrentSpeed * a_fDeltaTime), GetLocation()->y, GetLocation()->z);
+	//TODO: Work on physics.
+
+	//Jump detection
+	if(SceneManager::GetInputManager()->GetControllerState(0).bJumpPressed && !m_bJumpLatch)
+	{
+		Jump();
+	}
+
+	//Gravity alpha
+	if(GetLocation()->y < 0)
+	{
+		m_vCurrentSpeed.y += m_iFallSpeed * a_fDeltaTime;
+
+		//Fall speed cap
+
+		if(m_vCurrentSpeed.y > m_vMaxSpeed.y)
+		m_vCurrentSpeed.y = m_vMaxSpeed.y;
+	}
+
+	//Ground plane alpha
+	if(GetLocation()->y > 0 && m_vCurrentSpeed.y != 0.0f)
+	{
+		SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
+		m_vCurrentSpeed.y = 0.0f;
+		m_bJumpLatch = false;
+	}
+
+	//std::cout<<"Location: "<<*GetLocation()<<std::endl;
+	//std::cout<<"Velocity: "<<m_vCurrentSpeed<<std::endl;
+
+	SetLocation(GetLocation()->x + (m_vCurrentSpeed.x * a_fDeltaTime), GetLocation()->y + (m_vCurrentSpeed.y * a_fDeltaTime), GetLocation()->z);
 
     return true;
+}
+
+void Player::Jump()
+{
+	m_vCurrentSpeed.y -= m_iJumpSpeed;
+
+	m_bJumpLatch = true;
 }

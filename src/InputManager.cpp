@@ -69,6 +69,7 @@ bool InputManager::Update(float a_fDeltaTime)
 	//Clear everything pressed
 	m_aiKeyCodes.erase(m_aiKeyCodes.begin(), m_aiKeyCodes.begin() + m_aiKeyCodes.size());
 	m_iMouseWheelDelta = 0;
+	ClearJumpButtons();
 
 	while(SDL_PollEvent(&test_event)) //TODO: receive all inputs.
 	{
@@ -120,6 +121,12 @@ bool InputManager::Update(float a_fDeltaTime)
 						//std::cout<<"No controller motion"<<std::endl;
 					}
 				}
+				break;
+			case SDL_JOYBUTTONDOWN:
+				GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = true;
+				break;
+			case SDL_JOYBUTTONUP:
+				GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = false;
 				break;
 			case SDL_QUIT:
 				return false;//TODO: Proper quitting (I think it's done?)
@@ -283,6 +290,14 @@ void InputManager::ClearControllerStates()
 	{
 		m_apkJoysticks[iDx].fAxis1X = 0.0f;
 		m_apkJoysticks[iDx].fAxis1Y = 0.0f;
+		m_apkJoysticks[iDx].bJumpPressed = false;
+	}
+}
+
+void InputManager::ClearJumpButtons()
+{
+	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
+	{
 		m_apkJoysticks[iDx].bJumpPressed = false;
 	}
 }

@@ -30,10 +30,15 @@ public:
 
 	bool Update(float a_fDeltaTime);
 
+	void Jump(); // Causes an increase in upwards velocity.
+
 private:
-	int m_iCurrentSpeed;
-	int m_iMaxSpeed;
+	Vector m_vCurrentSpeed;
+	Vector m_vMaxSpeed;
 	int m_iAcceleration;
+	int m_iJumpSpeed;
+	int m_iFallSpeed;
+	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
 };
 
 #endif
