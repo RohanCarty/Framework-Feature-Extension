@@ -30,6 +30,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	m_iFallSpeed = 600;
 	m_bJumpLatch = false;
 
+	BindToController();
+
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
 }
@@ -49,12 +51,15 @@ bool Player::Update(float a_fDeltaTime)
 
 	//TODO: Remove this
 	//Escape for if there are no controllers connected.
-	if(!SceneManager::GetInputManager()->GetIsControllerConnected(0))
+	if(m_iControllerNumberBoundTo == -1)
 	{
+		std::cout<<"No Controller"<<std::endl;
 		return true;
 	}
 
-	if(SceneManager::GetInputManager()->GetControllerState(0).fAxis1X == 0)
+	//Deceleration
+
+	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
 	{
 		if(m_vCurrentSpeed.x < -100)
 		{
@@ -64,14 +69,14 @@ bool Player::Update(float a_fDeltaTime)
 		{
 			m_vCurrentSpeed.x -= (m_iAcceleration * 0.5);
 		}
-		else //Deceleration
+		else
 		{
 			m_vCurrentSpeed.x = 0;
 		}
 	}
 	else
 	{
-		m_vCurrentSpeed.x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(0).fAxis1X);
+		m_vCurrentSpeed.x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X);
 	}
 
 	//Speed cap
@@ -85,7 +90,7 @@ bool Player::Update(float a_fDeltaTime)
 	//TODO: Work on physics.
 
 	//Jump detection
-	if(SceneManager::GetInputManager()->GetControllerState(0).bJumpPressed && !m_bJumpLatch)
+	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
 	{
 		Jump();
 	}
@@ -122,4 +127,13 @@ void Player::Jump()
 	m_vCurrentSpeed.y -= m_iJumpSpeed;
 
 	m_bJumpLatch = true;
+}
+
+void Player::BindToController()
+{
+	int iTemp = SceneManager::GetInputManager()->GetControllerForPlayer();
+
+	std::cout<<"Got a controller: "<<iTemp<<std::endl;
+
+	m_iControllerNumberBoundTo = iTemp;
 }

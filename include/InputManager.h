@@ -32,6 +32,7 @@ struct stGameControllerDetails
 	float fAxis1X;
 	float fAxis1Y;
 	bool bJumpPressed;
+	bool bIsBound;
 };
 
 class InputManager
@@ -55,6 +56,7 @@ public:
 	void RemoveGameController(int a_iId);
 
 	int GetNumConnectedControllers();
+	int GetControllerForPlayer();
 
 	bool GetIsControllerConnected(int a_iId);
 

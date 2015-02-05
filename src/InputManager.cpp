@@ -120,6 +120,8 @@ bool InputManager::Update(float a_fDeltaTime)
 						
 						//std::cout<<"No controller motion"<<std::endl;
 					}
+
+					std::cout<<"Activity on controller "<<GetControllerIdByJoystickId(test_event.jaxis.which)<<test_event.jaxis.which<<" joystick i.d. "<<test_event.jaxis.which<<std::endl;
 				}
 				break;
 			case SDL_JOYBUTTONDOWN:
@@ -235,6 +237,8 @@ bool InputManager::AddGameController(int a_iId)
 		return false;
 	}
 
+	stTemp.bIsBound = false;
+
 	std::cout<<"Adding Game Controller: Name: "<<SDL_JoystickName(stTemp.pkJoystick)<<" Axes: "<<SDL_JoystickNumAxes(stTemp.pkJoystick)<<" Balls: "<<SDL_JoystickNumBalls(stTemp.pkJoystick)
 		<<" Buttons: "<<SDL_JoystickNumButtons(stTemp.pkJoystick)<<" Hats: "<<SDL_JoystickNumHats(stTemp.pkJoystick)<<std::endl;
 
@@ -256,9 +260,25 @@ int InputManager::GetNumConnectedControllers()
 	return (int)m_apkJoysticks.size();
 }
 
+//Returns a number for a controller, otherwise -1 if none are available.
+int InputManager::GetControllerForPlayer()
+{
+	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
+	{
+		if(!m_apkJoysticks[iDx].bIsBound)
+		{
+			m_apkJoysticks[iDx].bIsBound = true;
+			std::cout<<"Got controller "<<iDx<<" for player."<<std::endl;
+			return iDx;
+		}
+	}
+
+	return -1;
+}
+
 bool InputManager::GetIsControllerConnected(int a_iId)
 {
-	if(a_iId < m_apkJoysticks.size())
+	if(a_iId < (int)m_apkJoysticks.size())
 	{
 		return true;
 	}
@@ -281,6 +301,8 @@ stGameControllerDetails* InputManager::GetControllerByJoystickId(int a_iId)
 			return &m_apkJoysticks[iDx];
 		}
 	}
+
+	return NULL;
 }
 
 int InputManager::GetControllerIdByJoystickId(int a_iId)
@@ -292,8 +314,11 @@ int InputManager::GetControllerIdByJoystickId(int a_iId)
 			return iDx;
 		}
 	}
+
+	return NULL;
 }
 
+//Clears the current states but not the bind.
 void InputManager::ClearControllerStates()
 {
 	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)

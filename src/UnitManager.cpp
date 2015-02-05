@@ -30,7 +30,10 @@ void UnitManager::StartGame()
     //Spawn the test units
     if(!SceneManager::GetNetworkManager()->m_bIsClient)
     {
-		SpawnPlayer();
+		for(int iDx = 0; iDx < SceneManager::GetInputManager()->GetNumConnectedControllers(); iDx++)
+		{
+			SpawnPlayer();
+		}
         for(int iDx = 0; iDx < 1; iDx++)
         {
             //SpawnNewUnit();

@@ -32,6 +32,8 @@ public:
 
 	void Jump(); // Causes an increase in upwards velocity.
 
+	void BindToController();
+
 private:
 	Vector m_vCurrentSpeed;
 	Vector m_vMaxSpeed;
@@ -39,6 +41,7 @@ private:
 	int m_iJumpSpeed;
 	int m_iFallSpeed;
 	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
+	int m_iControllerNumberBoundTo;
 };
 
 #endif
