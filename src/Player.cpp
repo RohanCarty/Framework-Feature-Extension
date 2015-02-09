@@ -81,6 +81,15 @@ bool Player::Update(float a_fDeltaTime)
 		Jump();
 	}
 
+	//Falling respawn
+	//TODO: Handle full respawning in a function later.
+
+	if(GetLocation()->y > 800)
+	{
+		SetLocation(0,0,0);
+		SetVelocity(0,0,0);
+	}
+
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
 		m_bJumpLatch = false;
