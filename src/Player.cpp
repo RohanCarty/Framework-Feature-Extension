@@ -41,6 +41,12 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
+	//Jump detection
+	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
+	{
+		Jump();
+	}
+
     Actor::Update(a_fDeltaTime);
 
 	//TODO: Remove this
@@ -74,12 +80,6 @@ bool Player::Update(float a_fDeltaTime)
 	}
 
 	//TODO: Work on physics.
-
-	//Jump detection
-	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
-	{
-		Jump();
-	}
 
 	//Falling respawn
 	//TODO: Handle full respawning in a function later.
