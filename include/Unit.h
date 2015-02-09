@@ -47,14 +47,6 @@ public:
     void SetUnitNumber(int a_iNewNumber);
 
 	bool Update(float a_fDeltaTime);
-    
-    void CheckForEmptyJobs();
-    
-    void CheckForEmptyBuilding();
-    
-    Building* FindBuildingWithResource(int a_iResourceType);
-    
-    void CheckForEmptyResource();
 
 	void SetSelected(bool a_bIsSelected = true);
 
@@ -74,13 +66,6 @@ public:
 
 	int GetCurrentTask();
 	std::string GetCurrentTaskString();
-
-	stStoredResources GetCurrentResources();
-	bool HasResources();
-
-	void HarvestComplete(Resource* a_pkResource);
-
-	void DeliverResources(); //Delivers resources into m_pkTarget (it should always be a building according to the state machine)
 
 	std::string GetName();
 

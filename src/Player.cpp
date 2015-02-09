@@ -84,6 +84,8 @@ bool Player::Update(float a_fDeltaTime)
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
 		m_bJumpLatch = false;
+
+		//std::cout<<"Jump Unlatched"<<std::endl;
 	}
 
     return true;
@@ -94,6 +96,8 @@ void Player::Jump()
 	m_pVelocity->y -= m_iJumpSpeed;
 
 	m_bJumpLatch = true;
+
+	//std::cout<<"Jump Latched"<<std::endl;
 }
 
 void Player::BindToController()

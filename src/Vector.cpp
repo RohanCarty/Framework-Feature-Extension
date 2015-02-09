@@ -63,7 +63,7 @@ double Vector::DotProduct(Vector left, Vector right)
 }
 
 //Only checks X and Y, for 2D use only
-bool Vector::WithinBox(Vector a_vOtherVector, Vector a_vSize)
+bool Vector::WithinBox2D(Vector a_vOtherVector, Vector a_vSize)
 {
 	a_vSize = a_vSize / 2;
 	if(x > a_vOtherVector.x - a_vSize.x && x < a_vOtherVector.x + a_vSize.x &&

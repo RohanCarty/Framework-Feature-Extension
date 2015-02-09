@@ -40,7 +40,6 @@ bool Resource::Update(float a_fDeltaTime)
 
 		if(m_fHarvestTime < 0.0f)
 		{
-			m_pkWorker->HarvestComplete(this);
 			return false;
 		}
 	}

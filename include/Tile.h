@@ -32,23 +32,9 @@ public:
 
     bool Update(float a_fDeltaTime);
 
-    void SetNoZone();
-    void SetGreenZone();
-    void SetRedZone();
-
-    void SetIsOccupied(Object* a_pkOccupiedBy);
-    bool GetIsOccupied();
-
-    Object* GetIsOccupiedBy();
-
-    void SetCost(float a_fNewCost);
-    float GetCost();
-
     void SetCoordinate(Vector a_vCoordinates);
     Vector GetCoordinate();
 private:
-    float m_fCost; //Cost for pathfinding (make them prefer roads heavily)
-    Object* m_pkOccupiedBy;
     Vector m_vCoordinates;
 };
 
