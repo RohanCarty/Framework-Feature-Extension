@@ -121,7 +121,7 @@ bool InputManager::Update(float a_fDeltaTime)
 						//std::cout<<"No controller motion"<<std::endl;
 					}
 
-					std::cout<<"Activity on controller "<<GetControllerIdByJoystickId(test_event.jaxis.which)<<test_event.jaxis.which<<" joystick i.d. "<<test_event.jaxis.which<<std::endl;
+					//std::cout<<"Activity on controller "<<GetControllerIdByJoystickId(test_event.jaxis.which)<<test_event.jaxis.which<<" joystick i.d. "<<test_event.jaxis.which<<std::endl;
 				}
 				break;
 			case SDL_JOYBUTTONDOWN:

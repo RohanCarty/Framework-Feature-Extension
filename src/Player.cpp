@@ -19,18 +19,12 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
-	m_vCurrentSpeed.x = 0;
-	m_vCurrentSpeed.y = 0;
-	m_vMaxSpeed.x = 400;
-	m_vMaxSpeed.y = 600;
-
-	m_iAcceleration = 45;
-
-	m_iJumpSpeed = 400;
-	m_iFallSpeed = 600;
+	
 	m_bJumpLatch = false;
 
 	BindToController();
+
+	m_bIsGravityOn = true;
 
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
@@ -47,7 +41,7 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
-    Object::Update(a_fDeltaTime);
+    Actor::Update(a_fDeltaTime);
 
 	//TODO: Remove this
 	//Escape for if there are no controllers connected.
@@ -61,31 +55,23 @@ bool Player::Update(float a_fDeltaTime)
 
 	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
 	{
-		if(m_vCurrentSpeed.x < -100)
+		if(m_pVelocity->x < -100)
 		{
-			m_vCurrentSpeed.x += (m_iAcceleration * 0.5);
+			m_pVelocity->x += (m_iAcceleration * 0.5);
 		}
-		else if(m_vCurrentSpeed.x > 100)
+		else if(m_pVelocity->x > 100)
 		{
-			m_vCurrentSpeed.x -= (m_iAcceleration * 0.5);
+			m_pVelocity->x -= (m_iAcceleration * 0.5);
 		}
 		else
 		{
-			m_vCurrentSpeed.x = 0;
+			m_pVelocity->x = 0;
 		}
 	}
 	else
 	{
-		m_vCurrentSpeed.x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X);
+		m_pVelocity->x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X);
 	}
-
-	//Speed cap
-
-	if(m_vCurrentSpeed.x > m_vMaxSpeed.x)
-		m_vCurrentSpeed.x = m_vMaxSpeed.x;
-
-	if(m_vCurrentSpeed.x < -m_vMaxSpeed.x)
-		m_vCurrentSpeed.x = -m_vMaxSpeed.x;
 
 	//TODO: Work on physics.
 
@@ -95,36 +81,17 @@ bool Player::Update(float a_fDeltaTime)
 		Jump();
 	}
 
-	//Gravity alpha
-	if(GetLocation()->y < 0)
+	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
-		m_vCurrentSpeed.y += m_iFallSpeed * a_fDeltaTime;
-
-		//Fall speed cap
-
-		if(m_vCurrentSpeed.y > m_vMaxSpeed.y)
-		m_vCurrentSpeed.y = m_vMaxSpeed.y;
-	}
-
-	//Ground plane alpha
-	if(GetLocation()->y > 0 && m_vCurrentSpeed.y != 0.0f)
-	{
-		SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
-		m_vCurrentSpeed.y = 0.0f;
 		m_bJumpLatch = false;
 	}
-
-	//std::cout<<"Location: "<<*GetLocation()<<std::endl;
-	//std::cout<<"Velocity: "<<m_vCurrentSpeed<<std::endl;
-
-	SetLocation(GetLocation()->x + (m_vCurrentSpeed.x * a_fDeltaTime), GetLocation()->y + (m_vCurrentSpeed.y * a_fDeltaTime), GetLocation()->z);
 
     return true;
 }
 
 void Player::Jump()
 {
-	m_vCurrentSpeed.y -= m_iJumpSpeed;
+	m_pVelocity->y -= m_iJumpSpeed;
 
 	m_bJumpLatch = true;
 }

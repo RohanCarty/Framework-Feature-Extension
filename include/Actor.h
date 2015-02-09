@@ -33,8 +33,22 @@ public:
     void SetVelocity(Vector a_Vector);
     void SetVelocity(double a_x, double a_y, double a_z);
 
+	void ApplyGravity(float a_fDeltaTime);
+
+	bool IsCollidingWithTileNextFrame(float a_fDeltaTime);
+
 protected:
     Vector* m_pVelocity;
+	Vector m_vMaxSpeed;
+	int m_iAcceleration;
+	int m_iJumpSpeed;
+	int m_iFallSpeed;
+	bool m_bIsGravityOn;
+
+private:
+	bool m_bIsCollidingNextFrame;
+	Object* m_pkIsCollidingWithNextFame;
+	bool m_bIsCollidingNextFrameSet;
 };
 
 #endif
