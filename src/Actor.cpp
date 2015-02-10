@@ -52,19 +52,27 @@ bool Actor::Update(float a_fDeltaTime)
 	if(m_pVelocity->x < -m_vMaxSpeed.x)
 		m_pVelocity->x = -m_vMaxSpeed.x;
 
-	if(m_bIsGravityOn)
+    //Check for ground
+    
+    if(m_bIsGravityOn)
 	{
 		ApplyGravity(a_fDeltaTime);
 	}
-
-	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+    
+    if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
 		//SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
-		m_pVelocity->y = 0.0f;
+        if(m_vCollisionVector.y > 0)
+        {
+            m_pVelocity->y = 0.0f;
+        }
+        if(m_vCollisionVector.x != 0)
+        {
+            m_pVelocity->x = 0.0f;
+        }
 	}
-
-
-	SetLocation(GetLocation()->x + (m_pVelocity->x * a_fDeltaTime), GetLocation()->y + (m_pVelocity->y * a_fDeltaTime), GetLocation()->z + (m_pVelocity->z * a_fDeltaTime));
+    
+    SetLocation(GetLocation()->x + (m_pVelocity->x * a_fDeltaTime), GetLocation()->y + (m_pVelocity->y * a_fDeltaTime), GetLocation()->z + (m_pVelocity->z * a_fDeltaTime));
 
     return true;
 }
@@ -102,11 +110,18 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		return m_bIsCollidingNextFrame;
 
 	m_bIsCollidingNextFrameSet = true;
+    m_bIsCollidingNextFrame = false;
+    m_vCollisionVector = Vector(0,0,0);
 
+    //Y Collision
+    //Remove X component, so can extrapolate direction
+    double fVelTemp = m_pVelocity->x;
+    m_pVelocity->x = 0.0f;
 	Vector vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
 	Vector vTemp;
+    m_pVelocity->x = fVelTemp;
 
-	//Check all four corners against all tiles
+	//Check all four corners against all tiles twice, once for X velocity, once for Y velocity.
 	//TODO: See if this is way too slow.
 
 	for(unsigned int uiDx = 0; uiDx < SceneManager::GetTileManager()->GetTileList().size(); uiDx++)
@@ -119,7 +134,6 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		{
 			m_bIsCollidingNextFrame = true;
 			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
-			return true;
 		}
 
 		vTemp = vCalculatedPosition;
@@ -130,7 +144,6 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		{
 			m_bIsCollidingNextFrame = true;
 			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
-			return true;
 		}
 
 		vTemp = vCalculatedPosition;
@@ -141,7 +154,6 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		{
 			m_bIsCollidingNextFrame = true;
 			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
-			return true;
 		}
 
 		vTemp = vCalculatedPosition;
@@ -152,11 +164,102 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		{
 			m_bIsCollidingNextFrame = true;
 			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
-			return true;
 		}
+        
+        if(m_bIsCollidingNextFrame)
+        {
+            if(m_pVelocity->y > 0.0)
+            {
+                m_vCollisionVector.y = 1.0;
+            }
+            else if(m_pVelocity->y == 0.0)
+            {
+                m_vCollisionVector.y = 0.0;
+            }
+            else
+            {
+                m_vCollisionVector.y = -1.0;
+            }
+        }
+	}
+    
+    bool m_bIsCollidingNextFrame2 = m_bIsCollidingNextFrame;
+    m_bIsCollidingNextFrame = false;
+    
+    //X Collision
+    //Remove Y component, so can extrapolate direction
+    fVelTemp = m_pVelocity->y;
+    m_pVelocity->y = 0.0f;
+    vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
+    m_pVelocity->y = fVelTemp;
+    
+	//Check all four corners against all tiles twice, once for X velocity, once for Y velocity.
+	//TODO: See if this is way too slow.
+    
+	for(unsigned int uiDx = 0; uiDx < SceneManager::GetTileManager()->GetTileList().size(); uiDx++)
+	{
+		vTemp = vCalculatedPosition;
+		vTemp.x += (GetSize().x / 2);
+        
+        
+		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
+		{
+			m_bIsCollidingNextFrame = true;
+			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+		}
+        
+		vTemp = vCalculatedPosition;
+		vTemp.x -= (GetSize().x / 2);
+        
+        
+		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
+		{
+			m_bIsCollidingNextFrame = true;
+			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+		}
+        
+		vTemp = vCalculatedPosition;
+		vTemp.y += (GetSize().y / 2);
+        
+        
+		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
+		{
+			m_bIsCollidingNextFrame = true;
+			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+		}
+        
+		vTemp = vCalculatedPosition;
+		vTemp.y -= (GetSize().y / 2);
+        
+        
+		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
+		{
+			m_bIsCollidingNextFrame = true;
+			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+		}
+        
+        if(m_bIsCollidingNextFrame)
+        {
+            if(m_pVelocity->x > 0.0)
+            {
+                m_vCollisionVector.x = 1.0;
+            }
+            else if(m_pVelocity->x == 0.0)
+            {
+                m_vCollisionVector.x = 0.0;
+            }
+            else
+            {
+                m_vCollisionVector.x = -1.0;
+            }
+        }
 	}
 
-
+    if(m_bIsCollidingNextFrame || m_bIsCollidingNextFrame2)
+    {
+        return true;
+    }
+    
 	m_bIsCollidingNextFrame = false;
 	return false;
 
@@ -169,4 +272,9 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 	else
 		m_bIsCollidingNextFrame = false;
 		return false;*/
+}
+
+Vector Actor::GetCollisionVector()
+{
+    return m_vCollisionVector;
 }

@@ -36,6 +36,8 @@ public:
 	void ApplyGravity(float a_fDeltaTime);
 
 	bool IsCollidingWithTileNextFrame(float a_fDeltaTime);
+    
+    Vector GetCollisionVector();
 
 protected:
     Vector* m_pVelocity;
@@ -49,6 +51,7 @@ private:
 	bool m_bIsCollidingNextFrame;
 	Object* m_pkIsCollidingWithNextFame;
 	bool m_bIsCollidingNextFrameSet;
+    Vector m_vCollisionVector;
 };
 
 #endif

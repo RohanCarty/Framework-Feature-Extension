@@ -63,24 +63,43 @@ bool Player::Update(float a_fDeltaTime)
     
     //Changing animation based on changed direction
     
-    if(m_iCurrentDirection != SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X)
+    int iTempDirection = 0;
+    
+    if(m_pVelocity->x == 0.0f)
     {
-        switch((int)SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X)
+        iTempDirection = 0;
+    }
+    else if(m_pVelocity->x < 0.0f)
+    {
+        iTempDirection = -1;
+    }
+    else if(m_pVelocity->x > 0.0f)
+    {
+        iTempDirection = 1;
+    }
+    
+    if(m_iCurrentDirection != iTempDirection)
+    {
+        
+        if(m_pVelocity->x == 0.0f)
         {
-            case 0:
-                //SwitchAnimation to standing
-                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
-                break;
-            case -1:
-                //SwitchAnimation to running
-                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-                m_apkRenderables[0].m_pkTexture->FlipTexture(true);
-                break;
-            case 1:
-                //SwitchAnimation to running
-                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-                m_apkRenderables[0].m_pkTexture->FlipTexture(false);
-                break;
+            //SwitchAnimation to standing
+            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+            m_iCurrentDirection = 0;
+        }
+        if(m_pVelocity->x < 0.0f)
+        {
+            //SwitchAnimation to running
+            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+            m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+            m_iCurrentDirection = -1;
+        }
+        if(m_pVelocity->x > 0.0f)
+        {
+            //SwitchAnimation to running
+            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+            m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+            m_iCurrentDirection = 1;
         }
         
         m_iCurrentDirection = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X;
@@ -118,6 +137,8 @@ bool Player::Update(float a_fDeltaTime)
 		SetLocation(0,0,0);
 		SetVelocity(0,0,0);
 	}
+    
+    std::cout<<"Collision Vector: "<<GetCollisionVector()<<std::endl;
 
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
