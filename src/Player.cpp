@@ -10,9 +10,9 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 {
     //std::cout<<"Unit created. Pointer: "<<this<<std::endl;
 
-	if(rand() % 2 + 1 == 1)
+	if(rand() % 2 + 1 == 2)
 	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/elusive.animated", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
 	}
 	else
 	{
@@ -27,6 +27,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	m_bIsGravityOn = true;
     
     m_iCurrentDirection = 0;
+    
+    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
 
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());

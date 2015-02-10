@@ -33,6 +33,7 @@ struct Animation
 {
     std::string szName;
     std::vector<TextureFrame*> apkFrames;
+    float fFrameTime; // in seconds
 };
 
 //Extension of class used to store Textures as well as all functions related to manipulating them.
@@ -62,7 +63,6 @@ private:
     unsigned int m_iCurrentFrame;
     std::vector<Animation*> m_apkAnimations;
     float m_fCurrentTime;
-    float m_fFrameTime; // in seconds
     unsigned int m_uiCurrentAnimation;
     bool m_bIsTextureFlipped;
 };

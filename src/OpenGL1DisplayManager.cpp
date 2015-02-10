@@ -50,7 +50,7 @@ bool OpenGL1DisplayManager::CreateScreen()
 		exit(1);
 	}
 
-	m_iXResolution = 800;
+	m_iXResolution = 1024;
 	m_iYResolution = 600;
 
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);

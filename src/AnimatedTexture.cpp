@@ -40,7 +40,7 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
 
     m_fCurrentTime += a_fDeltaTime;
 
-    if(m_fCurrentTime > m_fFrameTime)
+    if(m_fCurrentTime > m_apkAnimations[m_uiCurrentAnimation]->fFrameTime)
     {
         NextFrame();
         m_fCurrentTime = 0.0f;
@@ -123,19 +123,23 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
     sFullFile += sLine;
 
 	SetTextureNumber(a_pDisplayManager->LoadTexture(sLine));
-
-    sLine = szFile.substr(0, szFile.find_first_of("\n"));
-	szFile.erase(0, szFile.find_first_of("\n") + 1);
-    sFullFile += sLine;
-
-	//one divded by framerate
-    m_fFrameTime = (float)atof(sLine.c_str());
     
     //TODO: Put in stuff to do with having different animations being added
     m_apkAnimations.push_back(new Animation);
     
+    //Default animation creation
     m_apkAnimations[0]->szName = "Default";
+    TextureFrame* pkTempFrame = new TextureFrame;
     
+    pkTempFrame->UMin = 0.0f;
+    
+    pkTempFrame->VMin = 0.0f;
+    
+    pkTempFrame->UMax = 0.0f;
+    
+    pkTempFrame->VMax = 0.0f;
+    
+    m_apkAnimations[m_apkAnimations.size() - 1]->apkFrames.push_back(pkTempFrame);
     
 	while ( szFile.find_first_of("\n") != std::string::npos )
 	{
@@ -151,7 +155,16 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
             m_apkAnimations[m_apkAnimations.size() - 1]->szName = sLine.c_str();
         }
-
+        
+        //Different Framerates for Different animations
+        if(sLine == "FrameTime")
+        {
+            //one divded by framerate
+            sLine = szFile.substr(0, szFile.find_first_of("\n"));
+			szFile.erase(0, szFile.find_first_of("\n") + 1);
+            m_apkAnimations[m_apkAnimations.size() - 1]->fFrameTime = (float)atof(sLine.c_str());
+        }
+        
 		if(sLine == "Frame")
 		{
 		    TextureFrame* pkTempFrame = new TextureFrame;
