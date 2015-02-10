@@ -51,7 +51,17 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
 
 void AnimatedTexture::SwitchAnimation(std::string a_szName)
 {
-    std::cout<<"Animation switch not possible at this time"<<std::endl;
+    for(int iDx = 0; iDx < m_apkAnimations.size();iDx++)
+    {
+        if(m_apkAnimations[iDx]->szName == a_szName)
+        {
+            m_iCurrentFrame = 0;
+            m_uiCurrentAnimation = iDx;
+            return;
+        }
+    }
+    
+    std::cout<<"Animation switch not possible at this time, couldn't find Animation: "<<a_szName<<std::endl;
 }
 
 void AnimatedTexture::NextFrame()
@@ -132,6 +142,15 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 		sLine = szFile.substr(0, szFile.find_first_of("\n"));
 		szFile.erase(0, szFile.find_first_of("\n") + 1);
 		sFullFile += sLine;
+        
+        if(sLine == "Name")
+        {
+            m_apkAnimations.push_back(new Animation);
+            
+            sLine = szFile.substr(0, szFile.find_first_of("\n"));
+			szFile.erase(0, szFile.find_first_of("\n") + 1);
+            m_apkAnimations[m_apkAnimations.size() - 1]->szName = sLine.c_str();
+        }
 
 		if(sLine == "Frame")
 		{

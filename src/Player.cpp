@@ -25,6 +25,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	BindToController();
 
 	m_bIsGravityOn = true;
+    
+    m_iCurrentDirection = 0;
 
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
@@ -57,20 +59,29 @@ bool Player::Update(float a_fDeltaTime)
 		return true;
 	}
     
-    //Changing animations based on movement
-    if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
-	{
-        //SwitchAnimation to standing
-    }
-    else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X < 0)
-	{
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
-    }
-    else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X > 0)
-	{
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+    //Changing animation based on changed direction
+    
+    if(m_iCurrentDirection != SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X)
+    {
+        switch((int)SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X)
+        {
+            case 0:
+                //SwitchAnimation to standing
+                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+                break;
+            case -1:
+                //SwitchAnimation to running
+                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+                m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+                break;
+            case 1:
+                //SwitchAnimation to running
+                m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+                m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+                break;
+        }
+        
+        m_iCurrentDirection = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X;
     }
 
 	//Deceleration
