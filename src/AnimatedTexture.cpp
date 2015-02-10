@@ -11,20 +11,29 @@ AnimatedTexture::AnimatedTexture(DisplayManager* a_pDisplayManager) : Texture(a_
     m_iCurrentFrame = 0;
     m_fCurrentTime = 0.0f;
 
+    m_uiCurrentAnimation = 0;
+    
 	m_bIsAnimated = true;
+    
+    m_bIsTextureFlipped = false;
 }
 
 AnimatedTexture::~AnimatedTexture()
 {
-    for(unsigned int i = 0; i < m_vkFrames.size(); i++)
+    for(int iDx = 0; iDx < m_apkAnimations.size();iDx++)
     {
-        delete m_vkFrames[i];
+        for(unsigned int i = 0; i < m_apkAnimations[iDx]->apkFrames.size(); i++)
+        {
+            delete m_apkAnimations[iDx]->apkFrames[i];
+        }
+        
+        delete m_apkAnimations[iDx];
     }
 }
 
 bool AnimatedTexture::Update(float a_fDeltaTime)
 {
-	if(m_vkFrames.size() == 0) // zero frames
+	if(m_apkAnimations.size() == 0 || m_apkAnimations[m_uiCurrentAnimation]->apkFrames.size() == 0) // zero frames
 	{
 		return true;
 	}
@@ -40,11 +49,16 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
     return true;
 }
 
+void AnimatedTexture::SwitchAnimation(std::string a_szName)
+{
+    std::cout<<"Animation switch not possible at this time"<<std::endl;
+}
+
 void AnimatedTexture::NextFrame()
 {
     m_iCurrentFrame++;
 
-    if(m_iCurrentFrame > m_vkFrames.size() - 1)
+    if(m_iCurrentFrame > m_apkAnimations[m_uiCurrentAnimation]->apkFrames.size() - 1)
     {
         m_iCurrentFrame = 0;
 		//std::cout<<"Frame Wrap for animated texture"<<std::endl;
@@ -55,10 +69,20 @@ void AnimatedTexture::NextFrame()
 
 void AnimatedTexture::SwitchFrame(unsigned int a_iNewFrame)
 {
-    m_fMinU = m_vkFrames[a_iNewFrame]->UMin;
-    m_fMinV = m_vkFrames[a_iNewFrame]->VMin;
-    m_fMaxU = m_vkFrames[a_iNewFrame]->UMax;
-    m_fMaxV = m_vkFrames[a_iNewFrame]->VMax;
+    if(m_bIsTextureFlipped)
+    {
+        m_fMinU = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->UMax;
+        m_fMinV = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->VMin;
+        m_fMaxU = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->UMin;
+        m_fMaxV = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->VMax;
+    }
+    else
+    {
+        m_fMinU = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->UMin;
+        m_fMinV = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->VMin;
+        m_fMaxU = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->UMax;
+        m_fMaxV = m_apkAnimations[m_uiCurrentAnimation]->apkFrames[a_iNewFrame]->VMax;
+    }
 
 	//std::cout<<"Updated UV's for animated texture. "<<std::endl<<"U:"<<m_fMinU<<", V:"<<m_fMinV<<std::endl<<"U:"<<m_fMaxU<<", V:"<<m_fMaxV<<std::endl;
 }
@@ -96,7 +120,13 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 
 	//one divded by framerate
     m_fFrameTime = (float)atof(sLine.c_str());
-
+    
+    //TODO: Put in stuff to do with having different animations being added
+    m_apkAnimations.push_back(new Animation);
+    
+    m_apkAnimations[0]->szName = "Default";
+    
+    
 	while ( szFile.find_first_of("\n") != std::string::npos )
 	{
 		sLine = szFile.substr(0, szFile.find_first_of("\n"));
@@ -123,9 +153,14 @@ std::string AnimatedTexture::LoadAnimation(std::string a_sAnimation, DisplayMana
 			szFile.erase(0, szFile.find_first_of("\n") + 1);
             pkTempFrame->VMax = (float)atof(sLine.c_str());
 
-            m_vkFrames.push_back(pkTempFrame);
+            m_apkAnimations[m_apkAnimations.size() - 1]->apkFrames.push_back(pkTempFrame);
 		}
 	}
 
 	return sFullFile;
+}
+
+void AnimatedTexture::FlipTexture(bool a_bNewSetting)
+{
+    m_bIsTextureFlipped = a_bNewSetting;
 }

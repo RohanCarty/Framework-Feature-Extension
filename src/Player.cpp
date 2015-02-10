@@ -56,6 +56,22 @@ bool Player::Update(float a_fDeltaTime)
 		std::cout<<"No Controller"<<std::endl;
 		return true;
 	}
+    
+    //Changing animations based on movement
+    if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
+	{
+        //SwitchAnimation to standing
+    }
+    else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X < 0)
+	{
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+    }
+    else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X > 0)
+	{
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+    }
 
 	//Deceleration
 

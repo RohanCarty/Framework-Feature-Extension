@@ -29,7 +29,15 @@ struct TextureFrame
     float VMax;
 };
 
-//Class used to store Textures as well as all functions related to manipulating them.
+struct Animation
+{
+    std::string szName;
+    std::vector<TextureFrame*> apkFrames;
+};
+
+//Extension of class used to store Textures as well as all functions related to manipulating them.
+//  Extensions include animations by use of UV's on a spritesheet, frames being stored in a vector with a String to determine which set to be looping through
+//      This'll allow animations to be called by name
 class AnimatedTexture : public Texture
 {
 public:
@@ -37,6 +45,8 @@ public:
 	~AnimatedTexture();
 
 	bool Update(float a_fDeltaTime);
+    
+    void SwitchAnimation(std::string a_szName);
 
 	void NextFrame();
 
@@ -45,12 +55,16 @@ public:
     void LoadTexture(std::string a_sName, DisplayManager* a_pDisplayManager);
 
     std::string LoadAnimation(std::string a_sAnimation, DisplayManager* a_pDisplayManager);
+    
+    void FlipTexture(bool a_bNewSetting);
 
 private:
     unsigned int m_iCurrentFrame;
-    std::vector<TextureFrame*> m_vkFrames;
+    std::vector<Animation*> m_apkAnimations;
     float m_fCurrentTime;
     float m_fFrameTime; // in seconds
+    unsigned int m_uiCurrentAnimation;
+    bool m_bIsTextureFlipped;
 };
 
 #endif

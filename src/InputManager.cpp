@@ -54,7 +54,7 @@ InputManager::~InputManager()
 
 	while(m_apkJoysticks.size() > 0)
 	{
-		RemoveGameController(m_apkJoysticks.size() - 1);
+		RemoveGameController((int)m_apkJoysticks.size() - 1);
 		
 		m_apkJoysticks.pop_back();
 	}
@@ -93,7 +93,7 @@ bool InputManager::Update(float a_fDeltaTime)
 
 			//TODO: Hotswapping controllers.
 			case SDL_CONTROLLERDEVICEADDED:
-				AddGameController(m_apkJoysticks.size() - 1);
+				AddGameController((int)m_apkJoysticks.size() - 1);
 				break;
 			case SDL_CONTROLLERDEVICEREMOVED:
 				RemoveGameController(GetControllerIdByJoystickId(test_event.cdevice.which));
