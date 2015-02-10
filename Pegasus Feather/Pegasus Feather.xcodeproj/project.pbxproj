@@ -22,6 +22,7 @@
 		C9964C55180EF09B001ECC3F /* SDL2_mixer.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CE6BE93E1806A00C00FC9F37 /* SDL2_mixer.framework */; };
 		C9964C56180EF09B001ECC3F /* SDL2_ttf.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CE6BE93F1806A00C00FC9F37 /* SDL2_ttf.framework */; };
 		C9964C57180EF09B001ECC3F /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CE6BE93B18069FFE00FC9F37 /* SDL2.framework */; };
+		C998DB8D1A899F8400C8E3D4 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C998DB8C1A899F8400C8E3D4 /* Player.cpp */; };
 		C9AF7E0219B3992F002AF3EC /* Resources.pak in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9AF7E0019B3992F002AF3EC /* Resources.pak */; };
 		C9AF7E0319B3992F002AF3EC /* Sounds.pak in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9AF7E0119B3992F002AF3EC /* Sounds.pak */; };
 		C9CF89DF19769D650024BEFA /* Resource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9CF89DE19769D650024BEFA /* Resource.cpp */; };
@@ -96,7 +97,8 @@
 		C9964C4C180E9117001ECC3F /* NetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkManager.cpp; sourceTree = "<group>"; };
 		C9964C4E180E923B001ECC3F /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C9964C4F180E942B001ECC3F /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = ../../../../../Library/Frameworks/SDL2_net.framework; sourceTree = "<group>"; };
-		C9964C99180EF788001ECC3F /* resources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = resources; path = ../resources; sourceTree = "<group>"; };
+		C998DB8B1A899F7800C8E3D4 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		C998DB8C1A899F8400C8E3D4 /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		C9AF7E0019B3992F002AF3EC /* Resources.pak */ = {isa = PBXFileReference; lastKnownFileType = file; name = Resources.pak; path = ../Resources.pak; sourceTree = "<group>"; };
 		C9AF7E0119B3992F002AF3EC /* Sounds.pak */ = {isa = PBXFileReference; lastKnownFileType = file; name = Sounds.pak; path = ../Sounds.pak; sourceTree = "<group>"; };
 		C9CF89DE19769D650024BEFA /* Resource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Resource.cpp; sourceTree = "<group>"; };
@@ -184,7 +186,6 @@
 				C9AF7E0019B3992F002AF3EC /* Resources.pak */,
 				C9AF7E0119B3992F002AF3EC /* Sounds.pak */,
 				C9118C9E1975AAA20006C377 /* libGLEW.dylib */,
-				C9964C99180EF788001ECC3F /* resources */,
 				C9964C4F180E942B001ECC3F /* SDL2_net.framework */,
 				CEAE48701806A3B40098CA10 /* libxml2.dylib */,
 				CEAE486E1806A3B40098CA10 /* OpenGL.framework */,
@@ -255,6 +256,7 @@
 				CEAE47EB1806A1EE0098CA10 /* OpenGLDisplayManager.h */,
 				C901912219963759009FECA1 /* PackManager.h */,
 				CEAE47EC1806A1EE0098CA10 /* PerformanceTimer.h */,
+				C998DB8B1A899F7800C8E3D4 /* Player.h */,
 				C9CF89E019769D7F0024BEFA /* Resource.h */,
 				CEAE47EE1806A1EE0098CA10 /* Scene.h */,
 				CEAE47EF1806A1EE0098CA10 /* SceneManager.h */,
@@ -295,6 +297,7 @@
 				CEAE480C1806A1EE0098CA10 /* OpenGL1DisplayManager.cpp */,
 				CEAE480D1806A1EE0098CA10 /* OpenGLDisplayManager.cpp */,
 				C931E600197D46B3005C14A8 /* PackManager.cpp */,
+				C998DB8C1A899F8400C8E3D4 /* Player.cpp */,
 				C9CF89DE19769D650024BEFA /* Resource.cpp */,
 				CEAE480F1806A1EE0098CA10 /* Scene.cpp */,
 				CEAE48101806A1EE0098CA10 /* SceneManager.cpp */,
@@ -409,6 +412,7 @@
 				C9118C9D1975A5220006C377 /* TileManager.cpp in Sources */,
 				C9CF89DF19769D650024BEFA /* Resource.cpp in Sources */,
 				C931E602197D46B3005C14A8 /* PackManager.cpp in Sources */,
+				C998DB8D1A899F8400C8E3D4 /* Player.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
