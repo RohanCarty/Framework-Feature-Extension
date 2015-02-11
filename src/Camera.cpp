@@ -18,7 +18,7 @@ Camera::Camera(Scene* a_pkScene) : Object(a_pkScene)
 
 	SetLocation(0,0, 1);
 
-	m_dTargetZoom = 1.0;
+	m_dTargetZoom = 0.5;
 
 	m_bHidden = true;
 }

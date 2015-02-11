@@ -66,6 +66,10 @@ bool Actor::Update(float a_fDeltaTime)
         {
             m_pVelocity->y = 0.0f;
         }
+        if(m_vCollisionVector.y < 0)
+        {
+            m_pVelocity->y = 0.0f;
+        }
         if(m_vCollisionVector.x != 0)
         {
             m_pVelocity->x = 0.0f;
@@ -257,6 +261,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 
     if(m_bIsCollidingNextFrame || m_bIsCollidingNextFrame2)
     {
+        m_bIsCollidingNextFrame = true;
         return true;
     }
     

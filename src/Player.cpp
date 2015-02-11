@@ -138,11 +138,18 @@ bool Player::Update(float a_fDeltaTime)
 		SetVelocity(0,0,0);
 	}
     
-    std::cout<<"Collision Vector: "<<GetCollisionVector()<<std::endl;
+    //std::cout<<"Collision Vector: "<<GetCollisionVector()<<std::endl;
 
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
-		m_bJumpLatch = false;
+        if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+        {
+            //SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
+            if(GetCollisionVector().y > 0)
+            {
+                m_bJumpLatch = false;
+            }
+        }
 
 		//std::cout<<"Jump Unlatched"<<std::endl;
 	}
