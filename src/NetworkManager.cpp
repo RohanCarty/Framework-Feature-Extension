@@ -330,20 +330,6 @@ void NetworkManager::ProcessCommand(stCommandPacket* a_pkCommandPacket)
 
 void NetworkManager::FullUpdate(stConnectionInfo a_stConnectionInfo)
 {
-    for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetBuildingList().size(); iDx++)
-    {
-        stCommandPacket stTempCommand;
-        
-        //Send Current Location;
-        stTempCommand.m_iOrder = eOrderSpawnBuilding;
-        stTempCommand.m_iUnit = iDx;
-        stTempCommand.m_iClient = 0;
-        stTempCommand.m_vFirstVector = *SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetLocation();
-        stTempCommand.m_vSecondVector = *SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetLocation(); // Fill the entire command fuckhead
-        stTempCommand.m_vSecondVector.x = SceneManager::GetUnitManager()->GetBuildingList()[iDx]->GetBuildingType();
-        AddCommand(&stTempCommand);
-    }
-    
     for(unsigned int iDx = 0; iDx < SceneManager::GetUnitManager()->GetUnitList().size(); iDx++)
     {
         stCommandPacket stTempCommand;

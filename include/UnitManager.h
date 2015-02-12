@@ -40,17 +40,10 @@ public:
     virtual int SpawnNewUnit(int a_iType = 0);
     virtual void SpawnNewUnitOverNetwork(Unit* a_pkUnit);
 
-	virtual int SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType);
-    virtual int SpawnNewBuildingAtTile(Vector a_vTileCoordinates, int a_iBuildingType);
-    virtual void SpawnNewBuildingOverNetwork(Building* a_pkBuilding);
-
-	virtual void SortBuildingByY();
 	virtual void SortUnitByY();
     
-	std::vector<Building*> GetBuildingList();
 	std::vector<Unit*> GetUnitList();
 private:
-	std::vector<Building*> m_apkBuildings;
 	std::vector<Unit*> m_apkUnits;
 	std::vector<Player*> m_apkPlayers;
 };

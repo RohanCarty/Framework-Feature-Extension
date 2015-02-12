@@ -48,8 +48,6 @@ public:
 
 	bool Update(float a_fDeltaTime);
 
-	void SetSelected(bool a_bIsSelected = true);
-
 	void SetDestination(Vector a_vNewDestination, bool a_bReplicate = false);
     
     void SetLocation(Vector a_vNewLocation, bool a_bReplicate = false);
@@ -65,7 +63,6 @@ public:
 	std::string GetUnitTypeString();
 
 	int GetCurrentTask();
-	std::string GetCurrentTaskString();
 
 	std::string GetName();
 
@@ -73,18 +70,10 @@ private:
 	int m_iUnitType; //Holds the unit type
 
 	int m_iCurrentTask; //Holds the enum of the current task
-    
-	bool m_bIsSelected;
 
 	Vector* m_pDestination;
 
 	Object* m_pkTarget;
-
-	int m_iSpeed;
-
-	int m_uiSelectedShaderNumber;
-
-	stStoredResources m_stCurrentResources;
 
 	std::string m_svName;
 };

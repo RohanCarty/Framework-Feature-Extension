@@ -109,39 +109,6 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 		}
 		
     }
-
-    //Start Processsing arguments for ip addresses and strings like "server"
-    //For port number, default's 2819
-    /*if (argc > 2)
-	{
-        if(strcmp(argv[1], "server") == 0)
-        {
-            std::cout<<"Starting server on "<<argv[2]<<std::endl;
-            m_pkNetworkManager->StartServer(atoi(argv[2]));
-        }
-        else
-        {
-            std::cout<<"Connecting to client at: "<<argv[1]<<" on "<<argv[2]<<std::endl;
-            m_pkNetworkManager->ConnectToServer(argv[1], atoi(argv[2]));
-        }
-    }
-    else if(argc == 2)
-    {
-        if(strcmp(argv[1], "server") == 0)
-        {
-            std::cout<<"Starting server on 2819"<<std::endl;
-            m_pkNetworkManager->StartServer(2819);
-        }
-        else
-        {
-            std::cout<<"Connecting to client at: "<<argv[1]<<" on 2819"<<std::endl;
-            m_pkNetworkManager->ConnectToServer(argv[1], 2819);
-        }
-    }
-    else
-    {
-        std::cout<<"No Networking Arguments"<<std::endl;
-    }*/
     
     //Arguments done, time to start the game
     m_pkUnitManager->StartGame();
@@ -158,7 +125,6 @@ void SceneManager::CleanupSceneManager()
 		RemoveCurrentScene();
 	}
 
-    
     delete m_pkUnitManager;
     delete m_pkTileManager;
 	delete m_pkInputManager;

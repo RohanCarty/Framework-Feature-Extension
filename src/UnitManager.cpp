@@ -36,7 +36,7 @@ void UnitManager::StartGame()
 		}
         for(int iDx = 0; iDx < 1; iDx++)
         {
-            //SpawnNewUnit();
+            SpawnNewUnit();
         }
     }
 }
@@ -46,18 +46,6 @@ void UnitManager::StartGame()
 // Also handles the updating of all the units and buildings.
 bool UnitManager::Update(float a_fDeltaTime)
 {
-	//Now all the buildings
-	for( unsigned int iDx = 0; iDx < m_apkBuildings.size(); iDx++ )
-    {
-        if(!m_apkBuildings[iDx]->Update(a_fDeltaTime))
-        {
-            //if a unit returns false, delete it and wind the loop back one.
-            delete m_apkBuildings[iDx];
-            m_apkBuildings.erase(m_apkBuildings.begin() + iDx);
-            iDx--;
-        }
-	}
-
 	//Update all the units
 	SortUnitByY(); // will probably remove this
 	for( unsigned int iDx = 0; iDx < m_apkUnits.size(); iDx++ )
@@ -121,86 +109,6 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
     SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
 }
 
-int UnitManager::SpawnNewBuilding(Vector a_vWorldPosition, int a_iBuildingType)
-{
-    //Need to get the location of the tile it got put on, centre it on that tile and set an occupied flag.
-    /*unsigned int uiIndexOfTile = -1;
-    
-    //TODO: could be optimised with distance checks, but don't worry about it for now.
-    for(unsigned int iDx = 0; iDx < SceneManager::GetTileManager()->GetTileList().size(); iDx++)
-	{
-		if(a_vWorldPosition.WithinBox(*SceneManager::GetTileManager()->GetTileList()[iDx]->GetWorldLocation(), SceneManager::GetTileManager()->GetTileList()[iDx]->GetSize()))
-		{
-            if(SceneManager::GetTileManager()->GetTileList()[iDx]->GetIsOccupied())
-            {
-                std::cout<<"Attempted build space is already occupied by"<<((Building*)SceneManager::GetTileManager()->GetTileList()[iDx]->GetIsOccupiedBy())->GetBuildingTypeString()<<", cancelling building"<<std::endl;
-                return 0;
-            }
-			a_vWorldPosition = *SceneManager::GetTileManager()->GetTileList()[iDx]->GetWorldLocation();
-            
-            uiIndexOfTile = iDx;
-            
-            break;
-		}
-	}
-    
-    m_apkBuildings.push_back(new Building(SceneManager::GetCurrentScene()));
-    
-    m_apkBuildings[m_apkBuildings.size() - 1]->SetLocation(a_vWorldPosition);
-
-	m_apkBuildings[m_apkBuildings.size() - 1]->SetBuildingType(a_iBuildingType);
-
-	m_apkBuildings[m_apkBuildings.size() - 1]->Update(0.0f);
-    
-    SceneManager::GetTileManager()->GetTileList()[uiIndexOfTile]->SetIsOccupied(m_apkBuildings[m_apkBuildings.size() - 1]);
-
-	SortBuildingByY();
-    
-    SpawnNewBuildingOverNetwork(m_apkBuildings[m_apkBuildings.size() - 1]);
-    */
-    return 0;
-}
-
-int UnitManager::SpawnNewBuildingAtTile(Vector a_vTileCoordinates, int a_iBuildingType)
-{
-    /*if(SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetIsOccupied())
-    {
-        std::cout<<"Attempted build space is already occupied by"<<((Building*)SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetIsOccupiedBy())->GetBuildingTypeString()<<", cancelling building"<<std::endl;
-        return 0;
-    }
-    Vector vWorldPosition = *SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->GetWorldLocation();
-    
-    m_apkBuildings.push_back(new Building(SceneManager::GetCurrentScene()));
-    
-    m_apkBuildings[m_apkBuildings.size() - 1]->SetLocation(vWorldPosition);
-    
-	m_apkBuildings[m_apkBuildings.size() - 1]->SetBuildingType(a_iBuildingType);
-    
-	m_apkBuildings[m_apkBuildings.size() - 1]->Update(0.0f);
-    
-    SceneManager::GetTileManager()->GetTileAt(a_vTileCoordinates)->SetIsOccupied(m_apkBuildings[m_apkBuildings.size() - 1]);
-    
-	SortBuildingByY();
-    
-    SpawnNewBuildingOverNetwork(m_apkBuildings[m_apkBuildings.size() - 1]);
-    */
-    return 0;
-}
-
-//TODO: Network Function
-void UnitManager::SpawnNewBuildingOverNetwork(Building* a_pkBuilding)
-{
-    stCommandPacket stTempCommand;
-    
-    stTempCommand.m_iOrder = eOrderSpawnBuilding;
-    stTempCommand.m_iUnit = a_pkBuilding->m_iUnitNumber;
-    stTempCommand.m_iClient = 0;
-    stTempCommand.m_vFirstVector = *a_pkBuilding->GetLocation();
-    stTempCommand.m_vSecondVector = *a_pkBuilding->GetLocation(); // Fill the entire command fuckhead
-    stTempCommand.m_vSecondVector.x = a_pkBuilding->GetBuildingType(); // Set the building Type
-    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
-}
-
     //Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
 //TODO: get rid of this, will not scale nicely and it'll be fully topdown anyway
 void UnitManager::SortUnitByY()
@@ -232,42 +140,7 @@ void UnitManager::SortUnitByY()
 	}
 }
 
-//Resorts the list of buildings so that buildings that have a lower Y are drawn last. (isometric drawing thingo)
-void UnitManager::SortBuildingByY()
-{
-	//Selection Sort
-	unsigned int uiLowestBuilding = 0; //assume first element is the smallest
-	Building* pTempBuilding = NULL;
-
-	for(unsigned int iDx = 0; iDx < m_apkBuildings.size(); iDx++)
-	{
-		uiLowestBuilding = iDx;
-
-		for(unsigned int iDy = iDx + 1; iDy < m_apkBuildings.size(); iDy++)
-		{
-			if(m_apkBuildings[iDy]->GetWorldLocation()->y < m_apkBuildings[uiLowestBuilding]->GetWorldLocation()->y)
-			{
-				//Set lowest
-				uiLowestBuilding = iDy;
-			}
-		}
-
-		if(uiLowestBuilding != iDx)
-		{
-			//Swap
-			pTempBuilding = m_apkBuildings[iDx];
-			m_apkBuildings[iDx] = m_apkBuildings[uiLowestBuilding];
-			m_apkBuildings[uiLowestBuilding] = pTempBuilding;
-		}
-	}
-}
-
 std::vector<Unit*> UnitManager::GetUnitList()
 {
 	return m_apkUnits;
-}
-
-std::vector<Building*> UnitManager::GetBuildingList()
-{
-	return m_apkBuildings;
 }

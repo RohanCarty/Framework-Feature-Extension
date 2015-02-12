@@ -22,30 +22,25 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	if(rand() % 2 + 1 == 1)
 	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/elusive.animated", SceneManager::GetDisplayManager());
+		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
 	}
 	else
 	{
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
-	m_uiSelectedShaderNumber = SceneManager::GetDisplayManager()->LoadShaderProgram("Resources/Shaders/System/texturevert.glsl","Resources/Shaders/greyscale.frag");
-
     m_iUnitNumber = 0;
     
     m_pDestination = new Vector();
 
 	m_pkTarget = NULL;
-    
-    m_iSpeed = 80;
-
-	m_bIsSelected = false;
-
-	// Init held resources
-	m_stCurrentResources.iWood = 0;
 
 	SetScale(0.4f);
 	SetSize(GetSize() * GetScale());
+    
+    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+    
+    m_bIsGravityOn = true;
 
 	switch (rand() % 12)
 	{
@@ -111,61 +106,13 @@ bool Unit::Update(float a_fDeltaTime)
 
     Actor::Update(a_fDeltaTime);
 
-    Vector TempVector;
+    /*Vector TempVector;
 
     TempVector = (*GetLocation() - *m_pDestination);
 
-	TempVector = TempVector.Unitise();
-
-    TempVector *= m_iSpeed;
-
-    if(GetLocation()->CheckDistance(*m_pDestination) > 10.0f)
-    {
-        SetVelocity(TempVector);
-        switch(m_iCurrentTask)
-		{
-            case eGathering:
-                break;
-            case eDelivering:
-                break;
-            case eBuilding:
-                break;
-            default:
-                break;
-		}
-    }
-    else
-    {
-		/*switch(m_iCurrentTask)
-		{
-		default:*/
-			SetVelocity(0,0,0);
-			//m_iCurrentTask = eIdle;
-			m_pkTarget = NULL;
-			/*break;
-		}*/
-    }
-    
-    NetworkUpdateLocationAndDestination();
+	TempVector = TempVector.Unitise();*/
 
     return true;
-}
-
-void Unit::SetSelected(bool a_bIsSelected)
-{
-	//std::cout<<"Unit Selection Status Changed To: "<<m_bIsSelected<<" Pointer: "<<this<<std::endl;
-	if(a_bIsSelected == false)
-	{
-		//Change shader back to default
-		m_uiShaderNumber = SceneManager::GetDisplayManager()->GetDefaultShader();
-	}
-	else
-	{
-		//Change Shader to black and white
-		m_uiShaderNumber = m_uiSelectedShaderNumber;
-		SceneManager::GetSoundManager()->PlaySound("Resources/Sound/Grunt.wav");
-	}
-	m_bIsSelected = a_bIsSelected;
 }
 
 void Unit::SetDestination(Vector a_vNewDestination, bool a_bReplicate)
@@ -258,28 +205,6 @@ std::string Unit::GetUnitTypeString()
 int Unit::GetCurrentTask()
 {
 	return m_iCurrentTask;
-}
-
-std::string Unit::GetCurrentTaskString()
-{
-	switch(m_iCurrentTask)
-	{
-		case eIdle:
-			return "Idle";
-			break;
-		case eGathering:
-			return "Gathering";
-			break;
-		case eDelivering:
-			return "Delivering";
-			break;
-		case eBuilding:
-			return "Building";
-			break;
-		default:
-			return "Generic Unit";
-			break;
-	}
 }
 
 std::string Unit::GetName()
