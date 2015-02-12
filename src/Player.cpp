@@ -62,49 +62,27 @@ bool Player::Update(float a_fDeltaTime)
 	}
     
     //Changing animation based on changed direction
-    
-    int iTempDirection = 0;
-    
+
     if(m_pVelocity->x == 0.0f)
     {
-        iTempDirection = 0;
+        //SwitchAnimation to standing
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+        m_iCurrentDirection = 0;
     }
-    else if(m_pVelocity->x < 0.0f)
+    if(m_pVelocity->x < 0.0f)
     {
-        iTempDirection = -1;
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+        m_iCurrentDirection = -1;
     }
-    else if(m_pVelocity->x > 0.0f)
+    if(m_pVelocity->x > 0.0f)
     {
-        iTempDirection = 1;
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+		m_iCurrentDirection = 1;
     }
-    
-    if(m_iCurrentDirection != iTempDirection)
-    {
-        
-        if(m_pVelocity->x == 0.0f)
-        {
-            //SwitchAnimation to standing
-            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
-            m_iCurrentDirection = 0;
-        }
-        if(m_pVelocity->x < 0.0f)
-        {
-            //SwitchAnimation to running
-            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-            m_apkRenderables[0].m_pkTexture->FlipTexture(true);
-            m_iCurrentDirection = -1;
-        }
-        if(m_pVelocity->x > 0.0f)
-        {
-            //SwitchAnimation to running
-            m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-            m_apkRenderables[0].m_pkTexture->FlipTexture(false);
-            m_iCurrentDirection = 1;
-        }
-        
-        m_iCurrentDirection = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X;
-    }
-
 	//Deceleration
 
 	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)

@@ -51,6 +51,12 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
 
 void AnimatedTexture::SwitchAnimation(std::string a_szName)
 {
+	//Don't fuck with already playing animations.
+	if(a_szName == m_apkAnimations[m_uiCurrentAnimation]->szName)
+	{
+		return;
+	}
+
     for(int iDx = 0; iDx < m_apkAnimations.size();iDx++)
     {
         if(m_apkAnimations[iDx]->szName == a_szName)
