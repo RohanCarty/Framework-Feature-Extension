@@ -18,8 +18,14 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_iUnitType = eCitizen;
 
-	m_iCurrentTask = eIdle;
-
+    //Pick a random direction.
+	m_iCurrentDirection = rand()% 2;
+    
+    if(m_iCurrentDirection == 0)
+    {
+        m_iCurrentDirection = -1;
+    }
+    
 	if(rand() % 2 + 1 == 1)
 	{
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
@@ -29,13 +35,18 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
+    m_vMaxSpeed.x = 400 + (rand() % 50 - 25);
+	m_vMaxSpeed.y = 600;
+    
+	m_iAcceleration = 25 + (rand() % 20 - 10);
+    
     m_iUnitNumber = 0;
     
     m_pDestination = new Vector();
 
 	m_pkTarget = NULL;
 
-	SetScale(0.4f);
+	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
     
     m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
@@ -104,7 +115,40 @@ bool Unit::Update(float a_fDeltaTime)
     std::cout<<"Player Tick: "<<this<<std::endl;
     #endif
 
+    //Go in randomly picked direction.
+    
+    m_pVelocity->x += (m_iAcceleration * m_iCurrentDirection);
+    
+    //Changing animation based on changed direction
+    
+    if(m_pVelocity->x == 0.0f)
+    {
+        //SwitchAnimation to standing
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+        m_iCurrentDirection = 0;
+    }
+    if(m_pVelocity->x < 0.0f)
+    {
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+        m_iCurrentDirection = -1;
+    }
+    if(m_pVelocity->x > 0.0f)
+    {
+        //SwitchAnimation to running
+        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+		m_iCurrentDirection = 1;
+    }
+    
     Actor::Update(a_fDeltaTime);
+    
+    //If Velocity on the x is zero then assume that we've hit a wall, change direction.
+    if(m_pVelocity->x == 0.0)
+    {
+        m_iCurrentDirection *= -1;
+    }
 
     /*Vector TempVector;
 
@@ -200,11 +244,6 @@ std::string Unit::GetUnitTypeString()
 			return "Generic Unit";
 			break;
 	}
-}
-
-int Unit::GetCurrentTask()
-{
-	return m_iCurrentTask;
 }
 
 std::string Unit::GetName()

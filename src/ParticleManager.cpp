@@ -17,9 +17,9 @@ bool ParticleManager::Update(float a_fDeltaTime)
     //Update all the tiles
 
 	//auto spawn particle test.
-	if(m_apkParticles.size() < 2)
+	if(m_apkParticles.size() < 1)
 	{
-		SpawnParticle(Vector(0,0,0));
+		//SpawnParticle(Vector(0,0,0));
 	}
 
 	for( unsigned int iDx = 0; iDx < m_apkParticles.size(); iDx++ )

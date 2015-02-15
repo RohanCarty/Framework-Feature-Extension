@@ -34,7 +34,7 @@ void UnitManager::StartGame()
 		{
 			SpawnPlayer();
 		}
-        for(int iDx = 0; iDx < 1; iDx++)
+        for(int iDx = 0; iDx < 5; iDx++)
         {
             SpawnNewUnit();
         }

@@ -7,7 +7,7 @@ TileManager::TileManager()
 {
     //SpawnTile(Vector(0,0,0));
 
-    m_iTileListWidth = 15;
+    m_iTileListWidth = 25;
 	GenerateMap(0);
 }
 
@@ -55,10 +55,14 @@ void TileManager::GenerateMap(int a_iSeed)
 
             GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, 0, 0));
 	}
-    SpawnTile(Vector(-128, 64, 9));
-    SpawnTile(Vector(-192, 64, 0));
-    SpawnTile(Vector(-192, 0, 0));
-    SpawnTile(Vector(192, -64, 0));
+    SpawnTile(Vector(-768, -128, 0));
+    SpawnTile(Vector(-768, -64, 0));
+    SpawnTile(Vector(-768, 0, 0));
+    SpawnTile(Vector(-768, 64, 0));
+    SpawnTile(Vector(768, -128, 0));
+    SpawnTile(Vector(768, -64, 0));
+    SpawnTile(Vector(768, 0, 0));
+    SpawnTile(Vector(768, 64, 0));
 
     return;
 }

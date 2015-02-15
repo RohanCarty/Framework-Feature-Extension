@@ -62,14 +62,12 @@ public:
 	int GetUnitType();
 	std::string GetUnitTypeString();
 
-	int GetCurrentTask();
-
 	std::string GetName();
 
 private:
 	int m_iUnitType; //Holds the unit type
 
-	int m_iCurrentTask; //Holds the enum of the current task
+	int m_iCurrentDirection; //Holds the enum of the current task
 
 	Vector* m_pDestination;
 
