@@ -15,6 +15,8 @@
 		C934D282180D7EDE00768ABF /* Unit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C934D280180D7EDE00768ABF /* Unit.cpp */; };
 		C934D283180D7EDE00768ABF /* UnitManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C934D281180D7EDE00768ABF /* UnitManager.cpp */; };
 		C96CC006180D802A00E368AF /* Cursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C96CC005180D802A00E368AF /* Cursor.cpp */; };
+		C9925A781A9089B400BE9AA8 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9925A761A9089B400BE9AA8 /* Particle.cpp */; };
+		C9925A791A9089B400BE9AA8 /* ParticleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9925A771A9089B400BE9AA8 /* ParticleManager.cpp */; };
 		C9964C4D180E9117001ECC3F /* NetworkManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C9964C4C180E9117001ECC3F /* NetworkManager.cpp */; };
 		C9964C50180E942B001ECC3F /* SDL2_net.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9964C4F180E942B001ECC3F /* SDL2_net.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		C9964C52180EF09B001ECC3F /* SDL2_net.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9964C4F180E942B001ECC3F /* SDL2_net.framework */; };
@@ -56,7 +58,6 @@
 		CEAE48581806A1EE0098CA10 /* Vector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEAE48151806A1EE0098CA10 /* Vector.cpp */; };
 		CEAE48591806A1EE0098CA10 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CEAE48161806A1EE0098CA10 /* Vertex.cpp */; };
 		CEAE486F1806A3B40098CA10 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAE486E1806A3B40098CA10 /* OpenGL.framework */; };
-		CEAE48711806A3B40098CA10 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAE48701806A3B40098CA10 /* libxml2.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,6 +95,10 @@
 		C934D285180D7EF800768ABF /* UnitManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UnitManager.h; sourceTree = "<group>"; };
 		C96CC005180D802A00E368AF /* Cursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cursor.cpp; sourceTree = "<group>"; };
 		C96CC007180D803200E368AF /* Cursor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cursor.h; sourceTree = "<group>"; };
+		C9925A761A9089B400BE9AA8 /* Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Particle.cpp; sourceTree = "<group>"; };
+		C9925A771A9089B400BE9AA8 /* ParticleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleManager.cpp; sourceTree = "<group>"; };
+		C9925A7A1A9089DB00BE9AA8 /* Particle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
+		C9925A7B1A9089DB00BE9AA8 /* ParticleManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParticleManager.h; sourceTree = "<group>"; };
 		C9964C4C180E9117001ECC3F /* NetworkManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NetworkManager.cpp; sourceTree = "<group>"; };
 		C9964C4E180E923B001ECC3F /* NetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetworkManager.h; sourceTree = "<group>"; };
 		C9964C4F180E942B001ECC3F /* SDL2_net.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_net.framework; path = ../../../../../Library/Frameworks/SDL2_net.framework; sourceTree = "<group>"; };
@@ -158,7 +163,6 @@
 		CEAE48151806A1EE0098CA10 /* Vector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vector.cpp; sourceTree = "<group>"; };
 		CEAE48161806A1EE0098CA10 /* Vertex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertex.cpp; sourceTree = "<group>"; };
 		CEAE486E1806A3B40098CA10 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		CEAE48701806A3B40098CA10 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,7 +172,6 @@
 			files = (
 				C9118C9F1975AAA20006C377 /* libGLEW.dylib in Frameworks */,
 				C9964C50180E942B001ECC3F /* SDL2_net.framework in Frameworks */,
-				CEAE48711806A3B40098CA10 /* libxml2.dylib in Frameworks */,
 				CEAE486F1806A3B40098CA10 /* OpenGL.framework in Frameworks */,
 				CE6BE9401806A00C00FC9F37 /* SDL2_image.framework in Frameworks */,
 				CE6BE9411806A00C00FC9F37 /* SDL2_mixer.framework in Frameworks */,
@@ -187,7 +190,6 @@
 				C9AF7E0119B3992F002AF3EC /* Sounds.pak */,
 				C9118C9E1975AAA20006C377 /* libGLEW.dylib */,
 				C9964C4F180E942B001ECC3F /* SDL2_net.framework */,
-				CEAE48701806A3B40098CA10 /* libxml2.dylib */,
 				CEAE486E1806A3B40098CA10 /* OpenGL.framework */,
 				CE6BE93D1806A00C00FC9F37 /* SDL2_image.framework */,
 				CE6BE93E1806A00C00FC9F37 /* SDL2_mixer.framework */,
@@ -255,6 +257,8 @@
 				CEAE47EA1806A1EE0098CA10 /* OpenGL1DisplayManager.h */,
 				CEAE47EB1806A1EE0098CA10 /* OpenGLDisplayManager.h */,
 				C901912219963759009FECA1 /* PackManager.h */,
+				C9925A7A1A9089DB00BE9AA8 /* Particle.h */,
+				C9925A7B1A9089DB00BE9AA8 /* ParticleManager.h */,
 				CEAE47EC1806A1EE0098CA10 /* PerformanceTimer.h */,
 				C998DB8B1A899F7800C8E3D4 /* Player.h */,
 				C9CF89E019769D7F0024BEFA /* Resource.h */,
@@ -297,6 +301,8 @@
 				CEAE480C1806A1EE0098CA10 /* OpenGL1DisplayManager.cpp */,
 				CEAE480D1806A1EE0098CA10 /* OpenGLDisplayManager.cpp */,
 				C931E600197D46B3005C14A8 /* PackManager.cpp */,
+				C9925A761A9089B400BE9AA8 /* Particle.cpp */,
+				C9925A771A9089B400BE9AA8 /* ParticleManager.cpp */,
 				C998DB8C1A899F8400C8E3D4 /* Player.cpp */,
 				C9CF89DE19769D650024BEFA /* Resource.cpp */,
 				CEAE480F1806A1EE0098CA10 /* Scene.cpp */,
@@ -413,6 +419,8 @@
 				C9CF89DF19769D650024BEFA /* Resource.cpp in Sources */,
 				C931E602197D46B3005C14A8 /* PackManager.cpp in Sources */,
 				C998DB8D1A899F8400C8E3D4 /* Player.cpp in Sources */,
+				C9925A781A9089B400BE9AA8 /* Particle.cpp in Sources */,
+				C9925A791A9089B400BE9AA8 /* ParticleManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

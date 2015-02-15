@@ -4,11 +4,6 @@
 #include "Texture.h"
 #include "PackManager.h"
 
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <libxml/xinclude.h>
-#include <libxml/xmlIO.h>
-
 //Texture Functions
 Mesh::Mesh()
 {
@@ -51,58 +46,61 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 	}
 	SetElementCounts(a_szFileName);
 
-	int iCurrentCount = 0;
-
 	Vector vTemp;
+    
+    int iCurrentCount = 0;
 
 	std::string sTempString;
-	std::string sTempNodeName;
-
-    xmlNodePtr pCurNode;//, pParentNode;
-    xmlDocPtr pDoc;
-    xmlChar* pXmlBuff;
 
 	int iSizeOfFile;
 
     iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
 
 	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
-
-	pDoc = xmlReadMemory(szTempString.c_str(),iSizeOfFile,"", NULL, 0);
-
-	//pDoc = xmlReadMemory((char*)PackManager::LoadResource(a_szFileName,iSizeOfFile),*iSizeOfFile,"Mesh", NULL, 0);
-
-    pCurNode = xmlDocGetRootElement(pDoc);
-
-    if(pCurNode == NULL)
+    
+	//Open file
+	m_szsStringStream.str(szTempString);
+    
+	char acTempCstring[1024];
+    
+    m_szsStringStream.seekg(0);
+    m_szsStringStream.clear();
+    
+	std::string szTempName;
+	
+	if(!m_szsStringStream.good())
+	{
+        std::cout<<"File is not good"<<std::endl;
+		/*std::string szTempError;
+         strerror_s(acTempCstring, errno);
+         szTempError = "Error code: "; szTempError += acTempCstring;
+         LogString(szTempError);*/
+	}
+    
+    
+    while(m_szsStringStream.good()) // While file is good
     {
-		std::cout<<"Mesh load error "<<a_szFileName<<std::endl;
-        return false;
-    }
-
-    pCurNode = pCurNode->children;
-    pCurNode = pCurNode->next;
-
-    bool bFinished = false;
-
-    while(bFinished == false)
-    {
-        if(strcmp((const char*) pCurNode->name, "text") != 0)
+		m_szsStringStream.getline(acTempCstring, 128);
+		szTempString = acTempCstring;
+        
+		if(szTempString.find_first_of("<") != szTempString.npos) // if doesn't contain a ?
         {
+			szTempName = szTempString.substr(szTempString.find_first_of("<") + 1, szTempString.find(">") - szTempString.find_first_of("<") - 1);
+			std::string sBuff(szTempString.substr(szTempString.find_first_of(">") + 1, szTempString.find_last_of("<") - szTempString.find_first_of(">") - 1)); //Prune text out
+			//std::string sBuff = "";
+            //std::cout<<"Name Buffer is: " + szTempName<<std::endl;
+            //std::cout<<"Data Buffer is: " + sBuff<<std::endl;
+            
             sTempString.clear();
-			sTempNodeName.clear();
-
-            pXmlBuff = xmlNodeGetContent(pCurNode);
-
-            sTempString.append((const char *) pXmlBuff);
-			sTempNodeName.append((const char*) pCurNode->name);
-
-			if(sTempNodeName == "Vertex")
+            
+            if(szTempName == "Vertex")
 			{
 				//Do Vertex Stuff
 				//std::cout<<"Vertex Data: "<<sTempString<<std::endl;
 				std::size_t sFound;
-
+                
+                sTempString = sBuff;
+                
 				sFound = sTempString.find(",");
 				vTemp.x = atof(sTempString.substr(0, sFound).c_str());
 				sTempString.erase(0, sFound + 1);
@@ -111,36 +109,31 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 				sTempString.erase(0, sFound + 1);
 				sFound = sTempString.at(0);
 				vTemp.z = atof(sTempString.substr(0, sFound).c_str());
-
+                
 				//std::cout<<"Processed Vertex Data: "<<vTemp.x<<", "<<vTemp.y<<", "<<vTemp.z<<std::endl;
-
+                
 				m_pakVertices[iCurrentCount].SetLocation(vTemp);
 				m_pakOriginalVertices[iCurrentCount].SetLocation(vTemp);
 			}
-
-			if(sTempNodeName == "UV")
+            
+			if(szTempName == "UV")
 			{
 				//Do UV stuff
 				//std::cout<<"UV Data: "<<sTempString<<std::endl;
+                sTempString = sBuff;
+                
 				std::size_t sFound = sTempString.find(",");
 				m_pafU[iCurrentCount] = (float)atof(sTempString.substr(0, sFound ).c_str());
 				sTempString.erase(0, sFound + 1);
 				sFound = sTempString.at(0);
 				m_pafV[iCurrentCount] = (float)atof(sTempString.substr(0, sFound).c_str());
-
+                
 				//std::cout<<"Processed UV Data: "<<m_paiU[iCurrentCount]<<", "<<m_paiV[iCurrentCount]<<std::endl;
-
+                
 				iCurrentCount++;
 			}
         }
-
-        pCurNode = pCurNode->next;
-        if(pCurNode == NULL)
-        {
-            bFinished = true;
-        }
     }
-
 	return true;
 }
 
@@ -149,77 +142,53 @@ void Mesh::SetElementCounts(std::string a_szFileName)
 	m_iNumberOfVertices = 0;
 
 	std::string sTempString;
-	std::string sTempNodeName;
-
-    xmlNodePtr pCurNode;//, pParentNode;
-    xmlDocPtr pDoc;
-    xmlChar* pXmlBuff;
-
+    
 	int iSizeOfFile;
-
+    
     iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
-
+    
 	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
-
-	pDoc = xmlReadMemory(szTempString.c_str(),iSizeOfFile,"", NULL, 0);
-	//pDoc = xmlParseMemory((char*)PackManager::LoadResource(a_szFileName,iSizeOfFile),*iSizeOfFile);
-
-    pCurNode = xmlDocGetRootElement(pDoc);
-
-    if(pCurNode == NULL)
+    
+	//Open file
+	m_szsStringStream.str(szTempString);
+    
+	char acTempCstring[1024];
+    
+    m_szsStringStream.seekg(0, m_szsStringStream.beg);
+    
+	std::string szTempName;
+	
+	if(!m_szsStringStream.good())
+	{
+        std::cout<<"File is not good"<<std::endl;
+		/*std::string szTempError;
+         strerror_s(acTempCstring, errno);
+         szTempError = "Error code: "; szTempError += acTempCstring;
+         LogString(szTempError);*/
+	}
+    
+    
+    while(m_szsStringStream.good()) // While file is good
     {
-		std::cout<<"Mesh load error "<<a_szFileName<<std::endl;
-        return;
-    }
-
-    pCurNode = pCurNode->children;
-    pCurNode = pCurNode->next;
-
-    bool bFinished = false;
-
-    while(bFinished == false)
-    {
-        if(strcmp((const char*) pCurNode->name, "text") != 0)
+		m_szsStringStream.getline(acTempCstring, 128);
+		szTempString = acTempCstring;
+        
+		if(szTempString.find_first_of("<") != szTempString.npos) // if doesn't contain a ?
         {
+			szTempName = szTempString.substr(szTempString.find_first_of("<") + 1, szTempString.find(">") - szTempString.find_first_of("<") - 1);
+			std::string sBuff(szTempString.substr(szTempString.find_first_of(">") + 1, szTempString.find_last_of("<") - szTempString.find_first_of(">") - 1)); //Prune text out
+			//std::string sBuff = "";
+            //std::cout<<"Name Buffer is: " + szTempName<<std::endl;
+            //std::cout<<"Data Buffer is: " + sBuff<<std::endl;
+            
             sTempString.clear();
-			sTempNodeName.clear();
-
-            pXmlBuff = xmlNodeGetContent(pCurNode);
-
-            sTempString.append((const char *) pXmlBuff);
-			sTempNodeName.append((const char*) pCurNode->name);
-
-			if(sTempNodeName == "Vertex")
+            
+            if(szTempName == "Vertex")
 			{
-				//Increase count
-				m_iNumberOfVertices++;
+                m_iNumberOfVertices++;
 			}
         }
-
-        pCurNode = pCurNode->next;
-        if(pCurNode == NULL)
-        {
-            bFinished = true;
-        }
     }
-
-	//Now allocate the arrays
-	if(m_pakVertices != NULL)
-	{
-		//delete m_pakVertices;
-	}
-	if(m_pakOriginalVertices != NULL)
-	{
-		//delete m_pakOriginalVertices;
-	}
-	if(m_pafU != NULL)
-	{
-		//delete m_paiU;
-	}
-	if(m_pafV != NULL)
-	{
-		//delete m_paiV;
-	}
 
 	//std::cout<<"Number of Vertices: "<<m_iNumberOfVertices<<std::endl;
 
@@ -227,6 +196,8 @@ void Mesh::SetElementCounts(std::string a_szFileName)
 	m_pakOriginalVertices = new Vertex[m_iNumberOfVertices];
 	m_pafU = new float[m_iNumberOfVertices];
 	m_pafV = new float[m_iNumberOfVertices];
+    
+    m_szsStringStream.seekg(0);
 
 	return;
 }

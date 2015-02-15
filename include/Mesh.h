@@ -15,6 +15,7 @@
 #endif
 
 #include <string>
+#include <sstream>
 #include <stdio.h>
 #include <string.h>
 
@@ -44,6 +45,8 @@ public:
 	void SetTexture(Texture* a_pTexture);
 
 private:
+    std::stringstream m_szsStringStream;
+    
 	int m_iNumberOfVertices;
 
 	Vertex* m_pakVertices;

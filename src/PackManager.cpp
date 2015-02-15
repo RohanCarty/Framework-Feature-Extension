@@ -140,7 +140,7 @@ void PackManager::LoadPackageHeaders(std::string a_szNameOfPackage)
 			m_astPakFileEntrys.push_back(stFileEntry);
         }
 
-        //delete pcTempChar;
+        delete pcTempChar;
     }
 }
 
