@@ -26,6 +26,7 @@
 #include "NetworkManager.h"
 #include "UnitManager.h"
 #include "TileManager.h"
+#include "ParticleManager.h"
 
 //Forward declare Scene class.
 class Scene;
@@ -52,6 +53,7 @@ public:
 	static NetworkManager* GetNetworkManager();
     static UnitManager* GetUnitManager();
     static TileManager* GetTileManager();
+	static ParticleManager* GetParticleManager();
     
     static Scene* GetCurrentScene();
 	
@@ -70,6 +72,7 @@ private:
 	static NetworkManager* m_pkNetworkManager;
 	static UnitManager* m_pkUnitManager;
     static TileManager* m_pkTileManager;
+	static ParticleManager* m_pkParticleManager;
 };
 
 #endif

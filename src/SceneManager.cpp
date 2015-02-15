@@ -23,6 +23,7 @@ SoundManager* SceneManager::m_pkSoundManager;
 NetworkManager* SceneManager::m_pkNetworkManager;
 UnitManager* SceneManager::m_pkUnitManager;
 TileManager* SceneManager::m_pkTileManager;
+ParticleManager* SceneManager::m_pkParticleManager;
 
 SceneManager::SceneManager()
 {
@@ -89,6 +90,8 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     
     m_pkTileManager = new TileManager;
 
+	m_pkParticleManager = new ParticleManager;
+
 	for(int iDx = 0; iDx < argc; iDx++)
     {
         if(strcmp(argv[iDx], "server") == 0)
@@ -127,6 +130,7 @@ void SceneManager::CleanupSceneManager()
 
     delete m_pkUnitManager;
     delete m_pkTileManager;
+	delete m_pkParticleManager;
 	delete m_pkInputManager;
 	delete m_pkObjectManager;
 	delete m_pkSoundManager;
@@ -189,6 +193,7 @@ bool SceneManager::Update(float a_fDeltaTime)
         }
         
         m_pkTileManager->Update(a_fDeltaTime);
+		m_pkParticleManager->Update(a_fDeltaTime);
         m_pkUnitManager->Update(a_fDeltaTime);
         
         if(m_stScenes.top()->Update(a_fDeltaTime))
@@ -258,4 +263,9 @@ UnitManager* SceneManager::GetUnitManager()
 TileManager* SceneManager::GetTileManager()
 {
 	return m_pkTileManager;
+}
+
+ParticleManager* SceneManager::GetParticleManager()
+{
+	return m_pkParticleManager;
 }
