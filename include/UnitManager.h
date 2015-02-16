@@ -22,6 +22,7 @@
 //Forward Declare
 class Building;
 class Unit;
+class Actor;
 class Player;
 class Scene;
 
@@ -43,9 +44,11 @@ public:
 	virtual void SortUnitByY();
     
 	std::vector<Unit*> GetUnitList();
+    std::vector<Actor*> GetActorList();
 private:
 	std::vector<Unit*> m_apkUnits;
 	std::vector<Player*> m_apkPlayers;
+    std::vector<Actor*> m_apkActors; //combined list of both other types
 };
 
 #endif
