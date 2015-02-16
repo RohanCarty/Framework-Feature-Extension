@@ -13,6 +13,8 @@ Tile::Tile(Scene* a_pkScene) : Object(a_pkScene)
 
     SetScale(0.5f);
     SetSize(Vector(64,64,64));
+    
+    m_iObjectType = eTile;
 }
 
 Tile::~Tile()

@@ -95,6 +95,8 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 		m_svName = "RNG is broken, wut";
 		break;
 	}
+    
+    m_iObjectType = eUnit;
 }
 
 Unit::~Unit()
@@ -143,6 +145,18 @@ bool Unit::Update(float a_fDeltaTime)
     }
     
     Actor::Update(a_fDeltaTime);
+    
+    if(IsCollidingWithActorNextFrame(a_fDeltaTime))
+    {
+        for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
+        {
+            if(m_apkIsCollidingWithNextFame[uiDx]->m_iObjectType == ePlayer)
+            {
+                //TODO: Proper damage
+                ((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - 10);
+            }
+        }
+    }
     
     //If Velocity on the x is zero then assume that we've hit a wall, change direction.
     if(m_pVelocity->x == 0.0)

@@ -28,9 +28,10 @@ Actor::Actor(Scene* a_pkScene) : Object(a_pkScene)
 	//Collision stuff
 	m_bIsCollidingTileNextFrame = false;
     m_bIsCollidingActorNextFrame = false;
-	m_pkIsCollidingWithNextFame = NULL;
 	m_bIsCollidingTileNextFrameSet = false;
     m_bIsCollidingActorNextFrameSet = false;
+    
+    m_iObjectType = eActor;
 }
 
 Actor::~Actor()
@@ -45,10 +46,21 @@ bool Actor::Update(float a_fDeltaTime)
     #ifdef _FULL_DEBUG_MESSAGES_
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
+    
+    if(m_iHealth <= 0)
+    {
+        return false;
+    }
 
 	//Reset Collision Latch
 	m_bIsCollidingTileNextFrameSet = false;
     m_bIsCollidingActorNextFrameSet = false;
+    
+    //Clear collision list
+    while(m_apkIsCollidingWithNextFame.size() > 0)
+    {
+        m_apkIsCollidingWithNextFame.pop_back();
+    }
 
     Object::Update(a_fDeltaTime);
 
@@ -84,11 +96,6 @@ bool Actor::Update(float a_fDeltaTime)
 	}
     
     SetLocation(GetLocation()->x + (m_pVelocity->x * a_fDeltaTime), GetLocation()->y + (m_pVelocity->y * a_fDeltaTime), GetLocation()->z + (m_pVelocity->z * a_fDeltaTime));
-
-    if(m_iHealth <= 0)
-    {
-        return false;
-    }
     
     return true;
 }
@@ -149,7 +156,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
 
 		vTemp = vCalculatedPosition;
@@ -159,7 +166,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
 
 		vTemp = vCalculatedPosition;
@@ -169,7 +176,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
 
 		vTemp = vCalculatedPosition;
@@ -179,7 +186,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
         
         if(m_bIsCollidingTileNextFrame)
@@ -221,7 +228,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -231,7 +238,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -241,7 +248,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -251,7 +258,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingTileNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetTileManager()->GetTileList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetTileManager()->GetTileList()[uiDx]);
 		}
         
         if(m_bIsCollidingTileNextFrame)
@@ -310,7 +317,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -320,7 +327,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -330,7 +337,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -340,7 +347,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
         if(m_bIsCollidingActorNextFrame)
@@ -382,7 +389,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -392,7 +399,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -402,7 +409,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
 		}
         
 		vTemp = vCalculatedPosition;
@@ -412,8 +419,8 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;
-			m_pkIsCollidingWithNextFame = SceneManager::GetUnitManager()->GetActorList()[uiDx];
-		}
+			m_apkIsCollidingWithNextFame.push_back(SceneManager::GetUnitManager()->GetActorList()[uiDx]);
+        }
         
         if(m_bIsCollidingActorNextFrame)
         {
@@ -440,6 +447,18 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
     
 	m_bIsCollidingActorNextFrame = false;
 	return false;
+}
+
+void Actor::SetHealth(int a_iNewHealth)
+{
+    m_iHealth = a_iNewHealth;
+    
+    std::cout<<"Setting new health: "<<m_iHealth<<std::endl;
+}
+
+int Actor::GetHealth()
+{
+    return m_iHealth;
 }
 
 Vector Actor::GetCollisionVector()

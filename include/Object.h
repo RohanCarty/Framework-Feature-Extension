@@ -28,6 +28,14 @@ class Mesh;
 class AnimatedTexture;
 class Matrix;
 
+enum eObjectType
+{
+	eActor = 0,
+    ePlayer,
+    eUnit,
+    eTile,
+    eObject
+};
 
 struct stRenderable
 {
@@ -74,6 +82,8 @@ public:
 
     float GetScale();
     void SetScale(float a_fScale);
+    
+    eObjectType m_iObjectType;
 
 protected:
     Object* m_pkParent;

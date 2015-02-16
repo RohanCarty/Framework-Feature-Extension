@@ -37,6 +37,7 @@ Object::Object(Scene* a_pkScene)
     m_vSize = Vector(128.0,128.0, 128.0);
 	m_fScale = 1.0f;
 	m_bHidden = false;
+    m_iObjectType = eObject;
 }
 
 Object::~Object()

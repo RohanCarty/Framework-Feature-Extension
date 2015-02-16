@@ -38,6 +38,9 @@ public:
 	bool IsCollidingWithTileNextFrame(float a_fDeltaTime);
     bool IsCollidingWithActorNextFrame(float a_fDeltaTime);
     
+    void SetHealth(int a_iNewHealth);
+    int GetHealth();
+    
     Vector GetCollisionVector();
 
 protected:
@@ -48,14 +51,16 @@ protected:
 	int m_iFallSpeed;
 	bool m_bIsGravityOn;
     int m_iHealth;
-
-private:
+    
+    std::vector<Object*> m_apkIsCollidingWithNextFame;
+    
+    Vector m_vCollisionVector;
 	bool m_bIsCollidingTileNextFrame;
     bool m_bIsCollidingActorNextFrame;
-	Object* m_pkIsCollidingWithNextFame;
+    
+private:
 	bool m_bIsCollidingTileNextFrameSet;
     bool m_bIsCollidingActorNextFrameSet;
-    Vector m_vCollisionVector;
 };
 
 #endif

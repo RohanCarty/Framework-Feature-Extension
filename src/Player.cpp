@@ -32,6 +32,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	SetScale(0.6f);
 	SetSize(GetSize() * GetScale());
+    
+    m_iObjectType = ePlayer;
 }
 
 Player::~Player()
