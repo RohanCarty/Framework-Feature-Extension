@@ -34,6 +34,10 @@ public:
 
 	void BindToController();
 
+	virtual void Death();
+
+	void Respawn();
+
 private:
 	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
 	int m_iControllerNumberBoundTo;

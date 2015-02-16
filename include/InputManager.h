@@ -57,6 +57,7 @@ public:
 
 	int GetNumConnectedControllers();
 	int GetControllerForPlayer();
+	void ReleaseControllerForPlayer(int a_iControllerNumber);
 
 	bool GetIsControllerConnected(int a_iId);
 

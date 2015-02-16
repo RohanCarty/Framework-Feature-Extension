@@ -136,11 +136,11 @@ void PackManager::LoadPackageHeaders(std::string a_szNameOfPackage)
 			//std::cout<<"Got File Header Size:"<<stFileEntry.iSize<<", Position: "<<fsFileStream.tellg()<<std::endl;
 
             stFileEntry.szNameOfPakHeader = a_szNameOfPackage;
-
+				
 			m_astPakFileEntrys.push_back(stFileEntry);
         }
 
-        delete pcTempChar;
+        //delete pcTempChar;
     }
 }
 

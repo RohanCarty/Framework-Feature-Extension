@@ -276,6 +276,11 @@ int InputManager::GetControllerForPlayer()
 	return -1;
 }
 
+void InputManager::ReleaseControllerForPlayer(int a_iControllerNumber)
+{
+	m_apkJoysticks[a_iControllerNumber].bIsBound = false;
+}
+
 bool InputManager::GetIsControllerConnected(int a_iId)
 {
 	if(a_iId < (int)m_apkJoysticks.size())

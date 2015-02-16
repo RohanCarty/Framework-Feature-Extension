@@ -40,6 +40,8 @@ public:
     
     void SetHealth(int a_iNewHealth);
     int GetHealth();
+
+	virtual void Death();
     
     Vector GetCollisionVector();
 

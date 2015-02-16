@@ -49,7 +49,7 @@ bool Actor::Update(float a_fDeltaTime)
     
     if(m_iHealth <= 0)
     {
-        return false;
+		Death();
     }
 
 	//Reset Collision Latch
@@ -459,6 +459,11 @@ void Actor::SetHealth(int a_iNewHealth)
 int Actor::GetHealth()
 {
     return m_iHealth;
+}
+
+void Actor::Death()
+{
+	return;
 }
 
 Vector Actor::GetCollisionVector()

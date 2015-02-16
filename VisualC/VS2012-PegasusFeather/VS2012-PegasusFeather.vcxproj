@@ -14,6 +14,7 @@
     <ProjectGuid>{61EFB54B-0388-42A3-AC61-1008FB86FA46}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>VS2012PegasusFeather</RootNamespace>
+    <ProjectName>PegasusFeather</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -101,6 +102,9 @@
     <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
     <ClCompile Include="..\..\src\OpenGLDisplayManager.cpp" />
     <ClCompile Include="..\..\src\PackManager.cpp" />
+    <ClCompile Include="..\..\src\Particle.cpp" />
+    <ClCompile Include="..\..\src\ParticleManager.cpp" />
+    <ClCompile Include="..\..\src\Player.cpp" />
     <ClCompile Include="..\..\src\Resource.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
     <ClCompile Include="..\..\src\SceneManager.cpp" />
@@ -134,7 +138,10 @@
     <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />
     <ClInclude Include="..\..\include\OpenGLDisplayManager.h" />
     <ClInclude Include="..\..\include\PackManager.h" />
+    <ClInclude Include="..\..\include\Particle.h" />
+    <ClInclude Include="..\..\include\ParticleManager.h" />
     <ClInclude Include="..\..\include\PerformanceTimer.h" />
+    <ClInclude Include="..\..\include\Player.h" />
     <ClInclude Include="..\..\include\Resource.h" />
     <ClInclude Include="..\..\include\Scene.h" />
     <ClInclude Include="..\..\include\SceneManager.h" />

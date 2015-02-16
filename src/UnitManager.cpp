@@ -59,6 +59,12 @@ bool UnitManager::Update(float a_fDeltaTime)
         }
 	}
 
+	//Check for lack of players
+	if(m_apkPlayers.size() < SceneManager::GetInputManager()->GetNumConnectedControllers())
+	{
+		SpawnPlayer();
+	}
+
 	//Update all the players
 	for( unsigned int iDx = 0; iDx < m_apkPlayers.size(); iDx++ )
     {

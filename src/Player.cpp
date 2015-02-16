@@ -114,8 +114,7 @@ bool Player::Update(float a_fDeltaTime)
 
 	if(GetLocation()->y > 800)
 	{
-		SetLocation(0,0,0);
-		SetVelocity(0,0,0);
+		Respawn();
 	}
     
     //std::cout<<"Collision Vector: "<<GetCollisionVector()<<std::endl;
@@ -153,4 +152,16 @@ void Player::BindToController()
 	std::cout<<"Got a controller: "<<iTemp<<std::endl;
 
 	m_iControllerNumberBoundTo = iTemp;
+}
+
+void Player::Death()
+{
+	Respawn();
+}
+
+void Player::Respawn()
+{
+	SetLocation(0,0,0);
+	SetVelocity(0,0,0);
+	SetHealth(100);
 }
