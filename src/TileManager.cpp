@@ -13,6 +13,11 @@ TileManager::TileManager()
 
 TileManager::~TileManager()
 {
+	while(m_apkTiles.size() > 0)
+	{
+		delete m_apkTiles[m_apkTiles.size() - 1];
+		m_apkTiles.pop_back();
+	}
 }
 
 bool TileManager::Update(float a_fDeltaTime)

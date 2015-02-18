@@ -22,6 +22,12 @@ UnitManager::~UnitManager()
 		delete m_apkUnits.back();
 		m_apkUnits.pop_back();
 	}
+
+	while(m_apkPlayers.size() > 0)
+	{
+		delete m_apkPlayers.back();
+		m_apkPlayers.pop_back();
+	}
 }
 
 //Actually starts the game, in order for us to be able to have a unit manager before networking is started, but we need to make sure we don't make copies on our client
@@ -60,7 +66,7 @@ bool UnitManager::Update(float a_fDeltaTime)
 	}
 
 	//Check for lack of players
-	if(m_apkPlayers.size() < SceneManager::GetInputManager()->GetNumConnectedControllers())
+	if((int)m_apkPlayers.size() < SceneManager::GetInputManager()->GetNumConnectedControllers())
 	{
 		SpawnPlayer();
 	}

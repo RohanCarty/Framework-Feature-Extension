@@ -16,10 +16,26 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	delete[] m_pakVertices;
-	delete[] m_pakOriginalVertices;
-	delete[] m_pafU;
-	delete[] m_pafV;
+	if(m_pakVertices != NULL)
+	{
+		delete[] m_pakVertices;
+		m_pakVertices = NULL;
+	}
+	if(m_pakOriginalVertices != NULL)
+	{
+		delete[] m_pakOriginalVertices;
+		m_pakOriginalVertices = NULL;
+	}
+	if(m_pafU != NULL)
+	{
+		delete[] m_pafU;
+		m_pafU = NULL;
+	}
+	if(m_pafV != NULL)
+	{
+		delete[] m_pafV;
+		m_pafV = NULL;
+	}
 }
 
 bool Mesh::LoadMesh(std::string a_szFileName)
@@ -56,7 +72,9 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 
     iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
 
-	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
+	void* pTempResource = PackManager::LoadResource(a_szFileName);
+
+	std::string szTempString = (char*)pTempResource;
     
 	//Open file
 	m_szsStringStream.str(szTempString);
@@ -134,6 +152,9 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 			}
         }
     }
+
+	delete pTempResource;
+
 	return true;
 }
 
@@ -147,7 +168,9 @@ void Mesh::SetElementCounts(std::string a_szFileName)
     
     iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
     
-	std::string szTempString = (char*)PackManager::LoadResource(a_szFileName);
+	void* pTempResource = PackManager::LoadResource(a_szFileName);
+
+	std::string szTempString = (char*)pTempResource;
     
 	//Open file
 	m_szsStringStream.str(szTempString);
@@ -198,6 +221,8 @@ void Mesh::SetElementCounts(std::string a_szFileName)
 	m_pafV = new float[m_iNumberOfVertices];
     
     m_szsStringStream.seekg(0);
+
+	delete pTempResource;
 
 	return;
 }

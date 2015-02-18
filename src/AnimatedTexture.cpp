@@ -20,14 +20,14 @@ AnimatedTexture::AnimatedTexture(DisplayManager* a_pDisplayManager) : Texture(a_
 
 AnimatedTexture::~AnimatedTexture()
 {
-    for(int iDx = 0; iDx < m_apkAnimations.size();iDx++)
+    for(unsigned int uiDx = 0; uiDx < m_apkAnimations.size();uiDx++)
     {
-        for(unsigned int i = 0; i < m_apkAnimations[iDx]->apkFrames.size(); i++)
+        for(unsigned int i = 0; i < m_apkAnimations[uiDx]->apkFrames.size(); i++)
         {
-            delete m_apkAnimations[iDx]->apkFrames[i];
+            delete m_apkAnimations[uiDx]->apkFrames[i];
         }
         
-        delete m_apkAnimations[iDx];
+        delete m_apkAnimations[uiDx];
     }
 }
 
@@ -57,12 +57,12 @@ void AnimatedTexture::SwitchAnimation(std::string a_szName)
 		return;
 	}
 
-    for(int iDx = 0; iDx < m_apkAnimations.size();iDx++)
+    for(unsigned int uiDx = 0; uiDx < m_apkAnimations.size(); uiDx++)
     {
-        if(m_apkAnimations[iDx]->szName == a_szName)
+        if(m_apkAnimations[uiDx]->szName == a_szName)
         {
             m_iCurrentFrame = 0;
-            m_uiCurrentAnimation = iDx;
+            m_uiCurrentAnimation = (int)uiDx;
             return;
         }
     }

@@ -76,7 +76,7 @@ void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned
 
 	TTF_SizeText(m_pkFont, sString.c_str(), &m_piSizeX, &m_piSizeY);
 
-	m_pkMesh->GenerateBasicMesh(m_piSizeX, m_piSizeY, 0);
+	m_pkMesh->GenerateBasicMesh((float)m_piSizeX, (float)m_piSizeY, 0);
 
 	for(int iDx = 0; iDx < m_pkMesh->GetNumberOfVertices(); iDx++)
 	{

@@ -126,9 +126,12 @@ std::string OpenGLDisplayManager::LoadShader(std::string a_szShaderName)
 {
 	int piSize;
 	piSize = PackManager::GetSizeOfFile(a_szShaderName);
-	std::string cpFullFile = (char*)PackManager::LoadResource(a_szShaderName);
+	void* pTempResource = PackManager::LoadResource(a_szShaderName);
+
+	std::string cpFullFile = (char*)pTempResource;
 	cpFullFile.resize(piSize);
 
+	delete pTempResource;
 	return cpFullFile;
 }
 
