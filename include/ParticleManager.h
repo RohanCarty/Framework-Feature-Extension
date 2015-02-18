@@ -24,6 +24,7 @@
 class Object;
 class Particle;
 class Resource;
+class TextLibrary;
 
 class ParticleManager
 {
@@ -37,8 +38,11 @@ public:
 	void SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay);
 
     std::vector<Particle*> GetParticleList();
+	
+    TextLibrary* GetTextLibrary();
 private:
     std::vector<Particle*> m_apkParticles;
+    TextLibrary* m_pkTextLibrary;
 };
 
 #endif

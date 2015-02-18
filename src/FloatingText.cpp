@@ -12,8 +12,6 @@ FloatingText::FloatingText(Scene* a_pkScene) : Particle(a_pkScene)
 
 	m_apkRenderables[0].m_bIsHidden = true;
 
-	m_pkTextLibrary = new TextLibrary(SceneManager::GetDisplayManager());
-
 	m_vVelocity.x = 0.0;
 	m_vVelocity.y = -500.0;
 
@@ -29,8 +27,6 @@ FloatingText::FloatingText(Scene* a_pkScene) : Particle(a_pkScene)
 FloatingText::~FloatingText()
 {
     //std::cout<<"Particle Destroyed. Pointer: "<<this<<std::endl;
-
-	delete m_pkTextLibrary;
 }
 
 bool FloatingText::Update(float a_fDeltaTime)
@@ -50,9 +46,19 @@ bool FloatingText::Update(float a_fDeltaTime)
 	int iFontSize = 36;//SceneManager::GetDisplayManager()->GetXScreenResolution() * 11;
 
 	//TODO: Implement Colour changing.
-	m_pkTextLibrary->PrintString(m_szTempString, GetLocation()->x, GetLocation()->y, iFontSize);
+	GetTextLibrary()->PrintString(m_szTempString, GetLocation()->x, GetLocation()->y, iFontSize);
 
     return true;
+}
+
+void FloatingText::SetParticleManager(ParticleManager* a_pkParticleManagerReference)
+{
+	m_pkParticleManagerReference = a_pkParticleManagerReference;
+}
+
+TextLibrary* FloatingText::GetTextLibrary()
+{
+	return m_pkParticleManagerReference->GetTextLibrary();
 }
 
 void FloatingText::SetText(std::string a_szNewText)

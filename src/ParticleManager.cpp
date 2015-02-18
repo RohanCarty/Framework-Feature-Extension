@@ -1,5 +1,6 @@
 #include "ParticleManager.h"
 #include "Particle.h"
+#include "TextLibrary.h"
 #include "FloatingText.h"
 #include "SceneManager.h"
 #include "Resource.h"
@@ -8,10 +9,12 @@ ParticleManager::ParticleManager()
 {
     //SpawnParticle(Vector(0,0,0));
 	//SpawnFloatingText(Vector(0,0,0), "Floating Text Test");
+	m_pkTextLibrary = new TextLibrary(SceneManager::GetDisplayManager());
 }
 
 ParticleManager::~ParticleManager()
 {
+	delete m_pkTextLibrary;
 }
 
 bool ParticleManager::Update(float a_fDeltaTime)
@@ -77,9 +80,16 @@ void ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumberToDi
 	sprintf(acTempString,"%d", (int) a_iNumberToDisplay);
 
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetText(acTempString);
+
+	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetParticleManager(this);
 }
 
 std::vector<Particle*> ParticleManager::GetParticleList()
 {
     return m_apkParticles;
+}
+
+TextLibrary* ParticleManager::GetTextLibrary()
+{
+	return m_pkTextLibrary;
 }

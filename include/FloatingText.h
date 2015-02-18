@@ -19,6 +19,7 @@
 //Forward declare
 class Scene;
 class TextLibrary;
+class ParticleManager;
 
 //Floating Text for damage and the like
 
@@ -32,13 +33,14 @@ public:
 
     virtual bool Update(float a_fDeltaTime);	
 	TextLibrary* GetTextLibrary();
+	void SetParticleManager(ParticleManager* a_pkParticleManagerReference);
 
 	void SetText(std::string a_szNewText);
 
 private:
     Scene* m_pkScene;
-    TextLibrary* m_pkTextLibrary;
     std::string m_szTempString;
+	ParticleManager* m_pkParticleManagerReference;
 };
 
 #endif
