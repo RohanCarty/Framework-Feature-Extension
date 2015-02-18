@@ -9,7 +9,7 @@
 Particle::Particle(Scene* a_pkScene) : Object(a_pkScene)
 {
     //std::cout<<"Particle created. Pointer: "<<this<<std::endl;
-    m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/RedZone.png", SceneManager::GetDisplayManager());
+	//m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/RedZone.png", SceneManager::GetDisplayManager());
 
 	m_vVelocity.x = ((double)(rand() % 256 + 0) - 128) * 4.0;
 	m_vVelocity.y = ((double)(rand() % 255 + 0) - 255) * 10.0;

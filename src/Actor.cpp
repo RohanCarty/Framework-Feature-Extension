@@ -453,7 +453,7 @@ void Actor::SetHealth(int a_iNewHealth)
 {
     m_iHealth = a_iNewHealth;
     
-    std::cout<<"Setting new health: "<<m_iHealth<<std::endl;
+    //std::cout<<"Setting new health: "<<m_iHealth<<std::endl;
 }
 
 int Actor::GetHealth()

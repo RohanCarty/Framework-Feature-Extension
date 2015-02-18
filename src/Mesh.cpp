@@ -243,6 +243,72 @@ int Mesh::GetNumberOfVertices()
 	return m_iNumberOfVertices;
 }
 
+void Mesh::GenerateBasicMesh(float a_fSizeX, float a_fSizeY, float a_fSizeZ)
+{
+	//Half the sizes in order to create a centred mesh
+	a_fSizeX /= 2; a_fSizeY /= 2; a_fSizeZ /= 2;
+
+	if(m_pakVertices != NULL)
+	{
+		delete[] m_pakVertices;
+		m_pakVertices = NULL;
+	}
+	if(m_pakOriginalVertices != NULL)
+	{
+		delete[] m_pakOriginalVertices;
+		m_pakOriginalVertices = NULL;
+	}
+	if(m_pafU != NULL)
+	{
+		delete[] m_pafU;
+		m_pafU = NULL;
+	}
+	if(m_pafV != NULL)
+	{
+		delete[] m_pafV;
+		m_pafV = NULL;
+	}
+
+	m_pakVertices = new Vertex[4];
+	m_pakOriginalVertices = new Vertex[4];
+	m_pafU = new float[4];
+	m_pafV = new float[4];
+
+	m_iNumberOfVertices = 4;
+
+	Vector vTemp(-a_fSizeX, -a_fSizeY, a_fSizeZ);
+
+	m_pakVertices[0].SetLocation(vTemp);
+	m_pakOriginalVertices[0].SetLocation(vTemp);
+
+	m_pafU[0] = 0.0f;
+	m_pafV[0] = 0.0f;
+
+	vTemp = Vector(a_fSizeX, -a_fSizeY, a_fSizeZ);
+
+	m_pakVertices[1].SetLocation(vTemp);
+	m_pakOriginalVertices[1].SetLocation(vTemp);
+
+	m_pafU[1] = 1.0f;
+	m_pafV[1] = 0.0f;
+
+	vTemp = Vector(a_fSizeX, a_fSizeY, a_fSizeZ);
+
+	m_pakVertices[2].SetLocation(vTemp);
+	m_pakOriginalVertices[2].SetLocation(vTemp);
+
+	m_pafU[2] = 1.0f;
+	m_pafV[2] = 1.0f;
+
+	vTemp = Vector(-a_fSizeX, a_fSizeY, a_fSizeZ);
+
+	m_pakVertices[3].SetLocation(vTemp);
+	m_pakOriginalVertices[3].SetLocation(vTemp);
+
+	m_pafU[3] = 0.0f;
+	m_pafV[3] = 1.0f;
+}
+
 void Mesh::SetTexture(Texture* a_pTexture)
 {
 	m_pTexture = a_pTexture;

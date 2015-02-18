@@ -154,6 +154,7 @@ bool Unit::Update(float a_fDeltaTime)
             {
                 //TODO: Proper damage
                 ((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - 10);
+				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), 10);
             }
         }
     }

@@ -37,7 +37,6 @@ public:
 protected:
 	int m_iFallSpeed;
 	bool m_bIsGravityOn;
-private:
     Vector m_vCoordinates;
 	Vector m_vVelocity;
 	float m_fRotationSpeed;

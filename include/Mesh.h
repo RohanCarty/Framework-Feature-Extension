@@ -42,6 +42,10 @@ public:
 
 	int GetNumberOfVertices();
 
+	//Generates the attributes a four vertex mesh and sets the member variables to reflect it.
+	//TODO: allow it to replace a loaded mesh
+	void GenerateBasicMesh(float a_fSizeX, float a_fSizeY, float a_fSizeZ);
+
 	void SetTexture(Texture* a_pTexture);
 
 private:

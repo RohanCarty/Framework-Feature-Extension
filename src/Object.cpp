@@ -8,11 +8,6 @@
 #include "Matrix.h"
 
 #include <fstream>
-#define HARDMEMTESTS
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <libxml/xinclude.h>
-#include <libxml/xmlIO.h>
 
 Object::Object(Scene* a_pkScene)
 {

@@ -48,6 +48,8 @@ private:
 
 	TTF_Font* m_pkFont;
 
+	Mesh* m_pkMesh; //for worldspace drawing instead of screenspace
+
 	//Variables for holding the size in order to figure out how much of a surface is needed to draw
 	int m_piSizeX;
 	int m_piSizeY;
