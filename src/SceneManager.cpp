@@ -69,7 +69,9 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 		if(strcmp(argv[iDx], "d3d11") == 0)
 		{
+#ifdef _WIN32
 			m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
+#endif
 		}
 	}
 
