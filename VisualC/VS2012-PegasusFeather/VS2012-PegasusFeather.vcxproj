@@ -53,12 +53,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;..\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\lib\x86;..\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -71,14 +71,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;..\VS2012-Build Dependencies\SDL2_image-2.0.0\include;..\VS2012-Build Dependencies\zlib-1.2.5\include;..\VS2012-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2012-Build Dependencies\lua52\include;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2012-Build Dependencies\SDL2_net-2.0.0\include;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2012-Build Dependencies\SDL2\include;..\VS2012-Build Dependencies\GLEW19\include;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\lib\x86;..\VS2012-Build Dependencies\SDL2_image-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_net-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2_ttf-2.0.12\lib\x86;..\VS2012-Build Dependencies\SDL2_mixer-2.0.0\lib\x86;..\VS2012-Build Dependencies\SDL2\lib;..\VS2012-Build Dependencies\lua52\lib;..\VS2012-Build Dependencies\GLEW19\lib;..\VS2012-Build Dependencies\zlib-1.2.5\lib;..\VS2012-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2012-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -88,6 +88,7 @@
     <ClCompile Include="..\..\src\Building.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
     <ClCompile Include="..\..\src\Cursor.cpp" />
+    <ClCompile Include="..\..\src\D3D11DisplayManager.cpp" />
     <ClCompile Include="..\..\src\DisplayManager.cpp" />
     <ClCompile Include="..\..\src\FloatingText.cpp" />
     <ClCompile Include="..\..\src\GameInfo.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="..\..\include\Building.h" />
     <ClInclude Include="..\..\include\Camera.h" />
     <ClInclude Include="..\..\include\Cursor.h" />
+    <ClInclude Include="..\..\include\D3D11DisplayManager.h" />
     <ClInclude Include="..\..\include\DisplayManager.h" />
     <ClInclude Include="..\..\include\FloatingText.h" />
     <ClInclude Include="..\..\include\GameInfo.h" />
@@ -157,10 +159,14 @@
     <ClInclude Include="..\..\include\UnitManager.h" />
     <ClInclude Include="..\..\include\Vector.h" />
     <ClInclude Include="..\..\include\Vertex.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resources\Shaders\System\texturefrag.glsl" />
     <None Include="..\..\resources\Shaders\System\texturevert.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="PegasusFeather.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

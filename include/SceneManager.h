@@ -17,7 +17,9 @@
 #include <iostream>
 #include <stack>
 
-
+#ifdef _WIN32
+#include "D3D11DisplayManager.h"
+#endif //_WIN32
 #include "OpenGL1DisplayManager.h"
 #include "OpenGLDisplayManager.h"
 #include "InputManager.h"

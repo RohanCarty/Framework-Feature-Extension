@@ -57,16 +57,32 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	//look for opengl1 in the arguments
 	for(int iDx = 0; iDx < argc; iDx++)
     {
+		if(strcmp(argv[iDx], "opengl") == 0)
+		{
+			m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
+		}
+
 		if(strcmp(argv[iDx], "opengl1") == 0)
 		{
 			m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
+		}
+
+		if(strcmp(argv[iDx], "d3d11") == 0)
+		{
+			m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
 		}
 	}
 
 	if(m_pkDisplayManager == NULL)
 	{
+#ifdef _WIN32
+		m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
+#else
 		m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
+#endif //_WIN32
 	}
+	
+	
 
     //TODO: Allow display manager to be selected via config file instead of just doing this.
 /*#ifdef __APPLE__
