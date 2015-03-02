@@ -32,8 +32,10 @@ D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager
 D3D11DisplayManager::~D3D11DisplayManager()
 {
     //TODO
+	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
 	m_pkSwapchain->Release();
+	m_pkBackBuffer->Release();
 	m_pkDevice->Release();
 	m_pkContext->Release();
 
@@ -85,10 +87,13 @@ bool D3D11DisplayManager::CreateScreen()
 	//fill the swap chain description struct
 	scd.BufferCount = 1;									//One back buffer
 	scd.BufferDesc.Format =  DXGI_FORMAT_R8G8B8A8_UNORM;	//Use 32-bit colour
+	scd.BufferDesc.Width = m_iXResolution;					//Set the back buffer width
+	scd.BufferDesc.Height = m_iYResolution;					//Set the back buffer height
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;		//How swap chain is to be used
 	scd.OutputWindow = kHandle;								//The window to be used
 	scd.SampleDesc.Count = 4;								//How many multisamples				<== MSAA
 	scd.Windowed = TRUE;									//Windowed mode
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		//Allow full-screen switching
 
 	//Create a device, device context, and swap chain using the scd struct
 	D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL, D3D11_SDK_VERSION, &scd, &m_pkSwapchain, &m_pkDevice, NULL, &m_pkContext);
@@ -126,6 +131,38 @@ bool D3D11DisplayManager::CreateScreen()
 		<<"Revision: "<<kAdapterDescription.Revision<<std::endl
 		<<"Description: "<<szDescription<<std::endl;
 	//End of videocard info block
+
+	//Bind backbuffer to swapchain
+	
+	//get the address of the back buffer
+	ID3D11Texture2D* pBackBuffer;
+	m_pkSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
+
+	//use the back buffer address to create the render target
+	m_pkDevice->CreateRenderTargetView(pBackBuffer, NULL, &m_pkBackBuffer);
+	pBackBuffer->Release();
+
+	//set the render target as the back buffer
+	m_pkContext->OMSetRenderTargets(1, &m_pkBackBuffer, NULL);
+
+	//End of binding back buffer render target
+
+	//Set the viewport
+
+	D3D11_VIEWPORT kViewport;
+	ZeroMemory(&kViewport, sizeof(D3D11_VIEWPORT));
+
+	kViewport.TopLeftX = 0;
+	kViewport.TopLeftY = 0;
+	kViewport.Width = m_iXResolution;
+	kViewport.Height = m_iYResolution;
+
+	m_pkContext->RSSetViewports(1, &kViewport);
+
+	//End of setting the viewport
+
+	//Clear the back buffer to prepare for first frame.
+	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 
     return true;
 }
@@ -346,14 +383,15 @@ void D3D11DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 bool D3D11DisplayManager::Update(float a_fDeltaTime)
 {
     //TODO
-    /*glFlush();// using glFlush instead of glFinish in order to not wait for the video card (v-sync-ish)
 
-	SDL_GL_SwapWindow(m_pkMainWindow); //Buffer Swap
+	//Show the frame.
+	m_pkSwapchain->Present(0,0);
 
-	glClear(GL_COLOR_BUFFER_BIT);
+	//Clear the back buffer for the next frame.
+    m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
 
     //Delay a little bit in order to give cpu a break.
-    SDL_Delay(1);*/
+    SDL_Delay(1);
     return true;
 }
 // Transforming worldspace to screenspace, really needs to get replace, I mean, software transformations are 90's as fuck.

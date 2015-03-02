@@ -49,9 +49,10 @@ private:
 
 	// D3D declarations
 	IDXGISwapChain* m_pkSwapchain;			//the pointer to the swap chain interface
-	ID3D11Device* m_pkDevice;					//the pointer to our Direct3D device
+	ID3D11Device* m_pkDevice;				//the pointer to our Direct3D device
 	ID3D11DeviceContext* m_pkContext;		//the pointer to our Direct3D context
-    
+    ID3D11RenderTargetView* m_pkBackBuffer;	//The pointer to the backbuffer
+
     Matrix* m_pkViewMatrix;
     float m_fCameraTop, m_fCameraRight;
     
