@@ -189,32 +189,20 @@ bool D3D11DisplayManager::CreateScreen()
 	//End of setting the viewport
 
 	//Clear the back buffer to prepare for first frame.
-	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 
 	//Setting up vertex buffer
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;					//Write access by CPU and GPU
-	bd.ByteWidth = sizeof(D3DVERTEX) * 3;			//Size is the D3DVERTEX struct * 3
+	bd.ByteWidth = sizeof(D3DVERTEX) * 6;			//Size is the D3DVERTEX struct * 3
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;		//Use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;		//Allow CPU to write in buffer
 
 	m_pkDevice->CreateBuffer(&bd, NULL, &m_pkVertexBuffer); //Create the buffer
 
 	LoadShaderProgram("shaders.shader", "shaders.shader");
-
-	D3DVERTEX OurVertices[] =
-	{
-		{0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)},
-		{0.45f, -0.5, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f)},
-		{-0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f)}
-	};
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
-	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
-	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
 
     return true;
 }
@@ -440,7 +428,7 @@ bool D3D11DisplayManager::Update(float a_fDeltaTime)
 	m_pkSwapchain->Present(0,0);
 
 	//Clear the back buffer for the next frame.
-    m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+    m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 
     //Delay a little bit in order to give cpu a break.
     SDL_Delay(1);
@@ -449,43 +437,43 @@ bool D3D11DisplayManager::Update(float a_fDeltaTime)
 // Transforming worldspace to screenspace, really needs to get replace, I mean, software transformations are 90's as fuck.
 float D3D11DisplayManager::TransformToScreenSpaceX(double a_pkPosition)
 {
-	/*a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
+	a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().x;
 	a_pkPosition += m_iXResolution /2;
-	return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;*/
+	return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;
 }
 
 float D3D11DisplayManager::TransformToScreenSpaceY(double a_pkPosition)
 {
-	/*a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
+	a_pkPosition *= m_pkViewMatrix->GetTranslation().z;
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().y;
 	a_pkPosition += m_iYResolution / 2;
-	return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));*/
+	return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));
 }
 
 float D3D11DisplayManager::HUDTransformToScreenSpaceX(double a_pkPosition)
 {
-	//return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;
+	return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;
 }
 
 float D3D11DisplayManager::HUDTransformToScreenSpaceY(double a_pkPosition)
 {
-	//return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));
+	return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));
 }
 
 void D3D11DisplayManager::SetViewMatrix(Matrix* a_pkNewMatrix)
 {
-	//*m_pkViewMatrix = *a_pkNewMatrix;
+	*m_pkViewMatrix = *a_pkNewMatrix;
 }
 
 void D3D11DisplayManager::SetCameraDimensions(float a_fCameraTop, float a_fCameraRight)
 {
-	//m_fCameraTop = a_fCameraTop; m_fCameraRight = a_fCameraRight;
+	m_fCameraTop = a_fCameraTop; m_fCameraRight = a_fCameraRight;
 }
 
 void D3D11DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumber)
 {
-	//Legacy OpenGL Renderer doesn't support shaders.
+	//Current D3D11 Renderer doesn't support swapping shaders.
 	return;
 }
 
@@ -517,6 +505,42 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
               (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y),
               (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z);
 	glEnd();*/
+	D3DVERTEX OurVertices[6];
+	
+	OurVertices[0].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).x);
+	OurVertices[0].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).y);
+	OurVertices[0].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).z;
+	OurVertices[0].Colour = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	
+	OurVertices[1].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
+	OurVertices[1].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
+	OurVertices[1].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
+	OurVertices[1].Colour = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	OurVertices[2].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
+	OurVertices[2].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
+	OurVertices[2].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
+	OurVertices[2].Colour = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+	
+	OurVertices[3].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
+	OurVertices[3].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
+	OurVertices[3].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
+	OurVertices[3].Colour = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+	
+	OurVertices[4].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
+	OurVertices[4].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
+	OurVertices[4].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
+	OurVertices[4].Colour = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+	
+	OurVertices[5].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).x);
+	OurVertices[5].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).y);
+	OurVertices[5].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).z;
+	OurVertices[5].Colour = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
+	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
 
 	//Select which vertex buffer to display
 	UINT uiStride = sizeof(D3DVERTEX);
@@ -524,10 +548,10 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
 
 	//Select which primitive type we are using
-	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//Draw the vertex buffer to the back buffer
-	m_pkContext->Draw(3, 0);
+	m_pkContext->Draw(6, 0);
 
     return true;
 }
