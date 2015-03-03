@@ -34,6 +34,9 @@ D3D11DisplayManager::~D3D11DisplayManager()
     //TODO
 	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
+	//Close and release all existing COM objects
+	m_pkVertexShader->Release();
+	m_pkPixelShader->Release();
 	m_pkSwapchain->Release();
 	m_pkBackBuffer->Release();
 	m_pkDevice->Release();
@@ -45,6 +48,30 @@ D3D11DisplayManager::~D3D11DisplayManager()
 unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader, std::string a_szFragmentShader)
 {
 	//TODO
+	//Load and compile the two shaders
+	ID3D10Blob *VS, *PS;
+	D3DX11CompileFromFile(L"shaders.shader", 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
+	D3DX11CompileFromFile(L"shaders.shader", 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
+
+	//Encapsulate both shaders into shader objects
+	m_pkDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &m_pkVertexShader);
+	m_pkDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &m_pkPixelShader);
+
+	//Set the shader objects
+	m_pkContext->VSSetShader(m_pkVertexShader, 0, 0);
+	m_pkContext->PSSetShader(m_pkPixelShader, 0, 0);
+
+	//Create the input layout object
+	D3D11_INPUT_ELEMENT_DESC ied[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	    {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	};
+
+	m_pkDevice->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &m_pkInputLayout);
+	//Set it
+	m_pkContext->IASetInputLayout(m_pkInputLayout);
+
 	return 0;
 }
 
@@ -163,6 +190,31 @@ bool D3D11DisplayManager::CreateScreen()
 
 	//Clear the back buffer to prepare for first frame.
 	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.2f, 0.4f, 1.0f));
+
+	//Setting up vertex buffer
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+
+	bd.Usage = D3D11_USAGE_DYNAMIC;					//Write access by CPU and GPU
+	bd.ByteWidth = sizeof(D3DVERTEX) * 3;			//Size is the D3DVERTEX struct * 3
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;		//Use as a vertex buffer
+	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;		//Allow CPU to write in buffer
+
+	m_pkDevice->CreateBuffer(&bd, NULL, &m_pkVertexBuffer); //Create the buffer
+
+	LoadShaderProgram("shaders.shader", "shaders.shader");
+
+	D3DVERTEX OurVertices[] =
+	{
+		{0.0f, 0.5f, 0.0f, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f)},
+		{0.45f, -0.5, 0.0f, D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f)},
+		{-0.45f, -0.5f, 0.0f, D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f)}
+	};
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
+	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
 
     return true;
 }
@@ -465,6 +517,17 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
               (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y),
               (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z);
 	glEnd();*/
+
+	//Select which vertex buffer to display
+	UINT uiStride = sizeof(D3DVERTEX);
+	UINT uiOffset = 0;
+	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
+
+	//Select which primitive type we are using
+	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+
+	//Draw the vertex buffer to the back buffer
+	m_pkContext->Draw(3, 0);
 
     return true;
 }

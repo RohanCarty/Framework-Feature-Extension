@@ -159,14 +159,11 @@
     <ClInclude Include="..\..\include\UnitManager.h" />
     <ClInclude Include="..\..\include\Vector.h" />
     <ClInclude Include="..\..\include\Vertex.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resources\Shaders\System\texturefrag.glsl" />
     <None Include="..\..\resources\Shaders\System\texturevert.glsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="PegasusFeather.rc" />
+    <None Include="shaders.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

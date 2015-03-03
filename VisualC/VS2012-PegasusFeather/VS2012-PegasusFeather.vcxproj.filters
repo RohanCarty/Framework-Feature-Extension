@@ -248,9 +248,6 @@
     <ClInclude Include="..\..\include\TileManager.h">
       <Filter>Header Files\Actors</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\HUD.h">
       <Filter>Header Files\Display</Filter>
     </ClInclude>
@@ -260,6 +257,9 @@
     <ClInclude Include="..\..\include\ParticleManager.h">
       <Filter>Header Files\Actors</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\include\Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\resources\Shaders\System\texturefrag.glsl">
@@ -268,10 +268,8 @@
     <None Include="..\..\resources\Shaders\System\texturevert.glsl">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="PegasusFeather.rc">
+    <None Include="shaders.shader">
       <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    </None>
   </ItemGroup>
 </Project>
