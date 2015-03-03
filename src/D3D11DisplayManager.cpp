@@ -14,9 +14,13 @@
 #include "SDL_image.h"
 
 // include the Direct3D Library file
+
+#include <D3Dcompiler.h>
+
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dx11.lib")
 #pragma comment (lib, "d3dx10.lib")
+#pragma comment (lib, "D3Dcompiler.lib")
 
 
 D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager(argc, argv)
@@ -35,6 +39,8 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
 	//Close and release all existing COM objects
+	m_pkBlendState->Release();
+	m_pkVertexBuffer->Release();
 	m_pkVertexShader->Release();
 	m_pkPixelShader->Release();
 	m_pkSwapchain->Release();
@@ -42,7 +48,14 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkDevice->Release();
 	m_pkContext->Release();
 
+	std::cout<<"Closing Window"<<std::endl;
+    SDL_DestroyWindow(m_pkMainWindow);
+	std::cout<<"Closing SDL2"<<std::endl;
+    SDL_Quit();
+
     delete m_pkViewMatrix;
+
+	std::cout<<"D3D11 Displaymanager closed successfully."<<std::endl;
 }
 
 unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader, std::string a_szFragmentShader)
@@ -50,8 +63,31 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	//TODO
 	//Load and compile the two shaders
 	ID3D10Blob *VS, *PS;
-	D3DX11CompileFromFile(L"shaders.shader", 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, 0, 0);
-	D3DX11CompileFromFile(L"shaders.shader", 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, 0, 0);
+
+	int piSize;
+	piSize = PackManager::GetSizeOfFile(a_szVertexShader);
+	void* pTempResource = PackManager::LoadResource(a_szVertexShader);
+
+	std::string cpFullFile = (char*)pTempResource;
+	cpFullFile.resize(piSize);
+
+	delete pTempResource;
+
+	HRESULT hr;
+
+	hr = NULL;
+	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
+	if(hr != NULL)
+	{
+		std::cout<<"Shader error: "<<hr<<std::cout;
+	}
+
+	hr = NULL;
+	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
+	if(hr != NULL)
+	{
+		std::cout<<"Shader error: "<<hr<<std::cout;
+	}
 
 	//Encapsulate both shaders into shader objects
 	m_pkDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &m_pkVertexShader);
@@ -65,7 +101,7 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	    {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+	    {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	m_pkDevice->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &m_pkInputLayout);
@@ -196,13 +232,46 @@ bool D3D11DisplayManager::CreateScreen()
 	ZeroMemory(&bd, sizeof(bd));
 
 	bd.Usage = D3D11_USAGE_DYNAMIC;					//Write access by CPU and GPU
-	bd.ByteWidth = sizeof(D3DVERTEX) * 6;			//Size is the D3DVERTEX struct * 3
+	bd.ByteWidth = sizeof(D3DVERTEX) * 6;			//Size is the D3DVERTEX struct * 3	//TODO: Allow changing of this.
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;		//Use as a vertex buffer
 	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;		//Allow CPU to write in buffer
 
 	m_pkDevice->CreateBuffer(&bd, NULL, &m_pkVertexBuffer); //Create the buffer
 
-	LoadShaderProgram("shaders.shader", "shaders.shader");
+	//Finished with buffer, load default shader.
+
+	LoadShaderProgram("Resources/Shaders/System/D3DShaders.shader", "Resources/Shaders/System/D3DShaders.shader");
+
+	//Create sampler state, we'll use this for all textures for now.
+	D3D11_SAMPLER_DESC sampDesc;
+	ZeroMemory(&sampDesc, sizeof(sampDesc));
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	sampDesc.MinLOD = 0;
+	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	m_pkDevice->CreateSamplerState(&sampDesc, &m_pkTexSamplerState);
+	//Create the blend state
+	D3D11_BLEND_DESC bsd;
+	ZeroMemory(&bsd, sizeof(bsd));
+	bsd.RenderTarget[0].BlendEnable = TRUE;
+	bsd.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	bsd.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	bsd.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	bsd.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ZERO;
+	bsd.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	bsd.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	bsd.RenderTarget[0].RenderTargetWriteMask = 0x0F;
+
+	m_pkDevice->CreateBlendState(&bsd, &m_pkBlendState);
+
+	float blendFactor[] = { 0, 0, 0, 0 };
+	UINT sampleMask = 0xffffffff;
+
+	m_pkContext->OMSetBlendState(m_pkBlendState, blendFactor, sampleMask);
 
     return true;
 }
@@ -210,53 +279,34 @@ bool D3D11DisplayManager::CreateScreen()
 int D3D11DisplayManager::LoadTexture(std::string a_sName)
 {
 	//Check to see if texture has already been used
-	/*for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
 		if(a_sName == m_astLoadedTextures[iDx].m_szFileName)
 		{
 			//std::cout<<"Texture already in memory: "<<a_sName<<std::endl;
 			m_astLoadedTextures[iDx].m_uiReferences++; //increase the number of references to this texture.
-			return m_astLoadedTextures[iDx].m_iTextureNumber;
+			return iDx;
 		}
 	}
 
-	SDL_Surface *pkImage;
-    int piSize;
+	int piSize;
 	piSize = PackManager::GetSizeOfFile(a_sName.c_str());
-	pkImage=IMG_Load_RW(SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str()), piSize), 1);
-	//pkImage=SDL_LoadBMP(a_sName.c_str());
-	if(pkImage == NULL)
-	{
-		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
-		std::cout<<"IMG_Load failue: "<<a_sName<<": "<<SDL_GetError()<<std::endl;
-		// handle error
-		return m_iDefaultTexture;
-	}
 
-	// Check image dimensions are powers of 2
-	if ( (pkImage->w & (pkImage->w - 1)) != 0 )
-	{
-		std::cout<<"Warning: "<<a_sName<<"'s width is not a power of 2."<<std::endl;
-	}
-	if ( (pkImage->h & (pkImage->h - 1)) != 0 )
-	{
-		std::cout<<"Warning: "<<a_sName<<"'s height is not a power of 2."<<std::endl;
-	}
+	ID3D11ShaderResourceView* m_pkTexture;
 
-	int iTempTextureNumber = LoadTextureSDLSurface(pkImage);
+	D3DX11CreateShaderResourceViewFromMemory(m_pkDevice, PackManager::LoadResource(a_sName.c_str()), piSize, NULL, NULL, &m_pkTexture, NULL);
 
-	stTextureInfo tempTextureInfo;
+	stTextureInfoD3D tempTextureInfo;
 
-	tempTextureInfo.m_iTextureNumber = iTempTextureNumber;
+	tempTextureInfo.m_pkTextureResource = m_pkTexture;
 	tempTextureInfo.m_szFileName = a_sName;
 	tempTextureInfo.m_uiReferences = 1; // start with the first reference.
 
 	m_astLoadedTextures.push_back(tempTextureInfo);
 
-    std::cout<<"Texture number is: "<<iTempTextureNumber<<std::endl;
+    std::cout<<"Texture number is: "<<m_astLoadedTextures.size() - 1<<std::endl;
 
-	return iTempTextureNumber;*/
-	return 0;
+	return m_astLoadedTextures.size() - 1;
 }
 
 //Loading textures directly from SDL Surfaces doesn't support duplicate detection
@@ -479,63 +529,50 @@ void D3D11DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumber)
 
 bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pkTexture)
 {
-    /*glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());
+    /*glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());*/
 
-    glBegin(GL_QUADS);
+	m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource);
+	m_pkContext->PSSetSamplers( 0, 1, &m_pkTexSamplerState);
 
 	//TODO: allow drawing code to handle something that's not a quad
 
-	glTexCoord2f(a_pkTexture->m_fMinU, a_pkTexture->m_fMinV);
-    glVertex3f((GLfloat)TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).x),
-              (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).y),
-              (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).z);
-
-	glTexCoord2f(a_pkTexture->m_fMaxU, a_pkTexture->m_fMinV);
-    glVertex3f((GLfloat)TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x),
-              (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y),
-              (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z);
-
-	glTexCoord2f(a_pkTexture->m_fMaxU, a_pkTexture->m_fMaxV);
-    glVertex3f((GLfloat)TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).x),
-              (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).y),
-              (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).z);
-
-	glTexCoord2f(a_pkTexture->m_fMinU, a_pkTexture->m_fMaxV);
-    glVertex3f((GLfloat)TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x),
-              (GLfloat)TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y),
-              (GLfloat)m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z);
-	glEnd();*/
 	D3DVERTEX OurVertices[6];
-	
+
 	OurVertices[0].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).x);
 	OurVertices[0].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).y);
 	OurVertices[0].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).z;
-	OurVertices[0].Colour = D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f);
+	OurVertices[0].U = a_pkTexture->m_fMinU;
+	OurVertices[0].V = a_pkTexture->m_fMinV;
 	
 	OurVertices[1].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
 	OurVertices[1].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
 	OurVertices[1].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
-	OurVertices[1].Colour = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+	OurVertices[1].U = a_pkTexture->m_fMaxU;
+	OurVertices[1].V = a_pkTexture->m_fMinV;
 	
 	OurVertices[2].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
 	OurVertices[2].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
 	OurVertices[2].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
-	OurVertices[2].Colour = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+	OurVertices[2].U = a_pkTexture->m_fMinU;
+	OurVertices[2].V = a_pkTexture->m_fMaxV;
 	
 	OurVertices[3].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
 	OurVertices[3].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
 	OurVertices[3].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
-	OurVertices[3].Colour = D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f);
+	OurVertices[3].U = a_pkTexture->m_fMinU;
+	OurVertices[3].V = a_pkTexture->m_fMaxV;
 	
 	OurVertices[4].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
 	OurVertices[4].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
 	OurVertices[4].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
-	OurVertices[4].Colour = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
+	OurVertices[4].U = a_pkTexture->m_fMaxU;
+	OurVertices[4].V = a_pkTexture->m_fMinV;
 	
 	OurVertices[5].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).x);
 	OurVertices[5].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).y);
 	OurVertices[5].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).z;
-	OurVertices[5].Colour = D3DXCOLOR(0.5f, 0.5f, 0.5f, 1.0f);
+	OurVertices[5].U = a_pkTexture->m_fMaxU;
+	OurVertices[5].V = a_pkTexture->m_fMaxV;
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer

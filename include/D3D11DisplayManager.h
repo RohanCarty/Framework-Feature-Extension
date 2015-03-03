@@ -12,6 +12,22 @@
 
 #include <vector>
 
+struct D3DVERTEX
+{
+      FLOAT X, Y, Z;	// position
+      FLOAT U,V;		// TEXCOORD
+};
+
+
+struct stTextureInfoD3D
+{
+	std::string m_szFileName;
+	ID3D11ShaderResourceView* m_pkTextureResource;
+	unsigned int m_uiReferences;
+};
+
+
+
 class D3D11DisplayManager : public DisplayManager
 {
 public:
@@ -53,10 +69,19 @@ private:
 	ID3D11DeviceContext* m_pkContext;		//the pointer to our Direct3D context
     ID3D11RenderTargetView* m_pkBackBuffer;	//The pointer to the backbuffer
 
+	ID3D11Buffer* m_pkVertexBuffer;
+	ID3D11InputLayout* m_pkInputLayout;
+
+	ID3D11SamplerState* m_pkTexSamplerState;
+	ID3D11BlendState* m_pkBlendState;
+
+	ID3D11VertexShader* m_pkVertexShader;
+	ID3D11PixelShader* m_pkPixelShader;
+
     Matrix* m_pkViewMatrix;
     float m_fCameraTop, m_fCameraRight;
     
-	std::vector<stTextureInfo> m_astLoadedTextures;
+	std::vector<stTextureInfoD3D> m_astLoadedTextures;
 };
 
 #endif
