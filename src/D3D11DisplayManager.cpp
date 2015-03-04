@@ -36,6 +36,14 @@ D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager
 D3D11DisplayManager::~D3D11DisplayManager()
 {
     //TODO
+
+	//Kill all textures;
+	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	{
+		//std::cout<<"Texture already in memory: "<<a_sName<<std::endl;
+		m_astLoadedTextures[iDx].m_pkTextureResource->Release(); //increase the number of references to this texture.
+	}
+
 	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
 	//Close and release all existing COM objects
@@ -162,9 +170,6 @@ bool D3D11DisplayManager::CreateScreen()
 	D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL, D3D11_SDK_VERSION, &scd, &m_pkSwapchain, &m_pkDevice, NULL, &m_pkContext);
 
 	SDL_ShowCursor(0); //Hide cursor
-	// Enable V-Sync
-	// Enable Transparency
-	// Set Transparency settings.
 
 	m_iDefaultTexture = LoadTexture("Resources/Textures/System/Error.png");
 
@@ -254,6 +259,9 @@ bool D3D11DisplayManager::CreateScreen()
 	sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
 
 	m_pkDevice->CreateSamplerState(&sampDesc, &m_pkTexSamplerState);
+
+	// Enable Transparency and set Transparency settings.
+
 	//Create the blend state
 	D3D11_BLEND_DESC bsd;
 	ZeroMemory(&bsd, sizeof(bsd));
@@ -272,6 +280,8 @@ bool D3D11DisplayManager::CreateScreen()
 	UINT sampleMask = 0xffffffff;
 
 	m_pkContext->OMSetBlendState(m_pkBlendState, blendFactor, sampleMask);
+
+	//Have set the blend state
 
     return true;
 }
@@ -312,111 +322,128 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 //Loading textures directly from SDL Surfaces doesn't support duplicate detection
 int D3D11DisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
 {
-	// get the number of channels in the texture to check if there's an alpha channel and also determine the format of the image
-	/*GLenum texture_format = 0;
-	GLint nOfColours;
-	nOfColours = a_pkSurface->format->BytesPerPixel;
-	if (nOfColours == 4)
-	{
-		if (a_pkSurface->format->Rmask == 0x000000ff)
-			texture_format = GL_RGBA;
-		else
-			texture_format = GL_BGRA;
-	}
-	else if (nOfColours == 3)
-	{
-		if(a_pkSurface->format->Rmask == 0x000000ff)
-			texture_format = GL_RGB;
-		else
-			texture_format = GL_BGR;
-	}
-	else
-	{
-		std::cout<<"Warning: "<<a_pkSurface<<" is not a truecolour image"<<std::endl;
-	}
+	//Create texture
+	D3D11_TEXTURE2D_DESC t2d;
+	ZeroMemory(&t2d, sizeof(t2d));
+	t2d.Width = a_pkSurface->w;
+	t2d.Height = a_pkSurface->h;
+	t2d.MipLevels = 1;
+	t2d.ArraySize = 1;
+	t2d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	t2d.SampleDesc.Count = 1;
+	t2d.SampleDesc.Quality = 0;
+	t2d.Usage = D3D11_USAGE_DEFAULT;
+	t2d.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	t2d.CPUAccessFlags = 0;
+	t2d.MiscFlags = 0;
 
-	//Get a pointer.
-	GLuint* puiTemp = new GLuint[1];
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory(&initData, sizeof(initData));
+	initData.pSysMem = a_pkSurface->pixels;
+	initData.SysMemPitch = a_pkSurface->pitch;
 
 	//Create a single texture name.
-	glGenTextures(1, puiTemp);
+	HRESULT hr;
+
+	ID3D11Texture2D* pkTex = nullptr;
+	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
 
 	//Bind the texture name that was created.
-	glBindTexture(GL_TEXTURE_2D, *puiTemp);
+	ID3D11ShaderResourceView* m_pkTexture;
 
-	//Set some parameters (I think this is mip-mapping)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
+	if( SUCCEEDED(hr) && pkTex != 0)
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+        memset( &SRVDesc, 0, sizeof( SRVDesc ) );
+        SRVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		//Set some parameters
+        SRVDesc.Texture2D.MipLevels = 1;
 
-	// set the texture's stretching properties
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+		hr = m_pkDevice->CreateShaderResourceView( pkTex, &SRVDesc, &m_pkTexture);
 
-	// set the texture object's image data using the information SDL_Surface gives us
-	glTexImage2D(GL_TEXTURE_2D,		//target
-                 0,						//level
-                 GL_RGBA,				//Internal Format
-                 a_pkSurface->w, a_pkSurface->h,					//width and height
-                 0,
-                 texture_format, GL_UNSIGNED_BYTE,		//format and type
-                 a_pkSurface->pixels);		//data
+		if(FAILED(hr))
+		{
+			m_pkTexture->Release();
 
+			return 0; // return 0 for the default texture if this doesn't load
+		}
+	}
+	
+	stTextureInfoD3D tempTextureInfo;
+
+	tempTextureInfo.m_pkTextureResource = m_pkTexture;
+	tempTextureInfo.m_szFileName = "Generated from SDL Surface";
+	tempTextureInfo.m_uiReferences = 1; // start with the first reference.
+
+	m_astLoadedTextures.push_back(tempTextureInfo);
 	SDL_FreeSurface( a_pkSurface );
 
 	//Return texture number
-	int iTemp;
-	iTemp = ((int)*puiTemp);
-	delete puiTemp;
-	return iTemp;*/
-	return 0;
+	int iTemp = m_astLoadedTextures.size() - 1;
+	
+	return iTemp;
 }
 
 void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int a_iTextureNumber)
 {
-	// get the number of channels in the texture to check if there's an alpha channel and also determine the format of the image
-	/*GLenum texture_format = 0;
-	GLint nOfColours;
-	nOfColours = a_pkSurface->format->BytesPerPixel;
-	if (nOfColours == 4)
+	//Create texture
+	D3D11_TEXTURE2D_DESC t2d;
+	ZeroMemory(&t2d, sizeof(t2d));
+	t2d.Width = a_pkSurface->w;
+	t2d.Height = a_pkSurface->h;
+	t2d.MipLevels = 1;
+	t2d.ArraySize = 1;
+	t2d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	t2d.SampleDesc.Count = 1;
+	t2d.SampleDesc.Quality = 0;
+	t2d.Usage = D3D11_USAGE_DEFAULT;
+	t2d.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	t2d.CPUAccessFlags = 0;
+	t2d.MiscFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory(&initData, sizeof(initData));
+	initData.pSysMem = a_pkSurface->pixels;
+	initData.SysMemPitch = a_pkSurface->pitch;
+
+	//Create a single texture name.
+	HRESULT hr;
+
+	ID3D11Texture2D* pkTex = nullptr;
+	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
+
+	if( SUCCEEDED(hr) && pkTex != 0)
 	{
-		if (a_pkSurface->format->Rmask == 0x000000ff)
-			texture_format = GL_RGBA;
-		else
-			texture_format = GL_BGRA;
+		//Clear the current shader resource view
+		m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource->Release();
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+        memset( &SRVDesc, 0, sizeof( SRVDesc ) );
+        SRVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		//Set some parameters
+        SRVDesc.Texture2D.MipLevels = 1;
+
+		//Create a new one.
+		hr = m_pkDevice->CreateShaderResourceView( pkTex, &SRVDesc, &m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource);
+
+		if(FAILED(hr))
+		{
+			m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource->Release();
+
+			std::cout<<"Texture update failed!"<<std::endl; // we've got a problem. //TODO: handle this properly.
+
+			return;
+		}
 	}
-	else if (nOfColours == 3)
-	{
-		if(a_pkSurface->format->Rmask == 0x000000ff)
-			texture_format = GL_RGB;
-		else
-			texture_format = GL_BGR;
-	}
-	else
-	{
-		std::cout<<"Warning: "<<a_pkSurface<<" is not a truecolour image"<<std::endl;
-	}
 
-	//Bind the texture name that was created.
-	glBindTexture(GL_TEXTURE_2D, a_iTextureNumber);
+	SDL_FreeSurface( a_pkSurface );
 
-	//Set some parameters (I think this is mip-mapping)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-
-	// set the texture's stretching properties
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-
-	// set the texture object's image data using the information SDL_Surface gives us
-	glTexImage2D(GL_TEXTURE_2D,		//target
-                 0,						//level
-                 GL_RGBA,				//Internal Format
-                 a_pkSurface->w, a_pkSurface->h,					//width and height
-                 0,
-                 texture_format, GL_UNSIGNED_BYTE,		//format and type
-                 a_pkSurface->pixels);		//data
-
-	SDL_FreeSurface( a_pkSurface );*/
+	//Return texture number
+	int iTemp = m_astLoadedTextures.size() - 1;
+	
+	return;
 }
 
 void D3D11DisplayManager::UnloadTexture(int a_iTextureNumber)
@@ -595,6 +622,66 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 
 bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Texture* a_iTexture)
 {
+	//Bind the textures
+	m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_iTexture->GetTextureNumber()].m_pkTextureResource);
+	m_pkContext->PSSetSamplers( 0, 1, &m_pkTexSamplerState);
+
+	//TODO: allow drawing code to handle something that's not a quad
+
+	D3DVERTEX OurVertices[6];
+
+	OurVertices[0].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x);
+	OurVertices[0].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y);
+	OurVertices[0].Z = 0;
+	OurVertices[0].U = a_iTexture->m_fMinU;
+	OurVertices[0].V = a_iTexture->m_fMinV;
+	
+	OurVertices[1].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
+	OurVertices[1].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
+	OurVertices[1].Z = 0;
+	OurVertices[1].U = a_iTexture->m_fMaxU;
+	OurVertices[1].V = a_iTexture->m_fMinV;
+	
+	OurVertices[2].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
+	OurVertices[2].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
+	OurVertices[2].Z = 0;
+	OurVertices[2].U = a_iTexture->m_fMinU;
+	OurVertices[2].V = a_iTexture->m_fMaxV;
+	
+	OurVertices[3].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
+	OurVertices[3].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
+	OurVertices[3].Z = 0;
+	OurVertices[3].U = a_iTexture->m_fMinU;
+	OurVertices[3].V = a_iTexture->m_fMaxV;
+	
+	OurVertices[4].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
+	OurVertices[4].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
+	OurVertices[4].Z = 0;
+	OurVertices[4].U = a_iTexture->m_fMaxU;
+	OurVertices[4].V = a_iTexture->m_fMinV;
+	
+	OurVertices[5].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).x);
+	OurVertices[5].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).y);
+	OurVertices[5].Z = 0;
+	OurVertices[5].U = a_iTexture->m_fMaxU;
+	OurVertices[5].V = a_iTexture->m_fMaxV;
+
+	D3D11_MAPPED_SUBRESOURCE ms;
+	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
+	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
+
+	//Select which vertex buffer to display
+	UINT uiStride = sizeof(D3DVERTEX);
+	UINT uiOffset = 0;
+	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
+
+	//Select which primitive type we are using
+	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	//Draw the vertex buffer to the back buffer
+	m_pkContext->Draw(6, 0);
+
 	/*glBindTexture(GL_TEXTURE_2D, a_iTexture->GetTextureNumber());
 
 	glBegin(GL_TRIANGLE_STRIP);
