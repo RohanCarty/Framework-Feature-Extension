@@ -11,7 +11,7 @@ The intention of all coding is a Write Once-Compile Everywhere structure, only u
 
 All OpenGL code is intended to target OpenGL 3.3 capable hardware with optional fallbacks to OpenGL1.
 
-DirectX 11 code should be grafted in at some point in anticipation of X1 release.
+DirectX 11 is in a very basic state, similar to the OpenGL1 renderer, but should be a decent starting point for X1 release.
 
 Dependancies:
 
