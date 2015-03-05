@@ -146,11 +146,17 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 
 	//Check all four corners against all tiles twice, once for X velocity, once for Y velocity.
 	//TODO: See if this is way too slow.
+	//It is way too slow
 
 	for(unsigned int uiDx = 0; uiDx < SceneManager::GetTileManager()->GetTileList().size(); uiDx++)
 	{
+		if(SceneManager::GetTileManager()->GetTileList()[uiDx]->GetIsCollidable() == false) // check to see if collision is disabled.
+		{
+			continue;
+		}
+
 		vTemp = vCalculatedPosition;
-		vTemp.x += (GetSize().x / 2);
+		vTemp.x += (GetSize().x / 2); // make sure to get the centre of the object.
 
 
 		if(vTemp.WithinBox2D(*SceneManager::GetTileManager()->GetTileList()[uiDx]->GetLocation(), SceneManager::GetTileManager()->GetTileList()[uiDx]->GetSize()))
@@ -221,6 +227,11 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
     
 	for(unsigned int uiDx = 0; uiDx < SceneManager::GetTileManager()->GetTileList().size(); uiDx++)
 	{
+		if(SceneManager::GetTileManager()->GetTileList()[uiDx]->GetIsCollidable() == false) // check to see if collision is disabled.
+		{
+			continue;
+		}
+
 		vTemp = vCalculatedPosition;
 		vTemp.x += (GetSize().x / 2);
         

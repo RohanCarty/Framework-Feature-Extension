@@ -19,7 +19,6 @@
 #include <vector>
 
 #include "Vector.h"
-
 //Forward Declare
 class Object;
 class Tile;
@@ -33,9 +32,10 @@ public:
     
     bool Update(float a_fDeltaTime);
     void GenerateMap(int a_iSeed);
-    void SpawnTile(Vector a_vDestination);
+    void SpawnTileAt(Vector a_vDestination, int a_iTileType);
+    void SpawnTile(Vector a_vDestination, int a_iTileType);
 
-    std::vector<Tile*> GetTileList();
+    std::vector<Tile*>& GetTileList();
     
     Tile* GetTileAt(Vector a_vCoordinates);
 private:

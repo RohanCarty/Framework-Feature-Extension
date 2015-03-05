@@ -19,8 +19,15 @@
 //Forward declare
 class Scene;
 
-
 //Tiles are the terrain underneath the units,
+
+//enum to avoid string comparisons when processing tiles
+enum eTileType
+{
+	eFloor = 0,
+	eWall,
+	eBackground
+};
 
 #include "Object.h"
 
@@ -34,8 +41,14 @@ public:
 
     void SetCoordinate(Vector a_vCoordinates);
     Vector GetCoordinate();
+
+	bool GetIsCollidable();
+
+	void ChangeTileType(int a_iTileType);
+	void RandomiseRotation();
 private:
     Vector m_vCoordinates;
+	bool m_bIsCollidable;
 };
 
 #endif

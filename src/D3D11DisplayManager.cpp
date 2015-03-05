@@ -1,3 +1,4 @@
+#ifndef _DEBUG
 #ifdef _WIN32
 
 #include "DisplayManager.h"
@@ -55,6 +56,8 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkBackBuffer->Release();
 	m_pkDevice->Release();
 	m_pkContext->Release();
+
+	
 
 	std::cout<<"Closing Window"<<std::endl;
     SDL_DestroyWindow(m_pkMainWindow);
@@ -702,3 +705,4 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 }
 
 #endif //ifdef _WIN32
+#endif //ifndef _DEBUG

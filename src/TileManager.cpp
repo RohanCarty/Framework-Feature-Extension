@@ -39,40 +39,104 @@ bool TileManager::Update(float a_fDeltaTime)
 
 void TileManager::GenerateMap(int a_iSeed)
 {
-	//TODO: Everything
+	//TODO: Allow maps to be loaded.
 
 	//Load a map from either the stack or a file or something and blot it out.
 
-    //Modulus is in here in order to "centre" odd number map sizes.
-	/*for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
+	//Handle something for the background. // Do this first so it draws underneath everything
+
+	for(int iDx = -24; iDx <= 24; iDx++)
 	{
-		for(int iDy = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDy++)
+		for(int iDy = -7; iDy <= 7; iDy++)
 		{
-			SpawnTile(Vector(iDx * 256,iDy * 256,0));
-
-            GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, iDy, 0));
+			SpawnTileAt(Vector(iDx, iDy, 0), eTileType::eBackground);
 		}
-	}*/
-
-	for(int iDx = m_iTileListWidth * -1 + m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx < m_iTileListWidth / 2 + m_iTileListWidth % 2; iDx++)
-	{
-			SpawnTile(Vector(iDx * 64, 128, 0));
-
-            GetTileList()[GetTileList().size() -1]->SetCoordinate(Vector(iDx, 0, 0));
 	}
-    SpawnTile(Vector(-768, -128, 0));
-    SpawnTile(Vector(-768, -64, 0));
-    SpawnTile(Vector(-768, 0, 0));
-    SpawnTile(Vector(-768, 64, 0));
-    SpawnTile(Vector(768, -128, 0));
-    SpawnTile(Vector(768, -64, 0));
-    SpawnTile(Vector(768, 0, 0));
-    SpawnTile(Vector(768, 64, 0));
+
+	//Generate all the floors
+
+	for(int iDx = -24; iDx <= 24; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 8, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -24; iDx <= -16; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -5; iDx <= 16; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -3; iDx <= 14; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 6, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -20; iDx <= -4; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 3, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = 14; iDx <= 23; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 3, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -3; iDx <= 13; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, 0, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -20; iDx <= -4; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, -3, 0), eTileType::eFloor);
+	}
+
+	for(int iDx = -24; iDx <= 24; iDx++)
+	{
+		SpawnTileAt(Vector(iDx, -8, 0), eTileType::eFloor);
+	}
+
+	//Generate all the walls
+
+	for(int iDy = -7; iDy <= 6; iDy++)
+	{
+		SpawnTileAt(Vector(-24, iDy, 0), eTileType::eWall);
+	}
+
+	for(int iDy = -7; iDy <= 7; iDy++)
+	{
+		SpawnTileAt(Vector(24, iDy, 0), eTileType::eWall);
+	}
 
     return;
 }
 
-void TileManager::SpawnTile(Vector a_vDestination)
+void TileManager::SpawnTileAt(Vector a_vDestination, int a_iTileType)//Spawn at adjusted coordinates (Adjusted being *64'd)
+{
+    //TODO: Everything
+
+	Vector vTemp;
+
+	vTemp = a_vDestination;
+
+	vTemp *= 64;
+    
+    m_apkTiles.push_back(new Tile(SceneManager::GetCurrentScene()));
+    
+    //Vector vRandomPosition(rand()%800 - 400,rand()%600 - 300, 0.0);
+    
+    m_apkTiles[m_apkTiles.size() - 1]->SetLocation(vTemp);
+
+	m_apkTiles[m_apkTiles.size() - 1]->ChangeTileType(a_iTileType);
+
+    return;
+}
+
+void TileManager::SpawnTile(Vector a_vDestination, int a_iTileType)
 {
     //TODO: Everything
     
@@ -82,12 +146,12 @@ void TileManager::SpawnTile(Vector a_vDestination)
     
     m_apkTiles[m_apkTiles.size() - 1]->SetLocation(a_vDestination);
 
-	m_apkTiles[m_apkTiles.size() - 1]->SetRotation((rand() % 3 + 1) * 3.1415926535f / 2.0f);
+	m_apkTiles[m_apkTiles.size() - 1]->ChangeTileType(a_iTileType);
 
     return;
 }
 
-std::vector<Tile*> TileManager::GetTileList()
+std::vector<Tile*>& TileManager::GetTileList()
 {
     return m_apkTiles;
 }

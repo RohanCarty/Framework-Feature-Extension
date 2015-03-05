@@ -101,7 +101,7 @@ int UnitManager::SpawnNewUnit(int a_iType)
     
     //Vector vRandomPosition(rand()%800 - 400,rand()%600 - 300, 0.0);
     
-    m_apkUnits[m_apkUnits.size() - 1]->SetHardLocation(Vector(640,0,0));
+    m_apkUnits[m_apkUnits.size() - 1]->SetHardLocation(Vector(-640,-360,0));
     
     SpawnNewUnitOverNetwork(m_apkUnits[m_apkUnits.size() - 1]);
     
