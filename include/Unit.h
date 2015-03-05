@@ -67,8 +67,6 @@ public:
 private:
 	int m_iUnitType; //Holds the unit type
 
-	int m_iCurrentDirection; //Holds the enum of the current task
-
 	Vector* m_pDestination;
 
 	Object* m_pkTarget;

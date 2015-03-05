@@ -59,6 +59,8 @@ public:
     
     void FlipTexture(bool a_bNewSetting);
 
+	bool GetIsTextureFlipped();
+
 private:
     unsigned int m_iCurrentFrame;
     std::vector<Animation*> m_apkAnimations;

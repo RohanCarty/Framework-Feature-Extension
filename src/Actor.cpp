@@ -5,6 +5,7 @@
 #include "Tile.h"
 #include "Unit.h"
 #include "Player.h"
+#include "AnimatedTexture.h"
 
 Actor::Actor(Scene* a_pkScene) : Object(a_pkScene)
 {
@@ -31,6 +32,11 @@ Actor::Actor(Scene* a_pkScene) : Object(a_pkScene)
 	m_bIsCollidingTileNextFrameSet = false;
     m_bIsCollidingActorNextFrameSet = false;
     
+	m_bControlsLocked = false;
+	m_bInvincible = false;
+
+	m_iCurrentDirection = 0;
+
     m_iObjectType = eActor;
 }
 
@@ -462,6 +468,18 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
 
 void Actor::SetHealth(int a_iNewHealth)
 {
+	if(m_bInvincible)
+	{
+		return;
+	}
+
+	if(a_iNewHealth < m_iHealth) // health was reduced
+	{
+		KnockBack();
+		m_bControlsLocked = true;
+		m_bInvincible = true;
+	}
+
     m_iHealth = a_iNewHealth;
     
     //std::cout<<"Setting new health: "<<m_iHealth<<std::endl;
@@ -472,9 +490,33 @@ int Actor::GetHealth()
     return m_iHealth;
 }
 
+bool Actor::GetIsInvincible()
+{
+	return m_bInvincible;
+}
+
 void Actor::Death()
 {
 	return;
+}
+
+void Actor::KnockBack()
+{
+	//TODO: Implement knockback
+	m_pVelocity->y = -m_vMaxSpeed.y / 2;
+
+	if(m_vCollisionVector.x != 0)
+	{
+		m_pVelocity->x = -m_vCollisionVector.x * m_vMaxSpeed.x;
+	}
+	else if(m_iCurrentDirection != 0)
+	{
+		m_pVelocity->x = -m_iCurrentDirection * m_vMaxSpeed.x;
+	}
+	else
+	{
+		m_pVelocity->x = ((int)m_apkRenderables[0].m_pkTexture->GetIsTextureFlipped() * 2 - 1) * m_vMaxSpeed.x;
+	}
 }
 
 Vector Actor::GetCollisionVector()

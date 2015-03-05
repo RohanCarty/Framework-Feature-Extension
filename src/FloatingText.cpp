@@ -8,7 +8,7 @@
 
 FloatingText::FloatingText(Scene* a_pkScene) : Particle(a_pkScene)
 {
-    std::cout<<"Floating Text created. Pointer: "<<this<<std::endl;
+    //std::cout<<"Floating Text created. Pointer: "<<this<<std::endl;
 
 	m_apkRenderables[0].m_bIsHidden = true;
 

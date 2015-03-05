@@ -19,15 +19,13 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
-	m_iJumpSpeed = 600;
+	m_iJumpSpeed = 525;
 
 	m_bJumpLatch = false;
 
 	BindToController();
 
 	m_bIsGravityOn = true;
-    
-    m_iCurrentDirection = 0;
     
     m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
 
@@ -48,90 +46,103 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
-	//Jump detection
-	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
+	//Changing animation based on changed direction
+
+	if(m_pVelocity->x == 0.0f)
 	{
-		Jump();
+		//SwitchAnimation to standing
+		m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+		m_iCurrentDirection = 0;
 	}
-
-    Actor::Update(a_fDeltaTime);
-
-	//TODO: Remove this
-	//Escape for if there are no controllers connected.
-	if(m_iControllerNumberBoundTo == -1)
+	if(m_pVelocity->x < 0.0f)
 	{
-		std::cout<<"No Controller"<<std::endl;
-		return true;
-	}
-    
-    //Changing animation based on changed direction
-
-    if(m_pVelocity->x == 0.0f)
-    {
-        //SwitchAnimation to standing
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
-        m_iCurrentDirection = 0;
-    }
-    if(m_pVelocity->x < 0.0f)
-    {
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
-        m_iCurrentDirection = -1;
-    }
-    if(m_pVelocity->x > 0.0f)
-    {
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
-		m_iCurrentDirection = 1;
-    }
-	//Deceleration
-
-	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
-	{
-		if(m_pVelocity->x < -100)
+		//SwitchAnimation to running
+		m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+		
+		if(!m_bControlsLocked)
 		{
-			m_pVelocity->x += (m_iAcceleration * 0.5);
+			m_apkRenderables[0].m_pkTexture->FlipTexture(true);
 		}
-		else if(m_pVelocity->x > 100)
+
+		m_iCurrentDirection = -1;
+	}
+	if(m_pVelocity->x > 0.0f)
+	{
+		//SwitchAnimation to running
+		m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+		
+		if(!m_bControlsLocked)
 		{
-			m_pVelocity->x -= (m_iAcceleration * 0.5);
+			m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+		}
+
+		m_iCurrentDirection = 1;
+	}
+
+	if(!m_bControlsLocked)
+	{
+		//Jump detection
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
+		{
+			Jump();
+		}
+
+		//TODO: Remove this
+		//Escape for if there are no controllers connected.
+		if(m_iControllerNumberBoundTo == -1)
+		{
+			std::cout<<"No Controller"<<std::endl;
+			return true;
+		}
+
+		//Deceleration
+
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
+		{
+			if(m_pVelocity->x < -100)
+			{
+				m_pVelocity->x += (m_iAcceleration * 0.5);
+			}
+			else if(m_pVelocity->x > 100)
+			{
+				m_pVelocity->x -= (m_iAcceleration * 0.5);
+			}
+			else
+			{
+				m_pVelocity->x = 0;
+			}
 		}
 		else
 		{
-			m_pVelocity->x = 0;
+			m_pVelocity->x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X);
 		}
-	}
-	else
-	{
-		m_pVelocity->x += (m_iAcceleration * SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X);
-	}
 
-	//TODO: Work on physics.
+		//TODO: Work on physics.
+	}
 
 	//Falling respawn
-	//TODO: Handle full respawning in a function later.
-
 	if(GetLocation()->y > 800)
 	{
 		Respawn();
 	}
-    
-    //std::cout<<"Collision Vector: "<<GetCollisionVector()<<std::endl;
+
+	if(m_pVelocity->y == 0.0f && m_vCollisionVector.y > 0 && m_bControlsLocked)
+	{
+		m_bControlsLocked = false;
+		m_bInvincible = false;
+	}
+
+	Actor::Update(a_fDeltaTime);
 
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
 	{
-        if(IsCollidingWithTileNextFrame(a_fDeltaTime))
-        {
-            //SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
-            if(GetCollisionVector().y > 0)
-            {
-                m_bJumpLatch = false;
-            }
-        }
-
-		//std::cout<<"Jump Unlatched"<<std::endl;
+		if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+		{
+			if(GetCollisionVector().y > 0)
+			{
+				m_bJumpLatch = false;
+			}
+		}
 	}
 
     return true;

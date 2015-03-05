@@ -41,7 +41,11 @@ public:
     void SetHealth(int a_iNewHealth);
     int GetHealth();
 
+	bool GetIsInvincible();
+
 	virtual void Death();
+
+	void KnockBack();
     
     Vector GetCollisionVector();
 
@@ -60,6 +64,11 @@ protected:
 	bool m_bIsCollidingTileNextFrame;
     bool m_bIsCollidingActorNextFrame;
     
+	bool m_bControlsLocked; //Enabled when "controls" are meant to be locked, stops accepting input from player or A.I., used during stuns and knockback.
+	bool m_bInvincible; //Stops allowing damage to be taken and knockbacks being applied.
+
+    int m_iCurrentDirection;
+
 private:
 	bool m_bIsCollidingTileNextFrameSet;
     bool m_bIsCollidingActorNextFrameSet;

@@ -202,3 +202,8 @@ void AnimatedTexture::FlipTexture(bool a_bNewSetting)
 {
     m_bIsTextureFlipped = a_bNewSetting;
 }
+
+bool AnimatedTexture::GetIsTextureFlipped()
+{
+	return m_bIsTextureFlipped;
+}
