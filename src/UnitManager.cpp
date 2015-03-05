@@ -90,6 +90,8 @@ int UnitManager::SpawnPlayer()
 {
 	m_apkPlayers.push_back(new Player(SceneManager::GetCurrentScene()));
 
+	m_apkPlayers.back()->SetLocation(0, -128, 0);
+
 	return 0;
 }
 

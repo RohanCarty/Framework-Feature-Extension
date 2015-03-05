@@ -19,7 +19,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
-	
+	m_iJumpSpeed = 600;
+
 	m_bJumpLatch = false;
 
 	BindToController();
@@ -161,7 +162,7 @@ void Player::Death()
 
 void Player::Respawn()
 {
-	SetLocation(0,0,0);
+	SetLocation(0,-128,0);
 	SetVelocity(0,0,0);
 	SetHealth(100);
 }
