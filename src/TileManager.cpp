@@ -49,7 +49,7 @@ void TileManager::GenerateMap(int a_iSeed)
 	{
 		for(int iDy = -7; iDy <= 7; iDy++)
 		{
-			SpawnTileAt(Vector(iDx, iDy, 0), eTileType::eBackground);
+			SpawnTileAt(Vector(iDx, iDy, 0), eBackground);
 		}
 	}
 
@@ -57,59 +57,59 @@ void TileManager::GenerateMap(int a_iSeed)
 
 	for(int iDx = -24; iDx <= 24; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 8, 0), eTileType::eFloor2);
+		SpawnTileAt(Vector(iDx, 8, 0), eFloor2);
 	}
 
 	for(int iDx = -24; iDx <= -16; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor2);
+		SpawnTileAt(Vector(iDx, 7, 0), eFloor2);
 	}
 
 	for(int iDx = -5; iDx <= 16; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor2);
+		SpawnTileAt(Vector(iDx, 7, 0), eFloor2);
 	}
 
 	for(int iDx = -3; iDx <= 14; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 6, 0), eTileType::eFloor2);
+		SpawnTileAt(Vector(iDx, 6, 0), eFloor2);
 	}
 
 	for(int iDx = -20; iDx <= -4; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 3, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 3, 0), eFloor);
 	}
 
 	for(int iDx = 14; iDx <= 23; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 3, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 3, 0), eFloor);
 	}
 
 	for(int iDx = -3; iDx <= 13; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 0, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 0, 0), eFloor);
 	}
 
 	for(int iDx = -20; iDx <= -4; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, -3, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, -3, 0), eFloor);
 	}
 
 	for(int iDx = -24; iDx <= 24; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, -8, 0), eTileType::eFloor2);
+		SpawnTileAt(Vector(iDx, -8, 0), eFloor2);
 	}
 
 	//Generate all the walls
 
 	for(int iDy = -7; iDy <= 6; iDy++)
 	{
-		SpawnTileAt(Vector(-24, iDy, 0), eTileType::eWall);
+		SpawnTileAt(Vector(-24, iDy, 0), eWall);
 	}
 
 	for(int iDy = -7; iDy <= 7; iDy++)
 	{
-		SpawnTileAt(Vector(24, iDy, 0), eTileType::eWall);
+		SpawnTileAt(Vector(24, iDy, 0), eWall);
 	}
 
     return;
