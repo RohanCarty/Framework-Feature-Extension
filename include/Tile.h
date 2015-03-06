@@ -25,6 +25,7 @@ class Scene;
 enum eTileType
 {
 	eFloor = 0,
+	eFloor2,
 	eWall,
 	eBackground
 };

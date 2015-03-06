@@ -32,6 +32,8 @@ struct stGameControllerDetails
 	float fAxis1X;
 	float fAxis1Y;
 	bool bJumpPressed;
+	bool bAttackPressed;
+	bool bSpecialPressed;
 	bool bIsBound;
 };
 

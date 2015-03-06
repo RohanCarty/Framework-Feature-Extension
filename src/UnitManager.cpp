@@ -62,7 +62,14 @@ bool UnitManager::Update(float a_fDeltaTime)
             delete m_apkUnits[iDx];
             m_apkUnits.erase(m_apkUnits.begin() + iDx);
             iDx--;
+
+			ForceActorListUpdate(); // force an actor list update every time one gets removed.
         }
+	}
+
+	if(m_apkUnits.size() < 4)
+	{
+		SpawnNewUnit();
 	}
 
 	//Check for lack of players
@@ -103,7 +110,7 @@ int UnitManager::SpawnNewUnit(int a_iType)
     
     //Vector vRandomPosition(rand()%800 - 400,rand()%600 - 300, 0.0);
     
-    m_apkUnits[m_apkUnits.size() - 1]->SetHardLocation(Vector(-640,-360,0));
+    m_apkUnits[m_apkUnits.size() - 1]->SetHardLocation(Vector(rand()%1280 - 640,-360,0));
     
     SpawnNewUnitOverNetwork(m_apkUnits[m_apkUnits.size() - 1]);
     
@@ -154,12 +161,12 @@ void UnitManager::SortUnitByY()
 	}
 }
 
-std::vector<Unit*> UnitManager::GetUnitList()
+std::vector<Unit*>& UnitManager::GetUnitList()
 {
 	return m_apkUnits;
 }
 
-std::vector<Actor*> UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined
+std::vector<Actor*>& UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined
 {
     //if size isn't the same as the other two then rebuild list before returning it.
     if(m_apkActors.size() != m_apkPlayers.size() + m_apkUnits.size())
@@ -181,4 +188,22 @@ std::vector<Actor*> UnitManager::GetActorList() // checks to see if actor list i
     }
     
     return m_apkActors;
+}
+
+void UnitManager::ForceActorListUpdate()
+{
+	while(m_apkActors.size() > 0)
+	{
+		m_apkActors.pop_back();
+	}
+
+	for(unsigned int uiDx = 0; uiDx < m_apkPlayers.size(); uiDx++)
+	{
+		m_apkActors.push_back(m_apkPlayers[uiDx]);
+	}
+
+	for(unsigned int uiDx = 0; uiDx < m_apkUnits.size(); uiDx++)
+	{
+		m_apkActors.push_back(m_apkUnits[uiDx]);
+	}
 }

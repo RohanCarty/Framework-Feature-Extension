@@ -56,23 +56,52 @@ void Tile::ChangeTileType(int a_iTileType)
 {
 	switch(a_iTileType)
 	{
+	case eWall:
+		if(rand()% 2 + 1 == 1)
+		{
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.0;
+			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		}
+		else
+		{
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.0625;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		}
+		m_bIsCollidable = true;
+		break;
 	case eFloor:
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;
+		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.0625;
+		m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.09375;
 		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
 		m_bIsCollidable = true;
 		break;
-	case eWall:
-		m_apkRenderables[0].m_pkTexture->m_fMinU = 0;
-		m_apkRenderables[0].m_pkTexture->m_fMinV = 0.03125;
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;
-		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
+	case eFloor2:
+		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.09375;
+		m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.125;
+		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
 		m_bIsCollidable = true;
 		break;
 	case eBackground:
-		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.03125;
-		m_apkRenderables[0].m_pkTexture->m_fMinV = 0;
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.0625;
-		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		if(rand()% 2 + 1 == 1)
+		{
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.125;
+			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.15625;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		}
+		else
+		{
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.15625;
+			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.1875;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		}
 		break;
 	default:	//set the default case has just having the top left tile, will make an error tile at some point.
 		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;

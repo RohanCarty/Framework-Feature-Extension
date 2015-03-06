@@ -53,6 +53,10 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
     
     m_bIsGravityOn = true;
 
+	m_bInvincible = false;
+
+	m_iHealth = 20;
+
 	switch (rand() % 12)
 	{
 	case 0:
@@ -117,36 +121,51 @@ bool Unit::Update(float a_fDeltaTime)
     std::cout<<"Player Tick: "<<this<<std::endl;
     #endif
 
-    //Go in randomly picked direction.
+	//Check to make sure we're not already dead
+	if(GetHealth() <= 0)
+	{
+		return false;
+	}
+
+	if(!m_bControlsLocked)
+	{
+		//Go in randomly picked direction.
     
-    m_pVelocity->x += (m_iAcceleration * m_iCurrentDirection);
+		//If Velocity on the x is zero then assume that we've hit a wall, change direction.
+		if(m_pVelocity->x == 0.0)
+		{
+			m_iCurrentDirection *= -1;
+		}
+
+		m_pVelocity->x += (m_iAcceleration * m_iCurrentDirection);
     
-    //Changing animation based on changed direction
+		//Changing animation based on changed direction
     
-    if(m_pVelocity->x == 0.0f)
-    {
-        //SwitchAnimation to standing
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
-        m_iCurrentDirection = 0;
-    }
-    if(m_pVelocity->x < 0.0f)
-    {
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-        m_apkRenderables[0].m_pkTexture->FlipTexture(true);
-        m_iCurrentDirection = -1;
-    }
-    if(m_pVelocity->x > 0.0f)
-    {
-        //SwitchAnimation to running
-        m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
-        m_apkRenderables[0].m_pkTexture->FlipTexture(false);
-		m_iCurrentDirection = 1;
-    }
+		if(m_pVelocity->x == 0.0f)
+		{
+			//SwitchAnimation to standing
+			m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+			m_iCurrentDirection = 0;
+		}
+		if(m_pVelocity->x < 0.0f)
+		{
+			//SwitchAnimation to running
+			m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+			m_apkRenderables[0].m_pkTexture->FlipTexture(true);
+			m_iCurrentDirection = -1;
+		}
+		if(m_pVelocity->x > 0.0f)
+		{
+			//SwitchAnimation to running
+			m_apkRenderables[0].m_pkTexture->SwitchAnimation("Running");
+			m_apkRenderables[0].m_pkTexture->FlipTexture(false);
+			m_iCurrentDirection = 1;
+		}
+	}
     
     Actor::Update(a_fDeltaTime);
     
-    if(IsCollidingWithActorNextFrame(a_fDeltaTime))
+	if(IsCollidingWithActorNextFrame(a_fDeltaTime, m_pLocation) && !m_bControlsLocked)
     {
         for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
         {
@@ -161,18 +180,18 @@ bool Unit::Update(float a_fDeltaTime)
             }
         }
     }
-    
-    //If Velocity on the x is zero then assume that we've hit a wall, change direction.
-    if(m_pVelocity->x == 0.0)
-    {
-        m_iCurrentDirection *= -1;
-    }
 
-    /*Vector TempVector;
+	//kill enemy if it's fallen through the level.
+	if(GetLocation()->y > 800)
+	{
+		return false;
+	}
 
-    TempVector = (*GetLocation() - *m_pDestination);
-
-	TempVector = TempVector.Unitise();*/
+	if(m_pVelocity->y == 0.0f && m_bControlsLocked)
+	{
+		m_bControlsLocked = false;
+		m_bInvincible = false;
+	}
 
     return true;
 }

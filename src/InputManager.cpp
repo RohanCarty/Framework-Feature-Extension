@@ -99,36 +99,53 @@ bool InputManager::Update(float a_fDeltaTime)
 				RemoveGameController(GetControllerIdByJoystickId(test_event.cdevice.which));
 				break;
 			case SDL_JOYAXISMOTION:
-			//std::cout<<GetControllerState(0).fAxis1X<<std::endl;
 				if( test_event.jaxis.axis == 0)
 				{
 					if(test_event.jaxis.value < -m_iJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = -1;
-
-						//std::cout<<"Controller motion left"<<std::endl;
 					}
 					else if(test_event.jaxis.value > m_iJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 1;
-						
-						//std::cout<<"Controller motion right"<<std::endl;
 					}
 					else
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 0;
-						
-						//std::cout<<"No controller motion"<<std::endl;
 					}
-
-					//std::cout<<"Activity on controller "<<GetControllerIdByJoystickId(test_event.jaxis.which)<<test_event.jaxis.which<<" joystick i.d. "<<test_event.jaxis.which<<std::endl;
 				}
 				break;
-			case SDL_JOYBUTTONDOWN:
-				GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = true;
+			case SDL_JOYBUTTONDOWN: //.button 10 is X (ps3) .button 11 is O (ps3) .button 12 is [] (ps3) . button 13 is /\ (ps3)
+				if(test_event.jbutton.button == 10)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = true;
+				}
+				else if(test_event.jbutton.button == 12)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bAttackPressed = true;
+				}
+				else if(test_event.jbutton.button == 13)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecialPressed = true;
+				}
+				else
+				{
+					std::cout<<"Unknown button pressed on "<<test_event.jbutton.which<<" button I.D. is: "<<((int)test_event.jbutton.button)<<std::endl;
+				}
 				break;
 			case SDL_JOYBUTTONUP:
-				GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = false;
+				if(test_event.jbutton.button == 10)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = false;
+				}
+				else if(test_event.jbutton.button == 12)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bAttackPressed = false;
+				}
+				else if(test_event.jbutton.button == 13)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecialPressed = false;
+				}
 				break;
 			case SDL_QUIT:
 				return false;//TODO: Proper quitting (I think it's done?)
@@ -331,6 +348,8 @@ void InputManager::ClearControllerStates()
 		m_apkJoysticks[iDx].fAxis1X = 0.0f;
 		m_apkJoysticks[iDx].fAxis1Y = 0.0f;
 		m_apkJoysticks[iDx].bJumpPressed = false;
+		m_apkJoysticks[iDx].bAttackPressed = false;
+		m_apkJoysticks[iDx].bSpecialPressed = false;
 	}
 }
 
@@ -339,5 +358,7 @@ void InputManager::ClearJumpButtons()
 	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
 	{
 		m_apkJoysticks[iDx].bJumpPressed = false;
+		m_apkJoysticks[iDx].bAttackPressed = false;
+		m_apkJoysticks[iDx].bSpecialPressed = false;
 	}
 }

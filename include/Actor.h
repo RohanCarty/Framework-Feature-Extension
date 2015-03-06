@@ -35,8 +35,8 @@ public:
 
 	void ApplyGravity(float a_fDeltaTime);
 
-	bool IsCollidingWithTileNextFrame(float a_fDeltaTime);
-    bool IsCollidingWithActorNextFrame(float a_fDeltaTime);
+	bool IsCollidingWithTileNextFrame(float a_fDeltaTime, Vector* a_pLocationToCheck);
+    bool IsCollidingWithActorNextFrame(float a_fDeltaTime, Vector* a_pLocationToCheck);
     
     void SetHealth(int a_iNewHealth);
     int GetHealth();

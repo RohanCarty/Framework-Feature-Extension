@@ -33,6 +33,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	SetSize(GetSize() * GetScale());
     
     m_iObjectType = ePlayer;
+
+	m_bInvincible = false;
 }
 
 Player::~Player()
@@ -87,6 +89,12 @@ bool Player::Update(float a_fDeltaTime)
 			Jump();
 		}
 
+		//Attack detection
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bAttackPressed)
+		{
+			Attack(a_fDeltaTime);
+		}
+
 		//TODO: Remove this
 		//Escape for if there are no controllers connected.
 		if(m_iControllerNumberBoundTo == -1)
@@ -134,9 +142,9 @@ bool Player::Update(float a_fDeltaTime)
 
 	Actor::Update(a_fDeltaTime);
 
-	if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+	if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
 	{
-		if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+		if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
 		{
 			if(GetCollisionVector().y > 0)
 			{
@@ -155,6 +163,49 @@ void Player::Jump()
 	m_bJumpLatch = true;
 
 	//std::cout<<"Jump Latched"<<std::endl;
+}
+
+void Player::Attack(float a_fDeltaTime)
+{
+	//Attack in front of the player, determine direction then do a check of all actors there and damage/knockback them.
+
+	//Create a temp vector, this will be modified based on direction then added to the current location to get the attack point
+	Vector vTemp;
+	if(m_iCurrentDirection != 0)
+	{
+		vTemp.x = m_iCurrentDirection * (GetSize().x / 2);
+	}
+	else
+	{
+		vTemp.x = -((int)m_apkRenderables[0].m_pkTexture->GetIsTextureFlipped() * 2 - 1) * (GetSize().x / 2);
+	}
+
+	vTemp = *GetLocation() + vTemp;
+    
+	//Ensure checking collision like this doesn't cause any issues.
+
+	//Clear collision list
+	while(m_apkIsCollidingWithNextFame.size() > 0)
+	{
+		m_apkIsCollidingWithNextFame.pop_back();
+	}
+
+	if(IsCollidingWithActorNextFrame(a_fDeltaTime, &vTemp))
+	{
+		for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
+		{
+			if(m_apkIsCollidingWithNextFame[uiDx]->m_iObjectType == eUnit)
+			{
+				std::cout<<"Hit something"<<std::endl;
+				//TODO: Proper damage
+				if(!((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetIsInvincible()) //Not invinciible
+				{
+					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - 10);
+					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), 10);
+				}
+			}
+		}
+	}
 }
 
 void Player::BindToController()
@@ -176,4 +227,7 @@ void Player::Respawn()
 	SetLocation(0,-128,0);
 	SetVelocity(0,0,0);
 	SetHealth(100);
+	m_bControlsLocked = false;
+	m_bInvincible = false;
+	m_bJumpLatch = false;
 }

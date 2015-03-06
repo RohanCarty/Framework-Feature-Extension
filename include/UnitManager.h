@@ -43,8 +43,11 @@ public:
 
 	virtual void SortUnitByY();
     
-	std::vector<Unit*> GetUnitList();
-    std::vector<Actor*> GetActorList();
+	std::vector<Unit*>& GetUnitList();
+    std::vector<Actor*>& GetActorList();
+
+	void ForceActorListUpdate();
+
 private:
 	std::vector<Unit*> m_apkUnits;
 	std::vector<Player*> m_apkPlayers;

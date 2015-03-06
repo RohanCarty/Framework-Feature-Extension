@@ -32,6 +32,8 @@ public:
 
 	void Jump(); // Causes an increase in upwards velocity.
 
+	void Attack(float a_fDeltaTime); //Attacks in front of the player //will move to actor eventually;
+
 	void BindToController();
 
 	virtual void Death();

@@ -84,7 +84,7 @@ bool Actor::Update(float a_fDeltaTime)
 		ApplyGravity(a_fDeltaTime);
 	}
     
-    if(IsCollidingWithTileNextFrame(a_fDeltaTime))
+	if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
 	{
 		//SetLocation(GetLocation()->x, 0.0f, GetLocation()->z);
         if(m_vCollisionVector.y > 0)
@@ -133,7 +133,7 @@ void Actor::ApplyGravity(float a_fDeltaTime)
 	m_pVelocity->y = m_vMaxSpeed.y;
 }
 
-bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
+bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime, Vector* a_pLocationToCheck)
 {
 	if(m_bIsCollidingTileNextFrameSet)
 		return m_bIsCollidingTileNextFrame;
@@ -305,7 +305,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime)
 	return false;
 }
 
-bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
+bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime, Vector* a_pLocationToCheck)
 {
 	if(m_bIsCollidingActorNextFrameSet)
 		return m_bIsCollidingActorNextFrame;
@@ -318,7 +318,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
     //Remove X component, so can extrapolate direction
     double fVelTemp = m_pVelocity->x;
     m_pVelocity->x = 0.0f;
-	Vector vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
+	Vector vCalculatedPosition = (*a_pLocationToCheck + (*m_pVelocity * a_fDeltaTime));
 	Vector vTemp;
     m_pVelocity->x = fVelTemp;
     
@@ -391,7 +391,7 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime)
     //Remove Y component, so can extrapolate direction
     fVelTemp = m_pVelocity->y;
     m_pVelocity->y = 0.0f;
-    vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
+    vCalculatedPosition = (*a_pLocationToCheck + (*m_pVelocity * a_fDeltaTime));
     m_pVelocity->y = fVelTemp;
     
 	//Check all four corners against all tiles twice, once for X velocity, once for Y velocity.

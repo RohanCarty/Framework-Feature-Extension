@@ -32,33 +32,6 @@ bool Camera::Update(float a_fDeltaTime)
 {
     Object::Update(a_fDeltaTime);
 
-    //Move Camera
-	Vector vMousePosition = *SceneManager::GetInputManager()->GetMousePosition();
-
-	if(SceneManager::GetInputManager()->GetWindowIsInFocus())
-	{
-		// Edge scrolling with mouse, shouldn't need it for shades.
-		/*if(vMousePosition.x < 10)
-		{
-			SetLocation(GetLocation()->x - 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-		}
-
-		if(vMousePosition.x > SceneManager::GetDisplayManager()->GetXScreenResolution() - 10)
-		{
-			SetLocation(GetLocation()->x + 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-		}
-
-		if(vMousePosition.y < 10)
-		{
-			SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
-		}
-
-		if(vMousePosition.y > SceneManager::GetDisplayManager()->GetYScreenResolution() - 10)
-		{
-			SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
-		}*/
-	}
-
 	//Clamp zooms
 	if(m_dTargetZoom < 0.5)
 	{
@@ -122,29 +95,6 @@ bool Camera::Update(float a_fDeltaTime)
 	//Scale Camera
 	m_fViewportX = SceneManager::GetDisplayManager()->GetXScreenResolution() * GetScale();
 	m_fViewportY = SceneManager::GetDisplayManager()->GetYScreenResolution() * GetScale();
-
-
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_W))
-    {
-		//m_dTargetZoom = GetLocation()->z + 0.1f;
-        SetLocation(GetLocation()->x, GetLocation()->y - 500*a_fDeltaTime, GetLocation()->z);
-    }
-
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_A))
-    {
-        SetLocation(GetLocation()->x - 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-    }
-
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_S))
-    {
-		//m_dTargetZoom = GetLocation()->z - 0.1f;
-       SetLocation(GetLocation()->x, GetLocation()->y + 500*a_fDeltaTime, GetLocation()->z);
-    }
-
-    if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_SCANCODE_D))
-    {
-        SetLocation(GetLocation()->x + 500*a_fDeltaTime, GetLocation()->y, GetLocation()->z);
-    }
 
 	//std::cout<<"Camera: X: "<<GetWorldLocation()->x<<" Y: "<<GetWorldLocation()->y<<" Z: "<<GetWorldLocation()->z<<std::endl;
 

@@ -57,22 +57,22 @@ void TileManager::GenerateMap(int a_iSeed)
 
 	for(int iDx = -24; iDx <= 24; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 8, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 8, 0), eTileType::eFloor2);
 	}
 
 	for(int iDx = -24; iDx <= -16; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor2);
 	}
 
 	for(int iDx = -5; iDx <= 16; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 7, 0), eTileType::eFloor2);
 	}
 
 	for(int iDx = -3; iDx <= 14; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, 6, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, 6, 0), eTileType::eFloor2);
 	}
 
 	for(int iDx = -20; iDx <= -4; iDx++)
@@ -97,7 +97,7 @@ void TileManager::GenerateMap(int a_iSeed)
 
 	for(int iDx = -24; iDx <= 24; iDx++)
 	{
-		SpawnTileAt(Vector(iDx, -8, 0), eTileType::eFloor);
+		SpawnTileAt(Vector(iDx, -8, 0), eTileType::eFloor2);
 	}
 
 	//Generate all the walls
