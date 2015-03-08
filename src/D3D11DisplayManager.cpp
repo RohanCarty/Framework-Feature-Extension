@@ -19,8 +19,7 @@
 #include <D3Dcompiler.h>
 
 #pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dx11.lib")
-#pragma comment (lib, "d3dx10.lib")
+#pragma comment (lib, "d3d10.lib")
 #pragma comment (lib, "D3Dcompiler.lib")
 
 
@@ -233,7 +232,8 @@ bool D3D11DisplayManager::CreateScreen()
 	//End of setting the viewport
 
 	//Clear the back buffer to prepare for first frame.
-	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+	float afTempClearColour[4] = {(1.0f, 0.0f, 0.0f, 0.0f)}; //A,B,G,R
+		m_pkContext->ClearRenderTargetView(m_pkBackBuffer, afTempClearColour);
 
 	//Setting up vertex buffer
 	D3D11_BUFFER_DESC bd;
@@ -301,13 +301,83 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 			return iDx;
 		}
 	}
-
-	int piSize;
+	SDL_Surface *pkImage;
+	int piSize = 0;
+	//Hacky as fuck
 	piSize = PackManager::GetSizeOfFile(a_sName.c_str());
+	SDL_RWops* pkImgBufferTemp = SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str()), piSize);
+	if(pkImgBufferTemp == NULL)
+	{
+		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
+		std::cout<<"SDL_RWOps failue Size:"<<piSize<<" : "<<SDL_GetError()<<std::endl;
+	}
+	pkImage=IMG_Load_RW(pkImgBufferTemp, 1);
+	//pkImage=SDL_LoadBMP(a_sName.c_str());
+	if(pkImage == NULL)
+	{
+		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
+		std::cout<<"IMG_Load failue: "<<a_sName<<": "<<SDL_GetError()<<std::endl;
+		// handle error
+		return m_iDefaultTexture;
+	}
 
+	// Check image dimensions are powers of 2
+	if ( (pkImage->w & (pkImage->w - 1)) != 0 )
+	{
+		std::cout<<"Warning: "<<a_sName<<"'s width is not a power of 2."<<std::endl;
+	}
+	if ( (pkImage->h & (pkImage->h - 1)) != 0 )
+	{
+		std::cout<<"Warning: "<<a_sName<<"'s height is not a power of 2."<<std::endl;
+	}
+
+	//Create texture
+	D3D11_TEXTURE2D_DESC t2d;
+	ZeroMemory(&t2d, sizeof(t2d));
+	t2d.Width = pkImage->w;
+	t2d.Height = pkImage->h;
+	t2d.MipLevels = 1;
+	t2d.ArraySize = 1;
+	t2d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	t2d.SampleDesc.Count = 1;
+	t2d.SampleDesc.Quality = 0;
+	t2d.Usage = D3D11_USAGE_DEFAULT;
+	t2d.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	t2d.CPUAccessFlags = 0;
+	t2d.MiscFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA initData;
+	ZeroMemory(&initData, sizeof(initData));
+	initData.pSysMem = pkImage->pixels;
+	initData.SysMemPitch = pkImage->pitch;
+
+	//Create a single texture name.
+	HRESULT hr;
+
+	ID3D11Texture2D* pkTex = nullptr;
+	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
+
+	//Bind the texture name that was created.
 	ID3D11ShaderResourceView* m_pkTexture;
 
-	D3DX11CreateShaderResourceViewFromMemory(m_pkDevice, PackManager::LoadResource(a_sName.c_str()), piSize, NULL, NULL, &m_pkTexture, NULL);
+	if( SUCCEEDED(hr) && pkTex != 0)
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC SRVDesc;
+        memset( &SRVDesc, 0, sizeof( SRVDesc ) );
+        SRVDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        SRVDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		//Set some parameters
+        SRVDesc.Texture2D.MipLevels = 1;
+
+		hr = m_pkDevice->CreateShaderResourceView( pkTex, &SRVDesc, &m_pkTexture);
+
+		if(FAILED(hr))
+		{
+			m_pkTexture->Release();
+
+			return 0; // return 0 for the default texture if this doesn't load
+		}
+	}
 
 	stTextureInfoD3D tempTextureInfo;
 
@@ -508,7 +578,8 @@ bool D3D11DisplayManager::Update(float a_fDeltaTime)
 	m_pkSwapchain->Present(0,0);
 
 	//Clear the back buffer for the next frame.
-    m_pkContext->ClearRenderTargetView(m_pkBackBuffer, D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+	float afTempClearColour[4] = {(1.0f, 0.0f, 0.0f, 0.0f)}; //A,B,G,R
+		m_pkContext->ClearRenderTargetView(m_pkBackBuffer, afTempClearColour);
 
     //Delay a little bit in order to give cpu a break.
     SDL_Delay(1);
