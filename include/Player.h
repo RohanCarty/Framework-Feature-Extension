@@ -40,9 +40,15 @@ public:
 
 	void Respawn();
 
+	int GetCurrentSoulPowerLevel();
+	void SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel);
+
 private:
 	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
 	int m_iControllerNumberBoundTo;
+	int m_iCurrentSoulPowerLevel; //This is the crux of all ability calcuations for things such as run speed and basic damage. // for now we'll work with a max of 100;
+	Vector m_vCurrentMaxSpeed;
+	int m_iCurrentAttackPower;
 };
 
 #endif

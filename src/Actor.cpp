@@ -26,6 +26,8 @@ Actor::Actor(Scene* a_pkScene) : Object(a_pkScene)
     
     m_iHealth = 100;
 
+	m_iAttackPower = 10;
+
 	//Collision stuff
 	m_bIsCollidingTileNextFrame = false;
     m_bIsCollidingActorNextFrame = false;

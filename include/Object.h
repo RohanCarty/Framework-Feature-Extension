@@ -34,6 +34,7 @@ enum eObjectType
     ePlayer,
     eUnit,
     eTile,
+	eSoul,
     eObject
 };
 
@@ -84,6 +85,8 @@ public:
     void SetScale(float a_fScale);
     
     eObjectType m_iObjectType;
+
+	float FloatLerp(float a_fMin, float a_fMax, float a_fUnitPercentage); //UnitPercentage is taken in the form of an entry of between 0.0f and 1.0f
 
 protected:
     Object* m_pkParent;

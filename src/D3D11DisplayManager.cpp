@@ -1,4 +1,3 @@
-#ifndef _DEBUG
 #ifdef _WIN32
 
 #include "DisplayManager.h"
@@ -776,4 +775,3 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 }
 
 #endif //ifdef _WIN32
-#endif //ifndef _DEBUG

@@ -25,8 +25,6 @@ struct stTextureInfoD3D
 	unsigned int m_uiReferences;
 };
 
-
-
 class D3D11DisplayManager : public DisplayManager
 {
 public:

@@ -66,27 +66,21 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 		{
 			m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
 		}
-#ifndef _DEBUG
 #ifdef _WIN32
 		if(strcmp(argv[iDx], "d3d11") == 0)
 		{
 			m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
 		}
 #endif
-#endif
 	}
 
 	if(m_pkDisplayManager == NULL)
 	{
-#ifndef _DEBUG
 #ifdef _WIN32
 		m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
 #else
 		m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
 #endif //_WIN32
-#else
-		m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
-#endif
 	}
 	
 	

@@ -57,6 +57,7 @@ protected:
 	int m_iFallSpeed;
 	bool m_bIsGravityOn;
     int m_iHealth;
+	int m_iAttackPower;
     
     std::vector<Object*> m_apkIsCollidingWithNextFame;
     

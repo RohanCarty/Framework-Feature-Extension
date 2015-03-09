@@ -6,6 +6,7 @@
 #include "Unit.h"
 #include "Building.h"
 #include "Player.h"
+#include "CollectibleSoul.h"
 #include "Vector.h"
 #include "Tile.h"
 
@@ -44,6 +45,9 @@ void UnitManager::StartGame()
         {
             SpawnNewUnit();
         }
+
+		//Test Soul spawn, //TODO: Remove
+		SpawnNewCollectibleSoul(&Vector(200, -100, 0));
     }
 }
 
@@ -90,6 +94,18 @@ bool UnitManager::Update(float a_fDeltaTime)
         }
 	}
 
+	//Update all the Collectible Souls
+	for( unsigned int iDx = 0; iDx < m_apkCollectibleSouls.size(); iDx++ )
+    {
+        if(!m_apkCollectibleSouls[iDx]->Update(a_fDeltaTime))
+        {
+            //if a unit returns false, delete it and wind the loop back one.
+            delete m_apkCollectibleSouls[iDx];
+            m_apkCollectibleSouls.erase(m_apkCollectibleSouls.begin() + iDx);
+            iDx--;
+        }
+	}
+
 	return true;
 }
 
@@ -130,6 +146,15 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
     SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
 }
 
+int UnitManager::SpawnNewCollectibleSoul(Vector* a_pLocation)
+{
+	m_apkCollectibleSouls.push_back(new CollectibleSoul(SceneManager::GetCurrentScene()));
+        
+	m_apkCollectibleSouls[m_apkCollectibleSouls.size() - 1]->SetLocation(*a_pLocation);
+    
+    return 0;
+}
+
     //Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
 //TODO: get rid of this, will not scale nicely and it'll be fully topdown anyway
 void UnitManager::SortUnitByY()
@@ -164,6 +189,11 @@ void UnitManager::SortUnitByY()
 std::vector<Unit*>& UnitManager::GetUnitList()
 {
 	return m_apkUnits;
+}
+
+std::vector<Player*>& UnitManager::GetPlayerList()
+{
+	return m_apkPlayers;
 }
 
 std::vector<Actor*>& UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined

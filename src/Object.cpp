@@ -290,3 +290,12 @@ void Object::SetScale(float a_fScale)
 {
 	m_fScale = a_fScale;
 }
+
+float Object::FloatLerp(float a_fMin, float a_fMax, float a_fUnitPercentage)
+{
+	float a_fTemp;
+
+	a_fTemp = (a_fMax - a_fMin) * a_fUnitPercentage;
+
+	return a_fTemp;
+}

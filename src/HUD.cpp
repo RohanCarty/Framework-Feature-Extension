@@ -6,6 +6,7 @@
 #include "Vector.h"
 #include "Texture.h"
 #include "GameInfo.h"
+#include "Player.h"
 
 #include <cstdlib>
 #include <cstdio>
@@ -19,6 +20,8 @@ HUD::HUD(Scene* a_pkScene)
     m_pkTextLibrary = new TextLibrary(SceneManager::GetDisplayManager());
 
     m_cpTempString = new char[256];
+
+	//TODO: Displaying bars for health along with numbers.
 }
 
 HUD::~HUD()
@@ -43,26 +46,38 @@ bool HUD::Update(float a_fDeltaTime)
 
     std::string sTest;
 
-    //Population
-	sprintf(m_cpTempString,"%d",((GameScene*)m_pkScene)->GetGameInfo()->GetScore());
-	sTest = m_cpTempString;
-	sTest = "Score: " + sTest;
-
-    m_pkTextLibrary->PrintHUDString(sTest, 0,0,iFontSize);
-    
-    sprintf(m_cpTempString,"%d", (int) (1.0f / a_fDeltaTime ));
+	//Print FPS
+	sprintf(m_cpTempString,"%d", (int) (1.0f / a_fDeltaTime ));
     
     sTest = "FPS: ";
     sTest = sTest + m_cpTempString; //what the fuck LLVM?
     
-    m_pkTextLibrary->PrintHUDString(sTest, 0, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize, iFontSize);
+    m_pkTextLibrary->PrintHUDString(sTest, 0, 0, iFontSize);
 
-    //Current Score, TODO
-	/*sprintf(m_cpTempString,"%d",((GameScene*)m_pkScene)->GetGameInfo()->GetScore());
-    sTest = m_cpTempString;
-    sTest = "Score: " + sTest;
+    //Print the details of the players included in the game.
+	for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
+	{
+		//Print Gamertag //TODO: Implement, for now just number of players.
+		sprintf(m_cpTempString,"%d", uiDx + 1);
+		sTest = m_cpTempString;
+		sTest = "Player " + sTest;
 
-    m_pkTextLibrary->PrintHUDString(sTest, SceneManager::GetDisplayManager()->GetXScreenResolution() - (m_pkTextLibrary->GetStringSize(sTest, iFontSize).x),0,iFontSize);*/
+		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 256, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 11, iFontSize);
+
+		//Print current health
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[0]->GetHealth());
+		sTest = m_cpTempString;
+		sTest = "Health: " + sTest;
+
+		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 256, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 10, iFontSize);
+
+		//Print current soul power.
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[0]->GetCurrentSoulPowerLevel());
+		sTest = m_cpTempString;
+		sTest = "Soul Power Level: " + sTest;
+
+		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 256, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 9, iFontSize);
+	}
 
     return true;
 }

@@ -55,7 +55,7 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_bInvincible = false;
 
-	m_iHealth = 20;
+	m_iHealth = 50;
 
 	switch (rand() % 12)
 	{
@@ -174,8 +174,8 @@ bool Unit::Update(float a_fDeltaTime)
                 //TODO: Proper damage
 				if(!((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetIsInvincible()) //Not invinciible
 				{
-					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - 10);
-					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), 10);
+					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - m_iAttackPower);
+					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), m_iAttackPower);
 				}
             }
         }

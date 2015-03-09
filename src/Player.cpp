@@ -5,11 +5,13 @@
 #include "Vector.h"
 #include "InputManager.h"
 #include "AnimatedTexture.h"
+#include "CollectibleSoul.h"
 
 Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 {
     //std::cout<<"Unit created. Pointer: "<<this<<std::endl;
 
+	//Pick a random character sprite for now, allow players to choose one later.
 	if(rand() % 2 + 1 == 2)
 	{
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
@@ -19,9 +21,17 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
 	}
 
+	//Set some defaults and initialise some variables.
+
 	m_iJumpSpeed = 525;
 
 	m_bJumpLatch = false;
+
+	m_iCurrentSoulPowerLevel = 0;
+
+	m_vCurrentMaxSpeed = m_vMaxSpeed; //Copy defaults in on in there.
+
+	m_iCurrentAttackPower = m_iAttackPower; //More defaults.
 
 	BindToController();
 
@@ -83,6 +93,14 @@ bool Player::Update(float a_fDeltaTime)
 
 	if(!m_bControlsLocked)
 	{
+		//TODO: Remove this
+		//Escape for if there are no controllers connected.
+		if(m_iControllerNumberBoundTo == -1)
+		{
+			std::cout<<"No Controller"<<std::endl;
+			return true;
+		}
+
 		//Jump detection
 		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bJumpPressed && !m_bJumpLatch)
 		{
@@ -95,16 +113,12 @@ bool Player::Update(float a_fDeltaTime)
 			Attack(a_fDeltaTime);
 		}
 
-		//TODO: Remove this
-		//Escape for if there are no controllers connected.
-		if(m_iControllerNumberBoundTo == -1)
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecialPressed)
 		{
-			std::cout<<"No Controller"<<std::endl;
-			return true;
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough souls for special");
 		}
 
 		//Deceleration
-
 		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).fAxis1X == 0)
 		{
 			if(m_pVelocity->x < -100)
@@ -126,6 +140,19 @@ bool Player::Update(float a_fDeltaTime)
 		}
 
 		//TODO: Work on physics.
+
+		//See if the player ran into a soul shard.
+		if(IsCollidingWithActorNextFrame(a_fDeltaTime, m_pLocation) && !m_bControlsLocked)
+		{
+			for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
+			{
+				if(m_apkIsCollidingWithNextFame[uiDx]->m_iObjectType == eSoul) //Still isn't strictly type-safe.
+				{
+					//TODO: Put this into a much better and easier function
+					SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() + ((CollectibleSoul*)m_apkIsCollidingWithNextFame[uiDx])->GetSoulLevelContained());
+				}
+			}
+		}
 	}
 
 	//Falling respawn
@@ -141,6 +168,13 @@ bool Player::Update(float a_fDeltaTime)
 	}
 
 	Actor::Update(a_fDeltaTime);
+
+	//Speed cap for reduced stat characters
+	if(m_pVelocity->x > m_vCurrentMaxSpeed.x)
+		m_pVelocity->x = m_vCurrentMaxSpeed.x;
+
+	if(m_pVelocity->x < -m_vCurrentMaxSpeed.x)
+		m_pVelocity->x = -m_vCurrentMaxSpeed.x;
 
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
 	{
@@ -200,8 +234,8 @@ void Player::Attack(float a_fDeltaTime)
 				//TODO: Proper damage
 				if(!((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetIsInvincible()) //Not invinciible
 				{
-					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - 10);
-					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), 10);
+					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - m_iCurrentAttackPower);
+					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), m_iCurrentAttackPower);
 				}
 			}
 		}
@@ -230,4 +264,27 @@ void Player::Respawn()
 	m_bControlsLocked = false;
 	m_bInvincible = false;
 	m_bJumpLatch = false;
+}
+
+int Player::GetCurrentSoulPowerLevel()
+{
+	return m_iCurrentSoulPowerLevel;
+}
+
+void Player::SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel)
+{
+	if(a_iNewSoulPowerLevel < 0)
+	{
+		a_iNewSoulPowerLevel = 0;
+	}
+	else if(a_iNewSoulPowerLevel > 100)
+	{
+		a_iNewSoulPowerLevel = 100;
+	}
+
+	m_iCurrentAttackPower = FloatLerp(10, m_iAttackPower, a_iNewSoulPowerLevel / 100);
+
+	m_vCurrentMaxSpeed.x = FloatLerp(m_vMaxSpeed.x / 2, m_vMaxSpeed.x, a_iNewSoulPowerLevel / 100); //a_iNewSoulPowerLevel will be between 0 and 100;
+
+	m_iCurrentSoulPowerLevel = a_iNewSoulPowerLevel;
 }
