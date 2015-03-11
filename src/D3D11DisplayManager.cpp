@@ -34,14 +34,20 @@ D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager
 
 D3D11DisplayManager::~D3D11DisplayManager()
 {
-    //TODO
+    //Report any live objects to help hunt memory leaks.
+	ReportLiveObjects();
 
 	//Kill all textures;
 	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
 		//std::cout<<"Texture already in memory: "<<a_sName<<std::endl;
-		m_astLoadedTextures[iDx].m_pkTextureResource->Release(); //increase the number of references to this texture.
+		if(m_astLoadedTextures[iDx].m_pkTextureResource != NULL) //increase the number of references to this texture.
+		{
+			UnloadTexture(iDx);
+		}
 	}
+
+	m_pkContext->ClearState();
 
 	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
@@ -168,7 +174,23 @@ bool D3D11DisplayManager::CreateScreen()
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		//Allow full-screen switching
 
 	//Create a device, device context, and swap chain using the scd struct
-	D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, NULL, NULL, NULL, D3D11_SDK_VERSION, &scd, &m_pkSwapchain, &m_pkDevice, NULL, &m_pkContext);
+	D3D11CreateDeviceAndSwapChain(
+		NULL, 
+		D3D_DRIVER_TYPE_HARDWARE, 
+		NULL,
+#ifdef _DEBUG
+		D3D11_CREATE_DEVICE_DEBUG,
+#else
+		NULL,
+#endif
+		NULL,
+		NULL,
+		D3D11_SDK_VERSION,
+		&scd,
+		&m_pkSwapchain,
+		&m_pkDevice,
+		NULL,
+		&m_pkContext);
 
 	SDL_ShowCursor(0); //Hide cursor
 
@@ -231,8 +253,10 @@ bool D3D11DisplayManager::CreateScreen()
 	//End of setting the viewport
 
 	//Clear the back buffer to prepare for first frame.
-	float afTempClearColour[4] = {(1.0f, 0.0f, 0.0f, 0.0f)}; //A,B,G,R
-		m_pkContext->ClearRenderTargetView(m_pkBackBuffer, afTempClearColour);
+	//Set the clear colour array
+	m_afTempClearColour[0] = 0.0f;m_afTempClearColour[1] = 0.0f;m_afTempClearColour[2] = 0.0f;m_afTempClearColour[3] = 1.0f;  //R,G,B,A
+
+	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, m_afTempClearColour);
 
 	//Setting up vertex buffer
 	D3D11_BUFFER_DESC bd;
@@ -252,7 +276,7 @@ bool D3D11DisplayManager::CreateScreen()
 	//Create sampler state, we'll use this for all textures for now.
 	D3D11_SAMPLER_DESC sampDesc;
 	ZeroMemory(&sampDesc, sizeof(sampDesc));
-	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
 	sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
@@ -388,6 +412,8 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 
     std::cout<<"Texture number is: "<<m_astLoadedTextures.size() - 1<<std::endl;
 
+	SDL_FreeSurface(pkImage);
+
 	return m_astLoadedTextures.size() - 1;
 }
 
@@ -520,9 +546,9 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 
 void D3D11DisplayManager::UnloadTexture(int a_iTextureNumber)
 {
-	/*for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
-		if(m_astLoadedTextures[iDx].m_iTextureNumber == a_iTextureNumber)
+		if(iDx == a_iTextureNumber)
 		{
 			m_astLoadedTextures[iDx].m_uiReferences--;//Reduce the references by one
 
@@ -531,23 +557,18 @@ void D3D11DisplayManager::UnloadTexture(int a_iTextureNumber)
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
 			{
 				//std::cout<<"Deleting Texture: "<<m_astLoadedTextures[iDx].m_szFileName<<std::endl;
-				GLuint* puiTemp = new GLuint[1];
+				m_astLoadedTextures[iDx].m_pkTextureResource->Release();
 
-				puiTemp[0] = m_astLoadedTextures[iDx].m_iTextureNumber;
-
-				glDeleteTextures(1, puiTemp);
-
-				delete puiTemp;
-
-				m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
+				//TODO: Soon, must fix
+				//m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
-	}*/
+	}
 }
 
 void D3D11DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 {
-	/*for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
 		if(m_astLoadedTextures[iDx].m_szFileName == a_szTextureFilename)
 		{
@@ -555,18 +576,13 @@ void D3D11DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 
 			if(m_astLoadedTextures[iDx].m_uiReferences <= 0)//only unload if this is the only reference.
 			{
-				GLuint* puiTemp = new GLuint[1];
+				m_astLoadedTextures[iDx].m_pkTextureResource->Release();
 
-				puiTemp[0] = m_astLoadedTextures[iDx].m_iTextureNumber;
-
-				glDeleteTextures(1, puiTemp);
-
-				delete puiTemp;
-
-				m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
+				//TODO: Soon, must fix
+				//m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
-	}*/
+	}
 }
 
 bool D3D11DisplayManager::Update(float a_fDeltaTime)
@@ -577,13 +593,26 @@ bool D3D11DisplayManager::Update(float a_fDeltaTime)
 	m_pkSwapchain->Present(0,0);
 
 	//Clear the back buffer for the next frame.
-	float afTempClearColour[4] = {(1.0f, 0.0f, 0.0f, 0.0f)}; //A,B,G,R
-		m_pkContext->ClearRenderTargetView(m_pkBackBuffer, afTempClearColour);
+	
+	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, m_afTempClearColour);
 
     //Delay a little bit in order to give cpu a break.
     SDL_Delay(1);
     return true;
 }
+
+void D3D11DisplayManager::ReportLiveObjects()
+{
+#ifdef _DEBUG
+	ID3D11Debug* DebugDevice = NULL;
+	HRESULT hr = m_pkDevice->QueryInterface(__uuidof(ID3D11Debug), (void **)&DebugDevice);
+	
+	hr = DebugDevice->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+
+	DebugDevice->Release();
+#endif
+}
+
 // Transforming worldspace to screenspace, really needs to get replace, I mean, software transformations are 90's as fuck.
 float D3D11DisplayManager::TransformToScreenSpaceX(double a_pkPosition)
 {
@@ -755,22 +784,6 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 	//Draw the vertex buffer to the back buffer
 	m_pkContext->Draw(6, 0);
 
-	/*glBindTexture(GL_TEXTURE_2D, a_iTexture->GetTextureNumber());
-
-	glBegin(GL_TRIANGLE_STRIP);
-	//Vertices
-	glTexCoord2f(a_iTexture->m_fMinU,a_iTexture->m_fMinV);// Triangle 1 Top-left
-	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y)); // Triangle 1 Top-left
-	glTexCoord2f(a_iTexture->m_fMaxU,a_iTexture->m_fMinV);// Top-Right
-	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y)); // Top-Right
-	glTexCoord2f(a_iTexture->m_fMaxU,a_iTexture->m_fMaxV);// Triangle 2 Bottom-Right
-	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).y)); // Triangle 2 Bottom-Right
-	glTexCoord2f(a_iTexture->m_fMinU,a_iTexture->m_fMaxV);// Bottom-Left
-	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y)); // Bottom-Left
-	glTexCoord2f(a_iTexture->m_fMinU,a_iTexture->m_fMinV);// Top-Left
-	glVertex2f(HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x),HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y)); // Top-Left
-
-	glEnd();*/
 	return true;
 }
 

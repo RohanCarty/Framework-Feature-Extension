@@ -53,6 +53,7 @@ public:
     virtual bool Update(float a_fDeltaTime);
 
 	virtual bool ToggleWireframeMode();
+	virtual void ReportLiveObjects();
 
 	virtual int GetXScreenResolution();
 	virtual int GetYScreenResolution();

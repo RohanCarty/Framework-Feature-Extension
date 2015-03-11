@@ -76,6 +76,11 @@ bool DisplayManager::ToggleWireframeMode()
 	return m_bWireframeMode;
 }
 
+void DisplayManager::ReportLiveObjects()
+{
+	return;
+}
+
 int DisplayManager::GetXScreenResolution()
 {
 	return m_iXResolution;

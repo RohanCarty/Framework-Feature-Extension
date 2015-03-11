@@ -1,6 +1,19 @@
 #ifndef _D3D11DISPLAYMANAGER_H_
 #define _D3D11DISPLAYMANAGER_H_
 
+#ifdef _WIN32
+	#ifdef _DEBUG
+		#define _CRTDBG_MAP_ALLOC
+		#include <stdlib.h>
+		#include <malloc.h>
+		#include <crtdbg.h>
+		#ifndef DBG_NEW
+			#define DBG_NEW new ( _NORMAL_BLOCK , __FILE__ , __LINE__ )
+			#define new DBG_NEW
+	   #endif
+	#endif
+#endif
+
 #include "DisplayManager.h"
 
 //include the basic windows header files and the D3D header files
@@ -43,6 +56,8 @@ public:
 	void UnloadTexture(std::string a_szTextureFilename);
 
     bool Update(float a_fDeltaTime);
+	
+	void ReportLiveObjects();
 
 	float TransformToScreenSpaceX(double a_pkPosition);
 	float TransformToScreenSpaceY(double a_pkPosition);
@@ -77,6 +92,8 @@ private:
 
     Matrix* m_pkViewMatrix;
     float m_fCameraTop, m_fCameraRight;
+
+	float m_afTempClearColour[4];
     
 	std::vector<stTextureInfoD3D> m_astLoadedTextures;
 };

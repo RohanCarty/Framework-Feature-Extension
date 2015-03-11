@@ -351,7 +351,7 @@ int OpenGLDisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
 
-	// set the texture's stretching properties
+	// set the texture's stretching properties // Texture filtering, makes pixel art game look kinda trash
 	//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
 	//glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
 

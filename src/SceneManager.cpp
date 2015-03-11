@@ -203,6 +203,13 @@ bool SceneManager::Update(float a_fDeltaTime)
         {
             m_stScenes.top()->ReloadAllObjectScripts();
         }
+
+#ifdef _WIN32
+		if(m_pkInputManager->GetIsKeyDown(SDL_SCANCODE_F10))//Dump current memory leaks
+        {
+			_CrtDumpMemoryLeaks();
+        }
+#endif //_WIN32
         
         if(m_pkInputManager->GetIsKeyDown(SDL_SCANCODE_F12))//Toggle Wireframe Mode
         {
