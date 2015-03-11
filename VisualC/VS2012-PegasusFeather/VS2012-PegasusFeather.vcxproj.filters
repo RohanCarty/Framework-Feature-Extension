@@ -144,6 +144,9 @@
     <ClCompile Include="..\..\src\UnitManager.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\CollectibleSoul.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -258,6 +261,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Actor.h">
+      <Filter>Header Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CollectibleSoul.h">
       <Filter>Header Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>

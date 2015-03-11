@@ -17,10 +17,13 @@
 
 #include <D3Dcompiler.h>
 
+#include <comdef.h>
+
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3d10.lib")
 #pragma comment (lib, "D3Dcompiler.lib")
 
+#pragma comment (lib, "comsuppw.lib")
 
 D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager(argc, argv)
 {
@@ -174,7 +177,7 @@ bool D3D11DisplayManager::CreateScreen()
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		//Allow full-screen switching
 
 	//Create a device, device context, and swap chain using the scd struct
-	D3D11CreateDeviceAndSwapChain(
+	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		NULL, 
 		D3D_DRIVER_TYPE_HARDWARE, 
 		NULL,
@@ -192,13 +195,22 @@ bool D3D11DisplayManager::CreateScreen()
 		NULL,
 		&m_pkContext);
 
+	if(FAILED(hr))
+	{
+		_com_error err(hr);
+		LPCTSTR errMsg = err.ErrorMessage();
+
+		std::wstring szwTemp(errMsg);
+		std::string szTemp(szwTemp.begin(), szwTemp.end());
+
+		std::cout<<"Error creating device: "<<szTemp<<std::endl;
+	}
+
 	SDL_ShowCursor(0); //Hide cursor
 
 	m_iDefaultTexture = LoadTexture("Resources/Textures/System/Error.png");
 
 	//Block for detecting videocard info;
-
-	HRESULT hr;
 
 	ZeroMemory(&hr, sizeof(HRESULT));
 
@@ -535,6 +547,8 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 			return;
 		}
 	}
+
+	pkTex->Release(); //Make sure to decrement the reference count.
 
 	SDL_FreeSurface( a_pkSurface );
 
