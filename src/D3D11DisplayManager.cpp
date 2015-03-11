@@ -37,17 +37,15 @@ D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager
 
 D3D11DisplayManager::~D3D11DisplayManager()
 {
-    //Report any live objects to help hunt memory leaks.
-	ReportLiveObjects();
-
 	//Kill all textures;
 	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
+		m_astLoadedTextures[iDx].m_pkTextureResource->Release();
 		//std::cout<<"Texture already in memory: "<<a_sName<<std::endl;
-		if(m_astLoadedTextures[iDx].m_pkTextureResource != NULL) //increase the number of references to this texture.
+		/*if(m_astLoadedTextures[iDx].m_pkTextureResource != NULL) //increase the number of references to this texture.
 		{
 			UnloadTexture(iDx);
-		}
+		}*/
 	}
 
 	m_pkContext->ClearState();
@@ -55,6 +53,8 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkSwapchain->SetFullscreenState(FALSE, NULL);		//Switch to windowed mode on close, y'know, because directx needs that.
 
 	//Close and release all existing COM objects
+	m_pkInputLayout->Release();
+	m_pkTexSamplerState->Release();
 	m_pkBlendState->Release();
 	m_pkVertexBuffer->Release();
 	m_pkVertexShader->Release();
@@ -62,9 +62,12 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkSwapchain->Release();
 	m_pkBackBuffer->Release();
 	m_pkDevice->Release();
+
+	m_pkContext->Flush();
 	m_pkContext->Release();
 
-	
+	//Report any live objects to help hunt memory leaks.
+	ReportLiveObjects();
 
 	std::cout<<"Closing Window"<<std::endl;
     SDL_DestroyWindow(m_pkMainWindow);
@@ -414,6 +417,8 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 		}
 	}
 
+	pkTex->Release(); //Be sure to decrement reference count.
+
 	stTextureInfoD3D tempTextureInfo;
 
 	tempTextureInfo.m_pkTextureResource = m_pkTexture;
@@ -560,7 +565,7 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 
 void D3D11DisplayManager::UnloadTexture(int a_iTextureNumber)
 {
-	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	/*for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
 		if(iDx == a_iTextureNumber)
 		{
@@ -577,12 +582,12 @@ void D3D11DisplayManager::UnloadTexture(int a_iTextureNumber)
 				//m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
-	}
+	}*/
 }
 
 void D3D11DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 {
-	for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
+	/*for(unsigned int iDx = 0; iDx < m_astLoadedTextures.size(); iDx++)
 	{
 		if(m_astLoadedTextures[iDx].m_szFileName == a_szTextureFilename)
 		{
@@ -596,7 +601,7 @@ void D3D11DisplayManager::UnloadTexture(std::string a_szTextureFilename)
 				//m_astLoadedTextures.erase(m_astLoadedTextures.begin() + iDx, m_astLoadedTextures.begin() + iDx + 1);
 			}
 		}
-	}
+	}*/
 }
 
 bool D3D11DisplayManager::Update(float a_fDeltaTime)
