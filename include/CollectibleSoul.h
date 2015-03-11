@@ -34,9 +34,12 @@ public:
 
 	int GetSoulLevelContained();
 
+	void SetSoulCollected();
+
 private:
     Scene* m_pkScene;
     int m_iSoulLevelContained;
+	bool m_bHasBeenCollected;
 };
 
 #endif

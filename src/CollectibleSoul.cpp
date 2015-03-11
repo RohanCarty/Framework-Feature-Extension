@@ -18,6 +18,8 @@ CollectibleSoul::CollectibleSoul(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_iSoulLevelContained = 5;
 
+	m_bHasBeenCollected = false;
+
 	m_iObjectType = eSoul;
 
 	SetScale(0.4f);
@@ -37,7 +39,7 @@ bool CollectibleSoul::Update(float a_fDeltaTime)
     std::cout<<"Particle Tick: "<<this<<std::endl;
 #endif
 
-    if(!Actor::Update(a_fDeltaTime))
+	if(!Actor::Update(a_fDeltaTime) || m_bHasBeenCollected )
 	{
 		return false;
 	}
@@ -48,4 +50,9 @@ bool CollectibleSoul::Update(float a_fDeltaTime)
 int CollectibleSoul::GetSoulLevelContained()
 {
 	return m_iSoulLevelContained;
+}
+
+void CollectibleSoul::SetSoulCollected()
+{
+	m_bHasBeenCollected = true;
 }

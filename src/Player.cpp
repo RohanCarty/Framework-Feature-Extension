@@ -31,7 +31,12 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_vCurrentMaxSpeed = m_vMaxSpeed; //Copy defaults in on in there.
 
+	m_iAttackPower = 25;
+
 	m_iCurrentAttackPower = m_iAttackPower; //More defaults.
+
+	m_fAttackCooldown = 0.75f;
+	m_fCurrentAttackCooldown = 0.0f;
 
 	BindToController();
 
@@ -58,8 +63,12 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
-	//Changing animation based on changed direction
+	if(m_fCurrentAttackCooldown > 0.0f)
+	{
+		m_fCurrentAttackCooldown -= a_fDeltaTime;
+	}
 
+	//Changing animation based on changed direction
 	if(m_pVelocity->x == 0.0f)
 	{
 		//SwitchAnimation to standing
@@ -110,12 +119,40 @@ bool Player::Update(float a_fDeltaTime)
 		//Attack detection
 		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bAttackPressed)
 		{
-			Attack(a_fDeltaTime);
+			if(m_fCurrentAttackCooldown <= 0.0f)
+			{
+				m_fCurrentAttackCooldown = m_fAttackCooldown;
+				Attack(a_fDeltaTime);
+			}
 		}
 
+		//Heal
 		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecialPressed)
 		{
-			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough souls for special");
+			if(GetHealth() == 100)
+			{
+				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Health Already Full");
+			}
+			else if(m_iCurrentSoulPowerLevel >= 25)
+			{
+				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal!");
+
+				//Healing is for 25 points, hardcoded
+				if(GetHealth() > 75)
+				{
+					SetHealth(100);
+				}
+				else
+				{
+					SetHealth(GetHealth() + 25);
+				}
+
+				SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 25);
+			}
+			else
+			{
+				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough souls for Heal");
+			}
 		}
 
 		//Deceleration
@@ -142,7 +179,7 @@ bool Player::Update(float a_fDeltaTime)
 		//TODO: Work on physics.
 
 		//See if the player ran into a soul shard.
-		if(IsCollidingWithActorNextFrame(a_fDeltaTime, m_pLocation) && !m_bControlsLocked)
+		if(IsCollidingWithActorNextFrame(a_fDeltaTime, m_pLocation))
 		{
 			for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
 			{
@@ -150,6 +187,7 @@ bool Player::Update(float a_fDeltaTime)
 				{
 					//TODO: Put this into a much better and easier function
 					SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() + ((CollectibleSoul*)m_apkIsCollidingWithNextFame[uiDx])->GetSoulLevelContained());
+					((CollectibleSoul*)m_apkIsCollidingWithNextFame[uiDx])->SetSoulCollected();
 				}
 			}
 		}
@@ -178,12 +216,9 @@ bool Player::Update(float a_fDeltaTime)
 
 	if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
 	{
-		if(IsCollidingWithTileNextFrame(a_fDeltaTime, m_pLocation))
+		if(GetCollisionVector().y > 0)
 		{
-			if(GetCollisionVector().y > 0)
-			{
-				m_bJumpLatch = false;
-			}
+			m_bJumpLatch = false;
 		}
 	}
 
@@ -207,11 +242,11 @@ void Player::Attack(float a_fDeltaTime)
 	Vector vTemp;
 	if(m_iCurrentDirection != 0)
 	{
-		vTemp.x = m_iCurrentDirection * (GetSize().x / 2);
+		vTemp.x = m_iCurrentDirection * (GetSize().x / 1);
 	}
 	else
 	{
-		vTemp.x = -((int)m_apkRenderables[0].m_pkTexture->GetIsTextureFlipped() * 2 - 1) * (GetSize().x / 2);
+		vTemp.x = -((int)m_apkRenderables[0].m_pkTexture->GetIsTextureFlipped() * 2 - 1) * (GetSize().x / 1);
 	}
 
 	vTemp = *GetLocation() + vTemp;
@@ -230,7 +265,6 @@ void Player::Attack(float a_fDeltaTime)
 		{
 			if(m_apkIsCollidingWithNextFame[uiDx]->m_iObjectType == eUnit)
 			{
-				std::cout<<"Hit something"<<std::endl;
 				//TODO: Proper damage
 				if(!((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetIsInvincible()) //Not invinciible
 				{
@@ -282,9 +316,9 @@ void Player::SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel)
 		a_iNewSoulPowerLevel = 100;
 	}
 
-	m_iCurrentAttackPower = FloatLerp(10, m_iAttackPower, a_iNewSoulPowerLevel / 100);
+	m_iCurrentAttackPower = FloatLerp(m_iAttackPower / 5, m_iAttackPower, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f);
 
-	m_vCurrentMaxSpeed.x = FloatLerp(m_vMaxSpeed.x / 2, m_vMaxSpeed.x, a_iNewSoulPowerLevel / 100); //a_iNewSoulPowerLevel will be between 0 and 100;
+	m_vCurrentMaxSpeed.x = FloatLerp(m_vMaxSpeed.x / 2, m_vMaxSpeed.x, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f); //a_iNewSoulPowerLevel will be between 0 and 100;
 
 	m_iCurrentSoulPowerLevel = a_iNewSoulPowerLevel;
 }

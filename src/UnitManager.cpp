@@ -45,9 +45,6 @@ void UnitManager::StartGame()
         {
             SpawnNewUnit();
         }
-
-		//Test Soul spawn, //TODO: Remove
-		SpawnNewCollectibleSoul(&Vector(200, -100, 0));
     }
 }
 
@@ -199,22 +196,9 @@ std::vector<Player*>& UnitManager::GetPlayerList()
 std::vector<Actor*>& UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined
 {
     //if size isn't the same as the other two then rebuild list before returning it.
-    if(m_apkActors.size() != m_apkPlayers.size() + m_apkUnits.size())
+	if(m_apkActors.size() != m_apkPlayers.size() + m_apkUnits.size() + m_apkCollectibleSouls.size())
     {
-        while(m_apkActors.size() > 0)
-        {
-            m_apkActors.pop_back();
-        }
-        
-        for(unsigned int uiDx = 0; uiDx < m_apkPlayers.size(); uiDx++)
-        {
-            m_apkActors.push_back(m_apkPlayers[uiDx]);
-        }
-        
-        for(unsigned int uiDx = 0; uiDx < m_apkUnits.size(); uiDx++)
-        {
-            m_apkActors.push_back(m_apkUnits[uiDx]);
-        }
+        ForceActorListUpdate();
     }
     
     return m_apkActors;
@@ -235,5 +219,10 @@ void UnitManager::ForceActorListUpdate()
 	for(unsigned int uiDx = 0; uiDx < m_apkUnits.size(); uiDx++)
 	{
 		m_apkActors.push_back(m_apkUnits[uiDx]);
+	}
+
+	for(unsigned int uiDx = 0; uiDx < m_apkCollectibleSouls.size(); uiDx++)
+	{
+		m_apkActors.push_back(m_apkCollectibleSouls[uiDx]);
 	}
 }

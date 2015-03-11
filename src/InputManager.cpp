@@ -115,7 +115,7 @@ bool InputManager::Update(float a_fDeltaTime)
 					}
 				}
 				break;
-			case SDL_JOYBUTTONDOWN: //.button 10 is X (ps3) .button 11 is O (ps3) .button 12 is [] (ps3) . button 13 is /\ (ps3)
+			case SDL_JOYBUTTONDOWN: //.button 10 is A (360) .button 11 is B (360) .button 12 is X (360) . button 13 is Y (360)
 				if(test_event.jbutton.button == 10)
 				{
 					GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = true;

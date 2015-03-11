@@ -297,5 +297,7 @@ float Object::FloatLerp(float a_fMin, float a_fMax, float a_fUnitPercentage)
 
 	a_fTemp = (a_fMax - a_fMin) * a_fUnitPercentage;
 
+	a_fTemp += a_fMin;
+
 	return a_fTemp;
 }

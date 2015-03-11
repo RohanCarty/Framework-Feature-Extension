@@ -404,7 +404,6 @@ bool Actor::IsCollidingWithActorNextFrame(float a_fDeltaTime, Vector* a_pLocatio
 		vTemp = vCalculatedPosition;
 		vTemp.x += (GetSize().x / 2);
         
-        
 		if(vTemp.WithinBox2D(*SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetLocation(), SceneManager::GetUnitManager()->GetActorList()[uiDx]->GetSize()))
 		{
 			m_bIsCollidingActorNextFrame = true;

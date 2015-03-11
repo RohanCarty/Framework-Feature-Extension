@@ -124,6 +124,8 @@ bool Unit::Update(float a_fDeltaTime)
 	//Check to make sure we're not already dead
 	if(GetHealth() <= 0)
 	{
+		SceneManager::GetUnitManager()->SpawnNewCollectibleSoul(GetLocation());
+
 		return false;
 	}
 

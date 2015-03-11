@@ -49,6 +49,9 @@ private:
 	int m_iCurrentSoulPowerLevel; //This is the crux of all ability calcuations for things such as run speed and basic damage. // for now we'll work with a max of 100;
 	Vector m_vCurrentMaxSpeed;
 	int m_iCurrentAttackPower;
+
+	float m_fAttackCooldown;
+	float m_fCurrentAttackCooldown;
 };
 
 #endif

@@ -65,6 +65,8 @@ void ParticleManager::SpawnFloatingText(Vector a_vDestination, std::string a_szT
     m_apkParticles[m_apkParticles.size() - 1]->SetLocation(a_vDestination);
 
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetText(a_szTextToDisplay);
+
+	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetParticleManager(this);
 }
 
 void ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay)
