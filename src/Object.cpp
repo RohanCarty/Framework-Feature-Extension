@@ -261,6 +261,11 @@ void Object::SetLocation(double a_x, double a_y, double a_z)
 	m_pLocation->z = a_z;
 }
 
+std::vector<stRenderable>& Object::GetRenderables()
+{
+	return m_apkRenderables;
+}
+
 float Object::GetRotation()
 {
 	return m_fRotation;

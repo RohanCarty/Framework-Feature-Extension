@@ -75,6 +75,8 @@ public:
     void SetLocation(Vector a_pNewLocation, bool a_bInstantWorldUpdate = false);
     void SetLocation(double a_x, double a_y, double a_z);
 
+	std::vector<stRenderable>& GetRenderables();
+
 	float GetRotation();
 	void SetRotation(float a_fRotation);
 

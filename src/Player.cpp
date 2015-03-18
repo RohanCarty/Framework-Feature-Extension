@@ -3,6 +3,7 @@
 #include "SoundManager.h"
 #include "Scene.h"
 #include "GameScene.h"
+#include "HUD.h"
 #include "Vector.h"
 #include "InputManager.h"
 #include "AnimatedTexture.h"
@@ -64,8 +65,13 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
+	//Testing progress bar
 	if(m_fCurrentAttackCooldown > 0.0f)
 	{
+		Vector vTempPosition = *GetLocation();
+		vTempPosition.y += GetSize().y;
+		((GameScene*)m_pkScene)->m_pkHUD->DrawProgressBar(vTempPosition,Vector(128,32,0), m_fCurrentAttackCooldown);
+
 		m_fCurrentAttackCooldown -= a_fDeltaTime;
 	}
 

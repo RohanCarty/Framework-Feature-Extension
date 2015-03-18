@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "TextLibrary.h"
+#include "Mesh.h"
+#include "AnimatedTexture.h"
 #include "Vector.h"
 #include "Texture.h"
 #include "GameInfo.h"
@@ -21,12 +23,24 @@ HUD::HUD(Scene* a_pkScene)
 
     m_cpTempString = new char[256];
 
+	m_pkProgressBarBacking = new Object(a_pkScene);
+
+	m_pkProgressBar = new Object(a_pkScene);
+
+	m_pkProgressBarBacking->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/White.png", SceneManager::GetDisplayManager());
+
+	m_pkProgressBar->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/Red.png", SceneManager::GetDisplayManager());
+
 	//TODO: Displaying bars for health along with numbers.
 }
 
 HUD::~HUD()
 {
     std::cout<<"HUD Destroyed. Pointer: "<<this<<std::endl;
+
+	delete m_pkProgressBar;
+
+	delete m_pkProgressBarBacking;
 
     delete m_cpTempString;
 
@@ -85,4 +99,23 @@ bool HUD::Update(float a_fDeltaTime)
 TextLibrary* HUD::GetTextLibrary()
 {
 	return m_pkTextLibrary;
+}
+
+//Drawn an in world progress bar.
+void HUD::DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalisedPercentage)
+{
+	//get the two textures used for progress bars.
+
+	//use the same object for all of them.
+	m_pkProgressBarBacking->SetLocation(a_vPosition);
+	m_pkProgressBar->SetLocation(a_vPosition);
+
+	Vector vProgressSize = a_vSize;
+	vProgressSize.x = a_vSize.x * a_fNormalisedPercentage;
+
+	m_pkProgressBarBacking->GetRenderables()[0].m_pkMesh->GenerateBasicMesh(a_vSize.x, a_vSize.y, a_vSize.z);
+	m_pkProgressBar->GetRenderables()[0].m_pkMesh->GenerateBasicMesh(vProgressSize.x, vProgressSize.y, vProgressSize.z);
+
+	m_pkProgressBarBacking->Update(0.0f);
+	m_pkProgressBar->Update(0.0f);
 }

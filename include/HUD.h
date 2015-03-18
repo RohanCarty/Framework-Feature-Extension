@@ -18,6 +18,8 @@
 class Scene;
 class TextLibrary;
 class GameInfo;
+class Object;
+class Vector;
 
 class HUD
 {
@@ -29,7 +31,11 @@ public:
 
 	TextLibrary* GetTextLibrary();
 
+	void DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalisedPercentage);
+
 private:
+	Object* m_pkProgressBarBacking;
+	Object* m_pkProgressBar;
     Scene* m_pkScene;
     GameInfo* m_pkGameInfo;
     TextLibrary* m_pkTextLibrary;
