@@ -46,7 +46,7 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_pkTarget = NULL;
 
-	SetScale(0.6f);
+	SetScale(0.7f);
 	SetSize(GetSize() * GetScale());
     
     m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
@@ -124,6 +124,8 @@ bool Unit::Update(float a_fDeltaTime)
 	//Check to make sure we're not already dead
 	if(GetHealth() <= 0)
 	{
+		SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/monsterdeath.ogg");
+
 		SceneManager::GetUnitManager()->SpawnNewCollectibleSoul(GetLocation());
 
 		return false;
@@ -265,6 +267,13 @@ void Unit::NetworkUpdateLocationAndDestination()
     stTempCommand.m_vFirstVector = *m_pLocation;
     stTempCommand.m_vSecondVector = *m_pLocation; // Fill the entire command fuckhead
     SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
+}
+
+void Unit::Hurt()
+{
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/monsterhurt.ogg");
+
+	return;
 }
 
 int Unit::GetUnitType()

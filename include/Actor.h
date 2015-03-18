@@ -19,6 +19,7 @@
 //Forward declare
 class Scene;
 class Vector;
+class SoundManager;
 
 #include "Object.h"
 
@@ -44,6 +45,8 @@ public:
 	bool GetIsInvincible();
 
 	virtual void Death();
+
+	virtual void Hurt();
 
 	void KnockBack();
     

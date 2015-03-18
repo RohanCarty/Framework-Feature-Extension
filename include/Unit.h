@@ -56,6 +56,8 @@ public:
     void SetHardLocation(Vector a_vNewDestination, bool a_bReplicate = false);
     
     void NetworkUpdateLocationAndDestination();
+
+	virtual void Hurt();
     
     int m_iUnitNumber; //Used to self reference in network packets and the like
 

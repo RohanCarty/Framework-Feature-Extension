@@ -1,5 +1,6 @@
 #include "Actor.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 #include "Scene.h"
 #include "Vector.h"
 #include "Tile.h"
@@ -476,6 +477,7 @@ void Actor::SetHealth(int a_iNewHealth)
 
 	if(a_iNewHealth < m_iHealth) // health was reduced
 	{
+		Hurt();
 		KnockBack();
 		m_bControlsLocked = true;
 		m_bInvincible = true;
@@ -497,6 +499,11 @@ bool Actor::GetIsInvincible()
 }
 
 void Actor::Death()
+{
+	return;
+}
+
+void Actor::Hurt()
 {
 	return;
 }

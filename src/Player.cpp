@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "SceneManager.h"
+#include "SoundManager.h"
 #include "Scene.h"
 #include "GameScene.h"
 #include "Vector.h"
@@ -44,7 +45,7 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
     
     m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
 
-	SetScale(0.6f);
+	SetScale(0.8f);
 	SetSize(GetSize() * GetScale());
     
     m_iObjectType = ePlayer;
@@ -137,6 +138,8 @@ bool Player::Update(float a_fDeltaTime)
 			{
 				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal!");
 
+				SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/healing.ogg");
+
 				//Healing is for 25 points, hardcoded
 				if(GetHealth() > 75)
 				{
@@ -151,7 +154,7 @@ bool Player::Update(float a_fDeltaTime)
 			}
 			else
 			{
-				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough souls for Heal");
+				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Heal");
 			}
 		}
 
@@ -218,7 +221,11 @@ bool Player::Update(float a_fDeltaTime)
 	{
 		if(GetCollisionVector().y > 0)
 		{
-			m_bJumpLatch = false;
+			if(m_bJumpLatch == true)
+			{
+				SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/landing.ogg");
+				m_bJumpLatch = false;
+			}
 		}
 	}
 
@@ -231,12 +238,23 @@ void Player::Jump()
 
 	m_bJumpLatch = true;
 
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/jumping.ogg");
+
 	//std::cout<<"Jump Latched"<<std::endl;
+}
+
+void Player::Hurt()
+{
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerhurt.ogg");
+
+	return;
 }
 
 void Player::Attack(float a_fDeltaTime)
 {
 	//Attack in front of the player, determine direction then do a check of all actors there and damage/knockback them.
+
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerswing.ogg");
 
 	//Create a temp vector, this will be modified based on direction then added to the current location to get the attack point
 	Vector vTemp;
@@ -268,6 +286,7 @@ void Player::Attack(float a_fDeltaTime)
 				//TODO: Proper damage
 				if(!((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetIsInvincible()) //Not invinciible
 				{
+					SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerhit.ogg");
 					((Actor*)m_apkIsCollidingWithNextFame[uiDx])->SetHealth(((Actor*)m_apkIsCollidingWithNextFame[uiDx])->GetHealth() - m_iCurrentAttackPower);
 					SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), m_iCurrentAttackPower);
 				}
@@ -287,6 +306,7 @@ void Player::BindToController()
 
 void Player::Death()
 {
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerdeath.ogg");
 	Respawn();
 }
 

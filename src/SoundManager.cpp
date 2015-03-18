@@ -15,11 +15,30 @@ SoundManager::SoundManager()
 
 	Mix_Music* pkMusic;
 
-	//pkMusic = Mix_LoadMUS("Resources/Music/test2.flac");
+	std::string szMusicFileName;
+
+	switch(rand() % 3)
+	{
+	case 0:
+		szMusicFileName = "Sounds/Music/Ready Aim Fire.ogg";
+		break;
+	case 1:
+		szMusicFileName = "Sounds/Music/Broken Reality.ogg";
+		break;
+	case 2:
+		szMusicFileName = "Sounds/Music/Summon the Rawk.ogg";
+		break;
+	default:
+		std::cout<<"Music Switch Default"<<std::endl;
+		break;
+	}
 
 	int piSize;
-	piSize = PackManager::GetSizeOfFile("Sounds/Music/lunarmarch.mp3");
-	SDL_RWops* pkMusicFile = SDL_RWFromConstMem(PackManager::LoadResource("Sounds/Music/lunarmarch.mp3"), piSize);
+	piSize = PackManager::GetSizeOfFile(szMusicFileName);
+
+	void* pResource = PackManager::LoadResource(szMusicFileName);
+
+	SDL_RWops* pkMusicFile = SDL_RWFromMem(pResource, piSize);
 
 	if(pkMusicFile == NULL)
 	{
@@ -32,7 +51,6 @@ SoundManager::SoundManager()
 	{
 		 std::cout<<"Failed to create pkMusic pointer: "<<Mix_GetError()<<std::endl;
 	}
-//    delete piSize;
 
 	if(Mix_FadeInMusic(pkMusic, -1, 5000) == -1)
 	{
@@ -56,7 +74,7 @@ bool SoundManager::Update(float a_fDeltaTime)
 	return true;
 }
 
-void SoundManager::PlaySound(std::string a_szFileName)
+void SoundManager::PlaySoundFile(std::string a_szFileName)
 {
 	int iReference = -1;
 	for(unsigned int iDx = 0; iDx < m_astAudioChunks.size(); iDx++)
@@ -79,7 +97,11 @@ void SoundManager::PlaySound(std::string a_szFileName)
         int piSize;
         piSize = PackManager::GetSizeOfFile(a_szFileName.c_str());
 
-        stTemp.m_apkAudioChunk = Mix_LoadWAV_RW(SDL_RWFromMem(PackManager::LoadResource(a_szFileName.c_str()), piSize), 1);
+		void* pTempResource = PackManager::LoadResource(a_szFileName.c_str());
+
+        stTemp.m_apkAudioChunk = Mix_LoadWAV_RW(SDL_RWFromMem(pTempResource, piSize), 1);
+
+		delete pTempResource;
 
 		if(!stTemp.m_apkAudioChunk)
 		{

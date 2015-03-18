@@ -64,10 +64,9 @@ D3D11DisplayManager::~D3D11DisplayManager()
 	m_pkDevice->Release();
 
 	m_pkContext->Flush();
-	m_pkContext->Release();
-
 	//Report any live objects to help hunt memory leaks.
 	ReportLiveObjects();
+	m_pkContext->Release();
 
 	std::cout<<"Closing Window"<<std::endl;
     SDL_DestroyWindow(m_pkMainWindow);
@@ -231,11 +230,14 @@ bool D3D11DisplayManager::CreateScreen()
 	std::string szDescription = std::string(wszDescription.begin(), wszDescription.end());
 
 	std::cout<<"Window created, D3D Context: "<<std::endl
-		<<"Device ID: "<<kAdapterDescription.DeviceId<<std::endl
-		<<"Vendor ID: "<<kAdapterDescription.VendorId<<std::endl
+		<<"Description: "<<szDescription<<std::endl
 		<<"VRAM: "<<kAdapterDescription.DedicatedVideoMemory / 1048576<<std::endl //divide by this number to change from bytes to megabytes
 		<<"Revision: "<<kAdapterDescription.Revision<<std::endl
-		<<"Description: "<<szDescription<<std::endl;
+		<<"Vendor ID: "<<kAdapterDescription.VendorId<<std::endl
+		<<"Device ID: "<<kAdapterDescription.DeviceId<<std::endl;
+
+	pDXGIAdapter->Release();
+	pDXGIDevice->Release();
 	//End of videocard info block
 
 	//Bind backbuffer to swapchain
@@ -343,13 +345,20 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 	int piSize = 0;
 	//Hacky as fuck
 	piSize = PackManager::GetSizeOfFile(a_sName.c_str());
-	SDL_RWops* pkImgBufferTemp = SDL_RWFromMem(PackManager::LoadResource(a_sName.c_str()), piSize);
+
+	void* pTempResource = PackManager::LoadResource(a_sName.c_str());
+
+	SDL_RWops* pkImgBufferTemp = SDL_RWFromMem(pTempResource, piSize);
+
 	if(pkImgBufferTemp == NULL)
 	{
 		//std::cout<<"IMG_Load failue: "<<IMG_GetError()<<std::endl;
 		std::cout<<"SDL_RWOps failue Size:"<<piSize<<" : "<<SDL_GetError()<<std::endl;
 	}
 	pkImage=IMG_Load_RW(pkImgBufferTemp, 1);
+
+	delete pTempResource;
+
 	//pkImage=SDL_LoadBMP(a_sName.c_str());
 	if(pkImage == NULL)
 	{

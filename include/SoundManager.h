@@ -37,7 +37,7 @@ public:
 
 	bool Update(float a_fDeltaTime);
 
-	void PlaySound(std::string a_szFileName);
+	void PlaySoundFile(std::string a_szFileName);
 private:
 	std::vector<stSoundChunkInfo> m_astAudioChunks;
 };
