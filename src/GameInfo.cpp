@@ -9,7 +9,7 @@ GameInfo::GameInfo(Scene* a_pkScene)
 
     m_iScore = 0;
 
-	m_iHauntingLevel = 0;
+	m_iHauntingLevel = 1;
 
     m_fHauntingIncreaseCooldown = 10.0f;
 }

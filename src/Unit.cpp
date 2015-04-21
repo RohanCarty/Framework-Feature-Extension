@@ -48,6 +48,8 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	SetScale(0.7f);
 	SetSize(GetSize() * GetScale());
+
+	m_pVelocity->y = 1.0f;
     
     m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
     
@@ -134,11 +136,20 @@ bool Unit::Update(float a_fDeltaTime)
 	if(!m_bControlsLocked)
 	{
 		//Go in randomly picked direction.
-    
+
 		//If Velocity on the x is zero then assume that we've hit a wall, change direction.
 		if(m_pVelocity->x == 0.0)
 		{
 			m_iCurrentDirection *= -1;
+		}
+
+		if(m_pVelocity->y == 0.0f)
+		{
+			if(CheckForFall(a_fDeltaTime))
+			{
+				m_iCurrentDirection *= -1;
+				m_pVelocity->x = m_pVelocity->x * -1;
+			}
 		}
 
 		m_pVelocity->x += (m_iAcceleration * m_iCurrentDirection);
@@ -274,6 +285,41 @@ void Unit::Hurt()
 	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/monsterhurt.ogg");
 
 	return;
+}
+
+bool Unit::CheckForFall(float a_fDeltaTime)
+{
+	//Check in front of and below the unit, determine direction then do a check of all tiles there and return true if there's anything in the way..
+
+	//Create a temp vector, this will be modified based on direction then added to the current location to get the point to check
+	Vector vTemp;
+	if(m_iCurrentDirection != 0)
+	{
+		vTemp.x = m_iCurrentDirection * (GetSize().x / 2);
+	}
+
+	vTemp.y = GetSize().y  / 2;
+
+	vTemp = *GetLocation() + vTemp;
+    
+	//Ensure checking collision like this doesn't cause any issues.
+
+	//Clear collision list
+	while(m_apkIsCollidingWithNextFame.size() > 0)
+	{
+		m_apkIsCollidingWithNextFame.pop_back();
+	}
+
+	//remove the optimization for collision checking.
+//	m_bIsCollidingTileNextFrameSet = false;
+
+	//If it is NOT colliding at this location, then there is a fall there, and should turn back immediately.
+	if(!IsCollidingWithTileNextFrame(a_fDeltaTime, &vTemp))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 int Unit::GetUnitType()

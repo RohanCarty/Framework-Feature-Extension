@@ -138,7 +138,7 @@ void Actor::ApplyGravity(float a_fDeltaTime)
 
 bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime, Vector* a_pLocationToCheck)
 {
-	if(m_bIsCollidingTileNextFrameSet)
+	if(m_bIsCollidingTileNextFrameSet && a_pLocationToCheck == GetLocation())
 		return m_bIsCollidingTileNextFrame;
 
 	m_bIsCollidingTileNextFrameSet = true;
@@ -149,7 +149,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime, Vector* a_pLocation
     //Remove X component, so can extrapolate direction
     double fVelTemp = m_pVelocity->x;
     m_pVelocity->x = 0.0f;
-	Vector vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
+	Vector vCalculatedPosition = (*a_pLocationToCheck + (*m_pVelocity * a_fDeltaTime));
 	Vector vTemp;
     m_pVelocity->x = fVelTemp;
 
@@ -228,7 +228,7 @@ bool Actor::IsCollidingWithTileNextFrame(float a_fDeltaTime, Vector* a_pLocation
     //Remove Y component, so can extrapolate direction
     fVelTemp = m_pVelocity->y;
     m_pVelocity->y = 0.0f;
-    vCalculatedPosition = (*GetLocation() + (*m_pVelocity * a_fDeltaTime));
+    vCalculatedPosition = (*a_pLocationToCheck + (*m_pVelocity * a_fDeltaTime));
     m_pVelocity->y = fVelTemp;
     
 	//Check all four corners against all tiles twice, once for X velocity, once for Y velocity.

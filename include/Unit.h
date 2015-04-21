@@ -58,6 +58,8 @@ public:
     void NetworkUpdateLocationAndDestination();
 
 	virtual void Hurt();
+
+	bool CheckForFall(float a_fDeltaTime);
     
     int m_iUnitNumber; //Used to self reference in network packets and the like
 
