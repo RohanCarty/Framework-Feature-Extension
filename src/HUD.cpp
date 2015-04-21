@@ -68,6 +68,22 @@ bool HUD::Update(float a_fDeltaTime)
     
     m_pkTextLibrary->PrintHUDString(sTest, 0, 0, iFontSize);
 
+	//Print Haunting Level
+	sprintf(m_cpTempString,"%d", ((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel());
+    
+    sTest = "Haunting Level: ";
+    sTest = sTest + m_cpTempString; //what the fuck LLVM?
+    
+	m_pkTextLibrary->PrintHUDString(sTest, SceneManager::GetDisplayManager()->GetXScreenResolution() - (iFontSize * 10), 0, iFontSize);
+
+	//Print time until increase of Haunting Level
+	sprintf(m_cpTempString,"%d", (int)((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingIncreaseCooldown());
+    
+    sTest = "Next Level In: ";
+    sTest = sTest + m_cpTempString; //what the fuck LLVM?
+    
+	m_pkTextLibrary->PrintHUDString(sTest, SceneManager::GetDisplayManager()->GetXScreenResolution() - (iFontSize * 10),iFontSize * 2, iFontSize);
+
     //Print the details of the players included in the game.
 	for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
 	{

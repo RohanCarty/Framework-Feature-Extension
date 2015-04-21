@@ -28,10 +28,17 @@ public:
 	
     int GetScore();
     void ChangeScore(int a_iScore);
+	
+    int GetHauntingLevel();
+    void SetHauntingLevel(int a_iHauntingLevel);
+
+    float GetHauntingIncreaseCooldown();
+    void SetHauntingIncreaseCooldown(float a_fHauntingIncreaseCooldown);
 
 private:
     int m_iScore;
-    float m_fVillagerSpawnCooldown;
+	int m_iHauntingLevel;
+    float m_fHauntingIncreaseCooldown;
 };
 
 #endif

@@ -48,9 +48,6 @@
     <ClCompile Include="..\..\src\Matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\Object.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -145,6 +142,9 @@
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\CollectibleSoul.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Object.cpp">
       <Filter>Source Files\Actors</Filter>
     </ClCompile>
   </ItemGroup>

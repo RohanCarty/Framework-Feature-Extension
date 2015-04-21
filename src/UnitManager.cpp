@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Scene.h"
+#include "GameInfo.h"
 #include "GameScene.h"
 #include "Unit.h"
 #include "Building.h"
@@ -41,10 +42,10 @@ void UnitManager::StartGame()
 		{
 			SpawnPlayer();
 		}
-        for(int iDx = 0; iDx < 2; iDx++)
+        /*for(int iDx = 0; iDx < 2; iDx++)
         {
             SpawnNewUnit();
-        }
+        }*/
     }
 }
 
@@ -68,7 +69,8 @@ bool UnitManager::Update(float a_fDeltaTime)
         }
 	}
 
-	if(m_apkUnits.size() < 4)
+	//Limit of units based on the current haunting level.
+	if(m_apkUnits.size() < ((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel() * 2)
 	{
 		SpawnNewUnit();
 	}
