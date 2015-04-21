@@ -1,5 +1,8 @@
 #include "Camera.h"
 
+#include "UnitManager.h"
+#include "Player.h"
+
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Vector.h"
@@ -104,6 +107,14 @@ bool Camera::Update(float a_fDeltaTime)
 	//m_pViewMatrix->SetPersepective(90, 1, -1000, 1000);
 
 	m_pViewMatrix->SetFrustrum(-right, right, -top, top, m_fNear, m_fFar);
+
+	//Player tracking using the camera
+	//Guard to stop crashes if no controllers connected.
+	if(SceneManager::GetUnitManager()->GetPlayerList().size() >= 1)
+	{
+		//Get the player location on the X and Y (multiplied by the current zoom because of compounding errors) but use the cameras own Z.
+		SetLocation(SceneManager::GetUnitManager()->GetPlayerList()[0]->GetLocation()->x * m_dTargetZoom, SceneManager::GetUnitManager()->GetPlayerList()[0]->GetLocation()->y * m_dTargetZoom, GetLocation()->z);
+	}
 
 	m_pViewMatrix->SetTranslation(*GetWorldLocation());
 
