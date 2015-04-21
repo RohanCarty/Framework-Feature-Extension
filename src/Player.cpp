@@ -24,6 +24,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	}
 
 	//Set some defaults and initialise some variables.
+	
+	m_bIsAlive = true;
 
 	m_iJumpSpeed = 525;
 
@@ -313,17 +315,25 @@ void Player::BindToController()
 void Player::Death()
 {
 	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerdeath.ogg");
-	Respawn();
+	//Move to a death state.
+	m_bInvincible = true;
+	m_apkRenderables[0].m_bIsHidden = true;
+	m_bControlsLocked = true;
+	m_bIsAlive = false;
+	SetVelocity(0,0,0);
+	//Respawn();
 }
 
 void Player::Respawn()
 {
-	SetLocation(0,-128,0);
+	SetLocation(0,-192,0);
 	SetVelocity(0,0,0);
 	SetHealth(100);
 	m_bControlsLocked = false;
 	m_bInvincible = false;
 	m_bJumpLatch = false;
+	m_apkRenderables[0].m_bIsHidden = false;
+	m_bIsAlive = true;
 }
 
 int Player::GetCurrentSoulPowerLevel()
@@ -347,4 +357,9 @@ void Player::SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel)
 	m_vCurrentMaxSpeed.x = FloatLerp(m_vMaxSpeed.x / 2, m_vMaxSpeed.x, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f); //a_iNewSoulPowerLevel will be between 0 and 100;
 
 	m_iCurrentSoulPowerLevel = a_iNewSoulPowerLevel;
+}
+
+bool Player::GetIsAlive()
+{
+	return m_bIsAlive;
 }

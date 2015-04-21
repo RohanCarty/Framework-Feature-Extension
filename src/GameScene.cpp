@@ -57,7 +57,10 @@ bool GameScene::Update(float a_fDeltaTime)
     m_pkHUD->Update(a_fDeltaTime);
 	m_pkCamera->Update(a_fDeltaTime);
 	m_pkCursor->Update(a_fDeltaTime);
-	m_pkGameInfo->Update(a_fDeltaTime);
+	if(!m_pkGameInfo->Update(a_fDeltaTime))
+	{
+		return false;
+	}
 
     return true;
 }
@@ -77,3 +80,7 @@ GameInfo* GameScene::GetGameInfo()
     return m_pkGameInfo;
 }
 
+HUD* GameScene::GetHUD()
+{
+	return m_pkHUD;
+}

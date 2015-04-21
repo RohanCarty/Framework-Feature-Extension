@@ -26,6 +26,8 @@ public:
 
     bool Update(float a_fDeltaTime);
 	
+	bool AllPlayersDead();
+
     int GetScore();
     void ChangeScore(int a_iScore);
 	
@@ -36,9 +38,11 @@ public:
     void SetHauntingIncreaseCooldown(float a_fHauntingIncreaseCooldown);
 
 private:
+	Scene* m_pkScene;
     int m_iScore;
 	int m_iHauntingLevel;
     float m_fHauntingIncreaseCooldown;
+	float m_fGameOverTimer;
 };
 
 #endif

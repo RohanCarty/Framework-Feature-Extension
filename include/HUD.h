@@ -14,6 +14,8 @@
 	#endif
 #endif
 
+#include <string>
+
 //Forward declare
 class Scene;
 class TextLibrary;
@@ -32,6 +34,8 @@ public:
 	TextLibrary* GetTextLibrary();
 
 	void DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalisedPercentage);
+
+	void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
 
 private:
 	Object* m_pkProgressBarBacking;

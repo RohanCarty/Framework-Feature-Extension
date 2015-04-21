@@ -135,3 +135,8 @@ void HUD::DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalise
 	m_pkProgressBarBacking->Update(0.0f);
 	m_pkProgressBar->Update(0.0f);
 }
+
+void HUD::PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize)
+{
+	GetTextLibrary()->PrintHUDString(sString, x, y, CharacterSize);
+}

@@ -57,7 +57,7 @@ TextLibrary::~TextLibrary()
 //Prints Strings passed in through a string, takes a position and a character size.
 void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned int CharacterSize)
 {
-	if(CharacterSize > m_uiPreviousCharacterSize)
+	if(CharacterSize != m_uiPreviousCharacterSize)
 	{
 		TTF_CloseFont(m_pkFont);
 		int piSize;
@@ -94,7 +94,7 @@ void TextLibrary::PrintString(std::string& sString, double x, double y, unsigned
 //TODO: remove hud versions entirely
 void TextLibrary::PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize)
 {
-	if(CharacterSize > m_uiPreviousCharacterSize)
+	if(CharacterSize != m_uiPreviousCharacterSize)
 	{
 		TTF_CloseFont(m_pkFont);
 		int piSize;
@@ -123,7 +123,7 @@ void TextLibrary::PrintHUDString(std::string& sString, double x, double y, unsig
 
 Vector TextLibrary::GetStringSize(std::string& sString, unsigned int CharacterSize)
 {
-	if(CharacterSize > m_uiPreviousCharacterSize)
+	if(CharacterSize != m_uiPreviousCharacterSize)
 	{
 		TTF_CloseFont(m_pkFont);
 		int piSize;

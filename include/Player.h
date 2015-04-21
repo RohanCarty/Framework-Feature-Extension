@@ -45,7 +45,10 @@ public:
 	int GetCurrentSoulPowerLevel();
 	void SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel);
 
+	bool GetIsAlive();
+
 private:
+	bool m_bIsAlive; // Used to enable HUD messages or end the game, etc.
 	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
 	int m_iControllerNumberBoundTo;
 	int m_iCurrentSoulPowerLevel; //This is the crux of all ability calcuations for things such as run speed and basic damage. // for now we'll work with a max of 100;

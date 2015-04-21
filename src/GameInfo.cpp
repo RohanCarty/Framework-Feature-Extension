@@ -1,4 +1,7 @@
+#include "Player.h"
 #include "GameInfo.h"
+#include "GameScene.h"
+#include "HUD.h"
 #include "SceneManager.h"
 #include "UnitManager.h"
 #include "Building.h"
@@ -7,11 +10,15 @@ GameInfo::GameInfo(Scene* a_pkScene)
 {
     std::cout<<"GameInfo created. Pointer: "<<this<<std::endl;
 
+	m_pkScene = a_pkScene;
+
     m_iScore = 0;
 
 	m_iHauntingLevel = 1;
 
     m_fHauntingIncreaseCooldown = 10.0f;
+
+	m_fGameOverTimer = 7.5f;
 }
 
 GameInfo::~GameInfo()
@@ -34,7 +41,38 @@ bool GameInfo::Update(float a_fDeltaTime)
 		SetHauntingIncreaseCooldown(GetHauntingIncreaseCooldown() - a_fDeltaTime);
 	}
 
+	if(AllPlayersDead())
+	{
+		m_fGameOverTimer -= a_fDeltaTime;
+
+		//((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("Game Over"), 
+			//SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 144 * 2, SceneManager::GetDisplayManager()->GetYScreenResolution() / 3, 144);
+		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("Game Over"), 
+			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 36 * 2.4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2.25, 36);
+		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("The Cadre Has Fallen"), 
+			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 36 * 4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2, 36);
+
+	}
+
+	if(m_fGameOverTimer < 0.0f)
+	{
+		return false;
+	}
+
     return true;
+}
+
+bool GameInfo::AllPlayersDead()
+{
+	for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
+	{
+		if(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetIsAlive())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 int GameInfo::GetScore()

@@ -44,6 +44,8 @@ public:
 
     GameInfo* GetGameInfo();
 
+	HUD* GetHUD();
+
 //private:
     SceneManager* m_pkSceneManager;
     HUD* m_pkHUD;
