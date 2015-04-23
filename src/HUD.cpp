@@ -92,21 +92,21 @@ bool HUD::Update(float a_fDeltaTime)
 		sTest = m_cpTempString;
 		sTest = "Player " + sTest;
 
-		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 128, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3, iFontSize);
 
 		//Print current health
-		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[0]->GetHealth());
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth());
 		sTest = m_cpTempString;
 		sTest = "Health: " + sTest;
 
-		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 128, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2, iFontSize);
 
 		//Print current soul power.
-		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[0]->GetCurrentSoulPowerLevel());
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel());
 		sTest = m_cpTempString;
 		sTest = "Soul Power Level: " + sTest;
 
-		m_pkTextLibrary->PrintHUDString(sTest, uiDx + 1 * 128, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1, iFontSize);
 	}
 
     return true;

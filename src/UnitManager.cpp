@@ -42,16 +42,10 @@ void UnitManager::StartGame()
 		{
 			SpawnPlayer();
 		}
-        /*for(int iDx = 0; iDx < 2; iDx++)
-        {
-            SpawnNewUnit();
-        }*/
     }
 }
 
-//Handles all input related stuff when it comes to placing buildings and selecting units.
-
-// Also handles the updating of all the units and buildings.
+//Handles the updating of all the actors.
 bool UnitManager::Update(float a_fDeltaTime)
 {
 	//Update all the units
@@ -73,12 +67,6 @@ bool UnitManager::Update(float a_fDeltaTime)
 	if(m_apkUnits.size() < ((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel() * 2)
 	{
 		SpawnNewUnit();
-	}
-
-	//Check for lack of players
-	if((int)m_apkPlayers.size() < SceneManager::GetInputManager()->GetNumConnectedControllers())
-	{
-		SpawnPlayer();
 	}
 
 	//Update all the players
@@ -112,7 +100,7 @@ int UnitManager::SpawnPlayer()
 {
 	m_apkPlayers.push_back(new Player(SceneManager::GetCurrentScene()));
 
-	m_apkPlayers.back()->SetLocation(0, 256, 0);
+	m_apkPlayers.back()->SetLocation((rand() % 10 - 5) * 128, -192, 0);
 
 	return 0;
 }

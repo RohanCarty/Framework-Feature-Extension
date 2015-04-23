@@ -314,14 +314,19 @@ void Player::BindToController()
 
 void Player::Death()
 {
-	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerdeath.ogg");
-	//Move to a death state.
-	m_bInvincible = true;
-	m_apkRenderables[0].m_bIsHidden = true;
-	m_bControlsLocked = true;
-	m_bIsAlive = false;
-	SetVelocity(0,0,0);
-	//Respawn();
+	//If alive, call death functions.
+	if(m_bIsAlive)
+	{
+		SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerdeath.ogg");
+		//Move to a death state.
+		m_bInvincible = true;
+		m_apkRenderables[0].m_bIsHidden = true;
+		m_bControlsLocked = true;
+		m_bIsAlive = false;
+		SetVelocity(0,0,0);
+		SetHealth(0);
+		//Respawn();
+	}
 }
 
 void Player::Respawn()

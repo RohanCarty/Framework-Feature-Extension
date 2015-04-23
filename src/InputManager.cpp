@@ -211,16 +211,6 @@ Vector* InputManager::GetMousePosition()
 
 Vector InputManager::GetMouseWorldPosition()
 {
-    // Temporary middle of screen bollocks for an accurate mouse cursor until a moving camera is implemented.
-    /*Vector vTemp;
-    
-    float fXMiddleScreen, fYMiddleScreen;
-    fXMiddleScreen = SceneManager::GetDisplayManager()->GetXScreenResolution() / 2;
-    fYMiddleScreen = SceneManager::GetDisplayManager()->GetYScreenResolution() / 2;
-    
-    vTemp.x = (GetMousePosition()->x - fXMiddleScreen);
-    vTemp.y = (GetMousePosition()->y - fYMiddleScreen);
-    vTemp.z = 0.0;*/
 	if(m_pkCamera == NULL)
 	{
 		return *m_pkMousePosition;
