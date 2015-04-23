@@ -33,7 +33,10 @@ struct stGameControllerDetails
 	float fAxis1Y;
 	bool bJumpPressed;
 	bool bAttackPressed;
-	bool bSpecialPressed;
+	bool bSpecial1Pressed;
+	bool bSpecial2Pressed;
+	bool bViewPressed;
+	bool bOptionPressed;
 	bool bIsBound;
 };
 

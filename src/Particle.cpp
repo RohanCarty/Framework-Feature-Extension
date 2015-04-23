@@ -37,13 +37,13 @@ bool Particle::Update(float a_fDeltaTime)
 #ifdef _FULL_DEBUG_MESSAGES_
     std::cout<<"Tile Tick: "<<this<<std::endl;
 #endif
-
-	m_fLifetime -= a_fDeltaTime;
-
+	// check for below zero lifetime before decrementing to allow for single frame display.
 	if(m_fLifetime < 0.0f)
 	{
 		return false;
 	}
+
+	m_fLifetime -= a_fDeltaTime;
 
 	m_fRotation += m_fRotationSpeed * a_fDeltaTime;
 
@@ -67,4 +67,14 @@ void Particle::SetCoordinate(Vector a_vCoordinates)
 Vector Particle::GetCoordinate()
 {
     return m_vCoordinates;
+}
+
+void Particle::SetVelocity(Vector a_vNewVelocity)
+{
+	m_vVelocity = a_vNewVelocity;
+}
+
+void Particle::SetLifetime(float a_fNewLifetime)
+{
+	m_fLifetime = a_fNewLifetime;
 }

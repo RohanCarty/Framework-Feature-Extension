@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Particle.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
 #include "Scene.h"
@@ -24,14 +25,26 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 	}
 
 	//Set some defaults and initialise some variables.
-	
+
+	m_iSpecial1Ability = eHeal;
+
+	m_iSpecial2Ability = eHealParty;
+
+	m_bIsUsingAbility = false;
+
+	m_fAbilityCurrentCastTime = 0.0f;
+
+	m_fAbilityCastTime = 1.0f;
+
+	m_iAbilityBeingCast = eNone;
+
 	m_bIsAlive = true;
 
 	m_iJumpSpeed = 525;
 
 	m_bJumpLatch = false;
 
-	m_iCurrentSoulPowerLevel = 0;
+	m_iCurrentSoulPowerLevel = 95;
 
 	m_vCurrentMaxSpeed = m_vMaxSpeed; //Copy defaults in on in there.
 
@@ -67,7 +80,34 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
-	//Testing progress bar
+	//Updating status of abilities
+	if(m_bIsUsingAbility)
+	{
+		UpdateAbilityStatus(a_fDeltaTime);
+
+		m_bControlsLocked = true; // keep controls locked while ability is running.
+
+		SetVelocity(0,0,0);
+
+		//If using ability, check if button has been released.
+		/*if(m_iAbilityBeingCast == m_iSpecial1Ability)
+		{
+			if(!SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecial1Pressed)
+			{
+				StopCastingAbility();
+			}
+		}
+
+		if(m_iAbilityBeingCast == m_iSpecial2Ability)
+		{
+			if(!SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecial2Pressed)
+			{
+				StopCastingAbility();
+			}
+		}*/
+	}
+
+	//Testing progress bar and showing attack cooldowns with no matching animation.
 	if(m_fCurrentAttackCooldown > 0.0f)
 	{
 		Vector vTempPosition = *GetLocation();
@@ -135,34 +175,27 @@ bool Player::Update(float a_fDeltaTime)
 			}
 		}
 
-		//Heal
-		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecialPressed)
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecial1Pressed && m_pVelocity->y == 0.0f)
 		{
-			if(GetHealth() == 100)
+			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
-				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Health Already Full");
+				BeginCastingAbility(m_iSpecial1Ability);
 			}
-			else if(m_iCurrentSoulPowerLevel >= 25)
+		}
+
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecial2Pressed && m_pVelocity->y == 0.0f)
+		{
+			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
-				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal!");
-
-				SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/healing.ogg");
-
-				//Healing is for 25 points, hardcoded
-				if(GetHealth() > 75)
-				{
-					SetHealth(100);
-				}
-				else
-				{
-					SetHealth(GetHealth() + 25);
-				}
-
-				SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 25);
+				BeginCastingAbility(m_iSpecial2Ability);
 			}
-			else
+		}
+		
+		if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bViewPressed && m_pVelocity->y == 0.0f)
+		{
+			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
-				SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Heal");
+				BeginCastingAbility(eRevive);
 			}
 		}
 
@@ -254,6 +287,8 @@ void Player::Jump()
 void Player::Hurt()
 {
 	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/playerhurt.ogg");
+
+	StopCastingAbility();
 
 	return;
 }
@@ -367,4 +402,152 @@ void Player::SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel)
 bool Player::GetIsAlive()
 {
 	return m_bIsAlive;
+}
+
+void Player::BeginCastingAbility(int a_iAbilityBeingCast)
+{
+	switch(a_iAbilityBeingCast)
+	{
+	case eHeal:
+		if(GetHealth() == 100)
+		{
+			//TODO: Figure a way for this not to be spammed.
+			//SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Health Already Full");
+		}
+		else if(m_iCurrentSoulPowerLevel >= 25)
+		{
+			m_bIsUsingAbility = true; // Is used to enable checking if a special button has been released.
+			m_bControlsLocked = true; // Stops the player from moving.
+			m_fAbilityCurrentCastTime = 0.0f;
+			m_fAbilityCastTime = 1.0f; // Set this to the time it'll take for this ability to be cast.
+			m_iAbilityBeingCast = a_iAbilityBeingCast;
+		}
+		else
+		{
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Heal");
+		}
+		break;
+	case eHealParty:
+		if(m_iCurrentSoulPowerLevel >= 50)
+		{
+			m_bIsUsingAbility = true; // Is used to enable checking if a special button has been released.
+			m_bControlsLocked = true; // Stops the player from moving.
+			m_fAbilityCurrentCastTime = 0.0f;
+			m_fAbilityCastTime = 3.0f; // Set this to the time it'll take for this ability to be cast.
+			m_iAbilityBeingCast = a_iAbilityBeingCast;
+		}
+		else
+		{
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Heal Party");
+		}
+		break;
+	case eRevive:
+		//TODO: Check to see if all players are already alive.
+		if(m_iCurrentSoulPowerLevel >= 100)
+		{
+			m_bIsUsingAbility = true; // Is used to enable checking if a special button has been released.
+			m_bControlsLocked = true; // Stops the player from moving.
+			m_fAbilityCurrentCastTime = 0.0f;
+			m_fAbilityCastTime = 5.0f; // Set this to the time it'll take for this ability to be cast.
+			m_iAbilityBeingCast = a_iAbilityBeingCast;
+		}
+		else
+		{
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Revive");
+		}
+		break;
+	default:
+		std::cout<<"BeginCastingAbility switch default on Player: "<<this<<std::endl;
+	}
+}
+
+void Player::StopCastingAbility()
+{
+	m_bIsUsingAbility = false; // Is used to enable checking if a special button has been released.
+	m_bControlsLocked = false; // Stops the player from moving.
+	m_fAbilityCurrentCastTime = 0.0f;
+	m_fAbilityCastTime = 1.0f; // Set this to the time it'll take for this ability to be cast.
+	m_iAbilityBeingCast = eNone;
+}
+
+void Player::UpdateAbilityStatus(float a_fDeltaTime)
+{
+	m_fAbilityCurrentCastTime += a_fDeltaTime;
+
+	Vector vTempPosition = *GetLocation();
+	vTempPosition.y -= GetSize().y;
+	((GameScene*)m_pkScene)->m_pkHUD->DrawProgressBar(vTempPosition,Vector(128,32,0), m_fAbilityCurrentCastTime / m_fAbilityCastTime);
+
+	vTempPosition.y -= GetSize().y / 3;
+
+	Particle* pTempParticle = SceneManager::GetParticleManager()->SpawnFloatingText(vTempPosition, GetStringOfNameOfAbility());
+
+	// Show floating text for only one frame.
+
+	pTempParticle->SetLifetime(0.0f);
+
+	pTempParticle->SetVelocity(Vector(0,0,0));
+
+	if(m_fAbilityCurrentCastTime > m_fAbilityCastTime)
+	{
+		ApplyAbility();
+	}
+}
+
+void Player::ApplyAbility()
+{
+	//Uniform cast sound for now.
+	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/healing.ogg");
+
+	switch(m_iAbilityBeingCast)
+	{
+	case eHeal:
+		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal!");
+
+		//Healing is for 25 points, hardcoded
+		if(GetHealth() > 75)
+		{
+			SetHealth(100);
+		}
+		else
+		{
+			SetHealth(GetHealth() + 25);
+		}
+		SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 25);
+
+		break;
+	case eHealParty:
+		//TODO: Implement
+		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal Party!");
+		break;
+	case eRevive:
+		//TODO: Implement
+		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Revive!");
+		break;
+	default:
+		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;
+	}
+
+	//Reset self;
+	StopCastingAbility();
+}
+
+std::string Player::GetStringOfNameOfAbility()
+{
+	switch(m_iAbilityBeingCast)
+	{
+	case eHeal:
+		return std::string("Heal");
+		break;
+	case eHealParty:
+		//TODO: Implement
+		return std::string("Heal Party");
+		break;
+	case eRevive:
+		//TODO: Implement
+		return std::string("Revive");
+		break;
+	default:
+		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;
+	}
 }

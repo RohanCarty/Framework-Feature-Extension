@@ -34,6 +34,10 @@ public:
 
     void SetCoordinate(Vector a_vCoordinates);
     Vector GetCoordinate();
+
+	void SetVelocity(Vector a_vNewVelocity);
+
+	void SetLifetime(float a_fNewLifetime);
 protected:
 	int m_iFallSpeed;
 	bool m_bIsGravityOn;

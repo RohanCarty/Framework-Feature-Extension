@@ -56,7 +56,7 @@ void ParticleManager::SpawnParticle(Vector a_vDestination)
     return;
 }
 
-void ParticleManager::SpawnFloatingText(Vector a_vDestination, std::string a_szTextToDisplay)
+Particle* ParticleManager::SpawnFloatingText(Vector a_vDestination, std::string a_szTextToDisplay)
 {
 	m_apkParticles.push_back(new FloatingText(SceneManager::GetCurrentScene()));
     
@@ -67,9 +67,11 @@ void ParticleManager::SpawnFloatingText(Vector a_vDestination, std::string a_szT
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetText(a_szTextToDisplay);
 
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetParticleManager(this);
+
+	return m_apkParticles[m_apkParticles.size() - 1];
 }
 
-void ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay)
+Particle* ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay)
 {
 	m_apkParticles.push_back(new FloatingText(SceneManager::GetCurrentScene()));
     
@@ -84,6 +86,8 @@ void ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumberToDi
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetText(acTempString);
 
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetParticleManager(this);
+
+	return m_apkParticles[m_apkParticles.size() - 1];
 }
 
 std::vector<Particle*> ParticleManager::GetParticleList()

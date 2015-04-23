@@ -116,9 +116,21 @@ bool InputManager::Update(float a_fDeltaTime)
 				}
 				break;
 			case SDL_JOYBUTTONDOWN: //.button 10 is A (360) .button 11 is B (360) .button 12 is X (360) . button 13 is Y (360)
-				if(test_event.jbutton.button == 10)
+				if(test_event.jbutton.button == 4)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bOptionPressed = true;
+				}
+				else if(test_event.jbutton.button == 5)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bViewPressed = true;
+				}
+				else if(test_event.jbutton.button == 10)
 				{
 					GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = true;
+				}
+				else if(test_event.jbutton.button == 11)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecial2Pressed = true;
 				}
 				else if(test_event.jbutton.button == 12)
 				{
@@ -126,7 +138,7 @@ bool InputManager::Update(float a_fDeltaTime)
 				}
 				else if(test_event.jbutton.button == 13)
 				{
-					GetControllerByJoystickId(test_event.jbutton.which)->bSpecialPressed = true;
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecial1Pressed = true;
 				}
 				else
 				{
@@ -134,9 +146,21 @@ bool InputManager::Update(float a_fDeltaTime)
 				}
 				break;
 			case SDL_JOYBUTTONUP:
-				if(test_event.jbutton.button == 10)
+				if(test_event.jbutton.button == 4)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bOptionPressed = false;
+				}
+				else if(test_event.jbutton.button == 5)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bViewPressed = false;
+				}
+				else if(test_event.jbutton.button == 10)
 				{
 					GetControllerByJoystickId(test_event.jbutton.which)->bJumpPressed = false;
+				}
+				else if(test_event.jbutton.button == 11)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecial2Pressed = false;
 				}
 				else if(test_event.jbutton.button == 12)
 				{
@@ -144,7 +168,7 @@ bool InputManager::Update(float a_fDeltaTime)
 				}
 				else if(test_event.jbutton.button == 13)
 				{
-					GetControllerByJoystickId(test_event.jbutton.which)->bSpecialPressed = false;
+					GetControllerByJoystickId(test_event.jbutton.which)->bSpecial1Pressed = false;
 				}
 				break;
 			case SDL_QUIT:
@@ -339,7 +363,10 @@ void InputManager::ClearControllerStates()
 		m_apkJoysticks[iDx].fAxis1Y = 0.0f;
 		m_apkJoysticks[iDx].bJumpPressed = false;
 		m_apkJoysticks[iDx].bAttackPressed = false;
-		m_apkJoysticks[iDx].bSpecialPressed = false;
+		m_apkJoysticks[iDx].bSpecial1Pressed = false;
+		m_apkJoysticks[iDx].bSpecial2Pressed = false;
+		m_apkJoysticks[iDx].bViewPressed = false;
+		m_apkJoysticks[iDx].bOptionPressed = false;
 	}
 }
 
@@ -349,6 +376,9 @@ void InputManager::ClearJumpButtons()
 	{
 		m_apkJoysticks[iDx].bJumpPressed = false;
 		m_apkJoysticks[iDx].bAttackPressed = false;
-		m_apkJoysticks[iDx].bSpecialPressed = false;
+		/*m_apkJoysticks[iDx].bSpecial1Pressed = false;
+		m_apkJoysticks[iDx].bSpecial2Pressed = false;
+		m_apkJoysticks[iDx].bViewPressed = false;
+		m_apkJoysticks[iDx].bOptionPressed = false;*/
 	}
 }

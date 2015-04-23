@@ -64,7 +64,7 @@ bool UnitManager::Update(float a_fDeltaTime)
 	}
 
 	//Limit of units based on the current haunting level.
-	if(m_apkUnits.size() < ((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel() * 2)
+	if(m_apkUnits.size() < (unsigned int)((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel() * 2)
 	{
 		SpawnNewUnit();
 	}

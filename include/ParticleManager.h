@@ -34,8 +34,8 @@ public:
     
     bool Update(float a_fDeltaTime);
     void SpawnParticle(Vector a_vDestination);
-	void SpawnFloatingText(Vector a_vDestination, std::string a_szTextToDisplay);
-	void SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay);
+	Particle* SpawnFloatingText(Vector a_vDestination, std::string a_szTextToDisplay);
+	Particle* SpawnFloatingText(Vector a_vDestination, int a_iNumberToDisplay);
 
     std::vector<Particle*> GetParticleList();
 	

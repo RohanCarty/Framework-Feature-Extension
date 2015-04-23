@@ -20,6 +20,17 @@
 class Scene;
 class Vector;
 
+enum eAbilities
+{
+	eNone = 0,
+	eHeal,
+	eHealParty,
+	eSlam,
+	eLunge,
+	eRevive,
+	eThornmail
+};
+
 #include "Actor.h"
 
 class Player : public Actor
@@ -47,7 +58,23 @@ public:
 
 	bool GetIsAlive();
 
+	void BeginCastingAbility(int a_iAbilityBeingCast); // Kicks off the casting of an ability, locks controls and sets time for casting.
+
+	void StopCastingAbility(); // Is called if button is released, cancelling the cast.
+
+	void UpdateAbilityStatus(float a_fDeltaTime); // Draws progress bars and ability name, also updates the current cast time and "procs" the cast when it hits 100%
+
+	void ApplyAbility();
+
+	std::string GetStringOfNameOfAbility();
+
 private:
+	int m_iSpecial1Ability; // Keeps which power is selected by the player in the first slot (Y)
+	int m_iSpecial2Ability; // Keeps which power is selected by the player in the second slot (B)
+	bool m_bIsUsingAbility;
+	float m_fAbilityCurrentCastTime; // Tracks time since begining of current ability to be casted.
+	float m_fAbilityCastTime; // Is set when an ability is started to be cast in order to track when it'll be completed.
+	int m_iAbilityBeingCast; // Integer that corrosponds to an enum of abilities to display name while it is being cast and to trigger its effects.
 	bool m_bIsAlive; // Used to enable HUD messages or end the game, etc.
 	bool m_bJumpLatch; // Used to prevent jumping more than once before hitting the ground.
 	int m_iControllerNumberBoundTo;
