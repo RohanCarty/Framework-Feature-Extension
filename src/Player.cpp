@@ -44,15 +44,15 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_bJumpLatch = false;
 
-	m_iCurrentSoulPowerLevel = 95;
+	m_iCurrentSoulPowerLevel = 0;
 
 	m_vCurrentMaxSpeed = m_vMaxSpeed; //Copy defaults in on in there.
 
-	m_iAttackPower = 25;
+	m_iAttackPower = 50;
 
 	m_iCurrentAttackPower = m_iAttackPower; //More defaults.
 
-	m_fAttackCooldown = 0.75f;
+	m_fAttackCooldown = 1.0f;
 	m_fCurrentAttackCooldown = 0.0f;
 
 	BindToController();
@@ -243,7 +243,7 @@ bool Player::Update(float a_fDeltaTime)
 		Respawn();
 	}
 
-	if(m_pVelocity->y == 0.0f && m_vCollisionVector.y > 0 && m_bControlsLocked)
+	if(m_pVelocity->y == 0.0f && m_vCollisionVector.y > 0 && m_bControlsLocked && m_bIsAlive)
 	{
 		m_bControlsLocked = false;
 		m_bInvincible = false;
@@ -392,9 +392,9 @@ void Player::SetCurrentSoulPowerLevel(int a_iNewSoulPowerLevel)
 		a_iNewSoulPowerLevel = 100;
 	}
 
-	m_iCurrentAttackPower = FloatLerp(m_iAttackPower / 5, m_iAttackPower, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f);
+	m_iCurrentAttackPower = FloatLerp((float)(m_iAttackPower / 5), (float)m_iAttackPower, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f);
 
-	m_vCurrentMaxSpeed.x = FloatLerp(m_vMaxSpeed.x / 2, m_vMaxSpeed.x, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f); //a_iNewSoulPowerLevel will be between 0 and 100;
+	m_vCurrentMaxSpeed.x = FloatLerp((float)m_vMaxSpeed.x / 2, (float)m_vMaxSpeed.x, 1.0f - (float)a_iNewSoulPowerLevel / 100.0f); //a_iNewSoulPowerLevel will be between 0 and 100;
 
 	m_iCurrentSoulPowerLevel = a_iNewSoulPowerLevel;
 }
@@ -499,10 +499,17 @@ void Player::ApplyAbility()
 	//Uniform cast sound for now.
 	SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/healing.ogg");
 
+	//Position of floating text once ability is cast.
+	Vector vTempPosition = *GetLocation();
+
+	vTempPosition.y -= GetSize().y;
+
+	vTempPosition.y -= GetSize().y / 3;
+
 	switch(m_iAbilityBeingCast)
 	{
 	case eHeal:
-		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal!");
+		SceneManager::GetParticleManager()->SpawnFloatingText(vTempPosition, "Heal");
 
 		//Healing is for 25 points, hardcoded
 		if(GetHealth() > 75)
@@ -517,12 +524,42 @@ void Player::ApplyAbility()
 
 		break;
 	case eHealParty:
-		//TODO: Implement
-		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Heal Party!");
+		SceneManager::GetParticleManager()->SpawnFloatingText(vTempPosition, "Heal Party");
+		//Heal entire party.
+		for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
+		{
+			//Healing is for 50 points, hardcoded
+			if(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() > 50)
+			{
+				SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->SetHealth(100);
+			}
+			else
+			{
+				SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->SetHealth(GetHealth() + 50);
+			}
+
+			SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 50);
+		}
+
 		break;
 	case eRevive:
-		//TODO: Implement
-		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Revive!");
+		SceneManager::GetParticleManager()->SpawnFloatingText(vTempPosition, "Revive");
+
+		for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
+		{
+			//Revive any players who're dead.
+			if(!SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetIsAlive())
+			{
+				SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->Respawn();
+
+				SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->SetLocation(*GetLocation());
+
+				SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->SetHealth(100);
+			}
+		}
+		
+		SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 100);
+
 		break;
 	default:
 		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;
@@ -549,5 +586,6 @@ std::string Player::GetStringOfNameOfAbility()
 		break;
 	default:
 		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;
+		return std::string("Default");
 	}
 }
