@@ -14,15 +14,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 {
     //std::cout<<"Unit created. Pointer: "<<this<<std::endl;
 
-	//Pick a random character sprite for now, allow players to choose one later.
-	if(rand() % 2 + 1 == 2)
-	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
-	}
-	else
-	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
-	}
+	//Test sprite for now, will load actual one once we have it.
+	m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/CharacterTemplate2.animated", SceneManager::GetDisplayManager());
 
 	//Set some defaults and initialise some variables.
 
@@ -59,7 +52,7 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_bIsGravityOn = true;
     
-    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Idle");
 
 	SetScale(0.8f);
 	SetSize(GetSize() * GetScale());
@@ -107,7 +100,7 @@ bool Player::Update(float a_fDeltaTime)
 		}*/
 	}
 
-	//Testing progress bar and showing attack cooldowns with no matching animation.
+	//Testing progress bar and showing attack cooldowns while there is still no matching animation.
 	if(m_fCurrentAttackCooldown > 0.0f)
 	{
 		Vector vTempPosition = *GetLocation();
@@ -120,8 +113,8 @@ bool Player::Update(float a_fDeltaTime)
 	//Changing animation based on changed direction
 	if(m_pVelocity->x == 0.0f)
 	{
-		//SwitchAnimation to standing
-		m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+		//SwitchAnimation to Idle
+		m_apkRenderables[0].m_pkTexture->SwitchAnimation("Idle");
 		m_iCurrentDirection = 0;
 	}
 	if(m_pVelocity->x < 0.0f)

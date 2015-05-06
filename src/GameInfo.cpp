@@ -45,11 +45,14 @@ bool GameInfo::Update(float a_fDeltaTime)
 	{
 		m_fGameOverTimer -= a_fDeltaTime;
 
-		//((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("Game Over"), 
-			//SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 144 * 2, SceneManager::GetDisplayManager()->GetYScreenResolution() / 3, 144);
-		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("Game Over"), 
+		std::string szTempString("Game Over");
+		
+		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(szTempString, 
 			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 36 * 2.4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2.25, 36);
-		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(std::string("The Cadre Has Fallen"), 
+
+		szTempString = "The Officers Have Fallen";
+
+		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(szTempString, 
 			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 36 * 4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2, 36);
 
 	}

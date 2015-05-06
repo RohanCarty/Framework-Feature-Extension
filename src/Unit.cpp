@@ -25,15 +25,9 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
     {
         m_iCurrentDirection = -1;
     }
-    
-	if(rand() % 2 + 1 == 1)
-	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/pinkiepie.animated", SceneManager::GetDisplayManager());
-	}
-	else
-	{
-		m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/applejack.animated", SceneManager::GetDisplayManager());
-	}
+
+    //Test sprite for now, will load actual one once we have it.
+	m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/CharacterTemplate.animated", SceneManager::GetDisplayManager());
 
     m_vMaxSpeed.x = 400 + (rand() % 50 - 25);
 	m_vMaxSpeed.y = 600;
@@ -51,7 +45,7 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_pVelocity->y = 1.0f;
     
-    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+    m_apkRenderables[0].m_pkTexture->SwitchAnimation("Idle");
     
     m_bIsGravityOn = true;
 
@@ -158,8 +152,8 @@ bool Unit::Update(float a_fDeltaTime)
     
 		if(m_pVelocity->x == 0.0f)
 		{
-			//SwitchAnimation to standing
-			m_apkRenderables[0].m_pkTexture->SwitchAnimation("Standing");
+			//SwitchAnimation to Idle
+			m_apkRenderables[0].m_pkTexture->SwitchAnimation("Idle");
 			m_iCurrentDirection = 0;
 		}
 		if(m_pVelocity->x < 0.0f)

@@ -100,7 +100,7 @@ int UnitManager::SpawnPlayer()
 {
 	m_apkPlayers.push_back(new Player(SceneManager::GetCurrentScene()));
 
-	m_apkPlayers.back()->SetLocation((rand() % 10 - 5) * 128, -192, 0);
+	m_apkPlayers.back()->SetLocation(0, -192, 0);
 
 	return 0;
 }
