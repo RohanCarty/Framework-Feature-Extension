@@ -99,12 +99,18 @@ bool HUD::Update(float a_fDeltaTime)
 		sTest = m_cpTempString;
 		sTest = "Health: " + sTest;
 
+		Vector vTempPosition((uiDx) * 384 + 224,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 + 12,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,24,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() / 100.0f);
+
 		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2, iFontSize);
 
 		//Print current soul power.
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel());
 		sTest = m_cpTempString;
-		sTest = "Soul Power Level: " + sTest;
+		sTest = "Power: " + sTest;
+
+		vTempPosition =  Vector((uiDx) * 384 + 224,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 + 12,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,24,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel() / 100.0f);
 
 		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1, iFontSize);
 	}
@@ -134,6 +140,25 @@ void HUD::DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalise
 
 	m_pkProgressBarBacking->Update(0.0f);
 	m_pkProgressBar->Update(0.0f);
+}
+
+//Drawn a HUD progress bar.
+void HUD::DrawHUDProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalisedPercentage)
+{
+	//get the two textures used for progress bars.
+
+	//use the same object for all of them.
+	m_pkProgressBarBacking->SetLocation(a_vPosition);
+	m_pkProgressBar->SetLocation(a_vPosition);
+
+	Vector vProgressSize = a_vSize;
+	vProgressSize.x = a_vSize.x * a_fNormalisedPercentage;
+
+	m_pkProgressBarBacking->GetRenderables()[0].m_pkMesh->GenerateBasicMesh(a_vSize.x, a_vSize.y, a_vSize.z);
+	m_pkProgressBar->GetRenderables()[0].m_pkMesh->GenerateBasicMesh(vProgressSize.x, vProgressSize.y, vProgressSize.z);
+
+	m_pkProgressBarBacking->HUDDraw(0.0f);
+	m_pkProgressBar->HUDDraw(0.0f);
 }
 
 void HUD::PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize)

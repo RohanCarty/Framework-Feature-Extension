@@ -35,6 +35,8 @@ public:
 
 	void DrawProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormalisedPercentage);
 
+	void DrawHUDProgressBar(Vector a_vPosition, Vector a_vSzie, float a_fNormalisedPercentage);
+
 	void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
 
 private:

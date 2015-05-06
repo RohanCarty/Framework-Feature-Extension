@@ -103,9 +103,9 @@ bool Player::Update(float a_fDeltaTime)
 	//Testing progress bar and showing attack cooldowns while there is still no matching animation.
 	if(m_fCurrentAttackCooldown > 0.0f)
 	{
-		Vector vTempPosition = *GetLocation();
+		/*Vector vTempPosition = *GetLocation();
 		vTempPosition.y += GetSize().y;
-		((GameScene*)m_pkScene)->m_pkHUD->DrawProgressBar(vTempPosition,Vector(128,32,0), m_fCurrentAttackCooldown);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawProgressBar(vTempPosition,Vector(128,32,0), m_fCurrentAttackCooldown);*/
 
 		m_fCurrentAttackCooldown -= a_fDeltaTime;
 	}

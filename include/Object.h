@@ -55,6 +55,9 @@ public:
 
 	virtual bool Draw(float a_fDeltaTime);
 
+	//Draws the object in HUD space instead.
+	virtual bool HUDDraw(float a_fDeltaTime);
+
     bool UpdateChild(float a_fDeltaTime);
 
     bool AttachChild(Object* a_pkObject);

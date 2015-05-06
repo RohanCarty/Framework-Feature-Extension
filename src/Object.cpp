@@ -120,6 +120,30 @@ bool Object::Draw(float a_fDeltaTime)
 	return true;
 }
 
+bool Object::HUDDraw(float a_fDeltaTime)
+{
+	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
+
+	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
+    {
+        if(m_apkRenderables[iDx].m_bIsHidden)
+        {
+            continue;
+        }
+        m_apkRenderables[iDx].m_pkMesh->Update();
+        m_apkRenderables[iDx].m_pkTexture->Update(a_fDeltaTime);
+
+		for(unsigned int uiDx = 0; uiDx < 4; uiDx++)
+		{
+			m_apkRenderables[iDx].m_pkMesh->GetVertexArray()[uiDx].SetLocation(Vector(m_apkRenderables[iDx].m_pkMesh->GetVertexArray()[uiDx].GetLocation()->x + GetLocation()->x,m_apkRenderables[iDx].m_pkMesh->GetVertexArray()[uiDx].GetLocation()->y + GetLocation()->y, 0));
+		}
+
+		SceneManager::GetDisplayManager()->HUDDraw(m_apkRenderables[iDx].m_pkMesh->GetVertexArray(),4,m_apkRenderables[iDx].m_pkTexture);
+    }
+
+	return true;
+}
+
 bool Object::UpdateChild(float a_fDeltaTime)
 {
     if(m_pkChild != NULL)
