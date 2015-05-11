@@ -42,6 +42,7 @@ public:
     virtual bool Update(float a_fDeltaTime);
 
 	bool GetIsToggled();
+	void SetIsToggled(bool a_bIsToggled);
 protected:
 	bool m_bIsToggled;
 };

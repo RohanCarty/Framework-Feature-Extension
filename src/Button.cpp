@@ -41,3 +41,8 @@ bool Button::GetIsToggled()
 {
 	return m_bIsToggled;
 }
+
+void Button::SetIsToggled(bool a_bIsToggled)
+{
+	m_bIsToggled = a_bIsToggled;
+}

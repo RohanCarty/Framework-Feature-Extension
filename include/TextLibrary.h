@@ -22,9 +22,18 @@
 #include <SDL_ttf.h>
 #endif
 
+#include <vector>
+
 class Texture;
 class Vector;
 class Vertex;
+
+struct stTTFInfo
+{
+	std::string szResourceFile;
+	int iSize;
+	TTF_Font* m_pkFont;
+};
 
 class TextLibrary
 {
@@ -41,12 +50,14 @@ public:
 	//Returns a vector containing the x (width) and y (height) of the passed in string at the chosen character size
 	Vector GetStringSize(std::string& sString, unsigned int CharacterSize);
 
+	stTTFInfo GetTTFBySizeAndResource(int a_iSize, std::string a_szResourceFile);
+
 private:
 	DisplayManager* m_kDisplayManager;
 	Texture* m_pkTexture;
 	Vertex* m_pakVerticies;
 
-	TTF_Font* m_pkFont;
+	std::vector<stTTFInfo> m_apkTTFs;
 
 	Mesh* m_pkMesh; //for worldspace drawing instead of screenspace
 

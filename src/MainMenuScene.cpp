@@ -60,6 +60,7 @@ bool MainMenuScene::Update(float a_fDeltaTime)
 
 	if(m_pkNewGameButton->GetIsToggled()) // Load Game Scene
 	{
+		m_pkNewGameButton->SetIsToggled(false);
 		SceneManager::AddNewScene(new GameScene);
 	}
 
@@ -67,7 +68,7 @@ bool MainMenuScene::Update(float a_fDeltaTime)
 	
 	if(m_pkQuitButton->GetIsToggled()) // Quit
 	{
-		std::cout<<"Quitting"<<std::endl;
+		m_pkQuitButton->SetIsToggled(false);
 		return false;
 	}
 
