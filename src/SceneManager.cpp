@@ -84,7 +84,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 #endif //_WIN32
 	}
 	
-	m_pkInputManager = new InputManager;
+	m_pkInputManager = new InputManagerSDL;
 
 	m_pkObjectManager = new ObjectManager;
 

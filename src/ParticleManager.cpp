@@ -1,6 +1,7 @@
 #include "ParticleManager.h"
 #include "Particle.h"
 #include "TextLibrary.h"
+#include "TextLibrarySDL.h"
 #include "FloatingText.h"
 #include "SceneManager.h"
 #include "Resource.h"
@@ -9,7 +10,7 @@ ParticleManager::ParticleManager()
 {
     //SpawnParticle(Vector(0,0,0));
 	//SpawnFloatingText(Vector(0,0,0), "Floating Text Test");
-	m_pkTextLibrary = new TextLibrary(SceneManager::GetDisplayManager());
+	m_pkTextLibrary = new TextLibrarySDL(SceneManager::GetDisplayManager());
 }
 
 ParticleManager::~ParticleManager()

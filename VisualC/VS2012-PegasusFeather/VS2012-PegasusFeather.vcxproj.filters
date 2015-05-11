@@ -162,6 +162,12 @@
     <ClCompile Include="..\..\src\UIElement.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\InputManagerSDL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\TextLibrarySDL.cpp">
+      <Filter>Source Files\Display</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -289,6 +295,12 @@
     </ClInclude>
     <ClInclude Include="..\..\include\UIElement.h">
       <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\InputManagerSDL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\TextLibrarySDL.h">
+      <Filter>Header Files\Display</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

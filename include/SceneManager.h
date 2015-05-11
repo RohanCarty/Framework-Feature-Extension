@@ -23,6 +23,7 @@
 #include "OpenGL1DisplayManager.h"
 #include "OpenGLDisplayManager.h"
 #include "InputManager.h"
+#include "InputManagerSDL.h"
 #include "ObjectManager.h"
 #include "SoundManager.h"
 #include "NetworkManager.h"

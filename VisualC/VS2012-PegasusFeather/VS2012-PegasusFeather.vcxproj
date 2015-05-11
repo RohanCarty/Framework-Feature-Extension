@@ -97,6 +97,7 @@
     <ClCompile Include="..\..\src\GameScene.cpp" />
     <ClCompile Include="..\..\src\HUD.cpp" />
     <ClCompile Include="..\..\src\InputManager.cpp" />
+    <ClCompile Include="..\..\src\InputManagerSDL.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MainMenuScene.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="..\..\src\SoundManager.cpp" />
     <ClCompile Include="..\..\src\StartScreen.cpp" />
     <ClCompile Include="..\..\src\TextLibrary.cpp" />
+    <ClCompile Include="..\..\src\TextLibrarySDL.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\Tile.cpp" />
     <ClCompile Include="..\..\src\TileManager.cpp" />
@@ -140,6 +142,7 @@
     <ClInclude Include="..\..\include\GameScene.h" />
     <ClInclude Include="..\..\include\HUD.h" />
     <ClInclude Include="..\..\include\InputManager.h" />
+    <ClInclude Include="..\..\include\InputManagerSDL.h" />
     <ClInclude Include="..\..\include\MainMenuScene.h" />
     <ClInclude Include="..\..\include\Matrix.h" />
     <ClInclude Include="..\..\include\Mesh.h" />
@@ -159,6 +162,7 @@
     <ClInclude Include="..\..\include\SoundManager.h" />
     <ClInclude Include="..\..\include\StartScreen.h" />
     <ClInclude Include="..\..\include\TextLibrary.h" />
+    <ClInclude Include="..\..\include\TextLibrarySDL.h" />
     <ClInclude Include="..\..\include\Texture.h" />
     <ClInclude Include="..\..\include\Tile.h" />
     <ClInclude Include="..\..\include\TileManager.h" />

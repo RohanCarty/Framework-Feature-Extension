@@ -1,5 +1,5 @@
-#ifndef _OPENGLTEXTLIBRARY_H_
-#define _OPENGLTEXTLIBRARY_H_
+#ifndef _TEXTLIBRARY_H_
+#define _TEXTLIBRARY_H_
 //Dem debug things
 #ifdef _WIN32
 	#ifdef _DEBUG
@@ -16,48 +16,34 @@
 
 #include "DisplayManager.h"
 
-#ifdef __APPLE__
-#include <SDL2_ttf/SDL_ttf.h>
-#else
-#include <SDL_ttf.h>
-#endif
-
 #include <vector>
 
 class Texture;
 class Vector;
 class Vertex;
-
-struct stTTFInfo
-{
-	std::string szResourceFile;
-	int iSize;
-	TTF_Font* m_pkFont;
-};
+struct stTTFInfo;
 
 class TextLibrary
 {
 public:
 	TextLibrary(DisplayManager* a_kDisplayManager);
-	~TextLibrary();
+	virtual ~TextLibrary();
 
 	//Prints Characters, taking in the ascii code to print and the positions and sizes of the characters.
 	//HUD versions use HUD Draw which are put into screen space instead of worldspace;
 	//Prints Strings passed in, takes a position and a character size.
-	void PrintString(std::string& sString, double x, double y, unsigned int CharacterSize);
-	void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
+	virtual void PrintString(std::string& sString, double x, double y, unsigned int CharacterSize);
+	virtual void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
 
 	//Returns a vector containing the x (width) and y (height) of the passed in string at the chosen character size
-	Vector GetStringSize(std::string& sString, unsigned int CharacterSize);
+	virtual Vector GetStringSize(std::string& sString, unsigned int CharacterSize);
 
-	stTTFInfo GetTTFBySizeAndResource(int a_iSize, std::string a_szResourceFile);
+	virtual stTTFInfo GetTTFBySizeAndResource(int a_iSize, std::string a_szResourceFile) = 0; //Pure virtual
 
-private:
+protected:
 	DisplayManager* m_kDisplayManager;
 	Texture* m_pkTexture;
 	Vertex* m_pakVerticies;
-
-	std::vector<stTTFInfo> m_apkTTFs;
 
 	Mesh* m_pkMesh; //for worldspace drawing instead of screenspace
 

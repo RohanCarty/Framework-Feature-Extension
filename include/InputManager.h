@@ -17,28 +17,13 @@
 #include <iostream>
 #include <vector>
 
-#include <SDL2/SDL.h>
-
 //Forward declare in order to use the pointer.
 class Vector;
 class Vertex;
 class Texture;
 class Camera;
 
-struct stGameControllerDetails
-{
-	SDL_Joystick* pkJoystick;
-	SDL_GameController* pkGameController;
-	float fAxis1X;
-	float fAxis1Y;
-	bool bJumpPressed;
-	bool bAttackPressed;
-	bool bSpecial1Pressed;
-	bool bSpecial2Pressed;
-	bool bViewPressed;
-	bool bOptionPressed;
-	bool bIsBound;
-};
+struct stGameControllerDetails;
 
 class InputManager
 {
@@ -48,33 +33,33 @@ public:
 
     virtual bool Update(float a_fDeltaTime);
 	
-	bool GetIsKeyDown(int a_iKeycode);
+	virtual bool GetIsKeyDown(int a_iKeycode);
 
-	void SetCameraObject(Camera* a_pkCamera);
-    Camera* GetCameraObject();
-	Vector* GetMousePosition();
-	Vector GetMouseWorldPosition();
-	int GetMouseWheelDelta();
-	bool GetWindowIsInFocus();
+	virtual void SetCameraObject(Camera* a_pkCamera);
+    virtual Camera* GetCameraObject();
+	virtual Vector* GetMousePosition();
+	virtual Vector GetMouseWorldPosition();
+	virtual int GetMouseWheelDelta();
+	virtual bool GetWindowIsInFocus();
 
-	bool AddGameController(int a_iId);
-	void RemoveGameController(int a_iId);
+	virtual bool AddGameController(int a_iId);
+	virtual void RemoveGameController(int a_iId);
 
-	int GetNumConnectedControllers();
-	int GetControllerForPlayer();
-	void ReleaseControllerForPlayer(int a_iControllerNumber);
+	virtual int GetNumConnectedControllers();
+	virtual int GetControllerForPlayer();
+	virtual void ReleaseControllerForPlayer(int a_iControllerNumber);
 
-	bool GetIsControllerConnected(int a_iId);
+	virtual bool GetIsControllerConnected(int a_iId);
 
-	stGameControllerDetails GetControllerState(int a_iId);
+	virtual stGameControllerDetails GetControllerState(int a_iId) = 0; //Pure virtual
 
-	stGameControllerDetails* GetControllerByJoystickId(int a_iId);
-	int GetControllerIdByJoystickId(int a_iId);
+	virtual stGameControllerDetails* GetControllerByJoystickId(int a_iId) = 0; //Pure virtual
+	virtual int GetControllerIdByJoystickId(int a_iId);
 
-	void ClearControllerStates();
-	void ClearJumpButtons();
+	virtual void ClearControllerStates();
+	virtual void ClearJumpButtons();
 
-private:
+protected:
 	Vector* m_pkMousePosition;
 	Camera* m_pkCamera;
 	std::vector<int> m_aiKeyCodes;

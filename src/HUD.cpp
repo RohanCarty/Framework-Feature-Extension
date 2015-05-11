@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "GameScene.h"
 #include "TextLibrary.h"
+#include "TextLibrarySDL.h"
 #include "Mesh.h"
 #include "AnimatedTexture.h"
 #include "Vector.h"
@@ -19,7 +20,7 @@ HUD::HUD(Scene* a_pkScene)
 
     m_pkScene = a_pkScene;
 
-    m_pkTextLibrary = new TextLibrary(SceneManager::GetDisplayManager());
+    m_pkTextLibrary = new TextLibrarySDL(SceneManager::GetDisplayManager());
 
     m_cpTempString = new char[256];
 
