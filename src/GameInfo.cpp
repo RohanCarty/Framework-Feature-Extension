@@ -48,7 +48,7 @@ bool GameInfo::Update(float a_fDeltaTime)
 		std::string szTempString("Game Over");
 		
 		((GameScene*)m_pkScene)->m_pkHUD->PrintHUDString(szTempString, 
-			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 36 * 2.4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2.25, 36);
+			SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 45 * 2.4, SceneManager::GetDisplayManager()->GetYScreenResolution() / 2.35, 72);
 
 		szTempString = "The Officers Have Fallen";
 
