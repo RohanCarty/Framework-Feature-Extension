@@ -61,51 +61,51 @@ void Tile::ChangeTileType(int a_iTileType)
 		{
 			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.0;
 			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;
-			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.0625;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		}
 		else
 		{
-			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.0625;
 			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.0625;
-			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		}
 		m_bIsCollidable = true;
 		break;
 	case eFloor:
-		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.0625;
+		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.125;
 		m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.09375;
-		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.1875;
+		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		m_bIsCollidable = true;
 		break;
 	case eFloor2:
-		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.09375;
+		m_apkRenderables[0].m_pkTexture->m_fMinU = 0.1875;
 		m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.125;
-		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.25;
+		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		m_bIsCollidable = true;
 		break;
 	case eBackground:
 		if(rand()% 2 + 1 == 1)
 		{
-			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.125;
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.25;
 			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.15625;
-			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.3125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		}
 		else
 		{
-			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.15625;
+			m_apkRenderables[0].m_pkTexture->m_fMinU = 0.3125;
 			m_apkRenderables[0].m_pkTexture->m_fMinV = 0.0;
-			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.1875;
-			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+			m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.375;
+			m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		}
 		break;
 	default:	//set the default case has just having the top left tile, will make an error tile at some point.
-		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.03125;
-		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.03125;
+		m_apkRenderables[0].m_pkTexture->m_fMaxU = 0.0625;
+		m_apkRenderables[0].m_pkTexture->m_fMaxV = 0.0625;
 		m_bIsCollidable = false;
 		break;
 	}
