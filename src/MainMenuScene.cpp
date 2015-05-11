@@ -1,5 +1,7 @@
 #include "MainMenuScene.h"
-#include "Actor.h"
+#include "Object.h"
+#include "Mesh.h"
+#include "AnimatedTexture.h"
 #include "Button.h"
 #include "Unit.h"
 #include "HUD.h"
@@ -28,10 +30,12 @@ MainMenuScene::MainMenuScene() : Scene()
 	m_pkCursor->SetCamera(m_pkCamera);
 
 	m_pkNewGameButton = new Button(this);
+	m_pkNewGameButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/NewGameButton.png", SceneManager::GetDisplayManager());
 	m_pkNewGameButton->SetLocation(256, 256, 0);
 	m_pkNewGameButton->SetSize(Vector(128, 64, 0));
 
 	m_pkQuitButton  = new Button(this);
+	m_pkQuitButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/QuitButton.png", SceneManager::GetDisplayManager());
 	m_pkQuitButton->SetLocation(256, 512, 0);
 	m_pkQuitButton->SetSize(Vector(128, 64, 0));
 }
@@ -54,8 +58,6 @@ bool MainMenuScene::Update(float a_fDeltaTime)
     std::cout<<"MainMenuScene Tick: "<<m_iCounter<<std::endl;
     #endif
 
-	m_pkCursor->Update(a_fDeltaTime);
-
 	m_pkNewGameButton->Update(a_fDeltaTime);
 
 	if(m_pkNewGameButton->GetIsToggled()) // Load Game Scene
@@ -71,6 +73,8 @@ bool MainMenuScene::Update(float a_fDeltaTime)
 		m_pkQuitButton->SetIsToggled(false);
 		return false;
 	}
+
+	m_pkCursor->Update(a_fDeltaTime); // Update the cursor last so that it's drawn over all others.
 
     return true;
 }
