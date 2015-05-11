@@ -168,6 +168,9 @@
     <ClCompile Include="..\..\src\TextLibrarySDL.cpp">
       <Filter>Source Files\Display</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\Projectile.cpp">
+      <Filter>Source Files\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\TextLibrarySDL.h">
       <Filter>Header Files\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Projectile.h">
+      <Filter>Header Files\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

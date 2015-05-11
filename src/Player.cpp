@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Particle.h"
+#include "Projectile.h"
 #include "SceneManager.h"
 #include "SoundManager.h"
 #include "Scene.h"
@@ -21,7 +22,7 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	m_iSpecial1Ability = eHeal;
 
-	m_iSpecial2Ability = eHealParty;
+	m_iSpecial2Ability = eBurst;
 
 	m_bIsUsingAbility = false;
 
@@ -449,6 +450,20 @@ void Player::BeginCastingAbility(int a_iAbilityBeingCast)
 			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Revive");
 		}
 		break;
+	case eBurst:
+		if(m_iCurrentSoulPowerLevel >= 5)
+		{
+			m_bIsUsingAbility = true; // Is used to enable checking if a special button has been released.
+			m_bControlsLocked = true; // Stops the player from moving.
+			m_fAbilityCurrentCastTime = 0.0f;
+			m_fAbilityCastTime = 0.5f; // Set this to the time it'll take for this ability to be cast.
+			m_iAbilityBeingCast = a_iAbilityBeingCast;
+		}
+		else
+		{
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Not enough power for Burst");
+		}
+		break;
 	default:
 		std::cout<<"BeginCastingAbility switch default on Player: "<<this<<std::endl;
 	}
@@ -554,6 +569,31 @@ void Player::ApplyAbility()
 		SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 100);
 
 		break;
+	case eBurst:
+		SceneManager::GetParticleManager()->SpawnFloatingText(vTempPosition, "Burst");
+
+		//Spawn and set the velocity of a projectile
+		SceneManager::GetUnitManager()->SpawnProjectile();
+
+		if(m_apkRenderables[0].m_pkTexture->GetIsTextureFlipped())
+		{
+			SceneManager::GetUnitManager()->GetProjectileList().back()->SetVelocity(Vector(-1500,0,0));
+			SceneManager::GetUnitManager()->GetProjectileList().back()->GetRenderables()[0].m_pkTexture->FlipTexture(true);
+		}
+		else
+		{
+			SceneManager::GetUnitManager()->GetProjectileList().back()->SetVelocity(Vector(1500,0,0));
+		}
+
+		SceneManager::GetUnitManager()->GetProjectileList().back()->SetLocation(*GetLocation());
+
+		SceneManager::GetUnitManager()->GetProjectileList().back()->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/Burst.png", SceneManager::GetDisplayManager());
+
+		SceneManager::GetUnitManager()->GetProjectileList().back()->SetDamage(50);
+
+		SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() - 5);
+
+		break;
 	default:
 		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;
 	}
@@ -570,12 +610,13 @@ std::string Player::GetStringOfNameOfAbility()
 		return std::string("Heal");
 		break;
 	case eHealParty:
-		//TODO: Implement
 		return std::string("Heal Party");
 		break;
 	case eRevive:
-		//TODO: Implement
 		return std::string("Revive");
+		break;
+	case eBurst:
+		return std::string("Burst");
 		break;
 	default:
 		std::cout<<"ApplyAbility switch default on Player: "<<this<<std::endl;

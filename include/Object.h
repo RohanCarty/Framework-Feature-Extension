@@ -35,6 +35,7 @@ enum eObjectType
     eUnit,
     eTile,
 	eSoul,
+	eProjectile,
     eObject
 };
 

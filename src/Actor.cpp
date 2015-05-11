@@ -493,6 +493,16 @@ int Actor::GetHealth()
     return m_iHealth;
 }
 
+void Actor::SetDamage(int a_iNewDamageValue)
+{
+	m_iAttackPower = a_iNewDamageValue;
+}
+
+int Actor::GetDamage()
+{
+	return m_iAttackPower;
+}
+
 bool Actor::GetIsInvincible()
 {
 	return m_bInvincible;

@@ -10,6 +10,7 @@
 #include "CollectibleSoul.h"
 #include "Vector.h"
 #include "Tile.h"
+#include "Projectile.h"
 
 
 UnitManager::UnitManager()
@@ -30,6 +31,12 @@ UnitManager::~UnitManager()
 		delete m_apkPlayers.back();
 		m_apkPlayers.pop_back();
 	}
+
+	while(m_apkProjectiles.size() > 0)
+	{
+		delete m_apkProjectiles.back();
+		m_apkProjectiles.pop_back();
+	}
 }
 
 //Actually starts the game, in order for us to be able to have a unit manager before networking is started, but we need to make sure we don't make copies on our client
@@ -49,7 +56,6 @@ void UnitManager::StartGame()
 bool UnitManager::Update(float a_fDeltaTime)
 {
 	//Update all the units
-	SortUnitByY(); // will probably remove this
 	for( unsigned int iDx = 0; iDx < m_apkUnits.size(); iDx++ )
     {
         if(!m_apkUnits[iDx]->Update(a_fDeltaTime))
@@ -69,6 +75,8 @@ bool UnitManager::Update(float a_fDeltaTime)
 		SpawnNewUnit();
 	}
 
+	
+
 	//Update all the players
 	for( unsigned int iDx = 0; iDx < m_apkPlayers.size(); iDx++ )
     {
@@ -77,6 +85,18 @@ bool UnitManager::Update(float a_fDeltaTime)
             //if a unit returns false, delete it and wind the loop back one.
             delete m_apkPlayers[iDx];
             m_apkPlayers.erase(m_apkPlayers.begin() + iDx);
+            iDx--;
+        }
+	}
+
+	//Update all the projectiles
+	for( unsigned int iDx = 0; iDx < m_apkProjectiles.size(); iDx++ )
+    {
+        if(!m_apkProjectiles[iDx]->Update(a_fDeltaTime))
+        {
+            //if a unit returns false, delete it and wind the loop back one.
+            delete m_apkProjectiles[iDx];
+            m_apkProjectiles.erase(m_apkProjectiles.begin() + iDx);
             iDx--;
         }
 	}
@@ -103,6 +123,13 @@ int UnitManager::SpawnPlayer()
 	m_apkPlayers.back()->SetLocation(0, -192, 0);
 
 	return 0;
+}
+
+Projectile* UnitManager::SpawnProjectile()
+{
+	m_apkProjectiles.push_back(new Projectile(SceneManager::GetCurrentScene()));
+
+	return m_apkProjectiles[m_apkActors.size() - 1];
 }
 
 int UnitManager::SpawnNewUnit(int a_iType)
@@ -142,37 +169,6 @@ int UnitManager::SpawnNewCollectibleSoul(Vector* a_pLocation)
     return 0;
 }
 
-    //Resorts the list of units so that units that have a lower Y are drawn last. (isometric drawing thingo)
-//TODO: get rid of this, will not scale nicely and it'll be fully topdown anyway
-void UnitManager::SortUnitByY()
-{
-	//Selection Sort
-	unsigned int uiLowestUnit = 0; //assume first element is the smallest
-	Unit* pTempUnit = NULL;
-
-	for(unsigned int iDx = 0; iDx < m_apkUnits.size(); iDx++)
-	{
-		uiLowestUnit = iDx;
-
-		for(unsigned int iDy = iDx + 1; iDy < m_apkUnits.size(); iDy++)
-		{
-			if(m_apkUnits[iDy]->GetWorldLocation()->y < m_apkUnits[uiLowestUnit]->GetWorldLocation()->y)
-			{
-				//Set lowest
-				uiLowestUnit = iDy;
-			}
-		}
-
-		if(uiLowestUnit != iDx)
-		{
-			//Swap
-			pTempUnit = m_apkUnits[iDx];
-			m_apkUnits[iDx] = m_apkUnits[uiLowestUnit];
-			m_apkUnits[uiLowestUnit] = pTempUnit;
-		}
-	}
-}
-
 std::vector<Unit*>& UnitManager::GetUnitList()
 {
 	return m_apkUnits;
@@ -181,6 +177,11 @@ std::vector<Unit*>& UnitManager::GetUnitList()
 std::vector<Player*>& UnitManager::GetPlayerList()
 {
 	return m_apkPlayers;
+}
+
+std::vector<Projectile*>& UnitManager::GetProjectileList()
+{
+	return m_apkProjectiles;
 }
 
 std::vector<Actor*>& UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined
@@ -204,6 +205,11 @@ void UnitManager::ForceActorListUpdate()
 	for(unsigned int uiDx = 0; uiDx < m_apkPlayers.size(); uiDx++)
 	{
 		m_apkActors.push_back(m_apkPlayers[uiDx]);
+	}
+	
+	for(unsigned int uiDx = 0; uiDx < m_apkProjectiles.size(); uiDx++)
+	{
+		m_apkActors.push_back(m_apkProjectiles[uiDx]);
 	}
 
 	for(unsigned int uiDx = 0; uiDx < m_apkUnits.size(); uiDx++)

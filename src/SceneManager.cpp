@@ -96,10 +96,6 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	AddNewScene(new MainMenuScene());
     
     ProcessAddNewScene();
-
-	//AddNewScene(new GameScene());
-    
-    //ProcessAddNewScene();
     
 	m_pkUnitManager = new UnitManager;
     
@@ -129,7 +125,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     }
     
     //Arguments done, time to start the game
-//    m_pkUnitManager->StartGame();
+    m_pkUnitManager->StartGame();
 
 	m_pkTempScene = NULL;
 }

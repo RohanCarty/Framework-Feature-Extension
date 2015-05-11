@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\src\Particle.cpp" />
     <ClCompile Include="..\..\src\ParticleManager.cpp" />
     <ClCompile Include="..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\src\Projectile.cpp" />
     <ClCompile Include="..\..\src\Resource.cpp" />
     <ClCompile Include="..\..\src\Scene.cpp" />
     <ClCompile Include="..\..\src\SceneManager.cpp" />
@@ -156,6 +157,7 @@
     <ClInclude Include="..\..\include\ParticleManager.h" />
     <ClInclude Include="..\..\include\PerformanceTimer.h" />
     <ClInclude Include="..\..\include\Player.h" />
+    <ClInclude Include="..\..\include\Projectile.h" />
     <ClInclude Include="..\..\include\Resource.h" />
     <ClInclude Include="..\..\include\Scene.h" />
     <ClInclude Include="..\..\include\SceneManager.h" />

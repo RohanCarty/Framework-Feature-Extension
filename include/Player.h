@@ -25,7 +25,7 @@ enum eAbilities
 	eNone = 0,
 	eHeal,
 	eHealParty,
-	eSlam,
+	eBurst,
 	eLunge,
 	eRevive,
 	eThornmail

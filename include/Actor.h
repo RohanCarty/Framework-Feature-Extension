@@ -42,6 +42,9 @@ public:
     void SetHealth(int a_iNewHealth);
     int GetHealth();
 
+	void SetDamage(int a_iNewDamageValue);
+	int GetDamage();
+
 	bool GetIsInvincible();
 
 	virtual void Death();

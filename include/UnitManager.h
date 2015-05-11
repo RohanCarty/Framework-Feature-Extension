@@ -26,6 +26,7 @@ class Actor;
 class Player;
 class CollectibleSoul;
 class Scene;
+class Projectile;
 
 class UnitManager
 {
@@ -39,21 +40,23 @@ public:
     
 	virtual int SpawnPlayer();
 
+	virtual Projectile* SpawnProjectile(); //Spawns a projectile and returns a pointer to it
+
     virtual int SpawnNewUnit(int a_iType = 0);
     virtual void SpawnNewUnitOverNetwork(Unit* a_pkUnit);
 
 	virtual int SpawnNewCollectibleSoul(Vector* a_pLocation);
-
-	virtual void SortUnitByY();
     
 	std::vector<Unit*>& GetUnitList();
 	std::vector<Player*>& GetPlayerList();
+	std::vector<Projectile*>& GetProjectileList();
     std::vector<Actor*>& GetActorList();
 
 	void ForceActorListUpdate();
 
 private:
 	std::vector<Player*> m_apkPlayers;
+	std::vector<Projectile*> m_apkProjectiles;
 	std::vector<Unit*> m_apkUnits;
 	std::vector<CollectibleSoul*> m_apkCollectibleSouls;
     std::vector<Actor*> m_apkActors; //combined list of all other types
