@@ -31,6 +31,12 @@
     <Filter Include="Header Files\Actors">
       <UniqueIdentifier>{f68e156f-f4d5-4313-89b1-3025f604a133}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{5c9505c6-efc6-4681-a62f-11d4aa572a2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{3a297e3d-9e26-46d1-a285-5afa6be67978}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\GameInfo.cpp">
@@ -146,6 +152,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\Object.cpp">
       <Filter>Source Files\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\MainMenuScene.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Button.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\UIElement.cpp">
+      <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -265,6 +280,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\CollectibleSoul.h">
       <Filter>Header Files\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\MainMenuScene.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Button.h">
+      <Filter>Header Files\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\UIElement.h">
+      <Filter>Header Files\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

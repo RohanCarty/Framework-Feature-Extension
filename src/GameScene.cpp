@@ -14,7 +14,7 @@ GameScene::GameScene() : Scene()
 {
     std::cout<<"GameScene created. Pointer: "<<this<<std::endl;
 
-    //m_pkPlayer = new Player(this);
+    m_iSceneType = eGameScene;
 
     m_pkHUD = new HUD(this);
     m_pkGameInfo = new GameInfo(this);

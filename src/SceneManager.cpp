@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "GameScene.h"
+#include "MainMenuScene.h"
 
 #ifdef _WIN32
 #include "msvcunistd.h"
@@ -83,14 +84,6 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 #endif //_WIN32
 	}
 	
-	
-
-    //TODO: Allow display manager to be selected via config file instead of just doing this.
-/*#ifdef __APPLE__
-    m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
-#else
-	m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
-#endif*/
 	m_pkInputManager = new InputManager;
 
 	m_pkObjectManager = new ObjectManager;
@@ -99,9 +92,14 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 	m_pkNetworkManager = new NetworkManager;
     
-    AddNewScene(new GameScene());
+    //AddNewScene(new GameScene());
+	AddNewScene(new MainMenuScene());
     
     ProcessAddNewScene();
+
+	//AddNewScene(new GameScene());
+    
+    //ProcessAddNewScene();
     
 	m_pkUnitManager = new UnitManager;
     
@@ -131,7 +129,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     }
     
     //Arguments done, time to start the game
-    m_pkUnitManager->StartGame();
+//    m_pkUnitManager->StartGame();
 
 	m_pkTempScene = NULL;
 }
@@ -199,27 +197,27 @@ bool SceneManager::Update(float a_fDeltaTime)
         {
             return false;
         }
-        if(m_pkInputManager->GetIsKeyDown(SDL_SCANCODE_F11))//Get all objects to reload all scripts
-        {
-            m_stScenes.top()->ReloadAllObjectScripts();
-        }
 
 #ifdef _WIN32
 		if(m_pkInputManager->GetIsKeyDown(SDL_SCANCODE_F10))//Dump current memory leaks
         {
 			_CrtDumpMemoryLeaks();
         }
-#endif //_WIN32
         
         if(m_pkInputManager->GetIsKeyDown(SDL_SCANCODE_F12))//Toggle Wireframe Mode
         {
             m_pkDisplayManager->ToggleWireframeMode();
         }
+#endif //_WIN32
         
-        m_pkTileManager->Update(a_fDeltaTime);
-		m_pkParticleManager->Update(a_fDeltaTime);
-        m_pkUnitManager->Update(a_fDeltaTime);
-        
+		//TODO: Fix this hack, either move these into the gamescene or have them react to the menu properly
+		if(m_stScenes.top()->GetSceneType() == eGameScene)
+		{
+			m_pkTileManager->Update(a_fDeltaTime);
+			m_pkParticleManager->Update(a_fDeltaTime);
+			m_pkUnitManager->Update(a_fDeltaTime);
+		}
+
         if(m_stScenes.top()->Update(a_fDeltaTime))
         {
 			m_pkNetworkManager->Update(a_fDeltaTime);

@@ -14,8 +14,6 @@
 	#endif
 #endif
 
-#define TCP_NODELAY 1
-
 #ifdef __APPLE__
 #include <SDL2_net/SDL_net.h>
 #else

@@ -23,6 +23,13 @@ class Cloud;
 class HUD;
 class GameInfo;
 
+enum eSceneType
+{
+	eDefaultScene = 0,
+	eGameScene,
+	eMenuScene
+};
+
 //Forward declare SceneManager
 class SceneManager;
 
@@ -34,7 +41,10 @@ public:
 
     virtual bool Update(float a_fDeltaTime);
 
-	virtual void ReloadAllObjectScripts();
+	virtual int GetSceneType(); //returns the enum of what type of scene this is.
+
+protected:
+	int m_iSceneType;
 };
 
 #endif

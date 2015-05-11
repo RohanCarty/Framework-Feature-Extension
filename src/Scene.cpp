@@ -9,6 +9,8 @@
 Scene::Scene()
 {
     std::cout<<"Scene created. Pointer: "<<this<<std::endl;
+
+	m_iSceneType = eDefaultScene;
 }
 
 Scene::~Scene()
@@ -25,7 +27,7 @@ bool Scene::Update(float a_fDeltaTime)
     return true;
 }
 
-void Scene::ReloadAllObjectScripts()
+int Scene::GetSceneType()
 {
-	//TODO
+	return m_iSceneType;
 }

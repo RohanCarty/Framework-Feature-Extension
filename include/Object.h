@@ -66,7 +66,7 @@ public:
     bool AttachTo(Object* a_pkObject);
     bool DetachFrom();
 
-	void SetHidden(bool a_bHide);
+	virtual void SetHidden(bool a_bHide);
 	bool GetHidden();
 
     Scene* GetScene();
@@ -81,13 +81,13 @@ public:
 	std::vector<stRenderable>& GetRenderables();
 
 	float GetRotation();
-	void SetRotation(float a_fRotation);
+	virtual void SetRotation(float a_fRotation);
 
 	Vector GetSize();
-	void SetSize(Vector a_fSize);
+	virtual void SetSize(Vector a_fSize);
 
     float GetScale();
-    void SetScale(float a_fScale);
+    virtual void SetScale(float a_fScale);
     
     eObjectType m_iObjectType;
 
