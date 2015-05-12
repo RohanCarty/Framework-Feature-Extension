@@ -64,6 +64,8 @@ bool MainMenuScene::Update(float a_fDeltaTime)
 	{
 		m_pkNewGameButton->SetIsToggled(false);
 		SceneManager::AddNewScene(new GameScene);
+		//Arguments done, time to start the game
+		SceneManager::GetUnitManager()->StartGame();
 	}
 
 	m_pkQuitButton->Update(a_fDeltaTime);

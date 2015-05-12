@@ -91,10 +91,11 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	m_pkSoundManager = new SoundManager;
 
 	m_pkNetworkManager = new NetworkManager;
+
+	//AddNewScene(new MainMenuScene());
     
-    //AddNewScene(new GameScene());
-	AddNewScene(new MainMenuScene());
-    
+	AddNewScene(new GameScene());
+
     ProcessAddNewScene();
     
 	m_pkUnitManager = new UnitManager;
