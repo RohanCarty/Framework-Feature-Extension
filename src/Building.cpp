@@ -6,6 +6,8 @@
 
 #include "AnimatedTexture.h"
 
+//TODO: GET RID OF THIS
+
 Building::Building(Scene* a_pkScene) : Object(a_pkScene)
 {
     //std::cout<<"Building created. Pointer: "<<this<<std::endl;
