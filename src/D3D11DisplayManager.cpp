@@ -99,14 +99,14 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
 	if(hr != NULL)
 	{
-		std::cout<<"Shader error: "<<hr<<std::cout;
+		std::cout << "Shader error: "<< hr << std::endl;
 	}
 
 	hr = NULL;
 	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
 	if(hr != NULL)
 	{
-		std::cout<<"Shader error: "<<hr<<std::cout;
+		std::cout << "Shader error: " << hr << std::endl;
 	}
 
 	//Encapsulate both shaders into shader objects
