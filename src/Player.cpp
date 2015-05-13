@@ -61,6 +61,8 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
     m_iObjectType = ePlayer;
 
 	m_bInvincible = false;
+
+	((GameScene*)m_pkScene)->m_pkHUD->PopulatePlayerInfos();
 }
 
 Player::~Player()

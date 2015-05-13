@@ -15,6 +15,7 @@
 #endif
 
 #include <string>
+#include <vector>
 
 //Forward declare
 class Scene;
@@ -22,6 +23,19 @@ class TextLibrary;
 class GameInfo;
 class Object;
 class Vector;
+class UIElement;
+
+struct stPlayerInfo
+{
+	std::string szGamertag;
+	UIElement* pkBackgroundObject;
+	UIElement* pkAbilityIcon1;
+	UIElement* pkYButton;
+	UIElement* pkAbilityIcon2;
+	UIElement* pkBButton;
+	UIElement* pkReviveIcon;
+	UIElement* pkViewButton;
+};
 
 class HUD
 {
@@ -39,6 +53,10 @@ public:
 
 	void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
 
+	void PopulatePlayerInfos();
+
+	void SetPositionOfPlayerInfoObjects(unsigned int a_uiInfoToUpdate, Vector a_vNewPosition);
+
 private:
 	Object* m_pkProgressBarBacking;
 	Object* m_pkProgressBar;
@@ -46,6 +64,8 @@ private:
     GameInfo* m_pkGameInfo;
     TextLibrary* m_pkTextLibrary;
     char* m_cpTempString;
+
+	std::vector<stPlayerInfo> m_astPlayerInfos;
 };
 
 #endif

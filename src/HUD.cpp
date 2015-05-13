@@ -10,6 +10,7 @@
 #include "Texture.h"
 #include "GameInfo.h"
 #include "Player.h"
+#include "UIElement.h"
 
 #include <cstdlib>
 #include <cstdio>
@@ -39,6 +40,19 @@ HUD::~HUD()
 {
     std::cout<<"HUD Destroyed. Pointer: "<<this<<std::endl;
 
+	while(m_astPlayerInfos.size() > 0)
+	{
+		delete m_astPlayerInfos.back().pkBackgroundObject;
+		delete m_astPlayerInfos.back().pkAbilityIcon1;
+		delete m_astPlayerInfos.back().pkYButton;
+		delete m_astPlayerInfos.back().pkAbilityIcon2;
+		delete m_astPlayerInfos.back().pkBButton;
+		delete m_astPlayerInfos.back().pkReviveIcon;
+		delete m_astPlayerInfos.back().pkViewButton;
+
+		m_astPlayerInfos.pop_back();
+	}
+
 	delete m_pkProgressBar;
 
 	delete m_pkProgressBarBacking;
@@ -57,7 +71,7 @@ bool HUD::Update(float a_fDeltaTime)
 	//Change shader back to default
 	SceneManager::GetDisplayManager()->SetShaderProgram(SceneManager::GetDisplayManager()->GetDefaultShader());
 
-	int iFontSize = 36;//SceneManager::GetDisplayManager()->GetXScreenResolution() * 11;
+	int iFontSize = 24;//SceneManager::GetDisplayManager()->GetXScreenResolution() * 11;
 
     std::string sTest;
 
@@ -88,32 +102,40 @@ bool HUD::Update(float a_fDeltaTime)
     //Print the details of the players included in the game.
 	for(unsigned int uiDx = 0; uiDx < SceneManager::GetUnitManager()->GetPlayerList().size(); uiDx++)
 	{
-		//Print Gamertag //TODO: Implement, for now just number of players.
-		sprintf(m_cpTempString,"%d", uiDx + 1);
-		sTest = m_cpTempString;
-		sTest = "Player " + sTest;
+		//Display all the icons for the hud
+		SetPositionOfPlayerInfoObjects(uiDx, Vector((uiDx) * 384 + 200, SceneManager::GetDisplayManager()->GetYScreenResolution() - 100,0));
 
-		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3, iFontSize);
+		m_astPlayerInfos[uiDx].pkBackgroundObject->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkAbilityIcon1->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkYButton->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkAbilityIcon2->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkBButton->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkReviveIcon->Update(a_fDeltaTime);
+		m_astPlayerInfos[uiDx].pkViewButton->Update(a_fDeltaTime);
+
+		//Print Gamertag //TODO: Implement, for now just a test string.
+
+		m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
 
 		//Print current health
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth());
 		sTest = m_cpTempString;
 		sTest = "Health: " + sTest;
 
-		Vector vTempPosition((uiDx) * 384 + 224,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 + 12,0);
-		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,24,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() / 100.0f);
+		Vector vTempPosition((uiDx) * 384 + 244,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 88,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(80,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() / 100.0f);
 
-		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 100, iFontSize);
 
 		//Print current soul power.
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel());
 		sTest = m_cpTempString;
 		sTest = "Power: " + sTest;
 
-		vTempPosition =  Vector((uiDx) * 384 + 224,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 + 12,0);
-		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,24,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel() / 100.0f);
+		vTempPosition =  Vector((uiDx) * 384 + 244,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 88,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(80,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel() / 100.0f);
 
-		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 100, iFontSize);
 	}
 
     return true;
@@ -165,4 +187,90 @@ void HUD::DrawHUDProgressBar(Vector a_vPosition, Vector a_vSize, float a_fNormal
 void HUD::PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize)
 {
 	GetTextLibrary()->PrintHUDString(sString, x, y, CharacterSize);
+}
+
+//Populates all the player info structs ready for updating.
+void HUD::PopulatePlayerInfos()
+{
+	//Clear all the player infos to ensure that it's all populated.
+	while(m_astPlayerInfos.size() > 0)
+	{
+		delete m_astPlayerInfos.back().pkBackgroundObject;
+		delete m_astPlayerInfos.back().pkAbilityIcon1;
+		delete m_astPlayerInfos.back().pkYButton;
+		delete m_astPlayerInfos.back().pkAbilityIcon2;
+		delete m_astPlayerInfos.back().pkBButton;
+		delete m_astPlayerInfos.back().pkReviveIcon;
+		delete m_astPlayerInfos.back().pkViewButton;
+
+		m_astPlayerInfos.pop_back();
+	}
+
+	for(unsigned int uiDx = 0; uiDx < SceneManager::GetInputManager()->GetNumConnectedControllers(); uiDx++)
+	{
+		stPlayerInfo stTempInfo;
+
+		stTempInfo.szGamertag = "Player 1";
+		stTempInfo.pkBackgroundObject = new UIElement(m_pkScene);
+		stTempInfo.pkBackgroundObject->SetSize(Vector(300,200,0));
+		stTempInfo.pkBackgroundObject->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HudBackground.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkAbilityIcon1 = new UIElement(m_pkScene);
+		stTempInfo.pkAbilityIcon1->SetSize(Vector(64,64,0));
+		stTempInfo.pkAbilityIcon1->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HealIcon.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkYButton = new UIElement(m_pkScene);
+		stTempInfo.pkYButton->SetSize(Vector(24,24,0));
+		stTempInfo.pkYButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/YButton.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkAbilityIcon2 = new UIElement(m_pkScene);
+		stTempInfo.pkAbilityIcon2->SetSize(Vector(64,64,0));
+		stTempInfo.pkAbilityIcon2->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/BurstIcon.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkBButton = new UIElement(m_pkScene);
+		stTempInfo.pkBButton->SetSize(Vector(24,24,0));
+		stTempInfo.pkBButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/BButton.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkReviveIcon = new UIElement(m_pkScene);
+		stTempInfo.pkReviveIcon->SetSize(Vector(64,64,0));
+		stTempInfo.pkReviveIcon->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/ReviveIcon.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkViewButton = new UIElement(m_pkScene);
+		stTempInfo.pkViewButton->SetSize(Vector(24,24,0));
+		stTempInfo.pkViewButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/ViewButton.png", SceneManager::GetDisplayManager());
+
+		m_astPlayerInfos.push_back(stTempInfo);
+	}
+}
+
+void HUD::SetPositionOfPlayerInfoObjects(unsigned int a_uiInfoToUpdate, Vector a_vNewPosition)
+{
+	Vector vTempPosition = a_vNewPosition;
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkBackgroundObject->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(-68, 46, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkAbilityIcon1->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(-84, 78, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkYButton->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(0, 46, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkAbilityIcon2->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(0, 78, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkBButton->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(68, 46, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkReviveIcon->SetLocation(vTempPosition);
+
+	vTempPosition = a_vNewPosition + Vector(84, 78, 0);
+
+	m_astPlayerInfos[a_uiInfoToUpdate].pkViewButton->SetLocation(vTempPosition);
+
 }

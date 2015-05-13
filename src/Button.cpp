@@ -33,7 +33,7 @@ bool Button::Update(float a_fDeltaTime)
 		{
 			m_bIsToggled = true;
 
-			std::cout<<"Button Toggled"<<std::endl; 
+			std::cout<<"Button Toggled"<<std::endl;
 		}
 	}
 
