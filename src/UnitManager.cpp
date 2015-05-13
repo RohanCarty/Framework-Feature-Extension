@@ -16,6 +16,9 @@
 UnitManager::UnitManager()
 {
 	srand(0);
+
+	m_fCurrentRespawnTimer = 0.0f;
+	m_fRespawnTimer = 5.0f;
 }
 
 UnitManager::~UnitManager()
@@ -74,7 +77,15 @@ bool UnitManager::Update(float a_fDeltaTime)
 	//Limit of units based on the current haunting level.
 	if(m_apkUnits.size() < (unsigned int)((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel() * 2)
 	{
-		SpawnNewUnit();
+		if(m_fCurrentRespawnTimer < 0.0f)
+		{
+			SpawnNewUnit();
+			m_fCurrentRespawnTimer = m_fRespawnTimer;
+		}
+		else
+		{
+			m_fCurrentRespawnTimer -= a_fDeltaTime;
+		}
 	}
 
 	

@@ -31,12 +31,12 @@ MainMenuScene::MainMenuScene() : Scene()
 
 	m_pkNewGameButton = new Button(this);
 	m_pkNewGameButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/NewGameButton.png", SceneManager::GetDisplayManager());
-	m_pkNewGameButton->SetLocation(256, 256, 0);
+	m_pkNewGameButton->SetLocation(SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 64, SceneManager::GetDisplayManager()->GetYScreenResolution() / 3, 0);
 	m_pkNewGameButton->SetSize(Vector(128, 64, 0));
 
 	m_pkQuitButton  = new Button(this);
 	m_pkQuitButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/QuitButton.png", SceneManager::GetDisplayManager());
-	m_pkQuitButton->SetLocation(256, 512, 0);
+	m_pkQuitButton->SetLocation(SceneManager::GetDisplayManager()->GetXScreenResolution() / 2 - 64, SceneManager::GetDisplayManager()->GetYScreenResolution() / 3 * 2, 0);
 	m_pkQuitButton->SetSize(Vector(128, 64, 0));
 }
 

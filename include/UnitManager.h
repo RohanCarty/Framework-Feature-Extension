@@ -55,6 +55,9 @@ public:
 	void ForceActorListUpdate();
 
 private:
+	float m_fCurrentRespawnTimer;
+	float m_fRespawnTimer; // Time it takes for a single unit to respawn.
+
 	std::vector<Player*> m_apkPlayers;
 	std::vector<Projectile*> m_apkProjectiles;
 	std::vector<Unit*> m_apkUnits;

@@ -98,7 +98,7 @@ void GameInfo::SetHauntingLevel(int a_iHauntingLevel)
 {
 	m_iHauntingLevel = a_iHauntingLevel;
 
-	SetHauntingIncreaseCooldown(10.0f * (float)m_iHauntingLevel);
+	SetHauntingIncreaseCooldown(20.0f * (float)m_iHauntingLevel);
 }
 
 float GameInfo::GetHauntingIncreaseCooldown()
