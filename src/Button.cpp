@@ -29,9 +29,12 @@ bool Button::Update(float a_fDeltaTime)
 
 	if(SceneManager::GetInputManager()->GetMousePosition()->WithinBox2D(*GetLocation(), GetSize()) && !m_bIsToggled)
 	{
-		m_bIsToggled = true;
+		if(SceneManager::GetInputManager()->GetIsKeyDown(SDL_BUTTON_LEFT))
+		{
+			m_bIsToggled = true;
 
-		std::cout<<"Button Toggled"<<std::endl;
+			std::cout<<"Button Toggled"<<std::endl; 
+		}
 	}
 
     return true;
