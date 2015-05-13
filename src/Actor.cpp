@@ -525,11 +525,11 @@ void Actor::KnockBack()
 
 	if(m_vCollisionVector.x != 0)
 	{
-		m_pVelocity->x = -m_vCollisionVector.x * m_vMaxSpeed.x;
+		m_pVelocity->x = -m_vCollisionVector.x * m_vMaxSpeed.x / 3;
 	}
 	else if(m_iCurrentDirection != 0)
 	{
-		m_pVelocity->x = -m_iCurrentDirection * m_vMaxSpeed.x;
+		m_pVelocity->x = -m_iCurrentDirection * m_vMaxSpeed.x / 3;
 	}
 	else
 	{

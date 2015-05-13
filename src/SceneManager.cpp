@@ -92,9 +92,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 	m_pkNetworkManager = new NetworkManager;
 
-	//AddNewScene(new MainMenuScene());
-    
-	AddNewScene(new GameScene());
+	AddNewScene(new MainMenuScene());
 
     ProcessAddNewScene();
     
@@ -126,7 +124,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     }
     
     //Arguments done, time to start the game
-    m_pkUnitManager->StartGame();
+    //m_pkUnitManager->StartGame();
 
 	m_pkTempScene = NULL;
 }
