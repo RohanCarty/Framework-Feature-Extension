@@ -202,6 +202,10 @@ bool Player::Update(float a_fDeltaTime)
 			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
 				BeginCastingAbility(m_iSpecial1Ability);
+
+				stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+				stTemp.bSpecial1Pressed = false;
+				SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
 			}
 		}
 
@@ -210,6 +214,10 @@ bool Player::Update(float a_fDeltaTime)
 			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
 				BeginCastingAbility(m_iSpecial2Ability);
+
+				stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+				stTemp.bSpecial2Pressed = false;
+				SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
 			}
 		}
 		
@@ -218,6 +226,9 @@ bool Player::Update(float a_fDeltaTime)
 			if(m_fCurrentAttackCooldown <= 0.0f)
 			{
 				BeginCastingAbility(eRevive);
+				stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+				stTemp.bViewPressed = false;
+				SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
 			}
 		}
 
