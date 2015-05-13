@@ -67,10 +67,11 @@ public:
 	void ApplyAbility();
 
 	std::string GetStringOfNameOfAbility();
+	std::string GetResourceStringOfAbility(int a_iAbilityEnum);
 
-private:
 	int m_iSpecial1Ability; // Keeps which power is selected by the player in the first slot (Y)
 	int m_iSpecial2Ability; // Keeps which power is selected by the player in the second slot (B)
+private:
 	bool m_bIsUsingAbility;
 	float m_fAbilityCurrentCastTime; // Tracks time since begining of current ability to be casted.
 	float m_fAbilityCastTime; // Is set when an ability is started to be cast in order to track when it'll be completed.

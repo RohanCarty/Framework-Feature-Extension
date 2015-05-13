@@ -120,22 +120,22 @@ bool HUD::Update(float a_fDeltaTime)
 		//Print current health
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth());
 		sTest = m_cpTempString;
-		sTest = "Health: " + sTest;
+		sTest = "Health: " + sTest + " / 100";
 
-		Vector vTempPosition((uiDx) * 384 + 244,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 88,0);
+		Vector vTempPosition((uiDx) * 384 + 274,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 88,0);
 		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(80,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() / 100.0f);
 
-		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 100, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 75, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 100, iFontSize);
 
 		//Print current soul power.
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel());
 		sTest = m_cpTempString;
-		sTest = "Power: " + sTest;
+		sTest = "Power: " + sTest + " / 100";
 
-		vTempPosition =  Vector((uiDx) * 384 + 244,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 88,0);
+		vTempPosition =  Vector((uiDx) * 384 + 274,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 88,0);
 		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(80,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel() / 100.0f);
 
-		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 100, iFontSize);
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 75, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 100, iFontSize);
 	}
 
     return true;
@@ -210,14 +210,14 @@ void HUD::PopulatePlayerInfos()
 	{
 		stPlayerInfo stTempInfo;
 
-		stTempInfo.szGamertag = "Player 1";
+		stTempInfo.szGamertag = "Gamertag";
 		stTempInfo.pkBackgroundObject = new UIElement(m_pkScene);
 		stTempInfo.pkBackgroundObject->SetSize(Vector(300,200,0));
 		stTempInfo.pkBackgroundObject->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HudBackground.png", SceneManager::GetDisplayManager());
 
 		stTempInfo.pkAbilityIcon1 = new UIElement(m_pkScene);
 		stTempInfo.pkAbilityIcon1->SetSize(Vector(64,64,0));
-		stTempInfo.pkAbilityIcon1->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HealIcon.png", SceneManager::GetDisplayManager());
+		stTempInfo.pkAbilityIcon1->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->m_iSpecial1Ability), SceneManager::GetDisplayManager());
 
 		stTempInfo.pkYButton = new UIElement(m_pkScene);
 		stTempInfo.pkYButton->SetSize(Vector(24,24,0));
@@ -225,7 +225,7 @@ void HUD::PopulatePlayerInfos()
 
 		stTempInfo.pkAbilityIcon2 = new UIElement(m_pkScene);
 		stTempInfo.pkAbilityIcon2->SetSize(Vector(64,64,0));
-		stTempInfo.pkAbilityIcon2->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/BurstIcon.png", SceneManager::GetDisplayManager());
+		stTempInfo.pkAbilityIcon2->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->m_iSpecial2Ability), SceneManager::GetDisplayManager());
 
 		stTempInfo.pkBButton = new UIElement(m_pkScene);
 		stTempInfo.pkBButton->SetSize(Vector(24,24,0));
@@ -233,7 +233,7 @@ void HUD::PopulatePlayerInfos()
 
 		stTempInfo.pkReviveIcon = new UIElement(m_pkScene);
 		stTempInfo.pkReviveIcon->SetSize(Vector(64,64,0));
-		stTempInfo.pkReviveIcon->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/ReviveIcon.png", SceneManager::GetDisplayManager());
+		stTempInfo.pkReviveIcon->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(eRevive), SceneManager::GetDisplayManager());
 
 		stTempInfo.pkViewButton = new UIElement(m_pkScene);
 		stTempInfo.pkViewButton->SetSize(Vector(24,24,0));
@@ -253,7 +253,7 @@ void HUD::SetPositionOfPlayerInfoObjects(unsigned int a_uiInfoToUpdate, Vector a
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkAbilityIcon1->SetLocation(vTempPosition);
 
-	vTempPosition = a_vNewPosition + Vector(-84, 78, 0);
+	vTempPosition = a_vNewPosition + Vector(-84, 70, 0);
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkYButton->SetLocation(vTempPosition);
 
@@ -261,7 +261,7 @@ void HUD::SetPositionOfPlayerInfoObjects(unsigned int a_uiInfoToUpdate, Vector a
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkAbilityIcon2->SetLocation(vTempPosition);
 
-	vTempPosition = a_vNewPosition + Vector(0, 78, 0);
+	vTempPosition = a_vNewPosition + Vector(-16, 70, 0);
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkBButton->SetLocation(vTempPosition);
 
@@ -269,7 +269,7 @@ void HUD::SetPositionOfPlayerInfoObjects(unsigned int a_uiInfoToUpdate, Vector a
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkReviveIcon->SetLocation(vTempPosition);
 
-	vTempPosition = a_vNewPosition + Vector(84, 78, 0);
+	vTempPosition = a_vNewPosition + Vector(52, 70, 0);
 
 	m_astPlayerInfos[a_uiInfoToUpdate].pkViewButton->SetLocation(vTempPosition);
 

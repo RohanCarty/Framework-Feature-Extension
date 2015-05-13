@@ -11,7 +11,7 @@
 #include "Vector.h"
 #include "Tile.h"
 #include "Projectile.h"
-
+#include "HUD.h"
 
 UnitManager::UnitManager()
 {
@@ -50,6 +50,8 @@ void UnitManager::StartGame()
 			SpawnPlayer();
 		}
     }
+
+	((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->PopulatePlayerInfos();
 }
 
 //Handles the updating of all the actors.

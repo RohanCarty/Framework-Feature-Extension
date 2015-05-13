@@ -20,7 +20,7 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 
 	//Set some defaults and initialise some variables.
 
-	m_iSpecial1Ability = eHeal;
+	m_iSpecial1Ability = eHealParty;
 
 	m_iSpecial2Ability = eBurst;
 
@@ -61,8 +61,6 @@ Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
     m_iObjectType = ePlayer;
 
 	m_bInvincible = false;
-
-	((GameScene*)m_pkScene)->m_pkHUD->PopulatePlayerInfos();
 }
 
 Player::~Player()
@@ -625,3 +623,25 @@ std::string Player::GetStringOfNameOfAbility()
 		return std::string("Default");
 	}
 }
+
+std::string Player::GetResourceStringOfAbility(int a_iAbilityEnum)
+{
+	switch(a_iAbilityEnum)
+	{
+	case eHeal:
+		return std::string("Resources/Textures/AbilityIcons/HealIcon.png");
+		break;
+	case eHealParty:
+		return std::string("Resources/Textures/AbilityIcons/HealPartyIcon.png");
+		break;
+	case eRevive:
+		return std::string("Resources/Textures/AbilityIcons/ReviveIcon.png");
+		break;
+	case eBurst:
+		return std::string("Resources/Textures/AbilityIcons/BurstIcon.png");
+		break;
+	default:
+		std::cout<<"GetResourceStringOfAbility() switch default on Player: "<<this<<std::endl;
+		return std::string("Resources/Textures/System/Error.png");
+	}
+};
