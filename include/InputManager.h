@@ -53,6 +53,8 @@ public:
 
 	virtual stGameControllerDetails GetControllerState(int a_iId) = 0; //Pure virtual
 
+	virtual void SetControllerState(int a_iId, stGameControllerDetails a_stGameControllerDetails) = 0;
+
 	virtual stGameControllerDetails* GetControllerByJoystickId(int a_iId) = 0; //Pure virtual
 	virtual int GetControllerIdByJoystickId(int a_iId);
 

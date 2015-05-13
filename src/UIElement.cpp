@@ -10,14 +10,14 @@
 
 UIElement::UIElement(Scene* a_pkScene) : Object(a_pkScene)
 {
-    std::cout<<"UIElement created. Pointer: "<<this<<std::endl;
+    //std::cout<<"UIElement created. Pointer: "<<this<<std::endl;
 
 	m_bIsInFocus = false;
 }
 
 UIElement::~UIElement()
 {
-    std::cout<<"UIElement Destroyed. Pointer: "<<this<<std::endl;
+    //std::cout<<"UIElement Destroyed. Pointer: "<<this<<std::endl;
 }
 
 bool UIElement::Update(float a_fDeltaTime)

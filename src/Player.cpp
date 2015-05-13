@@ -74,6 +74,34 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
+	//Hack to allow changing of abilities.
+	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadLeft)
+	{
+		m_iSpecial1Ability++;
+		if(m_iSpecial1Ability != eHeal && m_iSpecial1Ability != eHealParty && m_iSpecial1Ability != eBurst && m_iSpecial1Ability != eRevive)
+		{
+			m_iSpecial1Ability = eHeal;
+		}
+		((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
+
+		stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+		stTemp.bDPadLeft = false;
+		SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
+	}
+	else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadRight)
+	{
+		m_iSpecial2Ability++;
+		if(m_iSpecial2Ability != eHeal && m_iSpecial2Ability != eHealParty && m_iSpecial2Ability != eBurst && m_iSpecial2Ability != eRevive)
+		{
+			m_iSpecial2Ability = eHeal;
+		}
+		((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
+		
+		stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+		stTemp.bDPadRight = false;
+		SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
+	}
+
 	//Updating status of abilities
 	if(m_bIsUsingAbility)
 	{
@@ -406,7 +434,7 @@ void Player::BeginCastingAbility(int a_iAbilityBeingCast)
 		if(GetHealth() == 100)
 		{
 			//TODO: Figure a way for this not to be spammed.
-			//SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Health Already Full");
+			SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "Health Already Full");
 		}
 		else if(m_iCurrentSoulPowerLevel >= 25)
 		{
@@ -466,6 +494,7 @@ void Player::BeginCastingAbility(int a_iAbilityBeingCast)
 		break;
 	default:
 		std::cout<<"BeginCastingAbility switch default on Player: "<<this<<std::endl;
+		SceneManager::GetParticleManager()->SpawnFloatingText(Vector(GetLocation()->x,GetLocation()->y - 20,0), "BeginCastingAbility switch default");
 	}
 }
 

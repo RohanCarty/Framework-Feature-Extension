@@ -26,9 +26,7 @@ enum eAbilities
 	eHeal,
 	eHealParty,
 	eBurst,
-	eLunge,
-	eRevive,
-	eThornmail
+	eRevive
 };
 
 #include "Actor.h"

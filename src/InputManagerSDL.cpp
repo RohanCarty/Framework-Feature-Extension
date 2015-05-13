@@ -101,7 +101,7 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 				RemoveGameController(GetControllerIdByJoystickId(test_event.cdevice.which));
 				break;
 			case SDL_JOYAXISMOTION:
-				if( test_event.jaxis.axis == 0)
+				if( test_event.jaxis.axis == 0) // Left Stick X
 				{
 					if(test_event.jaxis.value < -m_iJoystickDeadzone)
 					{
@@ -116,9 +116,70 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 0;
 					}
 				}
+				else if( test_event.jaxis.axis == 1) // Left Stick Y
+				{
+					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = -1;
+					}
+					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = 1;
+					}
+					else
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = 0;
+					}
+				}
+				else if( test_event.jaxis.axis == 2) // Right Stick X
+				{
+					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = -1;
+					}
+					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = 1;
+					}
+					else
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = 0;
+					}
+				}
+				else if( test_event.jaxis.axis == 3) // Right Stick Y
+				{
+					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = -1;
+					}
+					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = 1;
+					}
+					else
+					{
+						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = 0;
+					}
+				}
 				break;
 			case SDL_JOYBUTTONDOWN: //.button 10 is A (360) .button 11 is B (360) .button 12 is X (360) . button 13 is Y (360)
-				if(test_event.jbutton.button == 4)
+				if(test_event.jbutton.button == 0)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadUp = true;
+				}
+				else if(test_event.jbutton.button == 1)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadDown = true;
+				}
+				else if(test_event.jbutton.button == 2)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadLeft = true;
+				}
+				else if(test_event.jbutton.button == 3)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadRight = true;
+				}
+				else if(test_event.jbutton.button == 4)
 				{
 					GetControllerByJoystickId(test_event.jbutton.which)->bOptionPressed = true;
 				}
@@ -148,7 +209,23 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 				}
 				break;
 			case SDL_JOYBUTTONUP:
-				if(test_event.jbutton.button == 4)
+				if(test_event.jbutton.button == 0)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadUp = false;
+				}
+				else if(test_event.jbutton.button == 1)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadDown = false;
+				}
+				else if(test_event.jbutton.button == 2)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadLeft = false;
+				}
+				else if(test_event.jbutton.button == 3)
+				{
+					GetControllerByJoystickId(test_event.jbutton.which)->bDPadRight = false;
+				}
+				else if(test_event.jbutton.button == 4)
 				{
 					GetControllerByJoystickId(test_event.jbutton.which)->bOptionPressed = false;
 				}
@@ -329,6 +406,11 @@ stGameControllerDetails InputManagerSDL::GetControllerState(int a_iId)
 	return m_apkJoysticks[a_iId];
 }
 
+void InputManagerSDL::SetControllerState(int a_iId, stGameControllerDetails a_stGameControllerDetails)
+{
+	m_apkJoysticks[a_iId] = a_stGameControllerDetails;
+}
+
 stGameControllerDetails* InputManagerSDL::GetControllerByJoystickId(int a_iId)
 {
 	for(unsigned int iDx = 0; iDx < m_apkJoysticks.size(); iDx++)
@@ -363,12 +445,18 @@ void InputManagerSDL::ClearControllerStates()
 	{
 		m_apkJoysticks[iDx].fAxis1X = 0.0f;
 		m_apkJoysticks[iDx].fAxis1Y = 0.0f;
+		m_apkJoysticks[iDx].fAxis2X = 0.0f;
+		m_apkJoysticks[iDx].fAxis2Y = 0.0f;
 		m_apkJoysticks[iDx].bJumpPressed = false;
 		m_apkJoysticks[iDx].bAttackPressed = false;
 		m_apkJoysticks[iDx].bSpecial1Pressed = false;
 		m_apkJoysticks[iDx].bSpecial2Pressed = false;
 		m_apkJoysticks[iDx].bViewPressed = false;
 		m_apkJoysticks[iDx].bOptionPressed = false;
+		m_apkJoysticks[iDx].bDPadUp = false;
+		m_apkJoysticks[iDx].bDPadDown = false;
+		m_apkJoysticks[iDx].bDPadLeft = false;
+		m_apkJoysticks[iDx].bDPadRight = false;
 	}
 }
 

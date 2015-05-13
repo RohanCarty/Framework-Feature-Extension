@@ -25,14 +25,20 @@ struct stGameControllerDetails
 {
 	SDL_Joystick* pkJoystick;
 	SDL_GameController* pkGameController;
-	float fAxis1X;
+	float fAxis1X;//Left stick
 	float fAxis1Y;
+	float fAxis2X;//Right stick
+	float fAxis2Y;
 	bool bJumpPressed;
 	bool bAttackPressed;
 	bool bSpecial1Pressed;
 	bool bSpecial2Pressed;
 	bool bViewPressed;
 	bool bOptionPressed;
+	bool bDPadUp;
+	bool bDPadDown;
+	bool bDPadLeft;
+	bool bDPadRight;
 	bool bIsBound;
 };
 
@@ -69,6 +75,8 @@ public:
 	bool GetIsControllerConnected(int a_iId);
 
 	stGameControllerDetails GetControllerState(int a_iId);
+
+	void SetControllerState(int a_iId, stGameControllerDetails a_stGameControllerDetails);
 
 	stGameControllerDetails* GetControllerByJoystickId(int a_iId);
 	int GetControllerIdByJoystickId(int a_iId);
