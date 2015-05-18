@@ -2,6 +2,7 @@
 #include "Tile.h"
 #include "SceneManager.h"
 #include "Resource.h"
+#include "tinyxml2.h"
 
 TileManager::TileManager()
 {
@@ -9,6 +10,7 @@ TileManager::TileManager()
 
     m_iTileListWidth = 25;
 	GenerateMap(0);
+	//GenerateFromXML("lvl1.xml");
 }
 
 TileManager::~TileManager()
@@ -113,6 +115,76 @@ void TileManager::GenerateMap(int a_iSeed)
 	}
 
     return;
+}
+
+int TileManager::GenerateFromXML(std::string a_sFilename)
+{
+	tinyxml2::XMLDocument doc;
+	doc.LoadFile(a_sFilename.c_str());
+
+	int error = doc.ErrorID();
+	if (error) //file didnt load
+	{
+		std::cout << "Error " << error << std::endl;
+		return error;
+	}
+
+	int iTileID = 0;
+
+	tinyxml2::XMLElement* level = doc.FirstChildElement("level");
+
+
+	//Load background
+	iTileID = GetTileType(level->FirstChildElement("background")->GetText());
+
+	for (int iDx = -24; iDx <= 24; iDx++)
+	{
+		for (int iDy = -7; iDy <= 7; iDy++)
+		{
+			SpawnTileAt(Vector(iDx, iDy, 0), iTileID);
+		}
+	}
+
+	//Load tiles
+	tinyxml2::XMLElement* tile = level->FirstChildElement("tile");
+	tinyxml2::XMLElement* pos = 0;
+
+	int iDx = 0, iDy = 0, iDz = 0;
+
+	while (tile)
+	{
+		// tile type
+		iTileID = GetTileType(tile->FirstChildElement("type")->GetText());
+
+		// load tile locations
+		pos = tile->FirstChildElement("locations")->FirstChildElement("pos");
+		while (pos)
+		{
+			pos->QueryAttribute("x", &iDx);
+			pos->QueryAttribute("y", &iDy);
+			pos->QueryAttribute("z", &iDz);
+			SpawnTileAt(Vector(iDx, iDy, iDz), iTileID);
+			pos = pos->NextSiblingElement("pos"); // next pos
+		}
+
+		tile = tile->NextSiblingElement("tile"); // next tile
+	}
+
+
+}
+
+int TileManager::GetTileType(std::string a_sTileID)
+{
+	if (a_sTileID == "background")
+		return eBackground;
+	if (a_sTileID == "floor")
+		return eFloor;
+	if (a_sTileID == "floor2")
+		return eFloor2;
+	if (a_sTileID == "wall")
+		return eWall;
+
+	return -1; //file is broke
 }
 
 void TileManager::SpawnTileAt(Vector a_vDestination, int a_iTileType)//Spawn at adjusted coordinates (Adjusted being *64'd)

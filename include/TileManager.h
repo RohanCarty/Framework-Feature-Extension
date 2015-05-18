@@ -32,6 +32,8 @@ public:
     
     bool Update(float a_fDeltaTime);
     void GenerateMap(int a_iSeed);
+	int GenerateFromXML(std::string a_sFilename);
+	int GetTileType(std::string a_sTileID);
     void SpawnTileAt(Vector a_vDestination, int a_iTileType);
     void SpawnTile(Vector a_vDestination, int a_iTileType);
 

@@ -1,0 +1,60 @@
+level loader
+
+xml layout
+
+
+_Type 1_
+
+//sprites built in, simple to build level file
+
+<level>
+	<tile>
+		<type>stonefloor</type>
+		<pos x="" y="" z=""/>
+		<size x="" y="" z=""/>
+	</tile>
+	//repeat for each tile
+</level>
+
+_Type 2_
+
+//as type one, but all of same tile loaded at once
+//should be faster if draw order matters and some other part of program doesnt do it
+
+<level>
+	<tile>
+		<type>stonefloor</type>
+		<size x="" y="" z="" />
+		<locations>
+			<pos x="" y=""/>
+			<pos x="" y=""/>
+			<pos x="" y=""/>
+			//etc
+		</locations>
+	</tile>
+	//repeat for other tiles
+</level>
+
+_Type 3_
+
+//loads from external source
+//doesnt do draw order yet
+
+<level>
+//Any level info here, I guess
+
+	<tileset>tileset.png</tileset>
+
+	<tile>
+		<id>stonefloor</id>
+		<uv>396,63,0</uv>
+		<size>64,64,0</size>
+	</tile>
+	//repeat for each tile
+
+	<layout>
+		<blarg id="" x="" y=""/>
+	</layout>
+
+
+</level>
