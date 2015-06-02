@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\src\Texture.cpp" />
     <ClCompile Include="..\..\src\Tile.cpp" />
     <ClCompile Include="..\..\src\TileManager.cpp" />
+    <ClCompile Include="..\..\src\tinyxml2.cpp" />
     <ClCompile Include="..\..\src\UIElement.cpp" />
     <ClCompile Include="..\..\src\Unit.cpp" />
     <ClCompile Include="..\..\src\UnitManager.cpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="..\..\include\Texture.h" />
     <ClInclude Include="..\..\include\Tile.h" />
     <ClInclude Include="..\..\include\TileManager.h" />
+    <ClInclude Include="..\..\include\tinyxml2.h" />
     <ClInclude Include="..\..\include\UIElement.h" />
     <ClInclude Include="..\..\include\Unit.h" />
     <ClInclude Include="..\..\include\UnitManager.h" />
