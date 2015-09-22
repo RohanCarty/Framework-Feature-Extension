@@ -51,6 +51,11 @@ bool AnimatedTexture::Update(float a_fDeltaTime)
 
 void AnimatedTexture::SwitchAnimation(std::string a_szName)
 {
+	if(!m_bIsAnimated) //if not animated, just return.
+	{
+		return;
+	}
+
 	//Don't fuck with already playing animations.
 	if(a_szName == m_apkAnimations[m_uiCurrentAnimation]->szName)
 	{

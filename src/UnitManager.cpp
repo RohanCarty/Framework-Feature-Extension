@@ -99,6 +99,8 @@ bool UnitManager::Update(float a_fDeltaTime)
             delete m_apkPlayers[iDx];
             m_apkPlayers.erase(m_apkPlayers.begin() + iDx);
             iDx--;
+
+			ForceActorListUpdate(); // force an actor list update every time one gets removed.
         }
 	}
 
@@ -111,6 +113,8 @@ bool UnitManager::Update(float a_fDeltaTime)
             delete m_apkProjectiles[iDx];
             m_apkProjectiles.erase(m_apkProjectiles.begin() + iDx);
             iDx--;
+
+			ForceActorListUpdate(); // force an actor list update every time one gets removed.
         }
 	}
 
@@ -123,6 +127,8 @@ bool UnitManager::Update(float a_fDeltaTime)
             delete m_apkCollectibleSouls[iDx];
             m_apkCollectibleSouls.erase(m_apkCollectibleSouls.begin() + iDx);
             iDx--;
+
+			ForceActorListUpdate(); // force an actor list update every time one gets removed.
         }
 	}
 

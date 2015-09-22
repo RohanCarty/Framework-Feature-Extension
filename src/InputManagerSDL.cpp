@@ -32,6 +32,8 @@ InputManagerSDL::InputManagerSDL()
 	if(SDL_NumJoysticks() < 1)
 	{
 		std::cout<<"No Joysticks Connected"<<std::endl;
+
+		AddKeyboardAsController();
 	}
 	else
 	{
@@ -69,7 +71,7 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 	SDL_Event test_event;
 
 	//Clear everything pressed
-	m_aiKeyCodes.erase(m_aiKeyCodes.begin(), m_aiKeyCodes.begin() + m_aiKeyCodes.size());
+	//m_aiKeyCodes.erase(m_aiKeyCodes.begin(), m_aiKeyCodes.begin() + m_aiKeyCodes.size());
 	m_iMouseWheelDelta = 0;
 	ClearJumpButtons();
 
@@ -90,6 +92,16 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
                 break;
 			case SDL_KEYDOWN:
 				m_aiKeyCodes.push_back(test_event.key.keysym.scancode);
+				break;
+			case SDL_KEYUP:
+				for(unsigned int uiDx = 0; uiDx < m_aiKeyCodes.size(); uiDx++)
+				{
+					if(m_aiKeyCodes[uiDx] == test_event.key.keysym.scancode)
+					{
+						m_aiKeyCodes.erase(m_aiKeyCodes.begin() + uiDx);
+						uiDx--;
+					}
+				}
 				break;
 			//GameController Stuff
 
@@ -275,6 +287,41 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 		}
 	}
 	
+	//Keyboard control stuff
+	if(GetIsKeyDown(SDL_SCANCODE_SPACE))
+	{
+		m_apkJoysticks[0].bAttackPressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bAttackPressed = 0;
+	}
+
+	if(GetIsKeyDown(SDL_SCANCODE_A))
+	{//assume keyboard is first joystick
+		m_apkJoysticks[0].fAxis1X = -1;
+	}
+	else if(GetIsKeyDown(SDL_SCANCODE_D))
+	{//assume keyboard is first joystick
+		m_apkJoysticks[0].fAxis1X = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].fAxis1X = 0;
+	}
+	
+	if(GetIsKeyDown(SDL_SCANCODE_W))
+	{//assume keyboard is first joystick
+		m_apkJoysticks[0].fAxis1Y = -1;
+	}
+	else if(GetIsKeyDown(SDL_SCANCODE_S))
+	{//assume keyboard is first joystick
+		m_apkJoysticks[0].fAxis1Y = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].fAxis1Y = 0;
+	}
 	return true;
 }
 
@@ -354,12 +401,38 @@ bool InputManagerSDL::AddGameController(int a_iId)
 
 	m_apkJoysticks.push_back(stTemp);
 
+	stTemp.bIsKeyboard = false;
+
 	return true;
 }
 
+void InputManagerSDL::AddKeyboardAsController()
+{
+	stGameControllerDetails stTemp;
+
+	stTemp.pkJoystick = NULL;
+
+	stTemp.bIsBound = false;
+
+	std::cout<<"Adding keyboard as game controller."<<std::endl;
+
+	stTemp.bIsKeyboard = true;
+
+	m_apkJoysticks.push_back(stTemp);
+}
+
+
 void InputManagerSDL::RemoveGameController(int a_iId)
 {
+	if(m_apkJoysticks[a_iId].bIsKeyboard)
+	{
+		std::cout<<"Keyboard Removed."<<std::endl;
+
+		return;
+	}
+
 	std::cout<<"Removing Joystick: "<<SDL_JoystickName(m_apkJoysticks[a_iId].pkJoystick)<<"... ";
+
 	SDL_JoystickClose(m_apkJoysticks[a_iId].pkJoystick);
 
 	std::cout<<"Joystick Removed."<<std::endl;

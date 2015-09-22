@@ -40,6 +40,7 @@ struct stGameControllerDetails
 	bool bDPadLeft;
 	bool bDPadRight;
 	bool bIsBound;
+	bool bIsKeyboard;
 };
 
 //Forward declare in order to use the pointer.
@@ -66,6 +67,7 @@ public:
 	bool GetWindowIsInFocus();
 
 	bool AddGameController(int a_iId);
+	void AddKeyboardAsController();
 	void RemoveGameController(int a_iId);
 
 	int GetNumConnectedControllers();
