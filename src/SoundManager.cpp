@@ -6,34 +6,35 @@
 SoundManager::SoundManager()
 {
 	std::cout<<"Sound Manager starting."<<std::endl;
-	Mix_Init(0);
+	SDL_Init(SDL_INIT_AUDIO);
+
+	std::string sz_temperrorstring = SDL_GetError();
 
 	if( Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
 	{
-		std::cout<<"Mix_OpenAudio: "<< Mix_GetError()<<std::endl;
+		std::string sz_temperrorstring = Mix_GetError();
+		std::cerr<<"Mix_OpenAudio: "<< Mix_GetError()<<std::endl;
 	}
 
 	Mix_Music* pkMusic;
 
 	std::string szMusicFileName;
 
-	szMusicFileName = "Sounds/Music/Broken Reality.ogg";
-
-	/*switch(rand() % 3)
+	switch(rand() % 3)
 	{
 	case 0:
-		szMusicFileName = "Sounds/Music/Ready Aim Fire.ogg";
+		szMusicFileName = "Sounds/Music/lunarmarch.ogg";
 		break;
 	case 1:
 		szMusicFileName = "Sounds/Music/Broken Reality.ogg";
 		break;
 	case 2:
-		szMusicFileName = "Sounds/Music/Summon the Rawk.ogg";
+		szMusicFileName = "Sounds/Music/rollingstart.ogg";
 		break;
 	default:
 		std::cout<<"Music Switch Default"<<std::endl;
 		break;
-	}*/
+	}
 
 	int piSize;
 	piSize = PackManager::GetSizeOfFile(szMusicFileName);
@@ -44,19 +45,19 @@ SoundManager::SoundManager()
 
 	if(pkMusicFile == NULL)
 	{
-		 std::cout<<"Failed to create SDL_RWops pointer: "<<SDL_GetError()<<std::endl;
+		 std::cerr<<"Failed to create SDL_RWops pointer: "<<SDL_GetError()<<std::endl;
 	}
 
 	pkMusic=Mix_LoadMUS_RW(pkMusicFile, 1);
 
 	if(pkMusic == NULL)
 	{
-		 std::cout<<"Failed to create pkMusic pointer: "<<Mix_GetError()<<std::endl;
+		 std::cerr<<"Failed to create pkMusic pointer: "<<Mix_GetError()<<std::endl;
 	}
 
-	if(Mix_FadeInMusic(pkMusic, -1, 5000) == -1)
+	if(Mix_FadeInMusic(pkMusic, -1, 1) == -1)
 	{
-		std::cout<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
+		std::cerr<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
 	}
 }
 

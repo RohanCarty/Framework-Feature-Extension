@@ -20,6 +20,8 @@
 #include "SDL_mixer.h"
 #endif
 
+#include <SDL.h>
+
 #include <string>
 #include <vector>
 
