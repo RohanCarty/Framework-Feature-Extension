@@ -17,7 +17,9 @@ SoundManager::SoundManager()
 
 	std::string szMusicFileName;
 
-	switch(rand() % 3)
+	szMusicFileName = "Sounds/Music/Broken Reality.ogg";
+
+	/*switch(rand() % 3)
 	{
 	case 0:
 		szMusicFileName = "Sounds/Music/Ready Aim Fire.ogg";
@@ -31,7 +33,7 @@ SoundManager::SoundManager()
 	default:
 		std::cout<<"Music Switch Default"<<std::endl;
 		break;
-	}
+	}*/
 
 	int piSize;
 	piSize = PackManager::GetSizeOfFile(szMusicFileName);

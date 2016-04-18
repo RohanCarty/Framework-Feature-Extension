@@ -4,7 +4,6 @@
 #include "Vertex.h"
 #include "Mesh.h"
 
-#include "OpenGLDisplayManager.h"
 #include "PackManager.h"
 
 TextLibrary::TextLibrary(DisplayManager* a_kDisplayManager)

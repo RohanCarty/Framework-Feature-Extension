@@ -1,4 +1,6 @@
-﻿#include "OpenGLDisplayManager.h"
+﻿#ifndef __arm__
+
+#include "OpenGLDisplayManager.h"
 #include "Vector.h"
 #include "Vertex.h"
 #include "Mesh.h"
@@ -146,8 +148,9 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	m_iXResolution = 1600;
 	m_iYResolution = 900;
 
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
    	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
@@ -651,3 +654,4 @@ bool OpenGLDisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_p
 
     return true;
 }
+#endif //__arm__

@@ -51,6 +51,8 @@ public:
 
 	void DrawHUDProgressBar(Vector a_vPosition, Vector a_vSzie, float a_fNormalisedPercentage);
 
+	void PrintString(std::string& sString, double x, double y, unsigned int CharacterSize);
+
 	void PrintHUDString(std::string& sString, double x, double y, unsigned int CharacterSize);
 
 	void PopulatePlayerInfos();

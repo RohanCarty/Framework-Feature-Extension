@@ -1,3 +1,5 @@
+#ifndef __arm__
+
 #include "DisplayManager.h"
 #include "Vector.h"
 #include "Matrix.h"
@@ -430,3 +432,5 @@ bool OpenGL1DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Te
 	glEnd();
 	return true;
 }
+
+#endif //__arm__

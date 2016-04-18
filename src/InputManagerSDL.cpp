@@ -90,6 +90,15 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
             case SDL_MOUSEBUTTONDOWN:
 				m_aiKeyCodes.push_back(test_event.button.button);
                 break;
+			case SDL_MOUSEBUTTONUP:
+				for (unsigned int uiDx = 0; uiDx < m_aiKeyCodes.size(); uiDx++)
+				{
+					if (test_event.button.button == m_aiKeyCodes[uiDx])
+					{
+						m_aiKeyCodes.erase(m_aiKeyCodes.begin() + uiDx);
+					}
+				}
+				break;
 			case SDL_KEYDOWN:
 				m_aiKeyCodes.push_back(test_event.key.keysym.scancode);
 				break;

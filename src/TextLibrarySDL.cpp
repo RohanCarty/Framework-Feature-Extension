@@ -5,7 +5,7 @@
 #include "Vertex.h"
 #include "Mesh.h"
 
-#include "OpenGLDisplayManager.h"
+//#include "OpenGLDisplayManager.h"
 #include "PackManager.h"
 
 TextLibrarySDL::TextLibrarySDL(DisplayManager* a_kDisplayManager) : TextLibrary(a_kDisplayManager)
