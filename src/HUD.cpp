@@ -41,7 +41,7 @@ HUD::~HUD()
 
 	while(m_astPlayerInfos.size() > 0)
 	{
-		delete m_astPlayerInfos.back().pkBackgroundObject;
+		/*delete m_astPlayerInfos.back().pkBackgroundObject;
 		delete m_astPlayerInfos.back().pkAbilityIcon1;
 		delete m_astPlayerInfos.back().pkYButton;
 		delete m_astPlayerInfos.back().pkAbilityIcon2;
@@ -49,7 +49,7 @@ HUD::~HUD()
 		delete m_astPlayerInfos.back().pkReviveIcon;
 		delete m_astPlayerInfos.back().pkViewButton;
 
-		m_astPlayerInfos.pop_back();
+		m_astPlayerInfos.pop_back();*/
 	}
 
 	delete m_pkProgressBar;
@@ -75,15 +75,18 @@ bool HUD::Update(float a_fDeltaTime)
     std::string sTest;
 
 	//Print FPS
-	sprintf(m_cpTempString,"%d", (int) (1.0f / a_fDeltaTime ));
-    
+#ifdef _WIN32
+	sprintf_s(m_cpTempString, 256,"%d", (int) (1.0f / a_fDeltaTime ));
+#else
+	sprintf(m_cpTempString, "%d", (int)(1.0f / a_fDeltaTime));
+#endif //_WIN32
     sTest = "FPS: ";
     sTest = sTest + m_cpTempString; //what the fuck LLVM?
     
     m_pkTextLibrary->PrintHUDString(sTest, 0, 0, iFontSize);
 
     //Print the details of the players included in the game.
-	for(unsigned int uiDx = 0; uiDx < m_astPlayerInfos.size(); uiDx++)
+	/*for(unsigned int uiDx = 0; uiDx < m_astPlayerInfos.size(); uiDx++)
 	{
 		//Display all the icons for the hud
 		SetPositionOfPlayerInfoObjects(uiDx, Vector((uiDx) * 384 + 200, SceneManager::GetDisplayManager()->GetYScreenResolution() - 100,0));
@@ -99,7 +102,7 @@ bool HUD::Update(float a_fDeltaTime)
 		//Print Gamertag //TODO: Implement, for now just a test string.
 
 		m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
-	}
+	}*/
 
     return true;
 }

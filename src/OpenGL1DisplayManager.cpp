@@ -1,4 +1,5 @@
 #ifndef __arm__
+#ifndef __UWP__
 
 #include "DisplayManager.h"
 #include "Vector.h"
@@ -433,4 +434,5 @@ bool OpenGL1DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Te
 	return true;
 }
 
+#endif //__UWP__
 #endif //__arm__

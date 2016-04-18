@@ -58,6 +58,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	//look for opengl1 in the arguments
 	for(int iDx = 0; iDx < argc; iDx++)
     {
+#ifndef __UWP__
 		if(strcmp(argv[iDx], "opengl") == 0)
 		{
 			m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
@@ -67,6 +68,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 		{
 			m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
 		}
+#endif //__UWP__
 #ifdef _WIN32
 		if(strcmp(argv[iDx], "d3d11") == 0)
 		{
@@ -92,7 +94,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 	m_pkNetworkManager = new NetworkManager;
 
-	AddNewScene(new MainMenuScene());
+	AddNewScene(new GameScene());
 
     ProcessAddNewScene();
     
@@ -124,7 +126,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     }
     
     //Arguments done, time to start the game
-    //m_pkUnitManager->StartGame();
+    m_pkUnitManager->StartGame();
 
 	m_pkTempScene = NULL;
 }

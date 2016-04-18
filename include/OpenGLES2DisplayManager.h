@@ -1,3 +1,4 @@
+#ifndef __UWP__
 #ifndef _OPENGLES2DISPLAYMANAGER_H_
 #define _OPENGLES2DISPLAYMANAGER_H_
 //Dem debug things
@@ -150,3 +151,4 @@ private:
 };
 
 #endif
+#endif //__UWP__

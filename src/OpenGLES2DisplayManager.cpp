@@ -1,4 +1,6 @@
-﻿#include "OpenGLES2DisplayManager.h"
+﻿#ifndef __UWP__
+
+#include "OpenGLES2DisplayManager.h"
 #include "Vector.h"
 #include "Vertex.h"
 #include "Mesh.h"
@@ -609,3 +611,5 @@ bool OpenGLES2DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* 
 
 	return true;
 }
+
+#endif

@@ -46,13 +46,7 @@ UnitManager::~UnitManager()
 void UnitManager::StartGame()
 {
     //Spawn the test units
-    if(!SceneManager::GetNetworkManager()->m_bIsClient)
-    {
-		for(int iDx = 0; iDx < SceneManager::GetInputManager()->GetNumConnectedControllers(); iDx++)
-		{
-			SpawnPlayer();
-		}
-    }
+	SpawnPlayer(); // Spawn 1
 
 	((GameScene*)SceneManager::GetCurrentScene())->m_pkHUD->PopulatePlayerInfos();
 }

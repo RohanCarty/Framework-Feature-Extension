@@ -1,3 +1,4 @@
+#ifndef __UWP__
 #ifndef _OPENGL1DISPLAYMANAGER_H_
 #define _OPENGL1DISPLAYMANAGER_H_
 
@@ -61,3 +62,4 @@ private:
 };
 
 #endif
+#endif //__UWP__

@@ -15,9 +15,11 @@
 
 // include the Direct3D Library file
 
+#include <DXGI.h>
+#include <dxgi1_2.h>
+
 #include <D3Dcompiler.h>
 
-#include <comdef.h>
 
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3d10.lib")
@@ -80,31 +82,26 @@ D3D11DisplayManager::~D3D11DisplayManager()
 
 unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader, std::string a_szFragmentShader)
 {
-	//TODO
 	//Load and compile the two shaders
 	ID3D10Blob *VS, *PS;
 
-	int piSize;
-	piSize = PackManager::GetSizeOfFile(a_szVertexShader);
-	void* pTempResource = PackManager::LoadResource(a_szVertexShader);
+	std::string cpFullFile("Texture2D ObjTexture;\nSamplerState ObjSamplerState;\nstruct VS_OUTPUT\n{\nfloat4 Pos : SV_POSITION;\nfloat2 TexCoord : TEXCOORD;\n};\nVS_OUTPUT VS(float4 inPos : POSITION, float2 inTexCoord : TEXCOORD)\n{\nVS_OUTPUT output;\noutput.Pos = inPos;\noutput.TexCoord = inTexCoord;\nreturn output;\n}\nfloat4 PS(VS_OUTPUT input) : SV_TARGET\n{\nreturn ObjTexture.Sample(ObjSamplerState, input.TexCoord);\n}\n");
 
-	std::string cpFullFile = (char*)pTempResource;
+	int piSize = cpFullFile.size();
+
 	cpFullFile.resize(piSize);
 
-	delete pTempResource;
+	HRESULT hr = NULL;
 
-	HRESULT hr;
-
-	hr = NULL;
 	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
-	if(hr != NULL)
+	if (hr != NULL)
 	{
-		std::cout << "Shader error: "<< hr << std::endl;
+		std::cout << "Shader error: " << hr << std::endl;
 	}
 
 	hr = NULL;
 	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
-	if(hr != NULL)
+	if (hr != NULL)
 	{
 		std::cout << "Shader error: " << hr << std::endl;
 	}
@@ -120,8 +117,8 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	//Create the input layout object
 	D3D11_INPUT_ELEMENT_DESC ied[] =
 	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	    {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 	};
 
 	m_pkDevice->CreateInputLayout(ied, 2, VS->GetBufferPointer(), VS->GetBufferSize(), &m_pkInputLayout);
@@ -133,22 +130,38 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 
 bool D3D11DisplayManager::CreateScreen()
 {
-    //TODO
-    if(SDL_Init(SDL_INIT_VIDEO) < 0) // Die if SDL2 Init failed
+    SDL_DisplayMode mode;
+	SDL_Window * window = NULL;
+	SDL_Renderer * renderer = NULL;
+	SDL_Event evt;
+	IDXGIFactory2 * m_pkDXGIFactory;
+
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
-		std::cout<<"Unable to initialize SDL2"<<std::endl;
+		return 1;
+	}
+
+	if (SDL_GetCurrentDisplayMode(0, &mode) != 0)
+	{
+		return 1;
+	}
+
+	//TODO
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) // Die if SDL2 Init failed
+	{
+		std::cout << "Unable to initialize SDL2" << std::endl;
 		exit(1);
 	}
 
-	m_iXResolution = 1600;
-	m_iYResolution = 900;
+	m_iXResolution = 1920;
+	m_iYResolution = 1080;
 
-	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-        m_iXResolution, m_iYResolution, SDL_WINDOW_SHOWN);
+	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather Engine 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
+		m_iXResolution, m_iYResolution, SDL_WINDOW_SHOWN);
 
 	if (!m_pkMainWindow) // Die if window creation failed
 	{
-		std::cout<<"Window Creation Failed After Succesful SDL2 Initialization."<<std::endl;
+		std::cout << "Window Creation Failed After Succesful SDL2 Initialization." << std::endl;
 		exit(1);
 	}
 
@@ -157,31 +170,28 @@ bool D3D11DisplayManager::CreateScreen()
 	SDL_VERSION(&kInfo.version); //required before calling GetWindowWMInfo
 	SDL_GetWindowWMInfo(m_pkMainWindow, &kInfo);
 
-	//this bit is Win32-specific, but then so is D3D;
-	// other OSes have different sub-structs here
-	HWND kHandle = kInfo.info.win.window;
-
 	//create a struct to hold information about the swap chain
-	DXGI_SWAP_CHAIN_DESC scd;
+	DXGI_SWAP_CHAIN_DESC1 scd;
 
 	//clear out the struct for use
-	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
+	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC1));
 
 	//fill the swap chain description struct
-	scd.BufferCount = 1;									//One back buffer
-	scd.BufferDesc.Format =  DXGI_FORMAT_R8G8B8A8_UNORM;	//Use 32-bit colour
-	scd.BufferDesc.Width = m_iXResolution;					//Set the back buffer width
-	scd.BufferDesc.Height = m_iYResolution;					//Set the back buffer height
+	scd.BufferCount = 2;									//Back buffer with 2 drawzones
+	scd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;				//Use 32-bit colour
+	scd.Width = m_iXResolution;								//Set the back buffer width
+	scd.Height = m_iYResolution;							//Set the back buffer height
+	scd.Stereo = false;										//3D - no please
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;		//How swap chain is to be used
-	scd.OutputWindow = kHandle;								//The window to be used
-	scd.SampleDesc.Count = 4;								//How many multisamples				<== MSAA
-	scd.Windowed = TRUE;									//Windowed mode
-	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;		//Allow full-screen switching
+	scd.SampleDesc.Count = 1;								//How many multisamples				<== MSAA
+	scd.AlphaMode = DXGI_ALPHA_MODE_IGNORE;				//Set Alpha mode;
+	scd.Scaling = DXGI_SCALING_ASPECT_RATIO_STRETCH;		//Set scaling mode;
+	scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		//Set swap mode (sequential is one after another, all we need)
 
-	//Create a device, device context, and swap chain using the scd struct
-	HRESULT hr = D3D11CreateDeviceAndSwapChain(
-		NULL, 
-		D3D_DRIVER_TYPE_HARDWARE, 
+	//Create a device, device context, then a swap chain using the scd struct
+	HRESULT hr = D3D11CreateDevice(
+		NULL,
+		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
 #ifdef _DEBUG
 		D3D11_CREATE_DEVICE_DEBUG,
@@ -191,35 +201,34 @@ bool D3D11DisplayManager::CreateScreen()
 		NULL,
 		NULL,
 		D3D11_SDK_VERSION,
-		&scd,
-		&m_pkSwapchain,
 		&m_pkDevice,
 		NULL,
 		&m_pkContext);
 
-	if(FAILED(hr))
-	{
-		_com_error err(hr);
-		LPCTSTR errMsg = err.ErrorMessage();
 
-		std::wstring szwTemp(errMsg);
-		std::string szTemp(szwTemp.begin(), szwTemp.end());
+	IDXGIDevice1 * pDXGIDevice;
+	hr = m_pkDevice->QueryInterface(__uuidof(IDXGIDevice1), (void **)&pDXGIDevice);
 
-		std::cout<<"Error creating device: "<<szTemp<<std::endl;
-	}
+	IDXGIAdapter1 * pDXGIAdapter;
+	hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter1), (void **)&pDXGIAdapter);
 
-	SDL_ShowCursor(0); //Hide cursor
+	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory2), (void **)&m_pkDXGIFactory);
 
-	m_iDefaultTexture = LoadTexture("Resources/Textures/System/Error.png");
+	hr = m_pkDXGIFactory->CreateSwapChainForCoreWindow(
+		m_pkDevice,
+		kInfo.info.winrt.window,
+		&scd,
+		nullptr,
+		&m_pkSwapchain);
+
+	SDL_ShowCursor(1); //Ensure cursor will display
 
 	//Block for detecting videocard info;
 
 	ZeroMemory(&hr, sizeof(HRESULT));
 
-	IDXGIDevice1 * pDXGIDevice;
 	hr = m_pkDevice->QueryInterface(__uuidof(IDXGIDevice1), (void **)&pDXGIDevice);
-      
-	IDXGIAdapter1 * pDXGIAdapter;
+
 	hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter1), (void **)&pDXGIAdapter);
 
 	DXGI_ADAPTER_DESC1 kAdapterDescription;
@@ -229,19 +238,19 @@ bool D3D11DisplayManager::CreateScreen()
 	std::wstring wszDescription = std::wstring(kAdapterDescription.Description);
 	std::string szDescription = std::string(wszDescription.begin(), wszDescription.end());
 
-	std::cout<<"Window created, D3D Context: "<<std::endl
-		<<"Description: "<<szDescription<<std::endl
-		<<"VRAM: "<<kAdapterDescription.DedicatedVideoMemory / 1048576<<std::endl //divide by this number to change from bytes to megabytes
-		<<"Revision: "<<kAdapterDescription.Revision<<std::endl
-		<<"Vendor ID: "<<kAdapterDescription.VendorId<<std::endl
-		<<"Device ID: "<<kAdapterDescription.DeviceId<<std::endl;
+	std::cout << "Window created, D3D Context: " << std::endl
+		<< "Description: " << szDescription << std::endl
+		<< "VRAM: " << kAdapterDescription.DedicatedVideoMemory / 1048576 << std::endl //divide by this number to change from bytes to megabytes
+		<< "Revision: " << kAdapterDescription.Revision << std::endl
+		<< "Vendor ID: " << kAdapterDescription.VendorId << std::endl
+		<< "Device ID: " << kAdapterDescription.DeviceId << std::endl;
 
 	pDXGIAdapter->Release();
 	pDXGIDevice->Release();
 	//End of videocard info block
 
 	//Bind backbuffer to swapchain
-	
+
 	//get the address of the back buffer
 	ID3D11Texture2D* pBackBuffer;
 	m_pkSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
@@ -271,7 +280,7 @@ bool D3D11DisplayManager::CreateScreen()
 
 	//Clear the back buffer to prepare for first frame.
 	//Set the clear colour array
-	m_afTempClearColour[0] = 0.0f;m_afTempClearColour[1] = 0.0f;m_afTempClearColour[2] = 0.0f;m_afTempClearColour[3] = 1.0f;  //R,G,B,A
+	m_afTempClearColour[0] = 0.0f; m_afTempClearColour[1] = 0.0f; m_afTempClearColour[2] = 0.0f; m_afTempClearColour[3] = 0.0f;  //R,G,B,A
 
 	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, m_afTempClearColour);
 
@@ -287,8 +296,8 @@ bool D3D11DisplayManager::CreateScreen()
 	m_pkDevice->CreateBuffer(&bd, NULL, &m_pkVertexBuffer); //Create the buffer
 
 	//Finished with buffer, load default shader.
-
 	LoadShaderProgram("Resources/Shaders/System/D3DShaders.shader", "Resources/Shaders/System/D3DShaders.shader");
+	
 
 	//Create sampler state, we'll use this for all textures for now.
 	D3D11_SAMPLER_DESC sampDesc;
@@ -405,7 +414,7 @@ int D3D11DisplayManager::LoadTexture(std::string a_sName)
 	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
 
 	//Bind the texture name that was created.
-	ID3D11ShaderResourceView* m_pkTexture;
+	ID3D11ShaderResourceView* m_pkTexture = nullptr;
 
 	if( SUCCEEDED(hr) && pkTex != 0)
 	{
@@ -473,7 +482,7 @@ int D3D11DisplayManager::LoadTextureSDLSurface(SDL_Surface* a_pkSurface)
 	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
 
 	//Bind the texture name that was created.
-	ID3D11ShaderResourceView* m_pkTexture;
+	ID3D11ShaderResourceView* m_pkTexture = nullptr;
 
 	if( SUCCEEDED(hr) && pkTex != 0)
 	{
@@ -618,14 +627,14 @@ bool D3D11DisplayManager::Update(float a_fDeltaTime)
     //TODO
 
 	//Show the frame.
-	m_pkSwapchain->Present(0,0);
+	m_pkSwapchain->Present(0, 0);
+
+	//set the render target as the back buffer
+	m_pkContext->OMSetRenderTargets(1, &m_pkBackBuffer, NULL);
 
 	//Clear the back buffer for the next frame.
 	
 	m_pkContext->ClearRenderTargetView(m_pkBackBuffer, m_afTempClearColour);
-
-    //Delay a little bit in order to give cpu a break.
-    SDL_Delay(1);
     return true;
 }
 

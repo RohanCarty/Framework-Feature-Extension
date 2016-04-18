@@ -1,4 +1,5 @@
 ﻿#ifndef __arm__
+#ifndef __UWP__
 
 #include "OpenGLDisplayManager.h"
 #include "Vector.h"
@@ -654,4 +655,6 @@ bool OpenGLDisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_p
 
     return true;
 }
+
+#endif //__UWP__
 #endif //__arm__

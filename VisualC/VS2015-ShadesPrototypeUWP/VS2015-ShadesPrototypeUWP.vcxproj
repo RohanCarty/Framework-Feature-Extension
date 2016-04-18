@@ -104,22 +104,22 @@
     <PackageCertificateKeyFile>VS2015-ShadesPrototypeUWP_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>D:\Code\gitRepos\shadesprototype\VisualC\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
@@ -132,7 +132,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -147,7 +147,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -162,7 +162,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -177,7 +177,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -192,7 +192,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -207,7 +207,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -225,16 +225,153 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="..\..\Resources.pak">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
+    <None Include="..\..\Sounds.pak">
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</DeploymentContent>
+      <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </None>
     <None Include="VS2015-ShadesPrototypeUWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VS2015-Build Dependencies\SDL2\VisualC-WinRT\UWP_VS2015\SDL-UWP.vcxproj">
       <Project>{89e9b32e-a86a-47c3-a948-d2b1622925ce}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_image-2.0.0\VisualC-WinRT\UWP_VS2015\libpng-UWP.vcxproj">
+      <Project>{5fbdc49a-7939-40f9-b78e-975f190adbd3}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_image-2.0.0\VisualC-WinRT\UWP_VS2015\SDL_image-UWP.vcxproj">
+      <Project>{29b4d11f-59f3-4ebc-a769-3babd140db9a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_image-2.0.0\VisualC-WinRT\UWP_VS2015\zlib-UWP.vcxproj">
+      <Project>{acea4101-6f4a-44ed-9ec1-289821dac711}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\VisualC-WinRT\UWP_VS2015\libogg_dynamic-UWP.vcxproj">
+      <Project>{b14f8b7f-c9ff-4fd3-b328-7c68ab801e85}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\VisualC-WinRT\UWP_VS2015\libvorbisfile_dynamic-UWP.vcxproj">
+      <Project>{70ef3b8f-6aaf-401b-9818-3371e950e73c}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\VisualC-WinRT\UWP_VS2015\libvorbis_dynamic-UWP.vcxproj">
+      <Project>{6b6c1f59-6a82-4097-8907-04df5c95d014}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\VisualC-WinRT\UWP_VS2015\SDL_mixer-UWP.vcxproj">
+      <Project>{18665277-e558-4484-93f4-e4dc7bb614cb}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\VisualC-WinRT\UWP_VS2015\SDL_ttf-UWP.vcxproj">
+      <Project>{90ca40dc-84b4-4d06-91d1-dc82a7a1e4d0}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\Actor.cpp" />
+    <ClCompile Include="..\..\src\AnimatedTexture.cpp" />
+    <ClCompile Include="..\..\src\Building.cpp" />
+    <ClCompile Include="..\..\src\Button.cpp" />
+    <ClCompile Include="..\..\src\Camera.cpp" />
+    <ClCompile Include="..\..\src\CollectibleSoul.cpp" />
+    <ClCompile Include="..\..\src\Cursor.cpp" />
+    <ClCompile Include="..\..\src\D3D11DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\FloatingText.cpp" />
+    <ClCompile Include="..\..\src\GameInfo.cpp" />
+    <ClCompile Include="..\..\src\GameScene.cpp" />
+    <ClCompile Include="..\..\src\HUD.cpp" />
+    <ClCompile Include="..\..\src\InputManager.cpp" />
+    <ClCompile Include="..\..\src\InputManagerSDL.cpp" />
+    <ClCompile Include="..\..\src\main.cpp" />
+    <ClCompile Include="..\..\src\MainMenuScene.cpp" />
+    <ClCompile Include="..\..\src\Matrix.cpp" />
+    <ClCompile Include="..\..\src\Mesh.cpp" />
+    <ClCompile Include="..\..\src\NetworkManager.cpp" />
+    <ClCompile Include="..\..\src\Object.cpp" />
+    <ClCompile Include="..\..\src\ObjectManager.cpp" />
+    <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\OpenGLDisplayManager.cpp" />
+    <ClCompile Include="..\..\src\OpenGLES2DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\PackManager.cpp" />
+    <ClCompile Include="..\..\src\Particle.cpp" />
+    <ClCompile Include="..\..\src\ParticleManager.cpp" />
+    <ClCompile Include="..\..\src\Player.cpp" />
+    <ClCompile Include="..\..\src\Projectile.cpp" />
+    <ClCompile Include="..\..\src\Resource.cpp" />
+    <ClCompile Include="..\..\src\Scene.cpp" />
+    <ClCompile Include="..\..\src\SceneManager.cpp" />
+    <ClCompile Include="..\..\src\SoundManager.cpp" />
+    <ClCompile Include="..\..\src\StartScreen.cpp" />
+    <ClCompile Include="..\..\src\TextLibrary.cpp" />
+    <ClCompile Include="..\..\src\TextLibrarySDL.cpp" />
+    <ClCompile Include="..\..\src\Texture.cpp" />
+    <ClCompile Include="..\..\src\Tile.cpp" />
+    <ClCompile Include="..\..\src\TileManager.cpp" />
+    <ClCompile Include="..\..\src\tinyxml2.cpp" />
+    <ClCompile Include="..\..\src\UIElement.cpp" />
+    <ClCompile Include="..\..\src\Unit.cpp" />
+    <ClCompile Include="..\..\src\UnitManager.cpp" />
+    <ClCompile Include="..\..\src\Vector.cpp" />
+    <ClCompile Include="..\..\src\Vertex.cpp" />
     <ClCompile Include="..\VS2015-Build Dependencies\SDL2\src\main\winrt\SDL_winrt_main_NonXAML.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="WinRTMainSDL2.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\Actor.h" />
+    <ClInclude Include="..\..\include\AnimatedTexture.h" />
+    <ClInclude Include="..\..\include\Building.h" />
+    <ClInclude Include="..\..\include\Button.h" />
+    <ClInclude Include="..\..\include\Camera.h" />
+    <ClInclude Include="..\..\include\CollectibleSoul.h" />
+    <ClInclude Include="..\..\include\Cursor.h" />
+    <ClInclude Include="..\..\include\D3D11DisplayManager.h" />
+    <ClInclude Include="..\..\include\DisplayManager.h" />
+    <ClInclude Include="..\..\include\FloatingText.h" />
+    <ClInclude Include="..\..\include\GameInfo.h" />
+    <ClInclude Include="..\..\include\GameScene.h" />
+    <ClInclude Include="..\..\include\HUD.h" />
+    <ClInclude Include="..\..\include\InputManager.h" />
+    <ClInclude Include="..\..\include\InputManagerSDL.h" />
+    <ClInclude Include="..\..\include\MainMenuScene.h" />
+    <ClInclude Include="..\..\include\Matrix.h" />
+    <ClInclude Include="..\..\include\Mesh.h" />
+    <ClInclude Include="..\..\include\msvcunistd.h" />
+    <ClInclude Include="..\..\include\networkmanager.h" />
+    <ClInclude Include="..\..\include\Object.h" />
+    <ClInclude Include="..\..\include\ObjectManager.h" />
+    <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />
+    <ClInclude Include="..\..\include\OpenGLDisplayManager.h" />
+    <ClInclude Include="..\..\include\OpenGLES2DisplayManager.h" />
+    <ClInclude Include="..\..\include\PackManager.h" />
+    <ClInclude Include="..\..\include\Particle.h" />
+    <ClInclude Include="..\..\include\ParticleManager.h" />
+    <ClInclude Include="..\..\include\PerformanceTimer.h" />
+    <ClInclude Include="..\..\include\Player.h" />
+    <ClInclude Include="..\..\include\Projectile.h" />
+    <ClInclude Include="..\..\include\Resource.h" />
+    <ClInclude Include="..\..\include\Scene.h" />
+    <ClInclude Include="..\..\include\SceneManager.h" />
+    <ClInclude Include="..\..\include\SoundManager.h" />
+    <ClInclude Include="..\..\include\StartScreen.h" />
+    <ClInclude Include="..\..\include\TextLibrary.h" />
+    <ClInclude Include="..\..\include\TextLibrarySDL.h" />
+    <ClInclude Include="..\..\include\Texture.h" />
+    <ClInclude Include="..\..\include\Tile.h" />
+    <ClInclude Include="..\..\include\TileManager.h" />
+    <ClInclude Include="..\..\include\tinyxml2.h" />
+    <ClInclude Include="..\..\include\UIElement.h" />
+    <ClInclude Include="..\..\include\Unit.h" />
+    <ClInclude Include="..\..\include\UnitManager.h" />
+    <ClInclude Include="..\..\include\Vector.h" />
+    <ClInclude Include="..\..\include\Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

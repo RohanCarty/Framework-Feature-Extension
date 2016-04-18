@@ -17,7 +17,6 @@
 #ifdef __APPLE__
 #include <SDL2_net/SDL_net.h>
 #else
-#include "SDL_net.h"
 #endif
 
 #include <string>
@@ -30,9 +29,9 @@
 //Struct that contains all the info needed for a connection
 struct stConnectionInfo
 {
-	IPaddress m_kNetworkAddress;
+	/*IPaddress m_kNetworkAddress;
     TCPsocket m_kClientSocket;
-    SDLNet_SocketSet m_kSocketSet;
+    SDLNet_SocketSet m_kSocketSet;*/
     int m_iGameStep;
 };
 
@@ -96,8 +95,8 @@ public:
 private:
     std::vector<stConnectionInfo> m_astConnections;
     std::vector<stCommandPacket> m_astCommands;
-	TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
-	IPaddress ip, *remoteIP;
+	//TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
+	//IPaddress ip, *remoteIP;
 	float buffer[2048];
     unsigned int m_iGameStep;
     unsigned int m_iLastGameStep;

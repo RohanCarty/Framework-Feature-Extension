@@ -82,7 +82,13 @@ Particle* ParticleManager::SpawnFloatingText(Vector a_vDestination, int a_iNumbe
 
 	char acTempString[256];
 
-	sprintf(acTempString,"%d", (int) a_iNumberToDisplay);
+	#ifdef _WIN32
+		sprintf_s(acTempString,256 , "%d", (int)a_iNumberToDisplay);
+	#else
+		sprintf(acTempString, "%d", (int)a_iNumberToDisplay);
+	#endif //_WIN32
+
+	
 
 	((FloatingText*)m_apkParticles[m_apkParticles.size() - 1])->SetText(acTempString);
 

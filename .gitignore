@@ -1,0 +1,12 @@
+$ cat .gitignore
+# exclude compilation crap
+*.sdf
+*.obj
+*.tlog
+*.lastbuildstate
+*.idb
+*.pdb
+*.log
+*.ilk
+*/Objs/*
+*.suo
