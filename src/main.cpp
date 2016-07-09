@@ -1,4 +1,3 @@
-#ifndef __UWP__
 //Dem debug things
 #ifdef _WIN32
 	#ifdef _DEBUG
@@ -72,4 +71,3 @@ int main (int argc, char *argv[])
 
     return 0;
 }
-#endif //__UWP__

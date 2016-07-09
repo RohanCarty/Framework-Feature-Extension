@@ -187,7 +187,6 @@
     <ClCompile Include="..\..\src\ObjectManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="WinRTMainSDL2.cpp" />
     <ClCompile Include="..\..\src\NetworkManager.cpp">
       <Filter>Src</Filter>
     </ClCompile>

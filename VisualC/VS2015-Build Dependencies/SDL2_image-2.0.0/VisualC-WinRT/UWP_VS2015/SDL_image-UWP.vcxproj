@@ -171,7 +171,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -184,7 +184,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -197,7 +197,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -210,7 +210,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -223,7 +223,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -236,7 +236,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\sdl2\SDL\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\..\sdl2\include;..\..\external\libpng-1.6.2;..\..\external\jpeg-9;..\..\external\libwebp-0.3.0\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;LOAD_BMP;LOAD_PNG;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

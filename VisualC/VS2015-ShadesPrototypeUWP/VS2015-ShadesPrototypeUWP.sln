@@ -24,6 +24,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "freetype-WinRT81", "..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\VisualC-WinRT\UWP_VS2015\freetype-UWP.vcxproj", "{1264471F-847F-427D-8DB6-B733F188FFB9}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL2_ttf-UWP", "..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\VisualC-WinRT\UWP_VS2015\SDL_ttf-UWP.vcxproj", "{90CA40DC-84B4-4D06-91D1-DC82A7A1E4D0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{89E9B32E-A86A-47C3-A948-D2B1622925CE} = {89E9B32E-A86A-47C3-A948-D2B1622925CE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

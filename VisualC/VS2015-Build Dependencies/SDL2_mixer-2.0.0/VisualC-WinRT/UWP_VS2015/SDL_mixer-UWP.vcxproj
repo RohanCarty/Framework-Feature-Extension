@@ -227,7 +227,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -240,7 +240,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -253,7 +253,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -266,7 +266,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -279,7 +279,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -292,7 +292,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <CompileAsWinRT>false</CompileAsWinRT>
-      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\timidity;..\..\external\libogg-1.3.1\include;..\..\external\libvorbis-1.3.3\include;..\..\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>getenv=SDL_getenv;MID_MUSIC;USE_TIMIDITY_MIDI;WAV_MUSIC;OGG_MUSIC;OGG_DYNAMIC="libvorbisfile.dll";_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
