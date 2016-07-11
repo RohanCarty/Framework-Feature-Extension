@@ -1,57 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Assets">
-      <UniqueIdentifier>55663547-04d8-45c9-b405-e615b7db958c</UniqueIdentifier>
-      <Extensions>bmp;fbx;gif;jpg;jpeg;tga;tiff;tif;png;pak</Extensions>
-    </Filter>
-    <Image Include="Assets\LockScreenLogo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SplashScreen.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square150x150Logo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square44x44Logo.scale-200.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Filter Include="Include">
-      <UniqueIdentifier>{61aa7717-485f-4e31-8bac-f0d66d1f494b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Src">
-      <UniqueIdentifier>{1d8e381a-a802-4823-a267-69336d4ad4bf}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\StoreLogo.png">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\SplashScreen.jpg">
-      <Filter>Assets</Filter>
-    </Image>
-    <Image Include="Assets\Wide310x150Logo.scale-200.jpg">
-      <Filter>Assets</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="VS2015-ShadesPrototypeUWP_TemporaryKey.pfx" />
-    <None Include="..\..\Resources.pak">
-      <Filter>Assets</Filter>
-    </None>
-    <None Include="..\..\Sounds.pak">
-      <Filter>Assets</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\VS2015-Build Dependencies\SDL2\src\main\winrt\SDL_winrt_main_NonXAML.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -300,5 +249,37 @@
     <ClInclude Include="..\..\include\Texture.h">
       <Filter>Include\Display</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{356c91c7-9495-4fdc-9dcf-5e4d529a2ebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include">
+      <UniqueIdentifier>{bfce2e48-9551-45e8-ba96-babfdab475c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Actors">
+      <UniqueIdentifier>{69d24d65-d756-4ff4-82ea-4184e444b7b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Display">
+      <UniqueIdentifier>{2df4e558-9b9e-4c98-8460-5a186a285621}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Actors">
+      <UniqueIdentifier>{df7a0d4c-4400-4a17-a3d2-42b9fe1cf10e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Display">
+      <UniqueIdentifier>{6cfd32bc-2951-463b-b2d2-61ff4aaa50e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{8afc9057-c839-4d9d-9b5d-4d86e44e336c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\UI">
+      <UniqueIdentifier>{b195a0a3-fcd7-4686-bdb1-9e76b845b950}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Resources">
+      <UniqueIdentifier>{ec6fcf2f-199c-4ae3-aca9-279464324215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include\Resources">
+      <UniqueIdentifier>{b3a8358d-4eb3-49ea-892a-bf0645aa7a48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
