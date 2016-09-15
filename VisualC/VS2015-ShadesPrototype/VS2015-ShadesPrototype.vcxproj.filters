@@ -46,9 +46,6 @@
     <ClCompile Include="..\..\src\tinyxml2.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\UIElement.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\Unit.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -124,6 +121,15 @@
     <ClCompile Include="..\..\src\PackManager.cpp">
       <Filter>Source\Resources</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\UIElement.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\Player.cpp">
+      <Filter>Source\Actors</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\CollectibleSoul.cpp">
+      <Filter>Source\Actors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -169,9 +175,6 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\tinyxml2.h">
-      <Filter>Include</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\UIElement.h">
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\Unit.h">
@@ -248,6 +251,15 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Texture.h">
       <Filter>Include\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\UIElement.h">
+      <Filter>Include\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\CollectibleSoul.h">
+      <Filter>Include\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\Player.h">
+      <Filter>Include\Actors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

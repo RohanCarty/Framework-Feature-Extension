@@ -74,32 +74,11 @@ bool Player::Update(float a_fDeltaTime)
     std::cout<<"Actor Tick: "<<this<<std::endl;
     #endif
 
-	//Hack to allow changing of abilities.
-	if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadLeft)
+	//Escape for if there are no controllers connected.
+	if (m_iControllerNumberBoundTo == -1)
 	{
-		m_iSpecial1Ability++;
-		if(m_iSpecial1Ability != eHeal && m_iSpecial1Ability != eHealParty && m_iSpecial1Ability != eBurst && m_iSpecial1Ability != eRevive)
-		{
-			m_iSpecial1Ability = eHeal;
-		}
-		((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
-
-		stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
-		stTemp.bDPadLeft = false;
-		SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
-	}
-	else if(SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadRight)
-	{
-		m_iSpecial2Ability++;
-		if(m_iSpecial2Ability != eHeal && m_iSpecial2Ability != eHealParty && m_iSpecial2Ability != eBurst && m_iSpecial2Ability != eRevive)
-		{
-			m_iSpecial2Ability = eHeal;
-		}
-		((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
-		
-		stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
-		stTemp.bDPadRight = false;
-		SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo,stTemp);
+		std::cout << "No Controller" << std::endl;
+		return false;
 	}
 
 	//Updating status of abilities
@@ -112,7 +91,7 @@ bool Player::Update(float a_fDeltaTime)
 		SetVelocity(0,0,0);
 
 		//If using ability, check if button has been released.
-		/*if(m_iAbilityBeingCast == m_iSpecial1Ability)
+		if(m_iAbilityBeingCast == m_iSpecial1Ability)
 		{
 			if(!SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bSpecial1Pressed)
 			{
@@ -126,7 +105,7 @@ bool Player::Update(float a_fDeltaTime)
 			{
 				StopCastingAbility();
 			}
-		}*/
+		}
 	}
 
 	//Testing progress bar and showing attack cooldowns while there is still no matching animation.
@@ -174,11 +153,33 @@ bool Player::Update(float a_fDeltaTime)
 	if(!m_bControlsLocked)
 	{
 		//TODO: Remove this
-		//Escape for if there are no controllers connected.
-		if(m_iControllerNumberBoundTo == -1)
+
+		//Hack to allow changing of abilities.
+		if (SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadLeft)
 		{
-			std::cout<<"No Controller"<<std::endl;
-			return true;
+			m_iSpecial1Ability++;
+			if (m_iSpecial1Ability != eHeal && m_iSpecial1Ability != eHealParty && m_iSpecial1Ability != eBurst && m_iSpecial1Ability != eRevive)
+			{
+				m_iSpecial1Ability = eHeal;
+			}
+			((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
+
+			stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+			stTemp.bDPadLeft = false;
+			SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo, stTemp);
+		}
+		else if (SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo).bDPadRight)
+		{
+			m_iSpecial2Ability++;
+			if (m_iSpecial2Ability != eHeal && m_iSpecial2Ability != eHealParty && m_iSpecial2Ability != eBurst && m_iSpecial2Ability != eRevive)
+			{
+				m_iSpecial2Ability = eHeal;
+			}
+			((GameScene*)m_pkScene)->GetHUD()->PopulatePlayerInfos();
+
+			stGameControllerDetails stTemp = SceneManager::GetInputManager()->GetControllerState(m_iControllerNumberBoundTo);
+			stTemp.bDPadRight = false;
+			SceneManager::GetInputManager()->SetControllerState(m_iControllerNumberBoundTo, stTemp);
 		}
 
 		//Jump detection

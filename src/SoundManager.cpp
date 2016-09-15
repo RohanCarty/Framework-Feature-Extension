@@ -55,7 +55,7 @@ SoundManager::SoundManager()
 		 std::cerr<<"Failed to create pkMusic pointer: "<<Mix_GetError()<<std::endl;
 	}
 
-	if(Mix_FadeInMusic(pkMusic, -1, 1) == -1)
+	if(Mix_PlayMusic(pkMusic, -1) == -1)
 	{
 		std::cerr<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
 	}

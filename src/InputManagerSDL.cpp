@@ -22,10 +22,12 @@ InputManagerSDL::InputManagerSDL()
 
 	//Setup the joystick subsystem for SDL2
 
-	if(SDL_InitSubSystem(SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC) != 0)
+	if(SDL_InitSubSystem(SDL_INIT_JOYSTICK) != 0)
 	{
 		std::cout<<"Joystick/Game Controller/Haptic init failure: "<<SDL_GetError()<<std::endl;
 	}
+
+	m_uiCurrentNumOfJoysticks = SDL_NumJoysticks();
 
 	m_iJoystickDeadzone = 8000;
 
@@ -42,8 +44,6 @@ InputManagerSDL::InputManagerSDL()
 			AddGameController(iDx);
 		}
 	}
-
-	m_uiCurrentNumOfJoysticks = SDL_NumJoysticks();
 
 	ClearControllerStates();
 
@@ -297,7 +297,16 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 	}
 	
 	//Keyboard control stuff
-	if(GetIsKeyDown(SDL_SCANCODE_SPACE))
+	if(GetIsKeyDown(SDL_SCANCODE_W))
+	{
+		m_apkJoysticks[0].bJumpPressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bJumpPressed = 0;
+	}
+
+	if (GetIsKeyDown(SDL_SCANCODE_SPACE))
 	{
 		m_apkJoysticks[0].bAttackPressed = 1;
 	}
@@ -331,6 +340,7 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 	{
 		m_apkJoysticks[0].fAxis1Y = 0;
 	}
+
 	return true;
 }
 

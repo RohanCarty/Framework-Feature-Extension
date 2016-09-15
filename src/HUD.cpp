@@ -10,6 +10,8 @@
 #include "Texture.h"
 #include "GameInfo.h"
 #include "UIElement.h"
+#include "UnitManager.h"
+#include "Player.h"
 
 #include <cstdlib>
 #include <cstdio>
@@ -86,7 +88,7 @@ bool HUD::Update(float a_fDeltaTime)
     m_pkTextLibrary->PrintHUDString(sTest, 0, 0, iFontSize);
 
     //Print the details of the players included in the game.
-	/*for(unsigned int uiDx = 0; uiDx < m_astPlayerInfos.size(); uiDx++)
+	for(unsigned int uiDx = 0; uiDx < m_astPlayerInfos.size(); uiDx++)
 	{
 		//Display all the icons for the hud
 		SetPositionOfPlayerInfoObjects(uiDx, Vector((uiDx) * 384 + 200, SceneManager::GetDisplayManager()->GetYScreenResolution() - 100,0));
@@ -102,7 +104,7 @@ bool HUD::Update(float a_fDeltaTime)
 		//Print Gamertag //TODO: Implement, for now just a test string.
 
 		m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
-	}*/
+	}
 
     return true;
 }
@@ -185,6 +187,30 @@ void HUD::PopulatePlayerInfos()
 		stTempInfo.pkBackgroundObject = new UIElement(m_pkScene);
 		stTempInfo.pkBackgroundObject->SetSize(Vector(300,200,0));
 		stTempInfo.pkBackgroundObject->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HudBackground.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkAbilityIcon1 = new UIElement(m_pkScene);
+		stTempInfo.pkAbilityIcon1->SetSize(Vector(64, 64, 0));
+		stTempInfo.pkAbilityIcon1->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->m_iSpecial1Ability), SceneManager::GetDisplayManager());
+
+		stTempInfo.pkYButton = new UIElement(m_pkScene);
+		stTempInfo.pkYButton->SetSize(Vector(24, 24, 0));
+		stTempInfo.pkYButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/YButton.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkAbilityIcon2 = new UIElement(m_pkScene);
+		stTempInfo.pkAbilityIcon2->SetSize(Vector(64, 64, 0));
+		stTempInfo.pkAbilityIcon2->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->m_iSpecial2Ability), SceneManager::GetDisplayManager());
+
+		stTempInfo.pkBButton = new UIElement(m_pkScene);
+		stTempInfo.pkBButton->SetSize(Vector(24, 24, 0));
+		stTempInfo.pkBButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/BButton.png", SceneManager::GetDisplayManager());
+
+		stTempInfo.pkReviveIcon = new UIElement(m_pkScene);
+		stTempInfo.pkReviveIcon->SetSize(Vector(64, 64, 0));
+		stTempInfo.pkReviveIcon->GetRenderables()[0].m_pkTexture->LoadTexture(SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetResourceStringOfAbility(eRevive), SceneManager::GetDisplayManager());
+
+		stTempInfo.pkViewButton = new UIElement(m_pkScene);
+		stTempInfo.pkViewButton->SetSize(Vector(24, 24, 0));
+		stTempInfo.pkViewButton->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/ViewButton.png", SceneManager::GetDisplayManager());
 
 		m_astPlayerInfos.push_back(stTempInfo);
 	}

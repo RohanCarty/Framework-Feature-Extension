@@ -29,6 +29,10 @@
 
 D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager(argc, argv)
 {
+#ifndef __UWP__
+}
+#endif //#ifndef __UWP__
+#ifdef __UWP__
     //TODO
     std::cout<<"D3D11DisplayManager Created."<<std::endl;
 
@@ -824,4 +828,5 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 	return true;
 }
 
+#endif //ifdef _UWP_
 #endif //ifdef _WIN32
