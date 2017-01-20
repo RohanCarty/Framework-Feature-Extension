@@ -228,6 +228,7 @@ void HUD::PopulatePlayerInfos()
 
 		//temp way of getting name (will read from an options file and will use these functions to generate default names)
 #ifdef _WIN32
+#ifndef __UWP__
 		wchar_t* cpGamerTag;
 
 		cpGamerTag = new wchar_t[UNLEN + 1];
@@ -240,15 +241,15 @@ void HUD::PopulatePlayerInfos()
 		std::wstring ws(cpGamerTag);
 
 		stTempInfo.szGamertag = std::string(ws.begin(), ws.end());
+		delete cpGamerTag;
+#endif //#ifndef __UWP__
 #else
 		char* cpGamerTag = new char[256];
 		int namelen = 0;
 		getlogin_r(cpGamerTag, &namelen);
 		stTempInfo.szGamertag = std::string(cpGamerTag);
-#endif //#ifdef _WIN32
-		
-
 		delete cpGamerTag;
+#endif //#ifdef _WIN32
 
 		stTempInfo.pkBackgroundObject = new UIElement(m_pkScene);
 		stTempInfo.pkBackgroundObject->SetSize(Vector(300,200,0));

@@ -153,8 +153,13 @@ bool D3D11DisplayManager::CreateScreen()
 		exit(1);
 	}
 
+#ifdef __UWP__
+	m_iXResolution = 1920;
+	m_iYResolution = 1080;
+#else
 	m_iXResolution = 1280;
 	m_iYResolution = 720;
+#endif //#ifdef __UWP__
 
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather Engine 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		m_iXResolution, m_iYResolution, SDL_WINDOW_SHOWN);
