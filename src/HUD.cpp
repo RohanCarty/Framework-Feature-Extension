@@ -13,6 +13,13 @@
 #include "UnitManager.h"
 #include "Player.h"
 
+#ifdef _WIN32
+#include <msvcunistd.h>>
+#include <Lmcons.h>
+#else
+#include <unistd.h>
+#endif //#ifdef _WIN32
+
 #include <cstdlib>
 #include <cstdio>
 
@@ -33,8 +40,6 @@ HUD::HUD(Scene* a_pkScene)
 	m_pkProgressBarBacking->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/White.png", SceneManager::GetDisplayManager());
 
 	m_pkProgressBar->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/Red.png", SceneManager::GetDisplayManager());
-
-	//TODO: Displaying bars for health along with numbers.
 }
 
 HUD::~HUD()
@@ -43,7 +48,7 @@ HUD::~HUD()
 
 	while(m_astPlayerInfos.size() > 0)
 	{
-		/*delete m_astPlayerInfos.back().pkBackgroundObject;
+		delete m_astPlayerInfos.back().pkBackgroundObject;
 		delete m_astPlayerInfos.back().pkAbilityIcon1;
 		delete m_astPlayerInfos.back().pkYButton;
 		delete m_astPlayerInfos.back().pkAbilityIcon2;
@@ -51,7 +56,7 @@ HUD::~HUD()
 		delete m_astPlayerInfos.back().pkReviveIcon;
 		delete m_astPlayerInfos.back().pkViewButton;
 
-		m_astPlayerInfos.pop_back();*/
+		m_astPlayerInfos.pop_back();
 	}
 
 	delete m_pkProgressBar;
@@ -87,6 +92,22 @@ bool HUD::Update(float a_fDeltaTime)
     
     m_pkTextLibrary->PrintHUDString(sTest, 0, 0, iFontSize);
 
+	//Print Haunting Level
+	sprintf(m_cpTempString, "%d", ((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingLevel());
+
+	sTest = "Haunting Level: ";
+	sTest = sTest + m_cpTempString; //what the fuck LLVM?
+
+	m_pkTextLibrary->PrintHUDString(sTest, SceneManager::GetDisplayManager()->GetXScreenResolution() - (iFontSize * 10), 0, iFontSize);
+
+	//Print time until increase of Haunting Level
+	sprintf(m_cpTempString, "%d", (int)((GameScene*)SceneManager::GetCurrentScene())->GetGameInfo()->GetHauntingIncreaseCooldown());
+
+	sTest = "Next Level In: ";
+	sTest = sTest + m_cpTempString; //what the fuck LLVM?
+
+	m_pkTextLibrary->PrintHUDString(sTest, SceneManager::GetDisplayManager()->GetXScreenResolution() - (iFontSize * 10), iFontSize * 2, iFontSize);
+
     //Print the details of the players included in the game.
 	for(unsigned int uiDx = 0; uiDx < m_astPlayerInfos.size(); uiDx++)
 	{
@@ -104,6 +125,26 @@ bool HUD::Update(float a_fDeltaTime)
 		//Print Gamertag //TODO: Implement, for now just a test string.
 
 		m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
+
+		//Print current health
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth());
+		sTest = m_cpTempString;
+		sTest = "Health: " + sTest;
+
+		Vector vTempPosition((uiDx) * 384 + 272,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 + 12 - 100,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth() / 100.0f);
+
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 2 - 100, iFontSize);
+
+		//Print current soul power.
+		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel());
+		sTest = m_cpTempString;
+		sTest = "Power: " + sTest;
+
+		vTempPosition =  Vector((uiDx) * 384 + 272,SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 + 12 - 100,0);
+		((GameScene*)m_pkScene)->m_pkHUD->DrawHUDProgressBar(vTempPosition,Vector(96,16,0), (float)SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetCurrentSoulPowerLevel() / 100.0f);
+
+		m_pkTextLibrary->PrintHUDString(sTest, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 1 - 100, iFontSize);
 	}
 
     return true;
@@ -184,6 +225,31 @@ void HUD::PopulatePlayerInfos()
 		stPlayerInfo stTempInfo;
 
 		stTempInfo.szGamertag = "Gamertag";
+
+		//temp way of getting name (will read from an options file and will use these functions to generate default names)
+#ifdef _WIN32
+		wchar_t* cpGamerTag;
+
+		cpGamerTag = new wchar_t[UNLEN + 1];
+
+		DWORD username_len = UNLEN + 1;
+		int temp = GetUserName(cpGamerTag, &username_len);
+
+		std::cout << "GetUserName result: " << temp << std::endl;
+
+		std::wstring ws(cpGamerTag);
+
+		stTempInfo.szGamertag = std::string(ws.begin(), ws.end());
+#else
+		char* cpGamerTag = new char[256];
+		int namelen = 0;
+		getlogin_r(cpGamerTag, &namelen);
+		stTempInfo.szGamertag = std::string(cpGamerTag);
+#endif //#ifdef _WIN32
+		
+
+		delete cpGamerTag;
+
 		stTempInfo.pkBackgroundObject = new UIElement(m_pkScene);
 		stTempInfo.pkBackgroundObject->SetSize(Vector(300,200,0));
 		stTempInfo.pkBackgroundObject->GetRenderables()[0].m_pkTexture->LoadTexture("Resources/Textures/AbilityIcons/HudBackground.png", SceneManager::GetDisplayManager());

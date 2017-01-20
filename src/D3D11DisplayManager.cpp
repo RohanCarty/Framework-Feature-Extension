@@ -29,10 +29,6 @@
 
 D3D11DisplayManager::D3D11DisplayManager(int argc, char **argv) : DisplayManager(argc, argv)
 {
-#ifndef __UWP__
-}
-#endif //#ifndef __UWP__
-#ifdef __UWP__
     //TODO
     std::cout<<"D3D11DisplayManager Created."<<std::endl;
 
@@ -157,8 +153,8 @@ bool D3D11DisplayManager::CreateScreen()
 		exit(1);
 	}
 
-	m_iXResolution = 1920;
-	m_iYResolution = 1080;
+	m_iXResolution = 1280;
+	m_iYResolution = 720;
 
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather Engine 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		m_iXResolution, m_iYResolution, SDL_WINDOW_SHOWN);
@@ -188,8 +184,13 @@ bool D3D11DisplayManager::CreateScreen()
 	scd.Stereo = false;										//3D - no please
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;		//How swap chain is to be used
 	scd.SampleDesc.Count = 1;								//How many multisamples				<== MSAA
+	scd.SampleDesc.Quality = 0;								//Quality of the multisamples
 	scd.AlphaMode = DXGI_ALPHA_MODE_IGNORE;				//Set Alpha mode;
+#ifdef __UWP__
 	scd.Scaling = DXGI_SCALING_ASPECT_RATIO_STRETCH;		//Set scaling mode;
+#else
+	scd.Scaling = DXGI_SCALING_STRETCH;		//Set scaling mode; (Aspect ratio scaling won't work on non core-window instances
+#endif //#ifndef __UWP__
 	scd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;		//Set swap mode (sequential is one after another, all we need)
 
 	//Create a device, device context, then a swap chain using the scd struct
@@ -217,13 +218,29 @@ bool D3D11DisplayManager::CreateScreen()
 	hr = pDXGIDevice->GetParent(__uuidof(IDXGIAdapter1), (void **)&pDXGIAdapter);
 
 	pDXGIAdapter->GetParent(__uuidof(IDXGIFactory2), (void **)&m_pkDXGIFactory);
-
+#ifndef __UWP__
+	hr = m_pkDXGIFactory->CreateSwapChainForHwnd(
+		m_pkDevice,
+		kInfo.info.win.window,
+		&scd,
+		nullptr,
+		nullptr,
+		&m_pkSwapchain);
+#else //#ifndef __UWP__
 	hr = m_pkDXGIFactory->CreateSwapChainForCoreWindow(
 		m_pkDevice,
 		kInfo.info.winrt.window,
 		&scd,
 		nullptr,
 		&m_pkSwapchain);
+#endif //#ifndef __UWP__
+
+	if (hr != S_OK)
+	{
+		std::cout<< "Create Swap Chain Error: " << hr << std::endl;
+
+		return false;
+	}
 
 	SDL_ShowCursor(1); //Ensure cursor will display
 
@@ -827,6 +844,4 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 
 	return true;
 }
-
-#endif //ifdef _UWP_
 #endif //ifdef _WIN32

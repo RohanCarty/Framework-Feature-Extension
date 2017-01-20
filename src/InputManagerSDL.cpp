@@ -306,6 +306,42 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 		m_apkJoysticks[0].bJumpPressed = 0;
 	}
 
+	if (GetIsKeyDown(SDL_SCANCODE_H))
+	{
+		m_apkJoysticks[0].bOptionPressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bOptionPressed = 0;
+	}
+
+	if (GetIsKeyDown(SDL_SCANCODE_J))
+	{
+		m_apkJoysticks[0].bSpecial1Pressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bSpecial1Pressed = 0;
+	}
+
+	if (GetIsKeyDown(SDL_SCANCODE_K))
+	{
+		m_apkJoysticks[0].bSpecial2Pressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bSpecial2Pressed = 0;
+	}
+
+	if (GetIsKeyDown(SDL_SCANCODE_L))
+	{
+		m_apkJoysticks[0].bViewPressed = 1;
+	}
+	else
+	{
+		m_apkJoysticks[0].bViewPressed = 0;
+	}
+
 	if (GetIsKeyDown(SDL_SCANCODE_SPACE))
 	{
 		m_apkJoysticks[0].bAttackPressed = 1;

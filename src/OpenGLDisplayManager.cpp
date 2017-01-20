@@ -168,6 +168,8 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	m_kMainContext = SDL_GL_CreateContext(m_pkMainWindow);
 
 
+	glewExperimental = true;
+
 	if(glewInit())
 	{
 		std::cerr<<"Unable to initialize GLEW ... exiting"<<std::endl;
@@ -186,10 +188,10 @@ bool OpenGLDisplayManager::CreateScreen(int argc, char **argv)
 	m_akVao = new GLuint[1];
 	m_akBuffers = new GLuint[1];
 
-	//std::cout<<"Creating Vertex Buffer"<<std::endl;
+//	std::cout<<"Creating Vertex Buffer"<<std::endl;
 
 	glGenVertexArrays(1, m_akVao);
-	//std::cout<<"Binding Vertex Buffer"<<std::endl;
+//	std::cout<<"Binding Vertex Buffer"<<std::endl;
 	glBindVertexArray(m_akVao[0]);
 
 	//std::cout<<"Defining Triangles"<<std::endl;

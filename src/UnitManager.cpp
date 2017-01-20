@@ -142,7 +142,7 @@ Projectile* UnitManager::SpawnProjectile()
 {
 	m_apkProjectiles.push_back(new Projectile(SceneManager::GetCurrentScene()));
 
-	return m_apkProjectiles[m_apkActors.size() - 1];
+	return m_apkProjectiles[m_apkProjectiles.size() - 1];
 }
 
 int UnitManager::SpawnNewUnit(int a_iType)

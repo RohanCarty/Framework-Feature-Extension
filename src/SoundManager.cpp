@@ -20,7 +20,7 @@ SoundManager::SoundManager()
 
 	std::string szMusicFileName;
 
-	switch(rand() % 3)
+	switch(rand() % 1)
 	{
 	case 0:
 		szMusicFileName = "Sounds/Music/lunarmarch.ogg";
