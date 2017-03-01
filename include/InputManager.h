@@ -17,13 +17,35 @@
 #include <iostream>
 #include <vector>
 
+#include <SDL2/SDL.h>
+
 //Forward declare in order to use the pointer.
 class Vector;
 class Vertex;
 class Texture;
 class Camera;
 
-struct stGameControllerDetails;
+struct stGameControllerDetails
+{
+	SDL_Joystick* pkJoystick;
+	SDL_GameController* pkGameController;
+	float fAxis1X;//Left stick
+	float fAxis1Y;
+	float fAxis2X;//Right stick
+	float fAxis2Y;
+	bool bJumpPressed;
+	bool bAttackPressed;
+	bool bSpecial1Pressed;
+	bool bSpecial2Pressed;
+	bool bViewPressed;
+	bool bOptionPressed;
+	bool bDPadUp;
+	bool bDPadDown;
+	bool bDPadLeft;
+	bool bDPadRight;
+	bool bIsBound;
+	bool bIsKeyboard;
+};
 
 class InputManager
 {

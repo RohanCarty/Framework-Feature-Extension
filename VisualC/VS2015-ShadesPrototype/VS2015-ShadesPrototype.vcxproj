@@ -244,6 +244,7 @@
     <ClCompile Include="..\..\src\HUD.cpp" />
     <ClCompile Include="..\..\src\InputManager.cpp" />
     <ClCompile Include="..\..\src\InputManagerSDL.cpp" />
+    <ClCompile Include="..\..\src\InputManagerUWP.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MainMenuScene.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="..\..\include\HUD.h" />
     <ClInclude Include="..\..\include\InputManager.h" />
     <ClInclude Include="..\..\include\InputManagerSDL.h" />
+    <ClInclude Include="..\..\include\InputManagerUWP.h" />
     <ClInclude Include="..\..\include\MainMenuScene.h" />
     <ClInclude Include="..\..\include\Matrix.h" />
     <ClInclude Include="..\..\include\Mesh.h" />

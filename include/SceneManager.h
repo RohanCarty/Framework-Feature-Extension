@@ -24,6 +24,9 @@
 #include "OpenGLDisplayManager.h"
 #include "InputManager.h"
 #include "InputManagerSDL.h"
+#ifdef __UWP__
+#include "InputManagerUWP.h"
+#endif //#ifdef __UWP__
 #include "ObjectManager.h"
 #include "SoundManager.h"
 #include "NetworkManager.h"

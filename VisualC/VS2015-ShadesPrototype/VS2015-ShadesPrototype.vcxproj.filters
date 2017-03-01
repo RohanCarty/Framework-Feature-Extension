@@ -130,6 +130,9 @@
     <ClCompile Include="..\..\src\CollectibleSoul.cpp">
       <Filter>Source\Actors</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\InputManagerUWP.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -260,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\Player.h">
       <Filter>Include\Actors</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\InputManagerUWP.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

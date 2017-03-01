@@ -192,7 +192,7 @@
       <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2\include;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions);UWP;__UWP__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -207,7 +207,7 @@
       <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2\include;$(ProjectDir);$(IntermediateOutputPath);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>4453;28204</DisableSpecificWarnings>
-      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UWP;__UWP__</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UWP;__UWP__;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -290,6 +290,7 @@
     <ClCompile Include="..\..\src\HUD.cpp" />
     <ClCompile Include="..\..\src\InputManager.cpp" />
     <ClCompile Include="..\..\src\InputManagerSDL.cpp" />
+    <ClCompile Include="..\..\src\InputManagerUWP.cpp" />
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\MainMenuScene.cpp" />
     <ClCompile Include="..\..\src\Matrix.cpp" />
@@ -339,6 +340,7 @@
     <ClInclude Include="..\..\include\HUD.h" />
     <ClInclude Include="..\..\include\InputManager.h" />
     <ClInclude Include="..\..\include\InputManagerSDL.h" />
+    <ClInclude Include="..\..\include\InputManagerUWP.h" />
     <ClInclude Include="..\..\include\MainMenuScene.h" />
     <ClInclude Include="..\..\include\Matrix.h" />
     <ClInclude Include="..\..\include\Mesh.h" />

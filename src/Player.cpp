@@ -75,11 +75,11 @@ bool Player::Update(float a_fDeltaTime)
     #endif
 
 	//Escape for if there are no controllers connected.
-	if (m_iControllerNumberBoundTo == -1)
+	/*if (m_iControllerNumberBoundTo == -1)
 	{
 		std::cout << "No Controller" << std::endl;
 		return false;
-	}
+	}*/
 
 	//Updating status of abilities
 	if(m_bIsUsingAbility)

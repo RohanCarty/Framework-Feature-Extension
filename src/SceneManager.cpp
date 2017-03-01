@@ -86,7 +86,11 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 #endif //_WIN32
 	}
 	
+#ifdef __UWP__
+	m_pkInputManager = new InputManagerUWP;
+#else
 	m_pkInputManager = new InputManagerSDL;
+#endif //#ifdef __UWP__
 
 	m_pkObjectManager = new ObjectManager;
 
