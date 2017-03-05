@@ -120,7 +120,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,13 +136,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.1\VisualC\x64\Release;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -155,7 +155,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -176,7 +176,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -184,7 +184,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.1\VisualC\x64\Release;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -196,7 +196,7 @@
       <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -216,7 +216,7 @@
       <Optimization>Disabled</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.0\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\VS2015-Build Dependencies\zlib-1.2.5\include;..\VS2015-Build Dependencies\iconv-1.9.2.win32\include;..\..\include;..\VS2015-Build Dependencies\lua52\include;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_net-2.0.1\;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2\include;..\VS2015-Build Dependencies\GLEW19\include;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <PreprocessorDefinitions>_WIN32;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
@@ -225,7 +225,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\VS2015-Build Dependencies\SDL2_image-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2_net-2.0.1\VisualC\x64\Release;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\lib\x64;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\lib\x64;..\VS2015-Build Dependencies\SDL2\lib;..\VS2015-Build Dependencies\lua52\lib;..\VS2015-Build Dependencies\GLEW19 x64\lib;..\VS2015-Build Dependencies\zlib-1.2.5\lib;..\VS2015-Build Dependencies\iconv-1.9.2.win32\lib;..\VS2015-Build Dependencies\libxml2-2.7.8.win32\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_mixer.lib;SDL2_ttf.lib;SDL2_net.lib;SDL2_image.lib;opengl32.lib;glu32.lib;glew32.lib;libxml2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

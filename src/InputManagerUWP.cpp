@@ -14,6 +14,7 @@
 
 InputManagerUWP::InputManagerUWP()
 {
+#ifdef __UWP__
 	m_pkMousePosition = new Vector();
 
 	m_pkCamera = NULL;
@@ -50,6 +51,7 @@ InputManagerUWP::InputManagerUWP()
 	ClearControllerStates();
 
 	std::cout << "InputManagerUWP Created." << std::endl;
+#endif //#ifdef __UWP__
 }
 
 InputManagerUWP::~InputManagerUWP()
@@ -70,6 +72,7 @@ InputManagerUWP::~InputManagerUWP()
 
 bool InputManagerUWP::Update(float a_fDeltaTime)
 {
+#ifdef __UWP__
 	SDL_Event test_event;
 
 	//Clear everything pressed
@@ -399,6 +402,7 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 
 		}
 	}
+#endif //#ifdef __UWP__
 	return true;
 }
 

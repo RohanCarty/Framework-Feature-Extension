@@ -104,22 +104,22 @@
     <PackageCertificateKeyFile>VS2015-ShadesPrototypeUWP_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\VS2015-Build Dependencies\SDL2_net-2.0.1;..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\include;..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\include;..\VS2015-Build Dependencies\SDL2_image-2.0.0\include;..\..\include;..\VS2015-Build Dependencies\SDL2\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <Link>
