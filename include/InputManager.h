@@ -93,7 +93,7 @@ protected:
 	std::vector<stGameControllerDetails> m_apkJoysticks;
 
 	//Joystick/Gamepad variables
-	int m_iJoystickDeadzone;
+	float m_fJoystickDeadzone;
 	unsigned int m_uiCurrentNumOfJoysticks;
 };
 

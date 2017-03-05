@@ -31,7 +31,7 @@ InputManagerUWP::InputManagerUWP()
 
 	m_uiCurrentNumOfJoysticks = Gamepad::Gamepads->Size;
 
-	m_iJoystickDeadzone = 8000;
+	m_fJoystickDeadzone = 0.15;
 
 	if (Gamepad::Gamepads->Size < 1)
 	{
@@ -78,9 +78,9 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 	ClearJumpButtons();
 
 	GamepadReading pkTempGamepadReading = Gamepad::Gamepads->GetAt(0)->GetCurrentReading();
-	GamepadButtons pkTempGamepadButtons = pkTempGamepadReading.Buttons;
+	int pkTempGamepadButtons = (int)pkTempGamepadReading.Buttons;
 
-	if (pkTempGamepadReading.LeftThumbstickX < 0.08 && pkTempGamepadReading.LeftThumbstickX > -0.08)
+	if (pkTempGamepadReading.LeftThumbstickX < m_fJoystickDeadzone && pkTempGamepadReading.LeftThumbstickX > -m_fJoystickDeadzone )
 	{
 		m_apkJoysticks[0].fAxis1X = 0.0;
 	}
@@ -89,7 +89,7 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 		m_apkJoysticks[0].fAxis1X = pkTempGamepadReading.LeftThumbstickX;
 	}
 
-	if(pkTempGamepadButtons == GamepadButtons::A)
+	if (pkTempGamepadButtons & GamepadButtons_A)
 	{
 		m_apkJoysticks[0].bJumpPressed = true;
 	}
@@ -98,13 +98,85 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 		m_apkJoysticks[0].bJumpPressed = false;
 	}
 
-	if (pkTempGamepadButtons == GamepadButtons::X)
+	if (pkTempGamepadButtons & GamepadButtons_X)
 	{
 		m_apkJoysticks[0].bAttackPressed = true;
 	}
 	else
 	{
 		m_apkJoysticks[0].bAttackPressed = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_Y)
+	{
+		m_apkJoysticks[0].bSpecial1Pressed = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bSpecial1Pressed = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_B)
+	{
+		m_apkJoysticks[0].bSpecial2Pressed = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bSpecial2Pressed = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_Menu)
+	{
+		m_apkJoysticks[0].bOptionPressed = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bOptionPressed = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_View)
+	{
+		m_apkJoysticks[0].bViewPressed = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bViewPressed = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_DPadDown)
+	{
+		m_apkJoysticks[0].bDPadDown = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bDPadDown = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_DPadLeft)
+	{
+		m_apkJoysticks[0].bDPadLeft = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bDPadLeft = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_DPadRight)
+	{
+		m_apkJoysticks[0].bDPadRight = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bDPadRight = false;
+	}
+
+	if (pkTempGamepadButtons & GamepadButtons_DPadUp)
+	{
+		m_apkJoysticks[0].bDPadUp = true;
+	}
+	else
+	{
+		m_apkJoysticks[0].bDPadUp = false;
 	}
 
 	while (SDL_PollEvent(&test_event)) //TODO: receive all inputs.
@@ -156,11 +228,11 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 		case SDL_JOYAXISMOTION:
 			if (test_event.jaxis.axis == 0) // Left Stick X
 			{
-				if (test_event.jaxis.value < -m_iJoystickDeadzone)
+				if (test_event.jaxis.value < -m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = -1;
 				}
-				else if (test_event.jaxis.value > m_iJoystickDeadzone)
+				else if (test_event.jaxis.value > m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 1;
 				}
@@ -171,11 +243,11 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 			}
 			else if (test_event.jaxis.axis == 1) // Left Stick Y
 			{
-				if (test_event.jaxis.value < -m_iJoystickDeadzone)
+				if (test_event.jaxis.value < -m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = -1;
 				}
-				else if (test_event.jaxis.value > m_iJoystickDeadzone)
+				else if (test_event.jaxis.value > m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = 1;
 				}
@@ -186,11 +258,11 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 			}
 			else if (test_event.jaxis.axis == 2) // Right Stick X
 			{
-				if (test_event.jaxis.value < -m_iJoystickDeadzone)
+				if (test_event.jaxis.value < -m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = -1;
 				}
-				else if (test_event.jaxis.value > m_iJoystickDeadzone)
+				else if (test_event.jaxis.value > m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = 1;
 				}
@@ -201,11 +273,11 @@ bool InputManagerUWP::Update(float a_fDeltaTime)
 			}
 			else if (test_event.jaxis.axis == 3) // Right Stick Y
 			{
-				if (test_event.jaxis.value < -m_iJoystickDeadzone)
+				if (test_event.jaxis.value < -m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = -1;
 				}
-				else if (test_event.jaxis.value > m_iJoystickDeadzone)
+				else if (test_event.jaxis.value > m_fJoystickDeadzone)
 				{
 					GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = 1;
 				}

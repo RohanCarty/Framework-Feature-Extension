@@ -29,7 +29,7 @@ InputManagerSDL::InputManagerSDL()
 
 	m_uiCurrentNumOfJoysticks = SDL_NumJoysticks();
 
-	m_iJoystickDeadzone = 8000;
+	m_fJoystickDeadzone = 8000;
 
 	if(SDL_NumJoysticks() < 1)
 	{
@@ -124,11 +124,11 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 			case SDL_JOYAXISMOTION:
 				if( test_event.jaxis.axis == 0) // Left Stick X
 				{
-					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					if(test_event.jaxis.value < -m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = -1;
 					}
-					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					else if(test_event.jaxis.value > m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1X = 1;
 					}
@@ -139,11 +139,11 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 				}
 				else if( test_event.jaxis.axis == 1) // Left Stick Y
 				{
-					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					if(test_event.jaxis.value < -m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = -1;
 					}
-					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					else if(test_event.jaxis.value > m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis1Y = 1;
 					}
@@ -154,11 +154,11 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 				}
 				else if( test_event.jaxis.axis == 2) // Right Stick X
 				{
-					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					if(test_event.jaxis.value < -m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = -1;
 					}
-					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					else if(test_event.jaxis.value > m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2X = 1;
 					}
@@ -169,11 +169,11 @@ bool InputManagerSDL::Update(float a_fDeltaTime)
 				}
 				else if( test_event.jaxis.axis == 3) // Right Stick Y
 				{
-					if(test_event.jaxis.value < -m_iJoystickDeadzone)
+					if(test_event.jaxis.value < -m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = -1;
 					}
-					else if(test_event.jaxis.value > m_iJoystickDeadzone)
+					else if(test_event.jaxis.value > m_fJoystickDeadzone)
 					{
 						GetControllerByJoystickId(test_event.jaxis.which)->fAxis2Y = 1;
 					}
