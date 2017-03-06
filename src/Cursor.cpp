@@ -32,7 +32,9 @@ bool Cursor::Update(float a_fDeltaTime)
 {
     Object::Update(a_fDeltaTime);
 
+#ifndef __UWP__ //don't want to draw a mouse cursor when we don't need to, add in a thing that unhides it if it moves
 	Cursor::Draw(a_fDeltaTime);
+#endif
 
 	/*SetLocation(SceneManager::GetInputManager()->GetMousePosition()->x - (m_pkCamera->GetViewportX() / 2) + m_pkCamera->GetWorldLocation()->x,
 		SceneManager::GetInputManager()->GetMousePosition()->y - (m_pkCamera->GetViewportY() / 2) + m_pkCamera->GetWorldLocation()->y,

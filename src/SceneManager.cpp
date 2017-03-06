@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "GameScene.h"
+#include "NetworkTestScene.h"
 #include "MainMenuScene.h"
 
 #ifdef _WIN32
@@ -98,7 +99,8 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 
 	m_pkNetworkManager = new NetworkManager;
 
-	AddNewScene(new GameScene());
+	AddNewScene(new NetworkTestScene());
+	//AddNewScene(new GameScene());
 
     ProcessAddNewScene();
     
@@ -107,6 +109,13 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     m_pkTileManager = new TileManager;
 
 	m_pkParticleManager = new ParticleManager;
+
+	//NETWORKTEST
+#ifndef __UWP__
+	m_pkNetworkManager->StartServer(2120);
+#else
+	m_pkNetworkManager->ConnectToServer(std::string("127.0.0.1"), 2120);
+#endif
 
 	for(int iDx = 0; iDx < argc; iDx++)
     {

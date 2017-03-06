@@ -1,6 +1,6 @@
 /*
   SDL_net:  An example cross-platform network library for use with SDL
-  Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
+  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
   Copyright (C) 2012 Simeon Maxein <smaxein@googlemail.com>
 
   This software is provided 'as-is', without any express or implied
@@ -32,7 +32,7 @@ typedef uint16_t Uint16;
 typedef uint32_t Uint32;
 
 typedef struct SDLNet_version {
-    Uint8 major;
+    Uint8 major;8
     Uint8 minor;
     Uint8 patch;
 } SDLNet_version;
@@ -58,7 +58,7 @@ extern "C" {
 */
 #define SDL_NET_MAJOR_VERSION   2
 #define SDL_NET_MINOR_VERSION   0
-#define SDL_NET_PATCHLEVEL      1
+#define SDL_NET_PATCHLEVEL      0
 
 /* This macro can be used to fill a version structure with the compile-time
  * version of the SDL_net library.

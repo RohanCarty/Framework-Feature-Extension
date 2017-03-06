@@ -250,6 +250,7 @@
     <ClCompile Include="..\..\src\Matrix.cpp" />
     <ClCompile Include="..\..\src\Mesh.cpp" />
     <ClCompile Include="..\..\src\NetworkManager.cpp" />
+    <ClCompile Include="..\..\src\NetworkTestScene.cpp" />
     <ClCompile Include="..\..\src\Object.cpp" />
     <ClCompile Include="..\..\src\ObjectManager.cpp" />
     <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
@@ -295,6 +296,7 @@
     <ClInclude Include="..\..\include\Matrix.h" />
     <ClInclude Include="..\..\include\Mesh.h" />
     <ClInclude Include="..\..\include\NetworkManager.h" />
+    <ClInclude Include="..\..\include\NetworkTestScene.h" />
     <ClInclude Include="..\..\include\Object.h" />
     <ClInclude Include="..\..\include\ObjectManager.h" />
     <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />

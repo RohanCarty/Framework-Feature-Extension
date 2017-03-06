@@ -90,19 +90,37 @@ public:
     void ProcessCommand(stCommandPacket* a_pkCommandPacket);
     
     void FullUpdate(stConnectionInfo);
+
+	IPaddress GetLocalIPAddress();
+	std::string GetLocalIPAddressString();
+
+	IPaddress GetRemoteIPAddress();
+	std::string GetRemoteIPAddressString();
+
+	IPaddress ConvertStringToIPaddress(std::string a_szString);
+	std::string ConvertIPaddressToString(IPaddress a_pkIPAddress);
     
     bool m_bNetworkEnabled;
     bool m_bIsClient;
+
+	std::string m_szMyNetworkName;
+
+	unsigned int m_uiPort;
+
 private:
     std::vector<stConnectionInfo> m_astConnections;
     std::vector<stCommandPacket> m_astCommands;
-	TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
-	IPaddress ip, *remoteIP;
+	UDPsocket m_kUDPSocket;
+	UDPpacket* m_pkLocalPacket, *m_pkRemotePacket;
+	IPaddress localIP, remoteIP;
 	float buffer[2048];
     unsigned int m_iGameStep;
     unsigned int m_iLastGameStep;
     //Used to measure the last time since a network packet was received.
     float m_fNetworkDeltaTime;
+
+	//NETWORKTEST
+	bool m_bIsConnected;
 };
 
 #endif

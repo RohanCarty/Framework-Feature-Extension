@@ -270,6 +270,9 @@
     <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_mixer-2.0.0\VisualC-WinRT\UWP_VS2015\SDL_mixer-UWP.vcxproj">
       <Project>{18665277-e558-4484-93f4-e4dc7bb614cb}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_net-2.0.1\VisualC-WinRT\UWP_VS2015\SDL_net-UWP.vcxproj">
+      <Project>{e5e4ec04-8b97-4480-a8f9-c42c58cf41c7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\VS2015-Build Dependencies\SDL2_ttf-2.0.12\VisualC-WinRT\UWP_VS2015\SDL_ttf-UWP.vcxproj">
       <Project>{90ca40dc-84b4-4d06-91d1-dc82a7a1e4d0}</Project>
     </ProjectReference>
@@ -296,6 +299,7 @@
     <ClCompile Include="..\..\src\Matrix.cpp" />
     <ClCompile Include="..\..\src\Mesh.cpp" />
     <ClCompile Include="..\..\src\NetworkManager.cpp" />
+    <ClCompile Include="..\..\src\NetworkTestScene.cpp" />
     <ClCompile Include="..\..\src\Object.cpp" />
     <ClCompile Include="..\..\src\ObjectManager.cpp" />
     <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
@@ -346,6 +350,7 @@
     <ClInclude Include="..\..\include\Mesh.h" />
     <ClInclude Include="..\..\include\msvcunistd.h" />
     <ClInclude Include="..\..\include\networkmanager.h" />
+    <ClInclude Include="..\..\include\NetworkTestScene.h" />
     <ClInclude Include="..\..\include\Object.h" />
     <ClInclude Include="..\..\include\ObjectManager.h" />
     <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />

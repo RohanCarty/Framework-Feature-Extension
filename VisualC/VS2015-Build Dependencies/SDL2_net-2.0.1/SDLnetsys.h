@@ -1,22 +1,22 @@
 /*
-SDL_net:  An example cross-platform network library for use with SDL
-Copyright (C) 1997-2016 Sam Lantinga <slouken@libsdl.org>
+  SDL_net:  An example cross-platform network library for use with SDL
+  Copyright (C) 1997-2013 Sam Lantinga <slouken@libsdl.org>
 
-This software is provided 'as-is', without any express or implied
-warranty.  In no event will the authors be held liable for any damages
-arising from the use of this software.
+  This software is provided 'as-is', without any express or implied
+  warranty.  In no event will the authors be held liable for any damages
+  arising from the use of this software.
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
+  Permission is granted to anyone to use this software for any purpose,
+  including commercial applications, and to alter it and redistribute it
+  freely, subject to the following restrictions:
 
-1. The origin of this software must not be misrepresented; you must not
-claim that you wrote the original software. If you use this software
-in a product, an acknowledgment in the product documentation would be
-appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
+  1. The origin of this software must not be misrepresented; you must not
+     claim that you wrote the original software. If you use this software
+     in a product, an acknowledgment in the product documentation would be
+     appreciated but is not required.
+  2. Altered source versions must be plainly marked as such, and must not be
+     misrepresented as being the original software.
+  3. This notice may not be removed or altered from any source distribution.
 */
 
 /* $Id$ */
@@ -32,21 +32,20 @@ misrepresented as being the original software.
 #endif
 
 /* Include system network headers */
-#if defined(__WIN32__) || defined(WIN32) || defined(__UWP__)
+#if defined(__WIN32__) || defined(WIN32) || defined(__WINRT__) || defined(WINRT)
 #define __USE_W32_SOCKETS
-#ifdef __UWP__
-#define _WINSOCK_DEPRECATED_NO_WARNINGS
-#endif
-#ifdef _WIN64
+#if defined(_WIN64) || defined(__WINRT__) || defined(WINRT)
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #else
 #include <winsock.h>
 /* NOTE: windows socklen_t is signed
-* and is defined only for winsock2. */
+ * and is defined only for winsock2. */
 typedef int socklen_t;
 #endif /* W64 */
+#if !defined(__WINRT__) && !defined(WINRT)
 #include <iphlpapi.h>
+#endif
 #else /* UNIX */
 #include <sys/types.h>
 #ifdef __FreeBSD__

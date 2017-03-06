@@ -195,6 +195,9 @@
     <ClCompile Include="..\..\src\InputManagerUWP.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\NetworkTestScene.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\GameInfo.h">
@@ -339,6 +342,9 @@
       <Filter>Include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\InputManagerUWP.h">
+      <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\NetworkTestScene.h">
       <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
