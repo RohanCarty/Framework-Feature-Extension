@@ -198,7 +198,11 @@ std::string NetworkManager::GetRemoteIPAddressString()
 
 IPaddress NetworkManager::ConvertStringToIPaddress(std::string a_szString)
 {
+	IPaddress kTempIPAddress;
 
+	SDLNet_ResolveHost(&kTempIPAddress, a_szString.c_str(), m_uiPort);
+
+	return kTempIPAddress;
 }
 
 std::string NetworkManager::ConvertIPaddressToString(IPaddress a_pkIPAddress)

@@ -38,6 +38,7 @@ struct stTextureInfoD3D
 {
 	std::string m_szFileName;
 	ID3D11ShaderResourceView* m_pkTextureResource;
+	ID3D11Texture2D* m_pkTexture2D;
 	unsigned int m_uiReferences;
 };
 
@@ -88,10 +89,18 @@ private:
 	ID3D11InputLayout* m_pkInputLayout;
 
 	ID3D11SamplerState* m_pkTexSamplerState;
+	ID3D11SamplerState* m_pkCurrentTexSamplerState;
+	ID3D11ShaderResourceView* m_pkCurrentTextureResource;
 	ID3D11BlendState* m_pkBlendState;
 
 	ID3D11VertexShader* m_pkVertexShader;
 	ID3D11PixelShader* m_pkPixelShader;
+
+	D3DVERTEX m_pkVerticies[6];
+
+	D3D11_MAPPED_SUBRESOURCE m_pkMappedSubresource;
+
+
 
     Matrix* m_pkViewMatrix;
     float m_fCameraTop, m_fCameraRight;

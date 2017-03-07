@@ -30,9 +30,8 @@ Cursor::~Cursor()
 
 bool Cursor::Update(float a_fDeltaTime)
 {
-    Object::Update(a_fDeltaTime);
-
 #ifndef __UWP__ //don't want to draw a mouse cursor when we don't need to, add in a thing that unhides it if it moves
+	Object::Update(a_fDeltaTime);
 	Cursor::Draw(a_fDeltaTime);
 #endif
 

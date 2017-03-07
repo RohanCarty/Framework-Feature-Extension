@@ -114,7 +114,7 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 #ifndef __UWP__
 	m_pkNetworkManager->StartServer(2120);
 #else
-	m_pkNetworkManager->ConnectToServer(std::string("127.0.0.1"), 2120);
+	m_pkNetworkManager->ConnectToServer(std::string("192.168.0.199"), 2120);
 #endif
 
 	for(int iDx = 0; iDx < argc; iDx++)

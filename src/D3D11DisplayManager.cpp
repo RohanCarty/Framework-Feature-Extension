@@ -361,6 +361,14 @@ bool D3D11DisplayManager::CreateScreen()
 
 	//Have set the blend state
 
+	//Select which vertex buffer to display
+	UINT uiStride = sizeof(D3DVERTEX);
+	UINT uiOffset = 0;
+	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
+
+	//Select which primitive type we are using
+	m_pkContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
     return true;
 }
 
@@ -570,7 +578,7 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 	HRESULT hr;
 
 	ID3D11Texture2D* pkTex = nullptr;
-	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex);
+	hr = m_pkDevice->CreateTexture2D(& t2d, &initData, &pkTex); //Slow
 
 	if( SUCCEEDED(hr) && pkTex != 0)
 	{
@@ -587,6 +595,8 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 		//Create a new one.
 		hr = m_pkDevice->CreateShaderResourceView( pkTex, &SRVDesc, &m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource);
 
+		m_pkContext->CopyResource(pkTex, m_astLoadedTextures[a_iTextureNumber].m_pkTexture2D);
+
 		if(FAILED(hr))
 		{
 			m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource->Release();
@@ -600,9 +610,6 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 	pkTex->Release(); //Make sure to decrement the reference count.
 
 	SDL_FreeSurface( a_pkSurface );
-
-	//Return texture number
-	int iTemp = m_astLoadedTextures.size() - 1;
 	
 	return;
 }
@@ -723,61 +730,60 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 {
     /*glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());*/
 
-	m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource);
-	m_pkContext->PSSetSamplers( 0, 1, &m_pkTexSamplerState);
+	//Only switch our resources if absolutely necessary
+	if (m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource != m_pkCurrentTextureResource)
+	{
+		m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource);
+		m_pkCurrentTextureResource = m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource;
+	}
+
+	if (m_pkCurrentTexSamplerState != m_pkTexSamplerState)
+	{
+		m_pkContext->PSSetSamplers(0, 1, &m_pkTexSamplerState);
+		m_pkCurrentTexSamplerState = m_pkTexSamplerState;
+	}
 
 	//TODO: allow drawing code to handle something that's not a quad
 
-	D3DVERTEX OurVertices[6];
+	m_pkVerticies[0].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).x);
+	m_pkVerticies[0].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).y);
+	m_pkVerticies[0].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).z;
+	m_pkVerticies[0].U = a_pkTexture->m_fMinU;
+	m_pkVerticies[0].V = a_pkTexture->m_fMinV;
+	
+	m_pkVerticies[1].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
+	m_pkVerticies[1].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
+	m_pkVerticies[1].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
+	m_pkVerticies[1].U = a_pkTexture->m_fMaxU;
+	m_pkVerticies[1].V = a_pkTexture->m_fMinV;
+	
+	m_pkVerticies[2].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
+	m_pkVerticies[2].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
+	m_pkVerticies[2].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
+	m_pkVerticies[2].U = a_pkTexture->m_fMinU;
+	m_pkVerticies[2].V = a_pkTexture->m_fMaxV;
+	
+	m_pkVerticies[3].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
+	m_pkVerticies[3].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
+	m_pkVerticies[3].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
+	m_pkVerticies[3].U = a_pkTexture->m_fMinU;
+	m_pkVerticies[3].V = a_pkTexture->m_fMaxV;
+	
+	m_pkVerticies[4].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
+	m_pkVerticies[4].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
+	m_pkVerticies[4].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
+	m_pkVerticies[4].U = a_pkTexture->m_fMaxU;
+	m_pkVerticies[4].V = a_pkTexture->m_fMinV;
+	
+	m_pkVerticies[5].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).x);
+	m_pkVerticies[5].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).y);
+	m_pkVerticies[5].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).z;
+	m_pkVerticies[5].U = a_pkTexture->m_fMaxU;
+	m_pkVerticies[5].V = a_pkTexture->m_fMaxV;
 
-	OurVertices[0].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).x);
-	OurVertices[0].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).y);
-	OurVertices[0].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[0].GetLocation()).z;
-	OurVertices[0].U = a_pkTexture->m_fMinU;
-	OurVertices[0].V = a_pkTexture->m_fMinV;
-	
-	OurVertices[1].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
-	OurVertices[1].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
-	OurVertices[1].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
-	OurVertices[1].U = a_pkTexture->m_fMaxU;
-	OurVertices[1].V = a_pkTexture->m_fMinV;
-	
-	OurVertices[2].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
-	OurVertices[2].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
-	OurVertices[2].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
-	OurVertices[2].U = a_pkTexture->m_fMinU;
-	OurVertices[2].V = a_pkTexture->m_fMaxV;
-	
-	OurVertices[3].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).x);
-	OurVertices[3].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).y);
-	OurVertices[3].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[3].GetLocation()).z;
-	OurVertices[3].U = a_pkTexture->m_fMinU;
-	OurVertices[3].V = a_pkTexture->m_fMaxV;
-	
-	OurVertices[4].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).x);
-	OurVertices[4].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).y);
-	OurVertices[4].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[1].GetLocation()).z;
-	OurVertices[4].U = a_pkTexture->m_fMaxU;
-	OurVertices[4].V = a_pkTexture->m_fMinV;
-	
-	OurVertices[5].X = TransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).x);
-	OurVertices[5].Y = TransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).y);
-	OurVertices[5].Z = m_pkViewMatrix->MultiplyVector(a_pkMesh->GetVertexArray()[2].GetLocation()).z;
-	OurVertices[5].U = a_pkTexture->m_fMaxU;
-	OurVertices[5].V = a_pkTexture->m_fMaxV;
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
-	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &m_pkMappedSubresource);	//Map the buffer
+	memcpy(m_pkMappedSubresource.pData, m_pkVerticies, sizeof(m_pkVerticies));
 	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
-
-	//Select which vertex buffer to display
-	UINT uiStride = sizeof(D3DVERTEX);
-	UINT uiOffset = 0;
-	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
-
-	//Select which primitive type we are using
-	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//Draw the vertex buffer to the back buffer
 	m_pkContext->Draw(6, 0);
@@ -788,61 +794,61 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Texture* a_iTexture)
 {
 	//Bind the textures
-	m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_iTexture->GetTextureNumber()].m_pkTextureResource);
-	m_pkContext->PSSetSamplers( 0, 1, &m_pkTexSamplerState);
+	//Only switch our resources if absolutely necessary
+	if (m_astLoadedTextures[a_iTexture->GetTextureNumber()].m_pkTextureResource != m_pkCurrentTextureResource)
+	{
+		m_pkContext->PSSetShaderResources(0, 1, &m_astLoadedTextures[a_iTexture->GetTextureNumber()].m_pkTextureResource);
+		m_pkCurrentTextureResource = m_astLoadedTextures[a_iTexture->GetTextureNumber()].m_pkTextureResource;
+	}
+
+	if (m_pkCurrentTexSamplerState != m_pkTexSamplerState)
+	{
+		m_pkContext->PSSetSamplers(0, 1, &m_pkTexSamplerState);
+		m_pkCurrentTexSamplerState = m_pkTexSamplerState;
+	}
 
 	//TODO: allow drawing code to handle something that's not a quad
 
-	D3DVERTEX OurVertices[6];
+	m_pkVerticies[0].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x);
+	m_pkVerticies[0].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y);
+	m_pkVerticies[0].Z = 0;
+	m_pkVerticies[0].U = a_iTexture->m_fMinU;
+	m_pkVerticies[0].V = a_iTexture->m_fMinV;
+	
+	m_pkVerticies[1].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
+	m_pkVerticies[1].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
+	m_pkVerticies[1].Z = 0;
+	m_pkVerticies[1].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[1].V = a_iTexture->m_fMinV;
+	
+	m_pkVerticies[2].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
+	m_pkVerticies[2].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
+	m_pkVerticies[2].Z = 0;
+	m_pkVerticies[2].U = a_iTexture->m_fMinU;
+	m_pkVerticies[2].V = a_iTexture->m_fMaxV;
+	
+	m_pkVerticies[3].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
+	m_pkVerticies[3].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
+	m_pkVerticies[3].Z = 0;
+	m_pkVerticies[3].U = a_iTexture->m_fMinU;
+	m_pkVerticies[3].V = a_iTexture->m_fMaxV;
+	
+	m_pkVerticies[4].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
+	m_pkVerticies[4].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
+	m_pkVerticies[4].Z = 0;
+	m_pkVerticies[4].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[4].V = a_iTexture->m_fMinV;
+	
+	m_pkVerticies[5].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).x);
+	m_pkVerticies[5].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).y);
+	m_pkVerticies[5].Z = 0;
+	m_pkVerticies[5].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[5].V = a_iTexture->m_fMaxV;
 
-	OurVertices[0].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x);
-	OurVertices[0].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y);
-	OurVertices[0].Z = 0;
-	OurVertices[0].U = a_iTexture->m_fMinU;
-	OurVertices[0].V = a_iTexture->m_fMinV;
 	
-	OurVertices[1].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
-	OurVertices[1].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
-	OurVertices[1].Z = 0;
-	OurVertices[1].U = a_iTexture->m_fMaxU;
-	OurVertices[1].V = a_iTexture->m_fMinV;
-	
-	OurVertices[2].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
-	OurVertices[2].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
-	OurVertices[2].Z = 0;
-	OurVertices[2].U = a_iTexture->m_fMinU;
-	OurVertices[2].V = a_iTexture->m_fMaxV;
-	
-	OurVertices[3].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).x);
-	OurVertices[3].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[3].GetLocation()).y);
-	OurVertices[3].Z = 0;
-	OurVertices[3].U = a_iTexture->m_fMinU;
-	OurVertices[3].V = a_iTexture->m_fMaxV;
-	
-	OurVertices[4].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).x);
-	OurVertices[4].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[1].GetLocation()).y);
-	OurVertices[4].Z = 0;
-	OurVertices[4].U = a_iTexture->m_fMaxU;
-	OurVertices[4].V = a_iTexture->m_fMinV;
-	
-	OurVertices[5].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).x);
-	OurVertices[5].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[2].GetLocation()).y);
-	OurVertices[5].Z = 0;
-	OurVertices[5].U = a_iTexture->m_fMaxU;
-	OurVertices[5].V = a_iTexture->m_fMaxV;
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);	//Map the buffer
-	memcpy(ms.pData, OurVertices, sizeof(OurVertices));
+	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &m_pkMappedSubresource);	//Map the buffer
+	memcpy(m_pkMappedSubresource.pData, m_pkVerticies, sizeof(m_pkVerticies));
 	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
-
-	//Select which vertex buffer to display
-	UINT uiStride = sizeof(D3DVERTEX);
-	UINT uiOffset = 0;
-	m_pkContext->IASetVertexBuffers(0, 1, &m_pkVertexBuffer, &uiStride, &uiOffset);
-
-	//Select which primitive type we are using
-	m_pkContext->IASetPrimitiveTopology(D3D10_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//Draw the vertex buffer to the back buffer
 	m_pkContext->Draw(6, 0);
