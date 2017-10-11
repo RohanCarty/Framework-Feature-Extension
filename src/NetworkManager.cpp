@@ -89,6 +89,9 @@ bool NetworkManager::ConnectToServer(std::string a_szIpAddress, unsigned int a_u
 	m_bIsClient = true;
 
 	SDLNet_UDP_Bind(m_kUDPSocket, 1, &remoteIP);
+
+	std::string szTempError = SDLNet_GetError();
+
 	printf("SDLNet_UDP_Bind: %s\n", SDLNet_GetError());
 
 	return true;
@@ -102,12 +105,28 @@ bool NetworkManager::Update(float a_fDeltaTime)
         return true;
     }
 
+	//NETWORKTEST
+	//Sleep(15);
+
 	if (m_kUDPSocket != NULL)
 	{
 		if (m_bIsClient == true)
 		{
-			std::cout << "Sending Packet to: " << ConvertIPaddressToString(remoteIP) << std::endl;
-			std::string szTemp = std::to_string(a_fDeltaTime);
+			stCommandPacket stTemp;
+
+			stTemp.m_eCommand = eCommandSetLocation;
+			stTemp.m_szOwnName = "Test 1";
+			stTemp.m_vFirstVector = Vector(1, 2, 3);
+			stTemp.m_vSecondVector = Vector(4, 5, 6);
+			stTemp.m_iClient = 1;
+			stTemp.m_iUnit = 1;
+
+			std::cout << "Sending Packet to: " << ConvertIPaddressToString(remoteIP) << "Packet Data: " << stTemp.m_szOwnName << std::to_string(stTemp.m_eCommand) << stTemp.m_vFirstVector << stTemp.m_vSecondVector << stTemp.m_iClient << stTemp.m_iUnit << std::endl;
+			std::stringstream szSTemp;
+			szSTemp<< stTemp.m_szOwnName << std::to_string(stTemp.m_eCommand) << stTemp.m_vFirstVector << stTemp.m_vSecondVector << stTemp.m_iClient << stTemp.m_iUnit;
+
+			std::string szTemp = szSTemp.str();
+
 			for (int iDx = 0; iDx < szTemp.size(); iDx++)
 			{
 				m_pkLocalPacket->data[iDx] = (Uint8)szTemp.c_str()[iDx];
@@ -133,6 +152,29 @@ bool NetworkManager::Update(float a_fDeltaTime)
 	}
     
 	return true;
+}
+
+void NetworkManager::AddIPaddressToList(IPaddress a_kIPAddress, std::string a_szRemoteUser)
+{
+	bool bMatchFound = false;
+	//See if the ipaddress is already in the list, make sure to check port as well so that multiple people from behind the same NAT can play
+	for (unsigned int iDx = 0; iDx < m_astConnections.size(); iDx++)
+	{
+		if (m_astConnections[iDx].m_kNetworkAddress.host == a_kIPAddress.host && m_astConnections[iDx].m_kNetworkAddress.port == a_kIPAddress.port)
+		{
+			bMatchFound = true;
+			m_astConnections[iDx].m_fNetworkDeltaTime = 0.0f;
+		}
+	}
+
+	if (!bMatchFound)
+	{
+		stConnectionInfo stTempConnectionInfo;
+
+		stTempConnectionInfo.m_kNetworkAddress = a_kIPAddress;
+		stTempConnectionInfo.m_fNetworkDeltaTime = 0.0f;
+		stTempConnectionInfo.m_szRemoteUser = a_szRemoteUser;
+	}
 }
 
 void NetworkManager::AddCommand(stCommandPacket* a_pkCommandPacket)

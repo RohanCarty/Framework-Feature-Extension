@@ -165,12 +165,12 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
 {
     stCommandPacket stTempCommand;
     
-    stTempCommand.m_iOrder = eOrderSpawnUnit;
+    /*stTempCommand.m_iOrder = eOrderSpawnUnit;
     stTempCommand.m_iUnit = a_pkUnit->m_iUnitNumber;
     stTempCommand.m_iClient = 0;
     stTempCommand.m_vFirstVector = *a_pkUnit->GetLocation();
     stTempCommand.m_vSecondVector = *a_pkUnit->GetLocation(); // Fill the entire command fuckhead
-    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
+    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);*/
 }
 
 int UnitManager::SpawnNewCollectibleSoul(Vector* a_pLocation)

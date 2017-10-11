@@ -31,9 +31,12 @@
 struct stConnectionInfo
 {
 	IPaddress m_kNetworkAddress;
-    TCPsocket m_kClientSocket;
-    SDLNet_SocketSet m_kSocketSet;
-    int m_iGameStep;
+	std::string m_szRemoteUser;
+	//Used to measure the last time since a network packet was received.
+	float m_fNetworkDeltaTime;
+    //TCPsocket m_kClientSocket;
+    //SDLNet_SocketSet m_kSocketSet;
+    //int m_iGameStep;
 };
 
 //List of things a packet would need for units
@@ -50,26 +53,24 @@ struct stConnectionInfo
 //  Location Z
 //Send these to clients and to the server to do them there things
 
-//Enum for orders
-enum eOrderType
+//Enum for commands
+enum eCommandType
 {
-    eOrderSpawnUnit = 0,
-    eOrderSpawnBuilding,
-    eOrderDestroy,
-    eOrderSetResources,
-    eOrderSetOwnership,
-    eOrderSetDestination,
-    eOrderSetLocation
+    eCommandSpawnUnit = 0,
+    eCommandSpawnPlayer,
+    eCommandSetDestination,
+    eCommandSetLocation
 };
 
 //Prototype/Draft of what a command packet might look like.
 struct stCommandPacket
 {
-    int m_iOrder; //Will be an enum;
+    int m_eCommand; //Will be an enum;
     int m_iUnit; //Index of unit,
     int m_iClient; //Number of Client
     Vector m_vFirstVector; //Vectors which're all used for
     Vector m_vSecondVector;//   filling out dem packets with arguments to the orders
+	std::string m_szOwnName;
 };
 
 class NetworkManager
@@ -84,6 +85,8 @@ public:
     bool ConnectToServer(std::string a_szIpAddress, unsigned int a_uiPort);
 
 	bool Update(float a_fDeltaTime);
+
+	void AddIPaddressToList(IPaddress a_kIPAddress, std::string a_szRemoteUser);
     
     void AddCommand(stCommandPacket* a_pkCommandPacket);
     
@@ -116,8 +119,6 @@ private:
 	float buffer[2048];
     unsigned int m_iGameStep;
     unsigned int m_iLastGameStep;
-    //Used to measure the last time since a network packet was received.
-    float m_fNetworkDeltaTime;
 
 	//NETWORKTEST
 	bool m_bIsConnected;

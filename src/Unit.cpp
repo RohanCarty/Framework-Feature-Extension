@@ -266,12 +266,12 @@ void Unit::NetworkUpdateLocationAndDestination()
     stCommandPacket stTempCommand;
     
     //Send Current Location;
-    stTempCommand.m_iOrder = eOrderSetLocation;
+    /*stTempCommand.m_eCommand = eCommandSetLocation;
     stTempCommand.m_iUnit = m_iUnitNumber;
     stTempCommand.m_iClient = 0;
     stTempCommand.m_vFirstVector = *m_pLocation;
     stTempCommand.m_vSecondVector = *m_pLocation; // Fill the entire command fuckhead
-    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);
+    SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);*/
 }
 
 void Unit::Hurt()
