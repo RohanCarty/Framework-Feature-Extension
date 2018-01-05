@@ -12,6 +12,18 @@
 	#endif
 #endif
 
+/********************************************//**
+ *  Example Doxygen Comment Block
+ *  
+ *  Use these through out all code in order to create decent documentation while doing this shit
+ ***********************************************/
+
+/********************************************//**
+ *  Main
+ *  
+ *  Set up a high resolution timer (PerformanceTimer.h) and initialise the SceneManager
+ ***********************************************/
+
 #include <iostream>
 #include <cstdio>
 #include <ctime>
