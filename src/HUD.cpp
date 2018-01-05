@@ -124,7 +124,7 @@ bool HUD::Update(float a_fDeltaTime)
 
 		//Print Gamertag //TODO: Implement, for now just a test string.
 
-		m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
+		//m_pkTextLibrary->PrintHUDString(m_astPlayerInfos[uiDx].szGamertag, (uiDx) * 384 + 100, SceneManager::GetDisplayManager()->GetYScreenResolution() - iFontSize * 3 - 100, iFontSize);
 
 		//Print current health
 		sprintf(m_cpTempString,"%d", SceneManager::GetUnitManager()->GetPlayerList()[uiDx]->GetHealth());
