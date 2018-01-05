@@ -10,3 +10,7 @@ $ cat .gitignore
 *.ilk
 */Objs/*
 *.suo
+*.lib
+*.o
+*.a
+*.x86_64

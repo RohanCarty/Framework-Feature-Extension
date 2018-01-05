@@ -245,9 +245,9 @@ void HUD::PopulatePlayerInfos()
 #endif //#ifndef __UWP__
 #else
 		char* cpGamerTag = new char[256];
-		int namelen = 0;
-		getlogin_r(cpGamerTag, &namelen);
-		stTempInfo.szGamertag = std::string(cpGamerTag);
+		size_t namelen = 0;
+		getlogin_r(cpGamerTag, namelen);
+		stTempInfo.szGamertag = std::string(cpGamerTag, namelen);
 		delete cpGamerTag;
 #endif //#ifdef _WIN32
 

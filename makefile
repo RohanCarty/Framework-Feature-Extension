@@ -8,7 +8,7 @@ SOURCES=$(wildcard src/*.cpp)
 
 OBJECTS=$(SOURCES:.cpp=.o)
 
-EXECUTABLE=bin/PegasusFeather
+EXECUTABLE=bin/PegasusFeather.x86_64
 
 
 
