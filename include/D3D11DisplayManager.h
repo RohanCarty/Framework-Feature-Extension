@@ -21,6 +21,7 @@
 #include <windowsx.h>
 #include <d3d11.h>
 #include <d3d10.h>
+#include <DirectXMath.h>
 
 #include <DXGI.h>
 #include <dxgi1_2.h>
@@ -42,6 +43,14 @@ struct stTextureInfoD3D
 	unsigned int m_uiReferences;
 };
 
+struct VS_CONSTANT_BUFFER //make sure it's 16-byte aligned, IMPORTANT!
+{
+	DirectX::XMFLOAT4X4 mWorldViewProj;
+	DirectX::XMFLOAT4 vSomeVectorThatMayBeNeededByASpecificShader;
+	DirectX::XMFLOAT2 vVectorThatMightAlsoBeNeeded;
+	DirectX::XMFLOAT2 vVectorStatingCurrentResolution; 
+};
+
 class D3D11DisplayManager : public DisplayManager
 {
 public:
@@ -49,6 +58,7 @@ public:
     virtual ~D3D11DisplayManager();
 
 	virtual unsigned int LoadShaderProgram(std::string a_szVertexShader, std::string a_szFragmentShader);
+	std::string LoadShader(std::string a_szShaderName);
 
 	bool CreateScreen();
 
@@ -95,6 +105,7 @@ private:
 
 	ID3D11VertexShader* m_pkVertexShader;
 	ID3D11PixelShader* m_pkPixelShader;
+	ID3D11Buffer* m_pkVSConstantBuffer;
 
 	D3DVERTEX m_pkVerticies[6];
 

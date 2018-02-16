@@ -33,6 +33,29 @@ void Matrix::CreateIdentity()
 	CoOrd[3][3] = 1;
 }
 
+Matrix Matrix::GetIdentity()
+{
+	Matrix temp;
+	temp.CoOrd[0][0] = 1;
+	temp.CoOrd[0][1] = 0;
+	temp.CoOrd[0][2] = 0;
+	temp.CoOrd[0][3] = 0;
+	temp.CoOrd[1][0] = 0;
+	temp.CoOrd[1][1] = 1;
+	temp.CoOrd[1][2] = 0;
+	temp.CoOrd[1][3] = 0;
+	temp.CoOrd[2][0] = 0;
+	temp.CoOrd[2][1] = 0;
+	temp.CoOrd[2][2] = 1;
+	temp.CoOrd[2][3] = 0;
+	temp.CoOrd[3][0] = 0;
+	temp.CoOrd[3][1] = 0;
+	temp.CoOrd[3][2] = 0;
+	temp.CoOrd[3][3] = 1;
+
+	return temp;
+}
+
 void Matrix::XAxisRotation(float a_fRadians)
 {
 	//    X  Y
@@ -196,3 +219,49 @@ void Matrix::operator = (const Matrix& param)
 	CoOrd[2][3] = param.CoOrd[2][3];
 	CoOrd[3][3] = param.CoOrd[3][3];
 }
+
+#ifdef _WIN32
+void Matrix::operator = (const DirectX::XMFLOAT4X4& param)
+{
+	CoOrd[0][0] = param._11;
+	CoOrd[1][0] = param._21;
+	CoOrd[2][0] = param._31;
+	CoOrd[3][0] = param._41;
+	CoOrd[0][1] = param._12;
+	CoOrd[1][1] = param._22;
+	CoOrd[2][1] = param._32;
+	CoOrd[3][1] = param._42;
+	CoOrd[0][2] = param._13;
+	CoOrd[1][2] = param._23;
+	CoOrd[2][2] = param._33;
+	CoOrd[3][2] = param._43;
+	CoOrd[0][3] = param._14;
+	CoOrd[1][3] = param._24;
+	CoOrd[2][3] = param._34;
+	CoOrd[3][3] = param._44;
+}
+
+Matrix::operator DirectX::XMFLOAT4X4()
+{
+	DirectX::XMFLOAT4X4 tempMatrix;
+
+	tempMatrix._11 = CoOrd[0][0];
+	tempMatrix._21 = CoOrd[1][0];
+	tempMatrix._31 = CoOrd[2][0];
+	tempMatrix._41 = CoOrd[3][0];
+	tempMatrix._12 = CoOrd[0][1];
+	tempMatrix._22 = CoOrd[1][1];
+	tempMatrix._32 = CoOrd[2][1];
+	tempMatrix._42 = CoOrd[3][1];
+	tempMatrix._13 = CoOrd[0][2];
+	tempMatrix._23 = CoOrd[1][2];
+	tempMatrix._33 = CoOrd[2][2];
+	tempMatrix._43 = CoOrd[3][2];
+	tempMatrix._14 = CoOrd[0][3];
+	tempMatrix._24 = CoOrd[1][3];
+	tempMatrix._34 = CoOrd[2][3];
+	tempMatrix._44 = CoOrd[3][3];
+
+	return tempMatrix;
+}
+#endif //_WIN32

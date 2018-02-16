@@ -67,7 +67,7 @@ void* PackManager::LoadResource(std::string a_svFileToLoad)
 
         pData = new char[length]; // create the buffer of the character length of the file.
 
-        //std::cout<<"Reading "<<length<<" Characters for: "<<a_svFileToLoad<<std::endl;
+        std::cout<<"Reading "<<length<<" Characters for: "<<a_svFileToLoad<<std::endl;
 
         fsFileStream.read(pData, length);
 
@@ -102,14 +102,14 @@ void PackManager::LoadPackageHeaders(std::string a_szNameOfPackage)
 
 		fsFileStream.get((char*)pcTempChar, 5);
 		stHeader.iOffset = *pcTempChar;
-
-		//std::cout<<"Got File Header Offset:"<<stHeader.iOffset<<", Position: "<<fsFileStream.tellg()<<std::endl;
-
+#ifdef _DEBUG
+		std::cout<<"Got File Header Offset:"<<stHeader.iOffset<<", Position: "<<fsFileStream.tellg()<<std::endl;
+#endif //_DEBUG
 		fsFileStream.get((char*)pcTempChar, 5);
 		stHeader.iSize = *pcTempChar;
-
-		//std::cout<<"Got File Header Size:"<<stHeader.iSize<<", Position: "<<fsFileStream.tellg()<<std::endl;
-
+#ifdef _DEBUG
+		std::cout<<"Got File Header Size:"<<stHeader.iSize<<", Position: "<<fsFileStream.tellg()<<std::endl;
+#endif //_DEBUG
 		// searching for file before actual loading
 
 		stPakFileEntry stFileEntry;
@@ -120,27 +120,30 @@ void PackManager::LoadPackageHeaders(std::string a_szNameOfPackage)
 
 		for(int i = 0; i < stHeader.iSize / 64; i++)
 		{
-			//std::cout<<"Position: "<<fsFileStream.tellg()<<std::endl;
+#ifdef _DEBUG
+			std::cout<<"Position: "<<fsFileStream.tellg()<<std::endl;
+#endif //_DEBUG
 
 			fsFileStream.get(stFileEntry.caName, 57);
 
 			//Grab the required stuff
 			fsFileStream.read((char*)pcTempChar, 4);
 			stFileEntry.iOffset = *pcTempChar;
-
-			//std::cout<<"Got File Header Offset:"<<stFileEntry.iOffset<<", Position: "<<fsFileStream.tellg()<<std::endl;
-
+#ifdef _DEBUG
+			std::cout<<"Got File Header Offset:"<<stFileEntry.iOffset<<", Position: "<<fsFileStream.tellg()<<std::endl;
+#endif //_DEBUG
 			fsFileStream.read((char*)pcTempChar, 4);
 			stFileEntry.iSize = *pcTempChar;
-
-			//std::cout<<"Got File Header Size:"<<stFileEntry.iSize<<", Position: "<<fsFileStream.tellg()<<std::endl;
-
+#ifdef _DEBUG
+			std::cout<<"Got File Header Size:"<<stFileEntry.iSize<<", Position: "<<fsFileStream.tellg()<<std::endl;
+#endif //_DEBUG
             stFileEntry.szNameOfPakHeader = a_szNameOfPackage;
 				
 			m_astPakFileEntrys.push_back(stFileEntry);
         }
-
-        //delete pcTempChar;
+#ifdef _DEBUG
+		std::cout << "Finished filling out pak file headers" << std::endl;
+#endif //_DEBUG
     }
 }
 

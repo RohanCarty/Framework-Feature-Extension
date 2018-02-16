@@ -18,6 +18,10 @@
 #include "Vector.h"
 #include "Vertex.h"
 
+#ifdef _WIN32
+#include <DirectXMath.h>
+#endif //_WIN32
+
 //Class used to store 2D vectors as well as all functions related to manipulating them.
 class Matrix
 {
@@ -26,6 +30,8 @@ public:
 	~Matrix();
 
 	void CreateIdentity();
+
+	static Matrix GetIdentity();
 
 	void XAxisRotation(float a_fRadians);
 
@@ -51,6 +57,11 @@ public:
 	Vector operator * (const Vector& right);
 
 	void operator = (const Matrix& right);
+
+#ifdef _WIN32
+	void operator = (const DirectX::XMFLOAT4X4& right);
+	operator DirectX::XMFLOAT4X4();
+#endif //_WIN32
 
 	double CoOrd[4][4];
 };

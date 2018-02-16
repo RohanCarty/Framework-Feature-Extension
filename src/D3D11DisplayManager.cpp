@@ -85,22 +85,27 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	//Load and compile the two shaders
 	ID3D10Blob *VS, *PS;
 
-	std::string cpFullFile("Texture2D ObjTexture;\nSamplerState ObjSamplerState;\nstruct VS_OUTPUT\n{\nfloat4 Pos : SV_POSITION;\nfloat2 TexCoord : TEXCOORD;\n};\nVS_OUTPUT VS(float4 inPos : POSITION, float2 inTexCoord : TEXCOORD)\n{\nVS_OUTPUT output;\noutput.Pos = inPos;\noutput.TexCoord = inTexCoord;\nreturn output;\n}\nfloat4 PS(VS_OUTPUT input) : SV_TARGET\n{\nreturn ObjTexture.Sample(ObjSamplerState, input.TexCoord);\n}\n");
+	std::string szVertexFile = LoadShader(a_szVertexShader);
 
-	int piSize = cpFullFile.size();
+	std::string szFragmentFile = LoadShader(a_szFragmentShader);
 
-	cpFullFile.resize(piSize);
+	//std::string cpFullFile("Texture2D ObjTexture;\nSamplerState ObjSamplerState;\nstruct VS_OUTPUT\n{\nfloat4 Pos : SV_POSITION;\nfloat2 TexCoord : TEXCOORD;\n};\nVS_OUTPUT VS(float4 inPos : POSITION, float2 inTexCoord : TEXCOORD)\n{\nVS_OUTPUT output;\noutput.Pos = inPos;\noutput.TexCoord = inTexCoord;\nreturn output;\n}\nfloat4 PS(VS_OUTPUT input) : SV_TARGET\n{\nreturn ObjTexture.Sample(ObjSamplerState, input.TexCoord);\n}\n");
+
+	int piVSize = szVertexFile.size();
+	int piFSize = szFragmentFile.size();
+
+	//cpFullFile.resize(piSize);
 
 	HRESULT hr = NULL;
 
-	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
+	hr = D3DCompile(szVertexFile.c_str(), piVSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
 	if (hr != NULL)
 	{
 		std::cout << "Shader error: " << hr << std::endl;
 	}
 
 	hr = NULL;
-	hr = D3DCompile(cpFullFile.c_str(), piSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
+	hr = D3DCompile(szFragmentFile.c_str(), piFSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
 	if (hr != NULL)
 	{
 		std::cout << "Shader error: " << hr << std::endl;
@@ -126,6 +131,19 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 	m_pkContext->IASetInputLayout(m_pkInputLayout);
 
 	return 0;
+}
+
+std::string D3D11DisplayManager::LoadShader(std::string a_szShaderName)
+{
+	int piSize;
+	piSize = PackManager::GetSizeOfFile(a_szShaderName);
+	void* pTempResource = PackManager::LoadResource(a_szShaderName);
+
+	std::string cpFullFile = (char*)pTempResource;
+	cpFullFile.resize(piSize);
+
+	delete pTempResource;
+	return cpFullFile;
 }
 
 bool D3D11DisplayManager::CreateScreen()
@@ -369,6 +387,40 @@ bool D3D11DisplayManager::CreateScreen()
 	//Select which primitive type we are using
 	m_pkContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	//Start setting up the constant buffer for the view matricies
+	VS_CONSTANT_BUFFER VsConstData;
+	Matrix mkMatrix;
+	VsConstData.mWorldViewProj = mkMatrix;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
+	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
+	VsConstData.vVectorStatingCurrentResolution.x = m_iXResolution; VsConstData.vVectorStatingCurrentResolution.y = m_iYResolution;
+
+	//Setup buffer description to use as a constant buffer in the vertex shader
+	D3D11_BUFFER_DESC cbDesc;
+	cbDesc.ByteWidth = sizeof(VS_CONSTANT_BUFFER);
+	cbDesc.Usage = D3D11_USAGE_DYNAMIC;
+	cbDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbDesc.MiscFlags = 0;
+	cbDesc.StructureByteStride = 0;
+
+	//Subresource data for constand vertex buffer
+	D3D11_SUBRESOURCE_DATA cbInitData;
+	cbInitData.pSysMem = &VsConstData;
+	cbInitData.SysMemPitch = 0;
+	cbInitData.SysMemSlicePitch = 0;
+
+	//Create the constant buffer
+	hr = m_pkDevice->CreateBuffer(&cbDesc, &cbInitData, &m_pkVSConstantBuffer);
+
+	if (FAILED(hr))
+	{
+		return hr;
+	}
+
+	m_pkContext->VSSetConstantBuffers(0, 1, &m_pkVSConstantBuffer);
+
     return true;
 }
 
@@ -595,7 +647,8 @@ void D3D11DisplayManager::UpdateTextureSDLSurface(SDL_Surface* a_pkSurface, int 
 		//Create a new one.
 		hr = m_pkDevice->CreateShaderResourceView( pkTex, &SRVDesc, &m_astLoadedTextures[a_iTextureNumber].m_pkTextureResource);
 
-		m_pkContext->CopyResource(pkTex, m_astLoadedTextures[a_iTextureNumber].m_pkTexture2D);
+		//Apparently this causes a crash now that we load shaders from files, TODO: investigate
+		//m_pkContext->CopyResource(pkTex, m_astLoadedTextures[a_iTextureNumber].m_pkTexture2D);
 
 		if(FAILED(hr))
 		{
@@ -785,6 +838,22 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 	memcpy(m_pkMappedSubresource.pData, m_pkVerticies, sizeof(m_pkVerticies));
 	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
 
+	//Map/write/unmap the constant buffer containing the view matrix
+	VS_CONSTANT_BUFFER VsConstData;
+	VsConstData.mWorldViewProj = *m_pkViewMatrix;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
+	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
+	VsConstData.vVectorStatingCurrentResolution.x = m_iXResolution; VsConstData.vVectorStatingCurrentResolution.y = m_iYResolution;
+
+	//Subresource data for constant vertex buffer
+	D3D11_MAPPED_SUBRESOURCE cbData;
+	ZeroMemory(&cbData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	m_pkContext->Map(m_pkVSConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &cbData);
+	memcpy(cbData.pData, &VsConstData, sizeof(VS_CONSTANT_BUFFER));
+	m_pkContext->Unmap(m_pkVSConstantBuffer, 0);
+
 	//Draw the vertex buffer to the back buffer
 	m_pkContext->Draw(6, 0);
 
@@ -849,6 +918,22 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &m_pkMappedSubresource);	//Map the buffer
 	memcpy(m_pkMappedSubresource.pData, m_pkVerticies, sizeof(m_pkVerticies));
 	m_pkContext->Unmap(m_pkVertexBuffer, NULL);
+
+	//Map/write/unmap the constant buffer containing the view matrix
+	VS_CONSTANT_BUFFER VsConstData;
+	VsConstData.mWorldViewProj = *m_pkViewMatrix;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
+	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
+	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
+	VsConstData.vVectorStatingCurrentResolution.x = m_iXResolution; VsConstData.vVectorStatingCurrentResolution.y = m_iYResolution;
+
+	//Subresource data for constant vertex buffer
+	D3D11_MAPPED_SUBRESOURCE cbData;
+	ZeroMemory(&cbData, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	m_pkContext->Map(m_pkVSConstantBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &cbData);
+	memcpy(cbData.pData, &VsConstData, sizeof(VS_CONSTANT_BUFFER));
+	m_pkContext->Unmap(m_pkVSConstantBuffer, 0);
 
 	//Draw the vertex buffer to the back buffer
 	m_pkContext->Draw(6, 0);
