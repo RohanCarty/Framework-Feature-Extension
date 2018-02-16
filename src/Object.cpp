@@ -243,6 +243,9 @@ void Object::TransformMesh(Mesh* a_pkMesh)
 
     kTempMatrix.SetTranslation(*m_pWorldLocation);
 
+	a_pkMesh->SetMatrix(kTempMatrix);
+
+	//TODO: do if using opengl1
 	kTempMatrix.TransformVertices(a_pkMesh->GetVertexArray(), a_pkMesh->GetNumberOfVertices());
 }
 

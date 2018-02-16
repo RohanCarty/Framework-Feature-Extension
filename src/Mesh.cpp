@@ -1,6 +1,7 @@
 #include "Mesh.h"
 #include "DisplayManager.h"
 #include "Vertex.h"
+#include "Matrix.h"
 #include "Texture.h"
 #include "PackManager.h"
 
@@ -337,4 +338,13 @@ void Mesh::GenerateBasicMesh(float a_fSizeX, float a_fSizeY, float a_fSizeZ)
 void Mesh::SetTexture(Texture* a_pTexture)
 {
 	m_pTexture = a_pTexture;
+}
+
+void Mesh::SetMatrix(Matrix a_mMatrix)
+{
+	m_mObjectMatrix = a_mMatrix;
+}
+Matrix Mesh::GetMatrix()
+{
+	return m_mObjectMatrix;
 }

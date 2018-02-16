@@ -46,6 +46,7 @@ struct stTextureInfoD3D
 struct VS_CONSTANT_BUFFER //make sure it's 16-byte aligned, IMPORTANT!
 {
 	DirectX::XMFLOAT4X4 mWorldViewProj;
+	DirectX::XMFLOAT4X4 mObjectMatrix;
 	DirectX::XMFLOAT4 vSomeVectorThatMayBeNeededByASpecificShader;
 	DirectX::XMFLOAT2 vVectorThatMightAlsoBeNeeded;
 	DirectX::XMFLOAT2 vVectorStatingCurrentResolution; 

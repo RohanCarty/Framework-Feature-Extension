@@ -19,9 +19,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "Matrix.h"
+
 class DisplayManager;
 class Vertex;
 class Texture;
+class Matrix;
 
 //Class used to store Textures as well as all functions related to manipulating them.
 class Mesh
@@ -48,6 +51,9 @@ public:
 
 	void SetTexture(Texture* a_pTexture);
 
+	void SetMatrix(Matrix a_mMatrix);
+	Matrix GetMatrix();
+
 private:
     std::stringstream m_szsStringStream;
     
@@ -57,6 +63,8 @@ private:
 	Vertex* m_pakOriginalVertices;
 
 	Texture* m_pTexture;
+
+	Matrix m_mObjectMatrix;
 
 	float* m_pafU;
 	float* m_pafV;

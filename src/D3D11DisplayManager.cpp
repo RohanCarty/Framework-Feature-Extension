@@ -96,20 +96,35 @@ unsigned int D3D11DisplayManager::LoadShaderProgram(std::string a_szVertexShader
 
 	//cpFullFile.resize(piSize);
 
+	ID3DBlob* errorBlob = nullptr;
+
 	HRESULT hr = NULL;
 
-	hr = D3DCompile(szVertexFile.c_str(), piVSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, 0);
+	hr = D3DCompile(szVertexFile.c_str(), piVSize, "D3DShaders.shader", 0, 0, "VS", "vs_4_0", 0, 0, &VS, &errorBlob);
 	if (hr != NULL)
 	{
 		std::cout << "Shader error: " << hr << std::endl;
+
+		if (errorBlob)
+		{
+			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+			errorBlob->Release();
+		}
 	}
 
 	hr = NULL;
-	hr = D3DCompile(szFragmentFile.c_str(), piFSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, 0);
+	hr = D3DCompile(szFragmentFile.c_str(), piFSize, "D3DShaders.shader", 0, 0, "PS", "ps_4_0", 0, 0, &PS, &errorBlob);
 	if (hr != NULL)
 	{
 		std::cout << "Shader error: " << hr << std::endl;
+
+		if (errorBlob)
+		{
+			OutputDebugStringA((char*)errorBlob->GetBufferPointer());
+			errorBlob->Release();
+		}
 	}
+
 
 	//Encapsulate both shaders into shader objects
 	m_pkDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &m_pkVertexShader);
@@ -391,6 +406,7 @@ bool D3D11DisplayManager::CreateScreen()
 	VS_CONSTANT_BUFFER VsConstData;
 	Matrix mkMatrix;
 	VsConstData.mWorldViewProj = mkMatrix;
+	VsConstData.mObjectMatrix = mkMatrix;
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
 	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
@@ -743,6 +759,7 @@ float D3D11DisplayManager::TransformToScreenSpaceX(double a_pkPosition)
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().x;
 	a_pkPosition += m_iXResolution /2;
 	return(float)(a_pkPosition / (m_iXResolution / 2))- 1.0f;
+	//return a_pkPosition;
 }
 
 float D3D11DisplayManager::TransformToScreenSpaceY(double a_pkPosition)
@@ -751,6 +768,7 @@ float D3D11DisplayManager::TransformToScreenSpaceY(double a_pkPosition)
 	a_pkPosition -= m_pkViewMatrix->GetTranslation().y;
 	a_pkPosition += m_iYResolution / 2;
 	return(float)( 1.0f - (a_pkPosition / (m_iYResolution / 2)));
+	//return a_pkPosition;
 }
 
 float D3D11DisplayManager::HUDTransformToScreenSpaceX(double a_pkPosition)
@@ -841,6 +859,7 @@ bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pk
 	//Map/write/unmap the constant buffer containing the view matrix
 	VS_CONSTANT_BUFFER VsConstData;
 	VsConstData.mWorldViewProj = *m_pkViewMatrix;
+	VsConstData.mObjectMatrix = a_pkMesh->GetMatrix();
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
 	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
@@ -878,6 +897,43 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 
 	//TODO: allow drawing code to handle something that's not a quad
 
+	m_pkVerticies[0].X = HUDTransformToScreenSpaceX(a_aLocations[0].GetLocation()->x);
+	m_pkVerticies[0].Y = HUDTransformToScreenSpaceY(a_aLocations[0].GetLocation()->y);
+	m_pkVerticies[0].Z = 0;
+	m_pkVerticies[0].U = a_iTexture->m_fMinU;
+	m_pkVerticies[0].V = a_iTexture->m_fMinV;
+
+	m_pkVerticies[1].X = HUDTransformToScreenSpaceX(a_aLocations[1].GetLocation()->x);
+	m_pkVerticies[1].Y = HUDTransformToScreenSpaceY(a_aLocations[1].GetLocation()->y);
+	m_pkVerticies[1].Z = 0;
+	m_pkVerticies[1].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[1].V = a_iTexture->m_fMinV;
+
+	m_pkVerticies[2].X = HUDTransformToScreenSpaceX(a_aLocations[3].GetLocation()->x);
+	m_pkVerticies[2].Y = HUDTransformToScreenSpaceY(a_aLocations[3].GetLocation()->y);
+	m_pkVerticies[2].Z = 0;
+	m_pkVerticies[2].U = a_iTexture->m_fMinU;
+	m_pkVerticies[2].V = a_iTexture->m_fMaxV;
+
+	m_pkVerticies[3].X = HUDTransformToScreenSpaceX(a_aLocations[3].GetLocation()->x);
+	m_pkVerticies[3].Y = HUDTransformToScreenSpaceY(a_aLocations[3].GetLocation()->y);
+	m_pkVerticies[3].Z = 0;
+	m_pkVerticies[3].U = a_iTexture->m_fMinU;
+	m_pkVerticies[3].V = a_iTexture->m_fMaxV;
+
+	m_pkVerticies[4].X = HUDTransformToScreenSpaceX(a_aLocations[1].GetLocation()->x);
+	m_pkVerticies[4].Y = HUDTransformToScreenSpaceY(a_aLocations[1].GetLocation()->y);
+	m_pkVerticies[4].Z = 0;
+	m_pkVerticies[4].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[4].V = a_iTexture->m_fMinV;
+
+	m_pkVerticies[5].X = HUDTransformToScreenSpaceX(a_aLocations[2].GetLocation()->x);
+	m_pkVerticies[5].Y = HUDTransformToScreenSpaceY(a_aLocations[2].GetLocation()->y);
+	m_pkVerticies[5].Z = 0;
+	m_pkVerticies[5].U = a_iTexture->m_fMaxU;
+	m_pkVerticies[5].V = a_iTexture->m_fMaxV;
+
+	/*
 	m_pkVerticies[0].X = HUDTransformToScreenSpaceX(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).x);
 	m_pkVerticies[0].Y = HUDTransformToScreenSpaceY(m_pkViewMatrix->MultiplyVector(a_aLocations[0].GetLocation()).y);
 	m_pkVerticies[0].Z = 0;
@@ -913,6 +969,7 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 	m_pkVerticies[5].Z = 0;
 	m_pkVerticies[5].U = a_iTexture->m_fMaxU;
 	m_pkVerticies[5].V = a_iTexture->m_fMaxV;
+	*/
 
 	
 	m_pkContext->Map(m_pkVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &m_pkMappedSubresource);	//Map the buffer
@@ -922,6 +979,7 @@ bool D3D11DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Text
 	//Map/write/unmap the constant buffer containing the view matrix
 	VS_CONSTANT_BUFFER VsConstData;
 	VsConstData.mWorldViewProj = *m_pkViewMatrix;
+	VsConstData.mObjectMatrix = Matrix::GetIdentity();
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.w = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.x = 0;
 	VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.y = 0; VsConstData.vSomeVectorThatMayBeNeededByASpecificShader.z = 0;
 	VsConstData.vVectorThatMightAlsoBeNeeded.x = 0; VsConstData.vVectorThatMightAlsoBeNeeded.y = 0;
