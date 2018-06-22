@@ -27,7 +27,7 @@ Unit::Unit(Scene* a_pkScene) : Actor(a_pkScene)
     }
 
     //Test sprite for now, will load actual one once we have it.
-	m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/CharacterTemplate.animated", SceneManager::GetDisplayManager());
+	m_apkRenderables[0].m_pkTexture->LoadTexture("Resources/Textures/GoblinEnemy.animated", SceneManager::GetDisplayManager());
 
     m_vMaxSpeed.x = 400 + (rand() % 50 - 25);
 	m_vMaxSpeed.y = 600;

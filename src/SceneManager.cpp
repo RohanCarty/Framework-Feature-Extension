@@ -82,8 +82,8 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	{
 #ifdef _WIN32
 		m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
-#else
-		m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
+#else //Make sure we use OpenGL1 as the default renderer
+		m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
 #endif //_WIN32
 	}
 	

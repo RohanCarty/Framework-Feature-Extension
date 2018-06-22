@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="PegasusFeatherFramework" Version="10.0.0" InternalType="Console">
+  <VirtualDirectory Name="include">
+    <File Name="include/Vector.h"/>
+    <File Name="include/TileManager.h"/>
+    <File Name="include/SceneManager.h"/>
+    <File Name="include/HUD.h"/>
+    <File Name="include/Button.h"/>
+    <File Name="include/D3D11DisplayManager.h"/>
+    <File Name="include/InputManagerSDL.h"/>
+    <File Name="include/FloatingText.h"/>
+    <File Name="include/AnimatedTexture.h"/>
+    <File Name="include/NetworkManager.h"/>
+    <File Name="include/ObjectManager.h"/>
+    <File Name="include/Vertex.h"/>
+    <File Name="include/GameInfo.h"/>
+    <File Name="include/CollectibleSoul.h"/>
+    <File Name="include/Projectile.h"/>
+    <File Name="include/SoundManager.h"/>
+    <File Name="include/GameScene.h"/>
+    <File Name="include/ParticleManager.h"/>
+    <File Name="include/Particle.h"/>
+    <File Name="include/DisplayManager.h"/>
+    <File Name="include/Matrix.h"/>
+    <File Name="include/MainMenuScene.h"/>
+    <File Name="include/Building.h"/>
+    <File Name="include/Actor.h"/>
+    <File Name="include/Unit.h"/>
+    <File Name="include/StartScreen.h"/>
+    <File Name="include/OpenGLDisplayManager.h"/>
+    <File Name="include/UIElement.h"/>
+    <File Name="include/InputManager.h"/>
+    <File Name="include/tinyxml2.h"/>
+    <File Name="include/OpenGL1DisplayManager.h"/>
+    <File Name="include/TextLibrary.h"/>
+    <File Name="include/UnitManager.h"/>
+    <File Name="include/Scene.h"/>
+    <File Name="include/Tile.h"/>
+    <File Name="include/networkmanager.h"/>
+    <File Name="include/TextLibrarySDL.h"/>
+    <File Name="include/OpenGLES2DisplayManager.h"/>
+    <File Name="include/Camera.h"/>
+    <File Name="include/msvcunistd.h"/>
+    <File Name="include/Object.h"/>
+    <File Name="include/Player.h"/>
+    <File Name="include/Resource.h"/>
+    <File Name="include/InputManagerUWP.h"/>
+    <File Name="include/Mesh.h"/>
+    <File Name="include/Cursor.h"/>
+    <File Name="include/Texture.h"/>
+    <File Name="include/PerformanceTimer.h"/>
+    <File Name="include/PackManager.h"/>
+    <File Name="include/NetworkTestScene.h"/>
+  </VirtualDirectory>
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="src/Unit.cpp"/>
+    <File Name="src/Matrix.cpp"/>
+    <File Name="src/ObjectManager.cpp"/>
+    <File Name="src/UIElement.cpp"/>
+    <File Name="src/Projectile.cpp"/>
+    <File Name="src/NetworkManager.cpp"/>
+    <File Name="src/AnimatedTexture.cpp"/>
+    <File Name="src/ParticleManager.cpp"/>
+    <File Name="src/GameScene.cpp"/>
+    <File Name="src/OpenGLDisplayManager.cpp"/>
+    <File Name="src/Mesh.cpp"/>
+    <File Name="src/Particle.cpp"/>
+    <File Name="src/OpenGLES2DisplayManager.cpp"/>
+    <File Name="src/Player.cpp"/>
+    <File Name="src/Button.cpp"/>
+    <File Name="src/MainMenuScene.cpp"/>
+    <File Name="src/Vertex.cpp"/>
+    <File Name="src/StartScreen.cpp"/>
+    <File Name="src/Vector.cpp"/>
+    <File Name="src/FloatingText.cpp"/>
+    <File Name="src/Texture.cpp"/>
+    <File Name="src/tinyxml2.cpp"/>
+    <File Name="src/DisplayManager.cpp"/>
+    <File Name="src/Object.cpp"/>
+    <File Name="src/PackManager.cpp"/>
+    <File Name="src/Resource.cpp"/>
+    <File Name="src/Building.cpp"/>
+    <File Name="src/TextLibrarySDL.cpp"/>
+    <File Name="src/InputManager.cpp"/>
+    <File Name="src/Cursor.cpp"/>
+    <File Name="src/GameInfo.cpp"/>
+    <File Name="src/Camera.cpp"/>
+    <File Name="src/main.cpp"/>
+    <File Name="src/UnitManager.cpp"/>
+    <File Name="src/TextLibrary.cpp"/>
+    <File Name="src/TileManager.cpp"/>
+    <File Name="src/Scene.cpp"/>
+    <File Name="src/D3D11DisplayManager.cpp"/>
+    <File Name="src/CollectibleSoul.cpp"/>
+    <File Name="src/SceneManager.cpp"/>
+    <File Name="src/NetworkTestScene.cpp"/>
+    <File Name="src/HUD.cpp"/>
+    <File Name="src/InputManagerUWP.cpp"/>
+    <File Name="src/OpenGL1DisplayManager.cpp"/>
+    <File Name="src/Tile.cpp"/>
+    <File Name="src/InputManagerSDL.cpp"/>
+    <File Name="src/Actor.cpp"/>
+    <File Name="src/SoundManager.cpp"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="`xml2-config --cflags`;`sdl2-config --cflags` " C_Options="" Assembler="">
+        <IncludePath Value="./include/"/>
+      </Compiler>
+      <Linker Options=" `sdl2-config --libs`;`xml2-config --libs`">
+        <LibraryPath Value="."/>
+        <Library Value="GLEW"/>
+        <Library Value="GL"/>
+        <Library Value="SDL2_mixer"/>
+        <Library Value="SDL2_ttf"/>
+        <Library Value="SDL2_net"/>
+        <Library Value="SDL2_image"/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0;-Wall" C_Options="-g;-O0;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="GCC" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall" C_Options="-O2;-Wall" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./bin" Command="./bin/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <BuildSystem Name="Default"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no" EnableCpp14="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
