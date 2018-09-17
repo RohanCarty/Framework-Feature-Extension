@@ -21,7 +21,7 @@
 #include "D3D11DisplayManager.h"
 #endif //_WIN32
 #include "OpenGL1DisplayManager.h"
-#include "OpenGLDisplayManager.h"
+#include "VulkanDisplayManager.h"
 #include "InputManager.h"
 #include "InputManagerSDL.h"
 #ifdef __UWP__

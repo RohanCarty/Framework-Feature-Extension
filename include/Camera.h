@@ -16,7 +16,6 @@
 
 #include "Object.h"
 #include "Matrix.h"
-#include "OpenGLDisplayManager.h"
 
 class Camera : public Object
 {

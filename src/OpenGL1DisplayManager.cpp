@@ -1,4 +1,3 @@
-#ifndef __arm__
 #ifndef __UWP__
 
 #include "DisplayManager.h"
@@ -435,4 +434,3 @@ bool OpenGL1DisplayManager::HUDDraw(Vertex* a_aLocations, int a_iSizeOfArray, Te
 }
 
 #endif //__UWP__
-#endif //__arm__

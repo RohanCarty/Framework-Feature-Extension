@@ -60,9 +60,9 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	for(int iDx = 0; iDx < argc; iDx++)
     {
 #ifndef __UWP__
-		if(strcmp(argv[iDx], "opengl") == 0)
+		if(strcmp(argv[iDx], "vulkan") == 0)
 		{
-			m_pkDisplayManager = new OpenGLDisplayManager(m_argc, m_argv);
+			m_pkDisplayManager = new VulkanDisplayManager(m_argc, m_argv);
 		}
 
 		if(strcmp(argv[iDx], "opengl1") == 0)

@@ -220,7 +220,9 @@ void HUD::PopulatePlayerInfos()
 		m_astPlayerInfos.pop_back();
 	}
 
-	for(unsigned int uiDx = 0; uiDx < SceneManager::GetInputManager()->GetNumConnectedControllers(); uiDx++)
+	//Forget multiplayer for now, we're only worried about single player
+
+	for(unsigned int uiDx = 0; uiDx < 1/*SceneManager::GetInputManager()->GetNumConnectedControllers()*/; uiDx++)
 	{
 		stPlayerInfo stTempInfo;
 

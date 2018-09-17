@@ -106,12 +106,6 @@
     <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp">
       <Filter>Source\Display</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\OpenGLDisplayManager.cpp">
-      <Filter>Source\Display</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\OpenGLES2DisplayManager.cpp">
-      <Filter>Source\Display</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\TextLibrary.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
@@ -135,6 +129,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\NetworkTestScene.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\VulkanDisplayManager.cpp">
+      <Filter>Source\Display</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -199,12 +196,6 @@
       <Filter>Include\Actors</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\OpenGL1DisplayManager.h">
-      <Filter>Include\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\OpenGLDisplayManager.h">
-      <Filter>Include\Display</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\include\OpenGLES2DisplayManager.h">
       <Filter>Include\Display</Filter>
     </ClInclude>
     <ClInclude Include="..\..\include\D3D11DisplayManager.h">
@@ -272,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\NetworkTestScene.h">
       <Filter>Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\VulkanDisplayManager.h">
+      <Filter>Include\Display</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

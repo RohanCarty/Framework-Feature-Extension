@@ -16,7 +16,7 @@
 
 #include "Object.h"
 #include "Matrix.h"
-#include "OpenGLDisplayManager.h"
+#include "VulkanDisplayManager.h"
 
 #include <sstream>
 
