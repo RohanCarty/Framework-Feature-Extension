@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="PegasusFeatherFramework" Version="10.0.0" InternalType="Console">
+  <Plugins>
+    <Plugin Name="qmake">
+      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
+    </Plugin>
+  </Plugins>
   <VirtualDirectory Name="include">
+    <File Name="include/VulkanDisplayManager.h"/>
     <File Name="include/Vector.h"/>
     <File Name="include/TileManager.h"/>
     <File Name="include/SceneManager.h"/>
@@ -27,7 +33,7 @@
     <File Name="include/Actor.h"/>
     <File Name="include/Unit.h"/>
     <File Name="include/StartScreen.h"/>
-    <File Name="include/OpenGLDisplayManager.h"/>
+    <File Name="include/OpenGLDisplayManager.h" ExcludeProjConfig="Release;"/>
     <File Name="include/UIElement.h"/>
     <File Name="include/InputManager.h"/>
     <File Name="include/tinyxml2.h"/>
@@ -38,7 +44,7 @@
     <File Name="include/Tile.h"/>
     <File Name="include/networkmanager.h"/>
     <File Name="include/TextLibrarySDL.h"/>
-    <File Name="include/OpenGLES2DisplayManager.h"/>
+    <File Name="include/OpenGLES2DisplayManager.h" ExcludeProjConfig="Release;"/>
     <File Name="include/Camera.h"/>
     <File Name="include/msvcunistd.h"/>
     <File Name="include/Object.h"/>
@@ -52,14 +58,10 @@
     <File Name="include/PackManager.h"/>
     <File Name="include/NetworkTestScene.h"/>
   </VirtualDirectory>
-  <Plugins>
-    <Plugin Name="qmake">
-      <![CDATA[00020001N0005Debug0000000000000001N0007Release000000000000]]>
-    </Plugin>
-  </Plugins>
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/VulkanDisplayManager.cpp"/>
     <File Name="src/Unit.cpp"/>
     <File Name="src/Matrix.cpp"/>
     <File Name="src/ObjectManager.cpp"/>
@@ -69,10 +71,10 @@
     <File Name="src/AnimatedTexture.cpp"/>
     <File Name="src/ParticleManager.cpp"/>
     <File Name="src/GameScene.cpp"/>
-    <File Name="src/OpenGLDisplayManager.cpp"/>
+    <File Name="src/OpenGLDisplayManager.cpp" ExcludeProjConfig="Release;"/>
     <File Name="src/Mesh.cpp"/>
     <File Name="src/Particle.cpp"/>
-    <File Name="src/OpenGLES2DisplayManager.cpp"/>
+    <File Name="src/OpenGLES2DisplayManager.cpp" ExcludeProjConfig="Release;"/>
     <File Name="src/Player.cpp"/>
     <File Name="src/Button.cpp"/>
     <File Name="src/MainMenuScene.cpp"/>
