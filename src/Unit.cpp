@@ -1,5 +1,4 @@
 #include "Unit.h"
-#include "Building.h"
 #include "SceneManager.h"
 #include "Scene.h"
 #include "GameScene.h"
@@ -121,8 +120,6 @@ bool Unit::Update(float a_fDeltaTime)
 	if(GetHealth() <= 0)
 	{
 		SceneManager::GetSoundManager()->PlaySoundFile("Sounds/SFX/monsterdeath.ogg");
-
-		SceneManager::GetUnitManager()->SpawnNewCollectibleSoul(GetLocation());
 
 		return false;
 	}

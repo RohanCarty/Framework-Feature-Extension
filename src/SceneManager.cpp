@@ -26,6 +26,7 @@ NetworkManager* SceneManager::m_pkNetworkManager;
 UnitManager* SceneManager::m_pkUnitManager;
 TileManager* SceneManager::m_pkTileManager;
 ParticleManager* SceneManager::m_pkParticleManager;
+SettingsManager* SceneManager::m_pkSettingsManager;
 
 SceneManager::SceneManager()
 {
@@ -54,6 +55,9 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
     char result[ 1024 ];
     std::cout<<"Current working directory: "<<getcwd( result, sizeof( result ))<<std::endl;
 	
+    m_pkSettingsManager = NULL;
+    m_pkSettingsManager = new SettingsManager();
+    
 	m_pkDisplayManager = NULL;
 
 	//look for opengl1 in the arguments
@@ -161,6 +165,7 @@ void SceneManager::CleanupSceneManager()
 	delete m_pkSoundManager;
 	delete m_pkDisplayManager;
 	delete m_pkNetworkManager;
+    delete m_pkSettingsManager;
 }
 
 void SceneManager::AddNewScene(Scene* a_pkNewScene)

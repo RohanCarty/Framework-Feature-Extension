@@ -3,7 +3,6 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
-#include "Building.h"
 #include "SceneManager.h"
 #include "GameScene.h"
 #include "Unit.h"

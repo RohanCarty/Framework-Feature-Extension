@@ -24,7 +24,6 @@ class Building;
 class Unit;
 class Actor;
 class Player;
-class CollectibleSoul;
 class Scene;
 class Projectile;
 
@@ -44,8 +43,6 @@ public:
 
     virtual int SpawnNewUnit(int a_iType = 0);
     virtual void SpawnNewUnitOverNetwork(Unit* a_pkUnit);
-
-	virtual int SpawnNewCollectibleSoul(Vector* a_pLocation);
     
 	std::vector<Unit*>& GetUnitList();
 	std::vector<Player*>& GetPlayerList();
@@ -61,7 +58,6 @@ private:
 	std::vector<Player*> m_apkPlayers;
 	std::vector<Projectile*> m_apkProjectiles;
 	std::vector<Unit*> m_apkUnits;
-	std::vector<CollectibleSoul*> m_apkCollectibleSouls;
     std::vector<Actor*> m_apkActors; //combined list of all other types
 };
 

@@ -6,6 +6,7 @@
     </Plugin>
   </Plugins>
   <VirtualDirectory Name="include">
+    <File Name="include/SettingsManager.h"/>
     <File Name="include/VulkanDisplayManager.h"/>
     <File Name="include/Vector.h"/>
     <File Name="include/TileManager.h"/>
@@ -20,7 +21,6 @@
     <File Name="include/ObjectManager.h"/>
     <File Name="include/Vertex.h"/>
     <File Name="include/GameInfo.h"/>
-    <File Name="include/CollectibleSoul.h"/>
     <File Name="include/Projectile.h"/>
     <File Name="include/SoundManager.h"/>
     <File Name="include/GameScene.h"/>
@@ -29,7 +29,6 @@
     <File Name="include/DisplayManager.h"/>
     <File Name="include/Matrix.h"/>
     <File Name="include/MainMenuScene.h"/>
-    <File Name="include/Building.h"/>
     <File Name="include/Actor.h"/>
     <File Name="include/Unit.h"/>
     <File Name="include/StartScreen.h"/>
@@ -61,6 +60,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/SettingsManager.cpp"/>
     <File Name="src/VulkanDisplayManager.cpp"/>
     <File Name="src/Unit.cpp"/>
     <File Name="src/Matrix.cpp"/>
@@ -88,7 +88,6 @@
     <File Name="src/Object.cpp"/>
     <File Name="src/PackManager.cpp"/>
     <File Name="src/Resource.cpp"/>
-    <File Name="src/Building.cpp"/>
     <File Name="src/TextLibrarySDL.cpp"/>
     <File Name="src/InputManager.cpp"/>
     <File Name="src/Cursor.cpp"/>
@@ -100,7 +99,6 @@
     <File Name="src/TileManager.cpp"/>
     <File Name="src/Scene.cpp"/>
     <File Name="src/D3D11DisplayManager.cpp"/>
-    <File Name="src/CollectibleSoul.cpp"/>
     <File Name="src/SceneManager.cpp"/>
     <File Name="src/NetworkTestScene.cpp"/>
     <File Name="src/HUD.cpp"/>

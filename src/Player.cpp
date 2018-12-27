@@ -9,7 +9,6 @@
 #include "Vector.h"
 #include "InputManager.h"
 #include "AnimatedTexture.h"
-#include "CollectibleSoul.h"
 
 Player::Player(Scene* a_pkScene) : Actor(a_pkScene)
 {
@@ -255,20 +254,6 @@ bool Player::Update(float a_fDeltaTime)
 		}
 
 		//TODO: Work on physics.
-
-		//See if the player ran into a soul shard.
-		if(IsCollidingWithActorNextFrame(a_fDeltaTime, m_pLocation))
-		{
-			for(unsigned int uiDx = 0; uiDx < m_apkIsCollidingWithNextFame.size(); uiDx++)
-			{
-				if(m_apkIsCollidingWithNextFame[uiDx]->m_iObjectType == eSoul) //Still isn't strictly type-safe.
-				{
-					//TODO: Put this into a much better and easier function
-					SetCurrentSoulPowerLevel(GetCurrentSoulPowerLevel() + ((CollectibleSoul*)m_apkIsCollidingWithNextFame[uiDx])->GetSoulLevelContained());
-					((CollectibleSoul*)m_apkIsCollidingWithNextFame[uiDx])->SetSoulCollected();
-				}
-			}
-		}
 	}
 
 	//Falling respawn

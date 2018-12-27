@@ -5,9 +5,7 @@
 #include "GameInfo.h"
 #include "GameScene.h"
 #include "Unit.h"
-#include "Building.h"
 #include "Player.h"
-#include "CollectibleSoul.h"
 #include "Vector.h"
 #include "Tile.h"
 #include "Projectile.h"
@@ -111,21 +109,6 @@ bool UnitManager::Update(float a_fDeltaTime)
 			ForceActorListUpdate(); // force an actor list update every time one gets removed.
         }
 	}
-
-	//Update all the Collectible Souls
-	for( unsigned int iDx = 0; iDx < m_apkCollectibleSouls.size(); iDx++ )
-    {
-        if(!m_apkCollectibleSouls[iDx]->Update(a_fDeltaTime))
-        {
-            //if a unit returns false, delete it and wind the loop back one.
-            delete m_apkCollectibleSouls[iDx];
-            m_apkCollectibleSouls.erase(m_apkCollectibleSouls.begin() + iDx);
-            iDx--;
-
-			ForceActorListUpdate(); // force an actor list update every time one gets removed.
-        }
-	}
-
 	return true;
 }
 
@@ -173,15 +156,6 @@ void UnitManager::SpawnNewUnitOverNetwork(Unit* a_pkUnit)
     SceneManager::GetNetworkManager()->AddCommand(&stTempCommand);*/
 }
 
-int UnitManager::SpawnNewCollectibleSoul(Vector* a_pLocation)
-{
-	m_apkCollectibleSouls.push_back(new CollectibleSoul(SceneManager::GetCurrentScene()));
-        
-	m_apkCollectibleSouls[m_apkCollectibleSouls.size() - 1]->SetLocation(*a_pLocation);
-    
-    return 0;
-}
-
 std::vector<Unit*>& UnitManager::GetUnitList()
 {
 	return m_apkUnits;
@@ -200,7 +174,7 @@ std::vector<Projectile*>& UnitManager::GetProjectileList()
 std::vector<Actor*>& UnitManager::GetActorList() // checks to see if actor list is the same size as the other lists combined
 {
     //if size isn't the same as the other two then rebuild list before returning it.
-	if(m_apkActors.size() != m_apkPlayers.size() + m_apkUnits.size() + m_apkCollectibleSouls.size())
+	if(m_apkActors.size() != m_apkPlayers.size() + m_apkUnits.size())
     {
         ForceActorListUpdate();
     }
@@ -228,10 +202,5 @@ void UnitManager::ForceActorListUpdate()
 	for(unsigned int uiDx = 0; uiDx < m_apkUnits.size(); uiDx++)
 	{
 		m_apkActors.push_back(m_apkUnits[uiDx]);
-	}
-
-	for(unsigned int uiDx = 0; uiDx < m_apkCollectibleSouls.size(); uiDx++)
-	{
-		m_apkActors.push_back(m_apkCollectibleSouls[uiDx]);
 	}
 }

@@ -17,6 +17,7 @@
 #include <iostream>
 #include <stack>
 
+#include "SettingsManager.h"
 #ifdef _WIN32
 #include "D3D11DisplayManager.h"
 #endif //_WIN32
@@ -60,6 +61,7 @@ public:
     static UnitManager* GetUnitManager();
     static TileManager* GetTileManager();
 	static ParticleManager* GetParticleManager();
+    static SettingsManager* GetSettingsManager();
     
     static Scene* GetCurrentScene();
 	
@@ -79,6 +81,7 @@ private:
 	static UnitManager* m_pkUnitManager;
     static TileManager* m_pkTileManager;
 	static ParticleManager* m_pkParticleManager;
+    static SettingsManager* m_pkSettingsManager;
 };
 
 #endif

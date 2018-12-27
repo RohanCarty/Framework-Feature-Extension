@@ -4,7 +4,6 @@
 #include "HUD.h"
 #include "SceneManager.h"
 #include "UnitManager.h"
-#include "Building.h"
 
 GameInfo::GameInfo(Scene* a_pkScene)
 {

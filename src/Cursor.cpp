@@ -8,7 +8,6 @@
 #include "Object.h"
 #include "Actor.h"
 #include "Unit.h"
-#include "Building.h"
 #include "UnitManager.h"
 #include "GameScene.h"
 #include "HUD.h"
