@@ -306,3 +306,8 @@ ParticleManager* SceneManager::GetParticleManager()
 {
 	return m_pkParticleManager;
 }
+
+SettingsManager* SceneManager::GetSettingsManager()
+{
+    return m_pkSettingsManager;
+}

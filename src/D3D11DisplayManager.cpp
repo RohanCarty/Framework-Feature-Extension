@@ -7,6 +7,8 @@
 #include "Texture.h"
 #include "Mesh.h"
 #include "PackManager.h"
+#include "SceneManager.h"
+#include "SettingsManager.h"
 
 #include "D3D11DisplayManager.h"
 
@@ -194,6 +196,12 @@ bool D3D11DisplayManager::CreateScreen()
 	m_iYResolution = 720;
 #endif //#ifdef __UWP__
 
+    
+    stSettingsBlock stCurrentSettings = SceneManager::GetSettingsManager()->GetCurrentSettings();
+    
+    m_iXResolution = stCurrentSettings.iXResolution;
+    m_iYResolution = stCurrentSettings.iYResolution;
+
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather Engine 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		m_iXResolution, m_iYResolution, SDL_WINDOW_SHOWN);
 
@@ -202,6 +210,19 @@ bool D3D11DisplayManager::CreateScreen()
 		std::cout << "Window Creation Failed After Succesful SDL2 Initialization." << std::endl;
 		exit(1);
 	}
+    
+        
+    if(stCurrentSettings.bFullscreen)
+    {
+        if(stCurrentSettings.bBorderless)
+        {
+            SDL_SetWindowFullscreen(m_pkMainWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        }
+        else
+        {
+            SDL_SetWindowFullscreen(m_pkMainWindow, SDL_WINDOW_FULLSCREEN);
+        }
+    }
 
 	//retrieve native window handle info to pass to directX
 	SDL_SysWMinfo kInfo;

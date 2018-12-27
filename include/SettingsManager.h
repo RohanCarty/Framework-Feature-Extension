@@ -34,7 +34,7 @@ public:
     SettingsManager();
     virtual ~SettingsManager();
     
-    stSettingsBlock getCurrentSettings();
+    stSettingsBlock GetCurrentSettings();
     
 private:
     stSettingsBlock m_stCurrentSettings;

@@ -10,8 +10,8 @@ SettingsManager::SettingsManager()
     //TODO: load XML files
     
     //fill out struct with defaults in case the XML file isn't there or if anything is missing
-    m_stCurrentSettings.iXResolution = 1280;
-    m_stCurrentSettings.iYResolution = 720;
+    m_stCurrentSettings.iXResolution = 1024;
+    m_stCurrentSettings.iYResolution = 600;
     m_stCurrentSettings.bFullscreen = false;
     m_stCurrentSettings.bBorderless = false;
     m_stCurrentSettings.iMasterVolume = 100;
@@ -35,4 +35,9 @@ SettingsManager::SettingsManager()
 SettingsManager::~SettingsManager()
 {
     //save out on destruction as well
+}
+
+stSettingsBlock SettingsManager::GetCurrentSettings()
+{
+    return m_stCurrentSettings;
 }

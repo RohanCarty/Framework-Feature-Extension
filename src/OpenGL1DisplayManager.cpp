@@ -7,6 +7,8 @@
 #include "Texture.h"
 #include "Mesh.h"
 #include "PackManager.h"
+#include "SceneManager.h"
+#include "SettingsManager.h"
 
 #include "OpenGL1DisplayManager.h"
 
@@ -54,6 +56,11 @@ bool OpenGL1DisplayManager::CreateScreen()
 
 	m_iXResolution = 1024;
 	m_iYResolution = 600;
+    
+    stSettingsBlock stCurrentSettings = SceneManager::GetSettingsManager()->GetCurrentSettings();
+    
+    m_iXResolution = stCurrentSettings.iXResolution;
+    m_iYResolution = stCurrentSettings.iYResolution;
 
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 	//SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -63,6 +70,18 @@ bool OpenGL1DisplayManager::CreateScreen()
 
 	m_pkMainWindow = SDL_CreateWindow("Pegasus Feather 0.5", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
         m_iXResolution, m_iYResolution, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    
+    if(stCurrentSettings.bFullscreen)
+    {
+        if(stCurrentSettings.bBorderless)
+        {
+            SDL_SetWindowFullscreen(m_pkMainWindow, SDL_WINDOW_FULLSCREEN_DESKTOP);
+        }
+        else
+        {
+            SDL_SetWindowFullscreen(m_pkMainWindow, SDL_WINDOW_FULLSCREEN);
+        }
+    }
 
 	if (!m_pkMainWindow) // Die if window creation failed
 	{
