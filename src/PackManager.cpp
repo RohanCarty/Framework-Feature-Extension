@@ -47,6 +47,8 @@ int PackManager::GetSizeOfFile(std::string a_szNameOfFile)
             return m_astPakFileEntrys[iDx].iSize;
         }
     }
+    
+    //TODO: File size of files that aren't inside a package to use for over-rides
 
     //File doesn't exist, return 0 size
     return 0;

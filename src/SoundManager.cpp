@@ -81,9 +81,9 @@ SoundManager::SoundManager()
 		std::cerr<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
 	}
     
-    Mix_VolumeMusic(int((stCurrentSettings.fMasterVolume * stCurrentSettings.fMusicVolume) * 128));
+    Mix_VolumeMusic(int((stCurrentSettings.fMasterVolume * stCurrentSettings.fMusicVolume) * MIX_MAX_VOLUME));
     
-    Mix_Volume(-1, int((stCurrentSettings.fMasterVolume * stCurrentSettings.fSoundEffectVolume) * 128));
+    Mix_Volume(-1, int((stCurrentSettings.fMasterVolume * stCurrentSettings.fSoundEffectVolume) * MIX_MAX_VOLUME));
 }
 
 SoundManager::~SoundManager()
