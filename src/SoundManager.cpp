@@ -1,5 +1,7 @@
 #include "SoundManager.h"
 #include "PackManager.h"
+#include "SceneManager.h"
+#include "SettingsManager.h"
 
 #include <iostream>
 
@@ -9,8 +11,27 @@ SoundManager::SoundManager()
 	SDL_Init(SDL_INIT_AUDIO);
 
 	std::string sz_temperrorstring = SDL_GetError();
+    
+    stSettingsBlock stCurrentSettings = SceneManager::GetSettingsManager()->GetCurrentSettings();
 
-	if( Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+    Uint16 eSoundFormat;
+    
+    switch(stCurrentSettings.iSoundBitDepth)
+    {
+        case 16:
+        eSoundFormat = AUDIO_S16LSB;
+        break;
+        
+        case 24:
+        case 32:
+        eSoundFormat = AUDIO_S32;
+        break;
+        
+        default:
+        eSoundFormat = MIX_DEFAULT_FORMAT;
+    }
+
+	if( Mix_OpenAudio(stCurrentSettings.iSoundSampleRate, eSoundFormat, MIX_DEFAULT_CHANNELS, 1024) == -1)
 	{
 		std::string sz_temperrorstring = Mix_GetError();
 		std::cerr<<"Mix_OpenAudio: "<< Mix_GetError()<<std::endl;
@@ -59,6 +80,10 @@ SoundManager::SoundManager()
 	{
 		std::cerr<<"Mix_FadeInMusic: "<< Mix_GetError()<<std::endl;
 	}
+    
+    Mix_VolumeMusic(int((stCurrentSettings.fMasterVolume * stCurrentSettings.fMusicVolume) * 128));
+    
+    Mix_Volume(-1, int((stCurrentSettings.fMasterVolume * stCurrentSettings.fSoundEffectVolume) * 128));
 }
 
 SoundManager::~SoundManager()

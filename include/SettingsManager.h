@@ -23,9 +23,11 @@ struct stSettingsBlock
     int iYResolution;
     bool bFullscreen;
     bool bBorderless;
-    int iMasterVolume;
-    int iMusicVolume;
-    int iSoundEffectVolume;
+    float fMasterVolume;
+    float fMusicVolume;
+    float fSoundEffectVolume;
+    int iSoundSampleRate;
+    int iSoundBitDepth;
 };
 
 class SettingsManager
