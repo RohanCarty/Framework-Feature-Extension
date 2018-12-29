@@ -69,9 +69,9 @@ bool Mesh::LoadMesh(std::string a_szFileName)
 
 	std::string sTempString;
 
-	int iSizeOfFile;
+	//int iSizeOfFile;
 
-    iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
+    //iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
 
 	char* pTempResource = PackManager::LoadResource(a_szFileName);
 
@@ -165,9 +165,9 @@ void Mesh::SetElementCounts(std::string a_szFileName)
 
 	std::string sTempString;
     
-	int iSizeOfFile;
+	//int iSizeOfFile;
     
-    iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
+    //iSizeOfFile = PackManager::GetSizeOfFile(a_szFileName);
     
 	char* pTempResource = PackManager::LoadResource(a_szFileName);
 

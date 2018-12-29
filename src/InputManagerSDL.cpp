@@ -563,7 +563,7 @@ int InputManagerSDL::GetControllerIdByJoystickId(int a_iId)
 		}
 	}
 
-	return NULL;
+	return -1;
 }
 
 //Clears the current states but not the bind.

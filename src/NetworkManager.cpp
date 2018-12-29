@@ -19,10 +19,10 @@ NetworkManager::NetworkManager()
 	m_bIsConnected = false;
 	m_bIsClient = false;
 
-	localIP.host = NULL;
+	localIP.host = INADDR_NONE;
 	localIP.port = 2120;
 
-	remoteIP.host = NULL;
+	remoteIP.host = INADDR_NONE;
 	remoteIP.port = 2120;
 
 	m_kUDPSocket = NULL;
@@ -126,9 +126,9 @@ bool NetworkManager::Update(float a_fDeltaTime)
 
 			std::string szTemp = szSTemp.str();
 
-			for (int iDx = 0; iDx < szTemp.size(); iDx++)
+			for (unsigned int uiDx = 0; uiDx < szTemp.size(); uiDx++)
 			{
-				m_pkLocalPacket->data[iDx] = (Uint8)szTemp.c_str()[iDx];
+				m_pkLocalPacket->data[uiDx] = (Uint8)szTemp.c_str()[uiDx];
 			}
 
 			m_pkLocalPacket->len = szTemp.size();
