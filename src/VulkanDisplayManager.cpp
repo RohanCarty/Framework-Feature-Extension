@@ -128,7 +128,7 @@ std::string VulkanDisplayManager::LoadShader(std::string a_szShaderName)
 {
 	int piSize;
 	piSize = PackManager::GetSizeOfFile(a_szShaderName);
-	void* pTempResource = PackManager::LoadResource(a_szShaderName);
+	char* pTempResource = PackManager::LoadResource(a_szShaderName);
 
 	std::string cpFullFile = (char*)pTempResource;
 	cpFullFile.resize(piSize);

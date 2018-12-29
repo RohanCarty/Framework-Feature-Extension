@@ -54,11 +54,11 @@ public:
 
     static int GetSizeOfFile(std::string a_szNameOfFile);
 
-    static void* LoadResource(std::string a_svFileToLoad);
+    static char* LoadResource(std::string a_svFileToLoad);
 
     static void LoadPackageHeaders(std::string a_szNameOfPackage);
 
-    static void* LoadFromPackage(std::string a_szFileToLoad);
+    static char* LoadFromPackage(std::string a_szFileToLoad);
 private:
     static std::vector<stPakFileEntry> m_astPakFileEntrys;
 };

@@ -125,7 +125,7 @@ void SoundManager::PlaySoundFile(std::string a_szFileName)
         int piSize;
         piSize = PackManager::GetSizeOfFile(a_szFileName.c_str());
 
-		void* pTempResource = PackManager::LoadResource(a_szFileName.c_str());
+		char* pTempResource = PackManager::LoadResource(a_szFileName.c_str());
 
         stTemp.m_apkAudioChunk = Mix_LoadWAV_RW(SDL_RWFromMem(pTempResource, piSize), 1);
 

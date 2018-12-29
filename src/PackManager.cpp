@@ -54,7 +54,7 @@ int PackManager::GetSizeOfFile(std::string a_szNameOfFile)
     return 0;
 }
 
-void* PackManager::LoadResource(std::string a_svFileToLoad)
+char* PackManager::LoadResource(std::string a_svFileToLoad)
 {
     char* pData = NULL;
 
@@ -149,9 +149,9 @@ void PackManager::LoadPackageHeaders(std::string a_szNameOfPackage)
     }
 }
 
-void* PackManager::LoadFromPackage(std::string a_szFileToLoad)
+char* PackManager::LoadFromPackage(std::string a_szFileToLoad)
 {
-    void* pData = NULL;
+    char* pData = NULL;
     std::string a_szNameOfPackage = a_szFileToLoad.substr(0, a_szFileToLoad.find_first_of("/"));
     a_szNameOfPackage.append(".pak");
 
