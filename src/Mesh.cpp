@@ -154,7 +154,8 @@ bool Mesh::LoadMesh(std::string a_szFileName)
         }
     }
 
-	delete pTempResource;
+    //DO NOT DELETE PACK MANAGER NOW KEEPS IT IN MEMORY
+	//delete pTempResource;
 
 	return true;
 }
@@ -223,7 +224,8 @@ void Mesh::SetElementCounts(std::string a_szFileName)
     
     m_szsStringStream.seekg(0);
 
-	delete pTempResource;
+//DO NOT DELETE PACK MANAGER NOW KEEPS IT IN MEMORY
+//	delete pTempResource;
 
 	return;
 }

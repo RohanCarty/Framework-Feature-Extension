@@ -46,6 +46,13 @@ struct stPakFileEntry
 	std::string szNameOfPakHeader; // Filename of the package that contains this resource.
 };
 
+struct stLoadedBlobInfo
+{
+	std::string m_szFileName;
+	char* m_apkLoadedBlob;
+    unsigned int uiSize;
+};
+
 class PackManager
 {
 public:
@@ -61,6 +68,7 @@ public:
     static char* LoadFromPackage(std::string a_szFileToLoad);
 private:
     static std::vector<stPakFileEntry> m_astPakFileEntrys;
+    static std::vector<stLoadedBlobInfo> m_astLoadedBlobs;
 };
 
 #endif /* defined(_PACKMANAGER_H_) */

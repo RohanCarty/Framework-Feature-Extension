@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=
-Date                   :=12/27/18
+Date                   :=12/30/18
 CodeLitePath           :=/home/ripper/.codelite
 LinkerName             :=/usr/bin/g++
 SharedObjectLinkerName :=/usr/bin/g++ -shared -fPIC
@@ -60,9 +60,9 @@ AS       := /usr/bin/as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_SoundManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_InputManagerSDL.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Tile.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_OpenGL1DisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_HUD.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_SceneManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Scene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TextLibrary.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_UnitManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_GameInfo.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Cursor.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_InputManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TextLibrarySDL.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Button.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TileManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ParticleManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Particle.cpp$(ObjectSuffix) \
-	$(IntermediateDirectory)/src_D3D11DisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_InputManagerUWP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_DisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_tinyxml2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_UIElement.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Vertex.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Object.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_VulkanDisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Unit.cpp$(ObjectSuffix) \
+Objects0=$(IntermediateDirectory)/src_SoundManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Actor.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_InputManagerSDL.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Tile.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_OpenGL1DisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_HUD.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_SceneManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Scene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TextLibrary.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_UnitManager.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_main.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_GameInfo.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Cursor.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_InputManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TextLibrarySDL.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Button.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_TileManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ParticleManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Particle.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_D3D11DisplayManager.cpp$(ObjectSuffix) \
+	$(IntermediateDirectory)/src_InputManagerUWP.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_DisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Camera.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_tinyxml2.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_UIElement.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Vertex.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Object.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_VulkanDisplayManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Unit.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_Matrix.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Vector.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Projectile.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_ObjectManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_NetworkManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_AnimatedTexture.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_GameScene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Player.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Texture.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_MainMenuScene.cpp$(ObjectSuffix) \
 	$(IntermediateDirectory)/src_Mesh.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_StartScreen.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_FloatingText.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_PackManager.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_NetworkTestScene.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_Resource.cpp$(ObjectSuffix) 
 
@@ -95,14 +95,6 @@ PreBuild:
 ##
 ## Objects
 ##
-$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix): src/SettingsManager.cpp $(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix)
-	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ripper/Documents/framework-feature-extension/src/SettingsManager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix): src/SettingsManager.cpp
-	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix) -MM src/SettingsManager.cpp
-
-$(IntermediateDirectory)/src_SettingsManager.cpp$(PreprocessSuffix): src/SettingsManager.cpp
-	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_SettingsManager.cpp$(PreprocessSuffix) src/SettingsManager.cpp
-
 $(IntermediateDirectory)/src_SoundManager.cpp$(ObjectSuffix): src/SoundManager.cpp $(IntermediateDirectory)/src_SoundManager.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ripper/Documents/framework-feature-extension/src/SoundManager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_SoundManager.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_SoundManager.cpp$(DependSuffix): src/SoundManager.cpp
@@ -278,6 +270,14 @@ $(IntermediateDirectory)/src_DisplayManager.cpp$(DependSuffix): src/DisplayManag
 
 $(IntermediateDirectory)/src_DisplayManager.cpp$(PreprocessSuffix): src/DisplayManager.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_DisplayManager.cpp$(PreprocessSuffix) src/DisplayManager.cpp
+
+$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix): src/SettingsManager.cpp $(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ripper/Documents/framework-feature-extension/src/SettingsManager.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix): src/SettingsManager.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_SettingsManager.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/src_SettingsManager.cpp$(DependSuffix) -MM src/SettingsManager.cpp
+
+$(IntermediateDirectory)/src_SettingsManager.cpp$(PreprocessSuffix): src/SettingsManager.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_SettingsManager.cpp$(PreprocessSuffix) src/SettingsManager.cpp
 
 $(IntermediateDirectory)/src_Camera.cpp$(ObjectSuffix): src/Camera.cpp $(IntermediateDirectory)/src_Camera.cpp$(DependSuffix)
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ripper/Documents/framework-feature-extension/src/Camera.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_Camera.cpp$(ObjectSuffix) $(IncludePath)

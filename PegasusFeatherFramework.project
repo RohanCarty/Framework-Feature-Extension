@@ -32,7 +32,7 @@
     <File Name="include/Actor.h"/>
     <File Name="include/Unit.h"/>
     <File Name="include/StartScreen.h"/>
-    <File Name="include/OpenGLDisplayManager.h" ExcludeProjConfig="Release;"/>
+    <File Name="include/OpenGLDisplayManager.h" ExcludeProjConfig="Debug;Release;"/>
     <File Name="include/UIElement.h"/>
     <File Name="include/InputManager.h"/>
     <File Name="include/tinyxml2.h"/>
@@ -41,9 +41,8 @@
     <File Name="include/UnitManager.h"/>
     <File Name="include/Scene.h"/>
     <File Name="include/Tile.h"/>
-    <File Name="include/networkmanager.h"/>
     <File Name="include/TextLibrarySDL.h"/>
-    <File Name="include/OpenGLES2DisplayManager.h" ExcludeProjConfig="Release;"/>
+    <File Name="include/OpenGLES2DisplayManager.h" ExcludeProjConfig="Debug;Release;"/>
     <File Name="include/Camera.h"/>
     <File Name="include/msvcunistd.h"/>
     <File Name="include/Object.h"/>
@@ -71,10 +70,10 @@
     <File Name="src/AnimatedTexture.cpp"/>
     <File Name="src/ParticleManager.cpp"/>
     <File Name="src/GameScene.cpp"/>
-    <File Name="src/OpenGLDisplayManager.cpp" ExcludeProjConfig="Release;"/>
+    <File Name="src/OpenGLDisplayManager.cpp" ExcludeProjConfig="Debug;Release;"/>
     <File Name="src/Mesh.cpp"/>
     <File Name="src/Particle.cpp"/>
-    <File Name="src/OpenGLES2DisplayManager.cpp" ExcludeProjConfig="Release;"/>
+    <File Name="src/OpenGLES2DisplayManager.cpp" ExcludeProjConfig="Debug;Release;"/>
     <File Name="src/Player.cpp"/>
     <File Name="src/Button.cpp"/>
     <File Name="src/MainMenuScene.cpp"/>
@@ -131,7 +130,7 @@
       </Compiler>
       <Linker Options="" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(IntermediateDirectory)/$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <BuildSystem Name="Default"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>

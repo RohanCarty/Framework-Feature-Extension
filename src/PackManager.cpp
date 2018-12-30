@@ -10,7 +10,10 @@
 #include <fstream>
 #include <cstring>
 
+#include <unistd.h>
+
 std::vector<stPakFileEntry> PackManager::m_astPakFileEntrys;
+std::vector<stLoadedBlobInfo> PackManager::m_astLoadedBlobs;
 
 PackManager::PackManager()
 {
@@ -19,7 +22,11 @@ PackManager::PackManager()
 
 PackManager::~PackManager()
 {
-
+    while(m_astLoadedBlobs.size() > 0)
+	{
+		delete m_astLoadedBlobs.back().m_apkLoadedBlob;
+		m_astLoadedBlobs.pop_back();
+	}
 }
 
 int PackManager::GetSizeOfFile(std::string a_szNameOfFile)
@@ -57,29 +64,52 @@ int PackManager::GetSizeOfFile(std::string a_szNameOfFile)
 char* PackManager::LoadResource(std::string a_svFileToLoad)
 {
     char* pData = NULL;
+    
+    //Check to see if we already have a copy in memory to cut down on disk reads and maybe save on memory
+    
+    for(unsigned int uiDx = 0; uiDx < m_astLoadedBlobs.size(); uiDx++)
+	{
+		if(m_astLoadedBlobs[uiDx].m_szFileName == a_svFileToLoad)
+		{
+            //std::cout<<"Found previous resource: "<<a_svFileToLoad<<std::endl;
+			return m_astLoadedBlobs[uiDx].m_apkLoadedBlob;
+		}
+	}
 
     std::ifstream fsFileStream(a_svFileToLoad.c_str(), std::fstream::binary | std::fstream::in);
+
+    stLoadedBlobInfo stTemp;
 
     if(fsFileStream)
     {
         //Get the length of the file
         fsFileStream.seekg(0, fsFileStream.end);
-        int length = (int)fsFileStream.tellg();
+        int iLength = (int)fsFileStream.tellg();
         fsFileStream.seekg(0, fsFileStream.beg);
 
-        pData = new char[length]; // create the buffer of the character length of the file.
+        pData = new char[iLength]; // create the buffer of the character length of the file.
 
-        std::cout<<"Reading "<<length<<" Characters for: "<<a_svFileToLoad<<std::endl;
+        std::cout<<"Reading "<<iLength<<" Characters for: "<<a_svFileToLoad<<"From External File"<<std::endl;
 
-        fsFileStream.read(pData, length);
+        fsFileStream.read(pData, iLength);
 
         fsFileStream.close();
+        
+        stTemp.m_apkLoadedBlob = pData;
+        stTemp.m_szFileName = a_svFileToLoad;
+        stTemp.uiSize = iLength;
+        m_astLoadedBlobs.push_back(stTemp);
+
+        std::cout<<"Keeping Resource in Memory: "<<a_svFileToLoad<<" at Index: "<<m_astLoadedBlobs.size()<<" Size: "<<iLength / 1024 <<"kb/"<<iLength<<" bytes"<<std::endl;
+
+        return stTemp.m_apkLoadedBlob;
     }
 	else
 	{
         return LoadFromPackage(a_svFileToLoad);
     }
-    return pData;
+    
+    return NULL; //something broke
 }
 
 
@@ -154,6 +184,7 @@ char* PackManager::LoadFromPackage(std::string a_szFileToLoad)
     char* pData = NULL;
     std::string a_szNameOfPackage = a_szFileToLoad.substr(0, a_szFileToLoad.find_first_of("/"));
     a_szNameOfPackage.append(".pak");
+    std::string szFullResourcePath = a_szFileToLoad;
 
     a_szFileToLoad = a_szFileToLoad.substr(a_szFileToLoad.find_first_of("/") + 1);
 
@@ -190,13 +221,21 @@ char* PackManager::LoadFromPackage(std::string a_szFileToLoad)
 
         pData = new char[m_astPakFileEntrys[m_uiPakFileEntry].iSize]; // create the buffer of the character length of the file.
 
-        //std::cout<<"Reading "<<stFileEntry.iSize<<" Characters for: "<<a_svFileToLoad<<std::endl;
+        //std::cout<<"Reading "<<m_astPakFileEntrys[m_uiPakFileEntry].iSize<<" Characters for: "<<a_szFileToLoad<<" with resource index of: "<<m_uiPakFileEntry<<std::endl;
 
         fsFileStream.read((char*)pData, m_astPakFileEntrys[m_uiPakFileEntry].iSize);
 
-
         fsFileStream.close();
-	}
 
-	return pData;
+        stLoadedBlobInfo stTemp;
+
+        stTemp.m_apkLoadedBlob = pData;
+        stTemp.uiSize = m_astPakFileEntrys[m_uiPakFileEntry].iSize;
+        stTemp.m_szFileName = szFullResourcePath;
+        m_astLoadedBlobs.push_back(stTemp);
+        std::cout<<"Keeping Resource in Memory: "<<a_szFileToLoad<<" at Index: "<<m_astLoadedBlobs.size()<<" Size: "<<m_astPakFileEntrys[m_uiPakFileEntry].iSize / 1024 <<"kb/"<<m_astPakFileEntrys[m_uiPakFileEntry].iSize<<" bytes"<<std::endl;
+        return stTemp.m_apkLoadedBlob;
+	}
+    
+    return NULL; //Something broke
 }
