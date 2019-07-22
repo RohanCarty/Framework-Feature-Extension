@@ -14,3 +14,9 @@ $ cat .gitignore
 *.o
 *.a
 *.x86_64
+*.ipch
+*.db
+*.opendb
+*.exe
+*.iobj
+*.ipdb
