@@ -121,9 +121,6 @@
     <ClCompile Include="..\..\src\Player.cpp">
       <Filter>Source\Actors</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\CollectibleSoul.cpp">
-      <Filter>Source\Actors</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\InputManagerUWP.cpp">
       <Filter>Source</Filter>
     </ClCompile>
@@ -132,6 +129,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\VulkanDisplayManager.cpp">
       <Filter>Source\Display</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\SettingsManager.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -252,9 +252,6 @@
     <ClInclude Include="..\..\include\UIElement.h">
       <Filter>Include\UI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\CollectibleSoul.h">
-      <Filter>Include\Actors</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\Player.h">
       <Filter>Include\Actors</Filter>
     </ClInclude>
@@ -266,6 +263,9 @@
     </ClInclude>
     <ClInclude Include="..\..\include\VulkanDisplayManager.h">
       <Filter>Include\Display</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\SettingsManager.h">
+      <Filter>Include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

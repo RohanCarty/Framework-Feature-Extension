@@ -10,7 +10,11 @@
 #include <fstream>
 #include <cstring>
 
+#ifdef _WIN32
+#include <direct.h>
+#else
 #include <unistd.h>
+#endif
 
 std::vector<stPakFileEntry> PackManager::m_astPakFileEntrys;
 std::vector<stLoadedBlobInfo> PackManager::m_astLoadedBlobs;
@@ -195,6 +199,7 @@ char* PackManager::LoadFromPackage(std::string a_szFileToLoad)
         if(strcmp(a_szFileToLoad.c_str(), m_astPakFileEntrys[iDx].caName) == 0)
         {
             m_uiPakFileEntry = iDx;
+			break;
         }
     }
 

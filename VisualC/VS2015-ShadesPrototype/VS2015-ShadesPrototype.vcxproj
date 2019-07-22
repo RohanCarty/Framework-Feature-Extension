@@ -237,7 +237,6 @@
     <ClCompile Include="..\..\src\AnimatedTexture.cpp" />
     <ClCompile Include="..\..\src\Button.cpp" />
     <ClCompile Include="..\..\src\Camera.cpp" />
-    <ClCompile Include="..\..\src\CollectibleSoul.cpp" />
     <ClCompile Include="..\..\src\Cursor.cpp" />
     <ClCompile Include="..\..\src\D3D11DisplayManager.cpp" />
     <ClCompile Include="..\..\src\DisplayManager.cpp" />
@@ -257,6 +256,7 @@
     <ClCompile Include="..\..\src\Object.cpp" />
     <ClCompile Include="..\..\src\ObjectManager.cpp" />
     <ClCompile Include="..\..\src\OpenGL1DisplayManager.cpp" />
+    <ClCompile Include="..\..\src\SettingsManager.cpp" />
     <ClCompile Include="..\..\src\VulkanDisplayManager.cpp" />
     <ClCompile Include="..\..\src\PackManager.cpp" />
     <ClCompile Include="..\..\src\Particle.cpp" />
@@ -283,7 +283,6 @@
     <ClInclude Include="..\..\include\AnimatedTexture.h" />
     <ClInclude Include="..\..\include\Button.h" />
     <ClInclude Include="..\..\include\Camera.h" />
-    <ClInclude Include="..\..\include\CollectibleSoul.h" />
     <ClInclude Include="..\..\include\Cursor.h" />
     <ClInclude Include="..\..\include\D3D11DisplayManager.h" />
     <ClInclude Include="..\..\include\DisplayManager.h" />
@@ -302,6 +301,7 @@
     <ClInclude Include="..\..\include\Object.h" />
     <ClInclude Include="..\..\include\ObjectManager.h" />
     <ClInclude Include="..\..\include\OpenGL1DisplayManager.h" />
+    <ClInclude Include="..\..\include\SettingsManager.h" />
     <ClInclude Include="..\..\include\VulkanDisplayManager.h" />
     <ClInclude Include="..\..\include\PackManager.h" />
     <ClInclude Include="..\..\include\Particle.h" />

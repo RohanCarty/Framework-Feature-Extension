@@ -64,18 +64,18 @@ void SceneManager::InitialiseSceneManager(int argc, char **argv)
 	for(int iDx = 0; iDx < argc; iDx++)
     {
 #ifndef __UWP__
-		if(strcmp(argv[iDx], "vulkan") == 0)
+		if(strcmp(argv[iDx], "--vulkan") == 0)
 		{
 			m_pkDisplayManager = new VulkanDisplayManager(m_argc, m_argv);
 		}
 
-		if(strcmp(argv[iDx], "opengl1") == 0)
+		if(strcmp(argv[iDx], "--opengl1") == 0)
 		{
 			m_pkDisplayManager = new OpenGL1DisplayManager(m_argc, m_argv);
 		}
 #endif //__UWP__
 #ifdef _WIN32
-		if(strcmp(argv[iDx], "d3d11") == 0)
+		if(strcmp(argv[iDx], "--d3d11") == 0)
 		{
 			m_pkDisplayManager = new D3D11DisplayManager(m_argc, m_argv);
 		}

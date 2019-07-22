@@ -159,7 +159,8 @@ std::string D3D11DisplayManager::LoadShader(std::string a_szShaderName)
 	std::string cpFullFile = (char*)pTempResource;
 	cpFullFile.resize(piSize);
 
-	delete pTempResource;
+	//DO NOT DELETE PACK MANAGER NOW KEEPS IT IN MEMORY
+	//delete pTempResource;
 	return cpFullFile;
 }
 
