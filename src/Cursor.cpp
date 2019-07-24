@@ -122,6 +122,9 @@ bool Cursor::Draw(float a_fDeltaTime)
 
 		SetLocation(vTempPos, true);
 
+		//TODO: Hardware Transforms like in OGL4.5
+		m_apkRenderables[iDx].m_pkMesh->GetMatrix().TransformVertices(m_apkRenderables[iDx].m_pkMesh->GetVertexArray(), m_apkRenderables[iDx].m_pkMesh->GetNumberOfVertices());
+
         SceneManager::GetDisplayManager()->HUDDraw(m_apkRenderables[iDx].m_pkMesh->GetVertexArray(),4,m_apkRenderables[iDx].m_pkTexture);
     }
 

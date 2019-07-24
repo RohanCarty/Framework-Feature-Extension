@@ -382,6 +382,9 @@ void OpenGL1DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumbe
 
 bool OpenGL1DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pkTexture)
 {
+	//TODO: Hardware Transforms like in OGL4.5
+	a_pkMesh->GetMatrix().TransformVertices(a_pkMesh->GetVertexArray(), a_pkMesh->GetNumberOfVertices());
+
     glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());
 
     glBegin(GL_QUADS);

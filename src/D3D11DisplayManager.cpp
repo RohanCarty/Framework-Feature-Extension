@@ -821,7 +821,8 @@ void D3D11DisplayManager::SetShaderProgram(unsigned int a_uiShaderProgramNumber)
 
 bool D3D11DisplayManager::Draw(Mesh* a_pkMesh, int a_iSizeOfArray, Texture* a_pkTexture)
 {
-    /*glBindTexture(GL_TEXTURE_2D, a_pkTexture->GetTextureNumber());*/
+	//TODO: Hardware Transforms like in OGL4.5
+	a_pkMesh->GetMatrix().TransformVertices(a_pkMesh->GetVertexArray(), a_pkMesh->GetNumberOfVertices());
 
 	//Only switch our resources if absolutely necessary
 	if (m_astLoadedTextures[a_pkTexture->GetTextureNumber()].m_pkTextureResource != m_pkCurrentTextureResource)

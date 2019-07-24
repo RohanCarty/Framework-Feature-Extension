@@ -99,8 +99,6 @@ bool Object::Update(float a_fDeltaTime)
 
 bool Object::Draw(float a_fDeltaTime)
 {
-	//GenerateVertices();
-
 	SceneManager::GetDisplayManager()->SetShaderProgram(m_uiShaderNumber);
 
 	for(unsigned int iDx = 0 ; iDx < m_apkRenderables.size(); iDx++)
@@ -114,7 +112,7 @@ bool Object::Draw(float a_fDeltaTime)
 
         TransformMesh(m_apkRenderables[iDx].m_pkMesh);
 
-        SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx].m_pkMesh,4,m_apkRenderables[iDx].m_pkTexture);
+        SceneManager::GetDisplayManager()->Draw(m_apkRenderables[iDx].m_pkMesh, m_apkRenderables[iDx].m_pkMesh->GetNumberOfVertices(),m_apkRenderables[iDx].m_pkTexture);
     }
 
 	return true;
@@ -217,20 +215,25 @@ bool Object::DetachFrom()
     }
 }
 
+// Set the Object's hidden flag
 void Object::SetHidden(bool a_bHide)
 {
 	m_bHidden = a_bHide;
 }
+
+// Get if Object has the hidden flag set
 bool Object::GetHidden()
 {
 	return m_bHidden;
 }
 
+// Get current scene object lives in
 Scene* Object::GetScene()
 {
     return m_pkScene;
 }
 
+// Setup matrix for the passed in mesh for drawing
 void Object::TransformMesh(Mesh* a_pkMesh)
 {
 	Matrix kTempMatrix;
@@ -244,9 +247,6 @@ void Object::TransformMesh(Mesh* a_pkMesh)
     kTempMatrix.SetTranslation(*m_pWorldLocation);
 
 	a_pkMesh->SetMatrix(kTempMatrix);
-
-	//TODO: do if using opengl1
-	kTempMatrix.TransformVertices(a_pkMesh->GetVertexArray(), a_pkMesh->GetNumberOfVertices());
 }
 
 Vector* Object::GetLocation()
